@@ -1,0 +1,41 @@
+{
+  "standard_number": "IS 1391 (Part 2):2018",
+  "title": "Room Air Conditioners — Specification — Part 2: Split Air Conditioners",
+  "edition": "Second Revision",
+  "year": 2018,
+  "division": "ETD",
+  "division_name": "Electrotechnical Division",
+  "effective_status": "CURRENT",
+  "is_mandatory": true,
+  "qco_name": "Air Conditioners and Its Related Parts (Quality Control) Order",
+  "scheme": "Scheme-I (ISI Mark Product Certification)",
+  "source_authority": "Bureau of Indian Standards / Bureau of Energy Efficiency",
+  "clauses": [
+    {
+      "clause": "10.2",
+      "title": "Cooling Capacity & Power Consumption Tolerance",
+      "page": 12,
+      "text": "Clause 10.2: Tested net cooling capacity shall not be less than 95 percent of the rated capacity declared by the manufacturer. Total power consumption under rated standard conditions shall not exceed 105 percent of the declared rated electrical wattage.",
+      "keywords": [
+        "split ac",
+        "is 1391",
+        "cooling capacity",
+        "power consumption",
+        "iseer",
+        "air conditioner"
+      ]
+    },
+    {
+      "clause": "11.1",
+      "title": "Maximum Operating Conditions & Tropical T3 Performance (52°C Test)",
+      "page": 15,
+      "text": "Clause 11.1: The air conditioner must operate continuously for 2 hours under extreme overload ambient temperature of 43°C (T1) and 52°C (T3 tropical condition) without tripping motor overload protection or compressor seizure.",
+      "keywords": [
+        "52 degree test",
+        "t3 ambient test",
+        "overload ac test",
+        "compressor endurance"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,17 @@
+{
+  "manifestGeneratedAt": "2026-08-31T13:39:01Z",
+  "problemStatement": "SIH26107",
+  "system": "BIS Trust Copilot / MANAK-AI",
+  "pipelineStatus": "SYNCHRONIZED",
+  "metrics": {
+    "totalAuthorizedStandards": 42,
+    "totalCatalogueStandards": 23401,
+    "totalCatalogueRecords": 23450,
+    "totalTechnicalDivisions": 15,
+    "totalVerifiedRAGChunks": 194,
+    "embeddingModel": "BAAI/bge-small-en-v1.5",
+    "embeddingDimensions": 384,
+    "knowledgeGraphNodes": 10733,
+    "knowledgeGraphEdges": 16623
+  }
+}

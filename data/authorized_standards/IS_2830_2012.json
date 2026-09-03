@@ -1,0 +1,34 @@
+{
+  "standard_number": "IS 2830:2012",
+  "title": "Carbon Steel Cast Billet Ingots, Billets, Blooms and Slabs for Re-Rolling into Steel for General Structural Purposes \u2014 Specification",
+  "edition": "Third Revision",
+  "year": 2012,
+  "division": "MTD",
+  "division_name": "Metallurgical Engineering Division",
+  "effective_status": "CURRENT",
+  "is_mandatory": true,
+  "qco_name": "Steel and Steel Products (Quality Control) Mandatory Order",
+  "scheme": "Scheme-I (ISI Mark Product Certification)",
+  "source_authority": "Bureau of Indian Standards / Ministry of Steel",
+  "supersedes": [
+    "IS 2830:1992"
+  ],
+  "amendments": [
+    "Amendment No. 1 (2017)"
+  ],
+  "clauses": [
+    {
+      "clause": "5.1",
+      "title": "Chemical Composition Limits for Carbon Steel Billets",
+      "page": 2,
+      "text": "Clause 5.1 & Table 1 (Chemical Requirements): (a) Carbon (C) shall be between 0.10% and 0.25% for standard structural re-rolling. (b) Manganese (Mn) between 0.40% and 1.60%. (c) Sulphur (S) max 0.050%. (d) Phosphorus (P) max 0.050%. (e) (S+P) combined max 0.095%.",
+      "keywords": [
+        "steel billets",
+        "is 2830",
+        "carbon 0.25%",
+        "sulphur phosphorus 0.05%",
+        "re-rolling"
+      ]
+    }
+  ]
+}

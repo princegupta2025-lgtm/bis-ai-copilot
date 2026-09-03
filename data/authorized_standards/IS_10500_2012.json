@@ -1,0 +1,66 @@
+{
+  "standard_number": "IS 10500:2012",
+  "title": "Drinking Water \u2014 Specification",
+  "edition": "Second Revision",
+  "year": 2012,
+  "division": "FAD",
+  "division_name": "Food and Agriculture Division",
+  "effective_status": "CURRENT",
+  "is_mandatory": true,
+  "qco_name": "Drinking Water (Quality Control) Mandatory Statutory Order",
+  "scheme": "Scheme-I (ISI Mark Product Certification)",
+  "source_authority": "Bureau of Indian Standards / Department of Drinking Water and Sanitation",
+  "supersedes": [
+    "IS 10500:1991"
+  ],
+  "amendments": [
+    "Amendment No. 1 (2015)",
+    "Amendment No. 2 (2018)",
+    "Amendment No. 3 (2021)"
+  ],
+  "clauses": [
+    {
+      "clause": "4.1",
+      "title": "Essential Physical and Chemical Quality Parameters",
+      "page": 2,
+      "text": "Clause 4.1 & Table 1 (Organoleptic and Physical Parameters): Drinking water shall be clear, odourless, and agreeable in taste. Total Dissolved Solids (TDS) acceptable limit is 500 mg/L (permissible limit in absence of alternate source is 2000 mg/L). pH value acceptable limit is 6.5 to 8.5 (no relaxation). Turbidity acceptable limit is 1 NTU (max 5 NTU). Total Hardness as CaCO3 acceptable limit is 200 mg/L (max 600 mg/L). Chloride as Cl acceptable limit is 250 mg/L (max 1000 mg/L).",
+      "keywords": [
+        "drinking water",
+        "is 10500",
+        "tds limit 500",
+        "ph 6.5 to 8.5",
+        "hardness 200",
+        "turbidity 1 ntu"
+      ]
+    },
+    {
+      "clause": "4.2",
+      "title": "Toxic and Heavy Metal Contaminant Limits",
+      "page": 3,
+      "text": "Clause 4.2 & Table 2 (General Toxic Substances Limits in mg/L): Maximum permissible limits for heavy metals in drinking water: Lead (Pb) max 0.01 mg/L (no relaxation); Arsenic (As) max 0.01 mg/L (no relaxation); Mercury (Hg) max 0.001 mg/L; Cadmium (Cd) max 0.003 mg/L; Total Chromium (Cr) max 0.05 mg/L; Copper (Cu) max 0.05 mg/L (max 1.5 mg/L in absence of alternate source); Iron (Fe) max 1.0 mg/L; Fluoride (F) acceptable 1.0 mg/L (max 1.5 mg/L); Nitrate (NO3) max 45 mg/L (no relaxation).",
+      "keywords": [
+        "lead 0.01",
+        "arsenic 0.01",
+        "mercury 0.001",
+        "fluoride 1.0",
+        "heavy metals",
+        "is 10500",
+        "table 2"
+      ]
+    },
+    {
+      "clause": "5.1",
+      "title": "Bacteriological Quality Requirements (Zero Tolerance)",
+      "page": 4,
+      "text": "Clause 5.1 & Table 6 (Bacteriological Quality of Drinking Water): All water intended for drinking must show zero presence (0 CFU/100ml) of Escherichia coli or thermotolerant coliform bacteria in any 100 ml sample. Total coliform bacteria shall be absent in 100 ml for treated piped supplies.",
+      "keywords": [
+        "bacteriological",
+        "zero e coli",
+        "coliform 100ml",
+        "microbiological limits",
+        "is 10500",
+        "table 6"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,45 @@
+{
+  "standard_number": "IS 875 (Part 3):2015",
+  "title": "Design Loads (Other than Earthquake) for Buildings and Structures \u2014 Part 3: Wind Loads",
+  "edition": "Third Revision",
+  "year": 2015,
+  "division": "CED",
+  "division_name": "Civil Engineering Division",
+  "effective_status": "CURRENT",
+  "is_mandatory": false,
+  "scheme": "Scheme-I (ISI Mark Product Certification)",
+  "source_authority": "Bureau of Indian Standards / National Building Code",
+  "supersedes": [
+    "IS 875 (Part 3):1987"
+  ],
+  "amendments": [
+    "Amendment No. 1 (2016)"
+  ],
+  "clauses": [
+    {
+      "clause": "6.2",
+      "title": "Basic Wind Speed (Vb) Zones in India",
+      "page": 5,
+      "text": "Clause 6.2 & Appendix A (Basic Wind Speed Map of India): Peak 3-second gust wind speeds at 10 m height in open terrain for 50-year return period: Zone 1 (Low) = 33 m/s (118.8 km/h); Zone 2 (Moderate) = 39 m/s (140.4 km/h); Zone 3 (Medium) = 44 m/s (158.4 km/h); Zone 4 (High) = 47 m/s (169.2 km/h); Zone 5 (Very High - Coastal) = 50 m/s (180 km/h); Zone 6 (Cyclone/Coastal) = 55 m/s (198 km/h e.g., Odisha, Andhra, Gujarat coasts).",
+      "keywords": [
+        "basic wind speed vb",
+        "wind zones 33 to 55 m/s",
+        "is 875 part 3",
+        "cyclone wind speed"
+      ]
+    },
+    {
+      "clause": "6.3",
+      "title": "Design Wind Speed (Vz) Calculation Formula & Modification Factors",
+      "page": 7,
+      "text": "Clause 6.3 (Design Wind Speed Formula): Vz = Vb * k1 * k2 * k3 * k4, where Vb is basic wind speed, k1 is risk coefficient (probability factor, 1.0 for general buildings), k2 is terrain, height and structure size factor (Category 1 to 4), k3 is topography factor (1.0 to 1.36 for hills/cliffs), k4 is cyclonic importance factor (1.15 to 1.30 for coastal post-cyclone structures). Design wind pressure: pz = 0.6 * Vz\u00b2.",
+      "keywords": [
+        "design wind speed vz",
+        "pz = 0.6 vz2",
+        "k1 k2 k3 k4 factors",
+        "is 875",
+        "clause 6.3"
+      ]
+    }
+  ]
+}

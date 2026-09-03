@@ -1,0 +1,73 @@
+{
+  "schemes": [
+    {
+      "id": "scheme_1",
+      "name": "Scheme-I (Product Certification / ISI Mark)",
+      "type": "Product Certification",
+      "authority": "BIS Act 2016 Section 13 / Conformity Assessment Regulations 2018",
+      "coverage": "Domestic manufacturers and Foreign Manufacturers Certification Scheme (FMCS)",
+      "identifierFormat": "CM/L-XXXXXXX (7 or 8 digits)",
+      "processSteps": [
+        "Standard Identification & Gap Analysis on Manakonline",
+        "In-House Laboratory Setup & STI Implementation",
+        "Application Submission (Form I) with Factory Layout and Quality Manual",
+        "Factory Audit & Sample Drawing by BIS Quality Assurance Officers",
+        "Independent Sample Testing at BIS / NABL Recognized Labs",
+        "Grant of CM/L Licence",
+        "Periodic Surveillance Audits & Market Sample Testing"
+      ],
+      "msmeBenefits": "50% concession on marking fees for Micro & Small Enterprises with Udyam registration."
+    },
+    {
+      "id": "scheme_2",
+      "name": "Scheme-II (Compulsory Registration Scheme - CRS)",
+      "type": "Self-Declaration of Conformity",
+      "authority": "MeitY / MNRE / BIS Act 2016",
+      "coverage": "Information Technology, Electronic Products, Solar Inverters, LED Lighting",
+      "identifierFormat": "R-XXXXXXXX (8 digits)",
+      "processSteps": [
+        "Product Testing in BIS-Recognized Lab under LRS",
+        "Self-Declaration of Conformity based on Test Report",
+        "Online Registration on CRS Portal (crsbis.in)",
+        "Grant of Registration Number (R-Number)",
+        "Labeling with Standard Mark (IS XXXXX / R-XXXXXXXX)"
+      ]
+    },
+    {
+      "id": "scheme_3",
+      "name": "Scheme-III (Eco Mark Scheme)",
+      "type": "Environmental & Quality Certification",
+      "authority": "Ministry of Environment, Forest & Climate Change / BIS",
+      "coverage": "Products meeting environmental criteria alongside Indian Standards quality benchmarks."
+    },
+    {
+      "id": "scheme_4",
+      "name": "Scheme-IV (Hallmarking of Precious Metals)",
+      "type": "Hallmarking & Purity Certification",
+      "authority": "BIS (Hallmarking) Regulations, 2018 / MoCA QCO",
+      "coverage": "Gold & Silver Jewellery and Artefacts",
+      "marks": [
+        "BIS Triangular Logo",
+        "Purity Grade (e.g., 22K916, 18K750, 14K585)",
+        "6-Digit Alphanumeric Laser HUID (e.g., AB8492)"
+      ],
+      "testingMethods": [
+        "XRF Spectrometry (IS 1417)",
+        "Fire Assay Cupellation (IS 1418)"
+      ],
+      "compensationFormula": "3 * (Billed Purity % - Assayed Purity %) * Weight (grams) * Rate per gram"
+    },
+    {
+      "id": "scheme_x",
+      "name": "Scheme-X / MSCS (Management Systems Certification Scheme)",
+      "type": "Management Systems Certification",
+      "standards": [
+        "IS/ISO 9001 (Quality Management Systems - QMS)",
+        "IS/ISO 14001 (Environmental Management Systems - EMS)",
+        "IS/ISO 22000 (Food Safety Management Systems - FSMS)",
+        "IS/ISO 27001 (Information Security Management Systems - ISMS)",
+        "IS/ISO 45001 (Occupational Health & Safety - OH&SMS)"
+      ]
+    }
+  ]
+}

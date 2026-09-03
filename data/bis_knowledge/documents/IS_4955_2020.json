@@ -1,0 +1,31 @@
+{
+  "standard_number": "IS 4955:2020",
+  "title": "Synthetic Detergent Powders for Household Use \u2014 Specification",
+  "edition": "Fifth Revision",
+  "year": 2020,
+  "division": "CHD",
+  "division_name": "Chemical Division",
+  "effective_status": "CURRENT",
+  "is_mandatory": false,
+  "scheme": "Scheme-I (ISI Mark Product Certification)",
+  "source_authority": "Bureau of Indian Standards",
+  "supersedes": [
+    "IS 4955:2001"
+  ],
+  "clauses": [
+    {
+      "clause": "4.1",
+      "title": "Active Detergent and Total Phosphate Limits (Eco-Friendly Criteria)",
+      "page": 3,
+      "text": "Clause 4.1 & Table 1 (Chemical Composition of Household Detergent Powders): (a) Active Detergent (Surfactant) content: Grade 1 min 19.0%; Grade 2 min 16.0%; Grade 3 min 10.0%. (b) Total Phosphate as STPP: Eco-Mark detergent max 2.5% (to prevent water eutrophication). (c) pH of 1% solution shall be between 9.0 and 11.0. (d) Active Oxygen in oxygen bleach powders min 1.0%.",
+      "keywords": [
+        "detergent powder",
+        "active detergent 19%",
+        "phosphate limit 2.5%",
+        "eco-mark",
+        "is 4955",
+        "table 1"
+      ]
+    }
+  ]
+}

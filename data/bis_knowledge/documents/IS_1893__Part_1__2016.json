@@ -1,0 +1,48 @@
+{
+  "standard_number": "IS 1893 (Part 1):2016",
+  "title": "Criteria for Earthquake Resistant Design of Structures \u2014 Part 1: General Provisions and Buildings",
+  "edition": "Sixth Revision",
+  "year": 2016,
+  "division": "CED",
+  "division_name": "Civil Engineering Division",
+  "effective_status": "CURRENT",
+  "is_mandatory": false,
+  "scheme": "Scheme-I (ISI Mark Product Certification)",
+  "source_authority": "Bureau of Indian Standards / National Disaster Management Authority (NDMA)",
+  "supersedes": [
+    "IS 1893 (Part 1):2002"
+  ],
+  "amendments": [
+    "Amendment No. 1 (2020)"
+  ],
+  "clauses": [
+    {
+      "clause": "6.4.2",
+      "title": "Seismic Zone Map of India & Zone Factors (Z)",
+      "page": 10,
+      "text": "Clause 6.4.2 & Table 3 (Seismic Zone Factors of India): Seismic zones in India are designated Zone II, Zone III, Zone IV, and Zone V (Zone I is merged with Zone II). Zone Factor (Z) represents Maximum Considered Earthquake (MCE): Zone II (Low) = 0.10; Zone III (Moderate) = 0.16; Zone IV (Severe) = 0.24; Zone V (Very Severe e.g. Himalayas, Northeast, Kutch, Bihar border) = 0.36. Design Basis Earthquake (DBE) is taken as half of MCE (Z/2).",
+      "keywords": [
+        "seismic zones",
+        "zone factor z",
+        "zone 2 3 4 5",
+        "zone v 0.36",
+        "is 1893",
+        "earthquake design"
+      ]
+    },
+    {
+      "clause": "6.4.3",
+      "title": "Design Base Shear (Vb) Calculation Formula",
+      "page": 12,
+      "text": "Clause 6.4.3 (Design Base Shear Formula): Total design lateral base shear along any principal direction: Vb = Ah * W, where W is seismic weight of building, and Ah is horizontal seismic design coefficient given by Ah = (Z / 2) * (I / R) * (Sa / g). Here I is Importance factor (1.5 for critical facilities, 1.2 for schools/hospitals, 1.0 for residential), R is Response Reduction Factor (5.0 for Special RC Moment Resisting Frame / SMRF, 3.0 for Ordinary RC Frame / OMRF).",
+      "keywords": [
+        "base shear vb",
+        "ah seismic coefficient",
+        "smrf r=5",
+        "importance factor 1.5",
+        "is 1893",
+        "clause 6.4.3"
+      ]
+    }
+  ]
+}

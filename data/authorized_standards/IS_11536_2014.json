@@ -1,0 +1,46 @@
+{
+  "standard_number": "IS 11536:2014",
+  "title": "Processed Cereal Based Complementary Foods for Infants \u2014 Specification",
+  "edition": "Second Revision",
+  "year": 2014,
+  "division": "FAD",
+  "division_name": "Food and Agriculture Division",
+  "effective_status": "CURRENT",
+  "is_mandatory": true,
+  "qco_name": "Infant Food and Milk Products (Quality Control) Mandatory Order",
+  "scheme": "Scheme-I (ISI Mark Product Certification)",
+  "source_authority": "Bureau of Indian Standards / FSSAI",
+  "supersedes": [
+    "IS 11536:1998"
+  ],
+  "clauses": [
+    {
+      "clause": "4.1",
+      "title": "Nutritional Composition Limits (Protein, Fat, Carbohydrates & Minerals)",
+      "page": 3,
+      "text": "Clause 4.1 & Table 1 (Nutritional Requirements per 100g of Infant Food): (a) Crude Protein (N x 6.25) not less than 15.0% by mass. (b) Total Milk Fat / Fat not less than 2.0% and not more than 15.0%. (c) Total Carbohydrates not less than 55.0%. (d) Moisture not more than 5.0%. (e) Iron (Fe) not less than 5.0 mg/100g. (f) Calcium (Ca) not less than 250 mg/100g. (g) Aflatoxin B1 shall NOT exceed 0.5 ppb (0.50 \u00b5g/kg).",
+      "keywords": [
+        "infant food",
+        "protein 15%",
+        "aflatoxin 0.5 ppb",
+        "iron 5mg",
+        "baby food",
+        "is 11536",
+        "table 1"
+      ]
+    },
+    {
+      "clause": "5.1",
+      "title": "Microbiological Safety Limits for Infant Nutrition (Zero Pathogens)",
+      "page": 5,
+      "text": "Clause 5.1 & Table 2 (Microbiological Limits): Total plate count max 10,000 CFU/g; Coliform count = Absent in 0.1g; Escherichia coli = Absent in 1.0g; Salmonella = Absent in 25g; Staphylococcus aureus = Absent in 0.1g; Yeast and Moulds max 100 CFU/g.",
+      "keywords": [
+        "infant food microbiology",
+        "zero salmonella",
+        "zero e coli",
+        "plate count 10000",
+        "is 11536"
+      ]
+    }
+  ]
+}

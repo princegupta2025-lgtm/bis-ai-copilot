@@ -1,0 +1,46 @@
+{
+  "authorities": [
+    {
+      "name": "Bureau of Indian Standards (BIS)",
+      "role": "National Standards Body of India (BIS Act 2016)"
+    },
+    {
+      "name": "Ministry of Consumer Affairs, Food & Public Distribution",
+      "role": "Central Administrative Ministry"
+    },
+    {
+      "name": "DPIIT (Ministry of Commerce & Industry)",
+      "role": "Quality Control Orders Issuing Authority"
+    },
+    {
+      "name": "MoRTH (Ministry of Road Transport & Highways)",
+      "role": "Automotive Safety & CMVR Regulations"
+    },
+    {
+      "name": "MeitY (Ministry of Electronics & IT)",
+      "role": "Compulsory Registration Scheme (CRS)"
+    },
+    {
+      "name": "FSSAI",
+      "role": "Food Safety & Standards Authority of India"
+    }
+  ],
+  "totalDivisions": 15,
+  "divisionCodes": [
+    "CED",
+    "ETD",
+    "TED",
+    "MTD",
+    "FAD",
+    "CHD",
+    "PCD",
+    "TXD",
+    "LITD",
+    "MHD",
+    "PGD",
+    "MSD",
+    "WRD",
+    "SSD",
+    "EVD"
+  ]
+}

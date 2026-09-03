@@ -1,0 +1,50 @@
+{
+  "standard_number": "IS 2796:2017",
+  "title": "Motor Gasoline \u2014 Specification (BS-VI Compliant Petrol)",
+  "edition": "Fifth Revision",
+  "year": 2017,
+  "division": "PCD",
+  "division_name": "Petroleum, Coal and Related Products Division",
+  "effective_status": "CURRENT",
+  "is_mandatory": true,
+  "qco_name": "Automotive Fuels (Quality Control) Mandatory Order",
+  "scheme": "Scheme-I (ISI Mark Product Certification)",
+  "source_authority": "Bureau of Indian Standards / Ministry of Petroleum and Natural Gas (MoPNG)",
+  "supersedes": [
+    "IS 2796:2008"
+  ],
+  "amendments": [
+    "Amendment No. 1 (2019)",
+    "Amendment No. 2 (2021)"
+  ],
+  "clauses": [
+    {
+      "clause": "4.1",
+      "title": "Chemical and Physical Requirements for BS-VI Petrol (RON 91 & Sulphur 10 ppm)",
+      "page": 2,
+      "text": "Clause 4.1 & Table 1 (Requirements for Bharat Stage VI Motor Gasoline): (a) Research Octane Number (RON) shall NOT be less than 91.0 (for Premium Petrol RON min 95.0). (b) Total Sulphur content shall NOT exceed 10.0 mg/kg (10.0 ppm max). (c) Benzene content shall not exceed 1.0% by volume. (d) Lead content max 0.005 g/L (strictly unleaded). (e) Density at 15\u00b0C shall be 720.0 to 775.0 kg/m\u00b3. (f) Reid Vapour Pressure (RVP) at 38\u00b0C shall be 60.0 kPa max (Summer) and 38.0 to 70.0 kPa (Winter).",
+      "keywords": [
+        "bs-vi petrol",
+        "ron 91",
+        "sulphur 10 ppm",
+        "benzene 1.0%",
+        "unleaded lead 0.005",
+        "is 2796",
+        "table 1"
+      ]
+    },
+    {
+      "clause": "4.4",
+      "title": "Ethanol Blending Specifications (E10 & E20 Motor Gasoline)",
+      "page": 5,
+      "text": "Clause 4.4 & Annex C (Ethanol Blended Petrol): For E20 fuel, anhydrous ethanol conforming to IS 321 shall be blended in motor gasoline at 20.0\u00b11.0% by volume. Water content in blended fuel shall not exceed 0.30% by mass. Phase separation shall not occur down to 0\u00b0C.",
+      "keywords": [
+        "e20 petrol",
+        "ethanol blend 20%",
+        "anhydrous ethanol",
+        "phase separation",
+        "is 2796"
+      ]
+    }
+  ]
+}

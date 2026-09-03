@@ -1,0 +1,46 @@
+{
+  "standard_number": "IS 1391 (Part 1):2017",
+  "title": "Room Air Conditioners \u2014 Specification \u2014 Part 1: Unitary Air Conditioners",
+  "edition": "Third Revision",
+  "year": 2017,
+  "division": "MED",
+  "division_name": "Mechanical Engineering Division",
+  "effective_status": "CURRENT",
+  "is_mandatory": true,
+  "qco_name": "Air Conditioners and Its Related Parts (Quality Control) Order",
+  "scheme": "Scheme-I (ISI Mark Product Certification)",
+  "source_authority": "Bureau of Indian Standards / Bureau of Energy Efficiency (BEE)",
+  "supersedes": [
+    "IS 1391 (Part 1):1992"
+  ],
+  "amendments": [
+    "Amendment No. 1 (2020)"
+  ],
+  "clauses": [
+    {
+      "clause": "8.1",
+      "title": "Cooling Capacity Rating and Tolerance Limits",
+      "page": 5,
+      "text": "Clause 8.1 & Table 1 (Cooling Capacity and Power Consumption): The measured sensible and total cooling capacity of room air conditioners shall not be less than 95% of rated declared capacity when tested under standard rating conditions (indoor: 27\u00b0C DB / 19\u00b0C WB; outdoor: 35\u00b0C DB / 24\u00b0C WB). Power consumption shall not exceed 105% of rated power.",
+      "keywords": [
+        "air conditioner",
+        "cooling capacity 95%",
+        "power consumption 105%",
+        "is 1391",
+        "iseer"
+      ]
+    },
+    {
+      "clause": "9.4",
+      "title": "Maximum Operating Conditions & Enclosure Sweat Test",
+      "page": 8,
+      "text": "Clause 9.4 (Maximum Operating Overload Test): The air conditioner shall start and operate continuously for 2 hours at an extreme outdoor ambient temperature of 46\u00b0C DB and 24\u00b0C WB with voltage at 90% of rated voltage (198 V) and at 110% of rated voltage (242 V) without motor thermal trip or electrical failure.",
+      "keywords": [
+        "max operating test 46c",
+        "voltage tolerance 198v to 242v",
+        "sweat test",
+        "is 1391"
+      ]
+    }
+  ]
+}

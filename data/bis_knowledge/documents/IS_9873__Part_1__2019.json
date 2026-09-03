@@ -1,0 +1,60 @@
+{
+  "standard_number": "IS 9873 (Part 1):2019",
+  "title": "Safety of Toys \u2014 Part 1: Safety Aspects Related to Mechanical and Physical Properties",
+  "edition": "Second Revision (Equivalent to ISO 8124-1:2018)",
+  "year": 2019,
+  "division": "MED",
+  "division_name": "Mechanical Engineering Division",
+  "effective_status": "CURRENT",
+  "is_mandatory": true,
+  "qco_name": "Toys (Quality Control) Mandatory Statutory Order",
+  "scheme": "Scheme-I (ISI Mark Product Certification)",
+  "source_authority": "Bureau of Indian Standards / DPIIT Gazette",
+  "supersedes": [
+    "IS 9873 (Part 1):2012"
+  ],
+  "amendments": [
+    "Amendment No. 1 (2021)"
+  ],
+  "clauses": [
+    {
+      "clause": "4.4",
+      "title": "Small Parts Choking Hazards for Children Under 36 Months",
+      "page": 7,
+      "text": "Clause 4.4 & Clause 5.2 (Small Parts Test Cylinder): For toys intended for children under 36 months (3 years), no part or detachable component shall fit entirely inside the small parts test cylinder (truncated cylinder of 31.7 mm diameter and 57.1 mm depth) in any orientation. Warning label 'Not suitable for children under 3 years due to small parts' is mandatory.",
+      "keywords": [
+        "toy safety",
+        "small parts cylinder 31.7mm",
+        "choking hazard",
+        "is 9873",
+        "under 36 months"
+      ]
+    },
+    {
+      "clause": "4.5",
+      "title": "Sharp Points and Sharp Edges Test Criteria",
+      "page": 9,
+      "text": "Clause 4.5 & Clause 5.8 (Sharp Edges and Sharp Points Test): Accessible edges shall not present an unreasonable risk of injury when tested with the sharp edge tester (PTFE tape rotated on cylinder with 6 N force). Points shall not penetrate into the sharp point tester depth gauge (0.38 mm aperture at 4.5 N force).",
+      "keywords": [
+        "sharp edges test",
+        "sharp points",
+        "toy safety",
+        "is 9873",
+        "clause 4.5"
+      ]
+    },
+    {
+      "clause": "5.24",
+      "title": "Drop Test & Impact Shock Endurance",
+      "page": 22,
+      "text": "Clause 5.24 (Drop Test): The toy shall be dropped 5 times from a height of 850\u00b150 mm onto a specified 4 mm thick steel plate over 100 mm concrete in random orientations. After the drop test, the toy shall not produce accessible sharp edges, sharp points, small parts, or expose internal batteries.",
+      "keywords": [
+        "drop test 850mm",
+        "impact test",
+        "toy safety",
+        "is 9873",
+        "clause 5.24"
+      ]
+    }
+  ]
+}

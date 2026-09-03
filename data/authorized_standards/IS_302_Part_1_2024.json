@@ -1,0 +1,60 @@
+{
+  "standard_number": "IS 302 (Part 1):2024",
+  "title": "Safety of Household and Similar Electrical Appliances \u2014 Part 1: General Requirements",
+  "edition": "Sixth Revision",
+  "year": 2024,
+  "division": "ETD",
+  "division_name": "Electrotechnical Division",
+  "effective_status": "CURRENT",
+  "is_mandatory": true,
+  "qco_name": "Household Electrical Appliances (Quality Control) Mandatory Statutory Order",
+  "scheme": "Scheme-I (ISI Mark Product Certification)",
+  "source_authority": "Bureau of Indian Standards / DPIIT Gazette",
+  "supersedes": [
+    "IS 302 (Part 1):2008"
+  ],
+  "amendments": [
+    "Amendment No. 1 (2024)"
+  ],
+  "clauses": [
+    {
+      "clause": "8.1",
+      "title": "Protection Against Inadvertent Contact with Live Parts",
+      "page": 9,
+      "text": "Clause 8.1 (Protection Against Access to Live Parts): Appliances shall be constructed such that there is adequate protection against accidental contact with live parts. Jointed test finger (IEC 61032 test probe B) applied with a force of 10 N shall not touch live parts or basic insulation in any operating position.",
+      "keywords": [
+        "test finger probe b",
+        "live parts protection",
+        "electric shock",
+        "is 302",
+        "safety"
+      ]
+    },
+    {
+      "clause": "13.2",
+      "title": "Leakage Current and High Voltage Dielectric Strength at Operating Temperature",
+      "page": 16,
+      "text": "Clause 13.2 (Leakage Current Limits at Operating Temperature): Maximum allowable leakage current: Class II appliances = 0.25 mA; Class I portable appliances = 0.75 mA; Class I stationary heating appliances = 0.75 mA or 0.75 mA per kW rated power (max 5.0 mA). High voltage flash test: 1000 V AC for Class I and 2500 V AC for Class II applied for 1 minute without dielectric breakdown.",
+      "keywords": [
+        "leakage current 0.75 ma",
+        "high voltage flash test 1000v",
+        "dielectric strength",
+        "is 302",
+        "class 1 class 2"
+      ]
+    },
+    {
+      "clause": "29.1",
+      "title": "Creepage Distances and Clearances for Insulation",
+      "page": 38,
+      "text": "Clause 29.1 & Table 16 (Clearances and Creepage Distances): For working voltages between 220V and 250V: Basic clearance through air between live parts of opposite polarity shall be min 2.0 mm (reinforced clearance min 3.0 mm). Creepage distance along surface of insulating material shall be min 2.5 mm for basic insulation and min 5.0 mm for reinforced insulation (Material Group IIIa/IIIb).",
+      "keywords": [
+        "creepage distance",
+        "clearance",
+        "insulation coordination",
+        "is 302",
+        "table 16"
+      ]
+    }
+  ]
+}

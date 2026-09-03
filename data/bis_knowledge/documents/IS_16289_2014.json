@@ -1,0 +1,46 @@
+{
+  "standard_number": "IS 16289:2014",
+  "title": "Medical Face Masks \u2014 Specification",
+  "edition": "First Revision",
+  "year": 2014,
+  "division": "TXD",
+  "division_name": "Textiles Division",
+  "effective_status": "CURRENT",
+  "is_mandatory": true,
+  "qco_name": "Medical Textiles (Quality Control) Mandatory Order",
+  "scheme": "Scheme-I (ISI Mark Product Certification)",
+  "source_authority": "Bureau of Indian Standards / Ministry of Health and Family Welfare (MoHFW)",
+  "supersedes": [],
+  "amendments": [
+    "Amendment No. 1 (2020)"
+  ],
+  "clauses": [
+    {
+      "clause": "5.1",
+      "title": "Bacterial Filtration Efficiency (BFE) Classes",
+      "page": 3,
+      "text": "Clause 5.1 & Table 1 (Performance Requirements of Surgical Masks): (1) Class 1 Masks: Bacterial Filtration Efficiency (BFE) >= 95.0%, Differential pressure (breathability) < 29.4 Pa/cm\u00b2. (2) Class 2 Masks: BFE >= 98.0%, Differential pressure < 29.4 Pa/cm\u00b2. (3) Class 3 Masks (Fluid Resistant): BFE >= 98.0%, Differential pressure < 49.0 Pa/cm\u00b2, Splash resistance to synthetic blood at 120 mmHg (16.0 kPa).",
+      "keywords": [
+        "surgical mask",
+        "bfe 95% 98%",
+        "bacterial filtration",
+        "differential pressure",
+        "is 16289",
+        "table 1"
+      ]
+    },
+    {
+      "clause": "5.3",
+      "title": "Microbial Cleanliness (Bioburden) and Biocompatibility",
+      "page": 5,
+      "text": "Clause 5.3 & IS 16289 (Bioburden and Biocompatibility): Total viable microbial bioburden of the mask shall not exceed 30 CFU/g of mask material. Materials in contact with wearer skin shall show zero skin irritation and zero cytotoxicity under ISO 10993.",
+      "keywords": [
+        "bioburden 30 cfu/g",
+        "microbial cleanliness",
+        "biocompatibility",
+        "is 16289",
+        "medical mask"
+      ]
+    }
+  ]
+}

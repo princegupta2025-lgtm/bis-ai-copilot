@@ -1,0 +1,35 @@
+{
+  "name": "BIS Unified Knowledge Store",
+  "version": "3.0.0",
+  "problemStatement": "SIH26107",
+  "organization": "Bureau of Indian Standards / Department of Consumer Affairs (DoCA)",
+  "createdAt": "2026-08-31T13:38:01Z",
+  "evidenceLevels": {
+    "1": "Authorized Full-Text Gazette Standards (Official BIS Publications)",
+    "2": "Verified Clauses, Tables, Tolerances & STI Procedures",
+    "3": "National Standards Catalogue Metadata (23,401 Standards)",
+    "4": "Official Statutory QCOs, Gazette Notifications & Live Web Evidence"
+  },
+  "subdirectories": {
+    "catalogue": "Authoritative store for catalogue",
+    "documents": "Authoritative store for documents",
+    "clauses": "Authoritative store for clauses",
+    "subclauses": "Authoritative store for subclauses",
+    "tables": "Authoritative store for tables",
+    "tests": "Authoritative store for tests",
+    "sti": "Authoritative store for sti",
+    "qco": "Authoritative store for qco",
+    "schemes": "Authoritative store for schemes",
+    "laboratories": "Authoritative store for laboratories",
+    "products": "Authoritative store for products",
+    "regulations": "Authoritative store for regulations",
+    "amendments": "Authoritative store for amendments",
+    "versions": "Authoritative store for versions",
+    "graph": "Authoritative store for graph",
+    "embeddings": "Authoritative store for embeddings",
+    "provenance": "Authoritative store for provenance",
+    "web_evidence": "Authoritative store for web_evidence",
+    "indexes": "Authoritative store for indexes",
+    "manifests": "Authoritative store for manifests"
+  }
+}

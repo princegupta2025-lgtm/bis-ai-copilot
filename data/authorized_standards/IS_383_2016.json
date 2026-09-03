@@ -1,0 +1,47 @@
+{
+  "standard_number": "IS 383:2016",
+  "title": "Coarse and Fine Aggregate for Concrete \u2014 Specification",
+  "edition": "Third Revision",
+  "year": 2016,
+  "division": "CED",
+  "division_name": "Civil Engineering Division",
+  "effective_status": "CURRENT",
+  "is_mandatory": false,
+  "scheme": "Scheme-I (ISI Mark Product Certification)",
+  "source_authority": "Bureau of Indian Standards",
+  "supersedes": [
+    "IS 383:1970"
+  ],
+  "amendments": [
+    "Amendment No. 1 (2019)",
+    "Amendment No. 2 (2021)"
+  ],
+  "clauses": [
+    {
+      "clause": "5.1",
+      "title": "Grading Zones for Fine Aggregates (Sand Zones I, II, III, IV)",
+      "page": 3,
+      "text": "Clause 5.1 & Table 4 (Fine Aggregate Grading Zones): Fine aggregate (sand) is classified into four grading zones based on percentage passing 600-micron sieve: Zone I (Coarse Sand) = 15% to 34% passing; Zone II (Medium Sand) = 35% to 59% passing; Zone III (Fine Sand) = 60% to 79% passing; Zone IV (Very Fine Sand) = 80% to 100% passing. Zone IV shall not be used in reinforced concrete unless approved.",
+      "keywords": [
+        "sand grading zones",
+        "zone 1 zone 2 zone 3 zone 4",
+        "600 micron sieve",
+        "is 383",
+        "fine aggregate"
+      ]
+    },
+    {
+      "clause": "6.1",
+      "title": "Crushing Value, Impact Value & Abrasion Limits for Coarse Aggregate",
+      "page": 5,
+      "text": "Clause 6.1 & Table 1 (Physical Limits for Coarse Aggregate): (1) Aggregate Crushing Value: Max 30% for concrete wearing surfaces (roads/runways) and max 45% for other structures. (2) Aggregate Impact Value (AIV): Max 30% for wearing surfaces and max 45% for other concrete. (3) Los Angeles Abrasion: Max 30% for wearing surfaces and max 50% for others. (4) Flakiness and Elongation Index combined: Max 40%.",
+      "keywords": [
+        "aggregate crushing value 30%",
+        "impact value 30%",
+        "flakiness index 40%",
+        "is 383",
+        "coarse aggregate"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,50 @@
+{
+  "standard_number": "IS 2062:2011",
+  "title": "Hot Rolled Medium and High Tensile Structural Steel \u2014 Specification",
+  "edition": "Seventh Revision",
+  "year": 2011,
+  "division": "MTD",
+  "division_name": "Metallurgical Engineering Division",
+  "effective_status": "CURRENT",
+  "is_mandatory": true,
+  "qco_name": "Steel and Steel Products (Quality Control) Mandatory Order",
+  "scheme": "Scheme-I (ISI Mark Product Certification)",
+  "source_authority": "Bureau of Indian Standards / Ministry of Steel Gazette",
+  "supersedes": [
+    "IS 2062:2006"
+  ],
+  "amendments": [
+    "Amendment No. 1 (2012)",
+    "Amendment No. 2 (2015)",
+    "Amendment No. 3 (2019)"
+  ],
+  "clauses": [
+    {
+      "clause": "6.1",
+      "title": "Designation of Structural Steel Grades (E250 to E650)",
+      "page": 2,
+      "text": "Clause 6.1 & Table 1 (Chemical Composition of Structural Steel): Steel grades are designated by symbol 'E' followed by minimum yield strength in MPa: E250 (Fe 410 W), E275, E300, E350, E410, E450, E550, E650. Sub-qualities A, BR, B0, C indicate Charpy V-notch impact testing temperature: Quality A = No impact test; Quality BR = Impact at +27\u00b0C (min 27 J); Quality B0 = Impact at 0\u00b0C (min 27 J); Quality C = Impact at -20\u00b0C (min 27 J).",
+      "keywords": [
+        "structural steel",
+        "e250",
+        "e350",
+        "charpy v-notch",
+        "sub-quality a br b0 c",
+        "is 2062"
+      ]
+    },
+    {
+      "clause": "8.1",
+      "title": "Mechanical Properties \u2014 Yield Stress, Tensile Strength & Elongation",
+      "page": 4,
+      "text": "Clause 8.1 & Table 2 (Mechanical Properties of Structural Steel): For Grade E250 (thickness < 20mm): Yield strength min 250 MPa, Tensile strength 410 MPa, Elongation min 23% (gauge length 5.65\u221aSo). For Grade E350 (thickness < 20mm): Yield strength min 350 MPa, Tensile strength 490 MPa, Elongation min 22%. Carbon equivalent CE max 0.42% for E250 and 0.44% for E350.",
+      "keywords": [
+        "yield strength 250 mpa",
+        "tensile strength 410 mpa",
+        "elongation 23%",
+        "is 2062",
+        "table 2"
+      ]
+    }
+  ]
+}

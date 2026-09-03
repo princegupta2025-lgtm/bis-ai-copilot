@@ -1,0 +1,59 @@
+{
+  "standard_number": "IS 16046 (Part 2):2018",
+  "title": "Secondary Cells and Batteries Containing Alkaline or Other Non-Acid Electrolytes \u2014 Safety Requirements for Portable Lithium Systems (IEC 62133-2:2017)",
+  "edition": "First Revision",
+  "year": 2018,
+  "division": "LITD",
+  "division_name": "Electronics and Information Technology Division",
+  "effective_status": "CURRENT",
+  "is_mandatory": true,
+  "qco_name": "Electronics and Information Technology Goods (Compulsory Registration Scheme - CRS) Mandatory Order",
+  "scheme": "Scheme-II (Compulsory Registration Scheme - CRS)",
+  "source_authority": "Bureau of Indian Standards / MeitY Gazette",
+  "supersedes": [
+    "IS 16046:2015"
+  ],
+  "amendments": [
+    "Amendment No. 1 (2020)"
+  ],
+  "clauses": [
+    {
+      "clause": "7.3.2",
+      "title": "External Short Circuit Test on Lithium-Ion Cells and Battery Packs",
+      "page": 8,
+      "text": "Clause 7.3.2 (External Short Circuit Test at Elevated Temperature): Fully charged lithium cells or batteries are placed in a chamber stabilized at 55\u00b15\u00b0C. A short circuit resistance of 80\u00b120 m\u03a9 is connected across terminals until the case temperature returns to 55\u00b0C or 24 hours. Criteria: No fire, no explosion, case temperature shall not exceed 150\u00b0C.",
+      "keywords": [
+        "lithium battery",
+        "short circuit 55c",
+        "is 16046",
+        "no fire no explosion",
+        "iec 62133-2"
+      ]
+    },
+    {
+      "clause": "7.3.4",
+      "title": "Thermal Abuse Test (Hot-Oven Test at 130\u00b0C)",
+      "page": 10,
+      "text": "Clause 7.3.4 (Thermal Abuse Chamber Test): Fully charged cells are heated in a gravity or circulating air oven from room temperature at a rate of 5\u00b12\u00b0C/min up to a temperature of 130\u00b12\u00b0C, and maintained at 130\u00b0C for 10 minutes (30 minutes for large cells). Criteria: No fire, no explosion.",
+      "keywords": [
+        "thermal abuse 130c",
+        "hot oven test",
+        "battery safety",
+        "is 16046",
+        "clause 7.3.4"
+      ]
+    },
+    {
+      "clause": "7.3.5",
+      "title": "Crush Test & Mechanical Impact Integrity",
+      "page": 12,
+      "text": "Clause 7.3.5 (Mechanical Crush Test): A fully charged cell is crushed between two flat surfaces with an applied hydraulic force of 13\u00b10.78 kN until the maximum force is reached or a sudden voltage drop of one-third occurs. Criteria: No fire, no explosion.",
+      "keywords": [
+        "battery crush test 13 kn",
+        "mechanical impact",
+        "is 16046",
+        "lithium-ion"
+      ]
+    }
+  ]
+}

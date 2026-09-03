@@ -1,0 +1,59 @@
+{
+  "standard_number": "IS 15844 (Part 1):2023",
+  "title": "Footwear for Men and Women \u2014 Safety and Performance Specification",
+  "edition": "First Revision",
+  "year": 2023,
+  "division": "CHD",
+  "division_name": "Chemical Division",
+  "effective_status": "CURRENT",
+  "is_mandatory": true,
+  "qco_name": "Footwear Made from Leather and Other Materials (Quality Control) Mandatory Order",
+  "scheme": "Scheme-I (ISI Mark Product Certification)",
+  "source_authority": "Bureau of Indian Standards / DPIIT Gazette",
+  "supersedes": [
+    "IS 15844:2021"
+  ],
+  "amendments": [
+    "Amendment No. 1 (2024)"
+  ],
+  "clauses": [
+    {
+      "clause": "5.2",
+      "title": "Upper Leather Tear Strength and Thickness",
+      "page": 4,
+      "text": "Clause 5.2 (Tear Strength of Upper Material): The tear strength of upper leather shall be not less than 120 N when tested in accordance with IS 5914 (trouser tear method). Nominal thickness shall be not less than 1.4 mm for full-grain leather.",
+      "keywords": [
+        "footwear",
+        "is 15844",
+        "tear strength 120 n",
+        "leather thickness 1.4mm",
+        "upper material"
+      ]
+    },
+    {
+      "clause": "6.1",
+      "title": "Outsole Abrasion Resistance and Flexing Endurance",
+      "page": 6,
+      "text": "Clause 6.1 & Table 4 (Outsole Physical Requirements): (a) Outsole abrasion resistance: Relative volume loss shall not exceed 150 mm\u00b3 when tested in accordance with IS 3400 (Part 3) using a rotating cylindrical drum. (b) Flexing resistance: Outsole shall show no cut growth greater than 4.0 mm after 150,000 flexing cycles on a Bennewart flex machine.",
+      "keywords": [
+        "outsole abrasion 150 mm3",
+        "flexing 150000 cycles",
+        "cut growth 4mm",
+        "is 15844",
+        "bennewart flex"
+      ]
+    },
+    {
+      "clause": "7.1",
+      "title": "Bond Strength of Upper to Outsole Assembly",
+      "page": 8,
+      "text": "Clause 7.1 (Sole Adhesion Bond Strength): The peeling strength between the upper and outsole shall not be less than 4.0 N/mm of bonded width (or min 3.0 N/mm where tearing of material occurs before bond failure) when tested in accordance with IS 15844 Clause 7.1.2.",
+      "keywords": [
+        "sole adhesion",
+        "bond strength 4.0 n/mm",
+        "peeling test",
+        "is 15844"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,34 @@
+# Environment variables & Secrets
+.env
+.env.local
+.env.*.local
+*.key
+*.pem
+
+# Node dependencies
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Python cache & virtual environments
+__pycache__/
+*.py[cod]
+*$py.class
+.venv/
+venv/
+ENV/
+
+# Temporary and log files
+*.log
+scratch/
+~$*
+
+# OS generated files
+.DS_Store
+Thumbs.db
+
+# Executables & Large Binaries
+*.exe
+cloudflared.exe
+backup/

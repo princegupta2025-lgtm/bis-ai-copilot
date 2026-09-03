@@ -1,0 +1,48 @@
+{
+  "standard_number": "IS 1489 (Part 1):2015",
+  "title": "Portland Pozzolana Cement \u2014 Specification \u2014 Part 1: Fly Ash Based",
+  "edition": "Third Revision",
+  "year": 2015,
+  "division": "CED",
+  "division_name": "Civil Engineering Division",
+  "effective_status": "CURRENT",
+  "is_mandatory": true,
+  "qco_name": "Cement (Quality Control) Mandatory Statutory Order",
+  "scheme": "Scheme-I (ISI Mark Product Certification)",
+  "source_authority": "Bureau of Indian Standards / DPIIT Gazette",
+  "supersedes": [
+    "IS 1489 (Part 1):1991"
+  ],
+  "amendments": [
+    "Amendment No. 1 (2018)",
+    "Amendment No. 2 (2021)"
+  ],
+  "clauses": [
+    {
+      "clause": "5.1",
+      "title": "Fly Ash Percentage and Pozzolanic Content Limits",
+      "page": 2,
+      "text": "Clause 5.1 (Raw Material Composition): Portland Pozzolana Cement (PPC Fly Ash based) shall be manufactured by intimately intergrinding OPC clinker, gypsum, and fly ash (conforming to IS 3812 Part 1). The proportion of fly ash shall NOT be less than 15.0% and not more than 35.0% by mass of cement.",
+      "keywords": [
+        "ppc cement",
+        "fly ash 15% to 35%",
+        "is 1489",
+        "pozzolana content",
+        "clause 5.1"
+      ]
+    },
+    {
+      "clause": "6.1",
+      "title": "Physical Requirements \u2014 Fineness, Soundness & Compressive Strength",
+      "page": 3,
+      "text": "Clause 6.1 & Table 2 (Physical Requirements of PPC): (1) Fineness by Blaine specific surface: Not less than 300 m\u00b2/kg. (2) Soundness: Le-Chatelier expansion max 10 mm; Autoclave expansion max 0.8%. (3) Setting Time: Initial setting time min 30 minutes; Final setting time max 600 minutes. (4) Compressive Strength: 3-day min 16.0 MPa; 7-day min 22.0 MPa; 28-day min 33.0 MPa.",
+      "keywords": [
+        "ppc fineness 300 m2/kg",
+        "ppc strength 33 mpa",
+        "initial setting 30 min",
+        "is 1489",
+        "table 2"
+      ]
+    }
+  ]
+}

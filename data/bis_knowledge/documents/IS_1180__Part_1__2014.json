@@ -1,0 +1,59 @@
+{
+  "standard_number": "IS 1180 (Part 1):2014",
+  "title": "Outdoor Type Oil-Immersed Distribution Transformers up to and Including 2500 kVA, 33 kV \u2014 Specification",
+  "edition": "Fourth Revision",
+  "year": 2014,
+  "division": "ETD",
+  "division_name": "Electrotechnical Division",
+  "effective_status": "CURRENT",
+  "is_mandatory": true,
+  "qco_name": "Distribution Transformers (Quality Control) Mandatory Order",
+  "scheme": "Scheme-I (ISI Mark Product Certification)",
+  "source_authority": "Bureau of Indian Standards / Ministry of Power Gazette",
+  "supersedes": [
+    "IS 1180 (Part 1):1989"
+  ],
+  "amendments": [
+    "Amendment No. 1 (2016)",
+    "Amendment No. 2 (2021)"
+  ],
+  "clauses": [
+    {
+      "clause": "6.1",
+      "title": "Standard Energy Efficiency Levels & Maximum Total Losses at 50% and 100% Load",
+      "page": 4,
+      "text": "Clause 6.1 & Table 3-6 (Standard Energy Efficiency Levels for Distribution Transformers): Transformers are categorized into Energy Efficiency Level 1, Level 2, and Level 3. For 100 kVA 11/0.433 kV: Level 1 max total losses at 50% load = 475 W (at 100% load = 1650 W); Level 2 max losses at 50% load = 435 W (at 100% load = 1500 W); Level 3 max losses at 50% load = 400 W (at 100% load = 1380 W).",
+      "keywords": [
+        "distribution transformer",
+        "total losses",
+        "is 1180",
+        "100 kva losses",
+        "energy efficiency level 1 2 3"
+      ]
+    },
+    {
+      "clause": "8.1",
+      "title": "Temperature Rise Limits for Oil and Windings",
+      "page": 7,
+      "text": "Clause 8.1 & IS 2026 (Part 2) (Temperature Rise Limits at Rated Continuous Load): (a) Top oil temperature rise measured by thermometer shall NOT exceed 35\u00b0C (when ambient temperature is 50\u00b0C). (b) Winding temperature rise measured by resistance method shall NOT exceed 40\u00b0C. For standard ambient (40\u00b0C), max oil rise is 50\u00b0C and winding rise is 55\u00b0C.",
+      "keywords": [
+        "temperature rise 35c 40c",
+        "top oil temperature",
+        "winding temperature",
+        "is 1180"
+      ]
+    },
+    {
+      "clause": "14.2",
+      "title": "Short Circuit Withstand Dynamic Ability Test",
+      "page": 12,
+      "text": "Clause 14.2 & IS 2026 (Part 5) (Short-Circuit Test): The transformer shall withstand the mechanical and thermal effects of external short circuit for a duration of 2.0 seconds without damage, winding deformation, or degradation of dielectric insulation strength.",
+      "keywords": [
+        "short circuit withstand 2 seconds",
+        "transformer test",
+        "is 1180",
+        "is 2026"
+      ]
+    }
+  ]
+}

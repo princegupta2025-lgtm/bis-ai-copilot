@@ -1,0 +1,34 @@
+{
+  "standard_number": "IS 16240:2023",
+  "title": "Reverse Osmosis (RO) Based Point-of-Use Water Treatment Systems",
+  "edition": "Current Edition",
+  "year": 2026,
+  "division": "FAD",
+  "division_name": "FAD Standards Division",
+  "category": "Water Filtration & Safety",
+  "effective_status": "CURRENT",
+  "is_mandatory": true,
+  "qco_name": "Reverse Osmosis (RO) Based Point-of-Use Water Treatment Systems (Quality Control Mandatory Order)",
+  "scheme": "Scheme-I (ISI Mark Product Certification)",
+  "source_authority": "Bureau of Indian Standards / Gazette of India",
+  "clauses": [
+    {
+      "clause": "Clause 4.2",
+      "title": "Specification & Requirements Part 1",
+      "page": 2,
+      "text": "Clause 4.2 Minimum Recovery Efficiency: The overall water recovery efficiency of the domestic RO purifier shall be not less than 40 percent (earlier systems wasted up to 75% water, current mandate strictly enforces minimum 40% recovery to prevent water wastage).\\n\\nClause 5.1 TDS Reduction: The RO system shall achieve a Total Dissolved Solids (TDS) reduction of not less than 90 percent when tested at influent TDS concentration between 500 mg/L and 2000 mg/L.\\n\\nClause 8.1 Compulsory ISI Marking: Every domestic RO unit manufactured or sold in India must carry the mandatory ISI mark under Scheme-I with verified recovery percentage.",
+      "keywords": [
+        "clause",
+        "minimum",
+        "recovery",
+        "efficiency",
+        "overall",
+        "water",
+        "domestic",
+        "purifier",
+        "is 16240:2023",
+        "reverse osmosis (ro) based point-of-use water treatment systems"
+      ]
+    }
+  ]
+}

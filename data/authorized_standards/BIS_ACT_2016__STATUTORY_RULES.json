@@ -1,0 +1,54 @@
+{
+  "standard_number": "BIS ACT 2016: STATUTORY RULES",
+  "title": "Bureau of Indian Standards Act 2016 — Statutory Penalties, Search, Seizure & Prosecution",
+  "edition": "Parliament Act No. 11 of 2016",
+  "year": 2016,
+  "division": "MSD",
+  "division_name": "Management and Systems Division",
+  "effective_status": "CURRENT",
+  "is_mandatory": true,
+  "qco_name": "Statutory Central Act Enforcement Mandate",
+  "scheme": "National Regulatory Framework",
+  "source_authority": "Parliament of India / Ministry of Consumer Affairs, Food & Public Distribution",
+  "clauses": [
+    {
+      "clause": "Section 29",
+      "title": "Penalties for Misuse of Standard Mark and Non-Compliance with Mandatory QCOs",
+      "page": 18,
+      "text": "Section 29(1): Any person who manufactures, sells, stores, or imports goods under a mandatory Quality Control Order (QCO) without a valid BIS license, or falsely marks goods with counterfeit ISI mark, is punishable with imprisonment up to 2 years, or a minimum fine of Rs. 2,00,000 (which may extend up to 10 times the value of the goods), or both.",
+      "keywords": [
+        "section 29",
+        "fake isi mark",
+        "bis act 2016 penalty",
+        "imprisonment 2 years",
+        "counterfeit",
+        "fine 2 lakh"
+      ]
+    },
+    {
+      "clause": "Section 30",
+      "title": "Powers of Search, Seizure and Inspection of Inspecting Officers",
+      "page": 20,
+      "text": "Section 30: Empowered BIS Inspecting Officers have the legal authority to enter and inspect factories, warehouses, retail stores, or import transit points at any reasonable time without prior notice, seize non-conforming or counterfeit goods, seal premises, and impound accounting records for prosecution.",
+      "keywords": [
+        "section 30",
+        "search and seizure",
+        "bis raid",
+        "inspecting officer powers",
+        "impound goods"
+      ]
+    },
+    {
+      "clause": "Section 31",
+      "title": "Offenses by Companies and Corporate Liability",
+      "page": 21,
+      "text": "Section 31: Where an offense under this Act has been committed by a company, every person who at the time the offense was committed was in charge of and responsible for the conduct of the business (Managing Director, Directors, Quality Control Managers) shall be deemed guilty of the offense and liable to be prosecuted.",
+      "keywords": [
+        "section 31",
+        "director liability",
+        "company offense",
+        "corporate criminal liability"
+      ]
+    }
+  ]
+}

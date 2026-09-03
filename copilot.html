@@ -1,0 +1,412 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Industry Compliance Copilot • BIS Trust Copilot (SIH 2026)</title>
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+  <link rel="stylesheet" href="css/style.css" />
+  <link rel="stylesheet" href="css/command-palette.css" />
+  <script src="js/theme.js"></script>
+</head>
+<body>
+
+  <!-- ================= GOV TOP BAR ================= -->
+  <div class="gov-top-bar">
+    <div class="gov-container">
+      <div class="gov-left">
+        <span><i class="fas fa-flag"></i> Government of India • Ministry of Consumer Affairs, Food & Public Distribution</span>
+        <span class="m-hide"> | Bureau of Indian Standards (BIS)</span>
+      </div>
+      <div class="gov-right">
+        <span>SIH Project ID: SIH26107</span>
+        <span class="demo-badge-tag"><i class="fas fa-microchip"></i> AI Compliance Core</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- ================= MAIN NAVIGATION ================= -->
+  <header class="main-header">
+    <div class="header-inner">
+      <div class="brand-section">
+        <a href="index.html" style="display:flex;align-items:center;gap:12px;">
+          <div class="brand-logo-badge">
+            <i class="fas fa-landmark"></i>
+          </div>
+          <div class="brand-titles">
+            <div class="brand-main">
+              BIS MANAK-AI <span class="gemini-pill"><i class="fas fa-shield-halved"></i> Compliance Copilot</span>
+            </div>
+            <div class="brand-sub">भारतीय मानक ब्यूरो • Bureau of Indian Standards (Govt. of India)</div>
+          </div>
+        </a>
+      </div>
+
+      <nav class="nav-menu">
+        <a href="index.html" class="nav-link"><i class="fas fa-home"></i> Home</a>
+        <a href="copilot.html" class="nav-link active"><i class="fas fa-industry"></i> Industry Copilot</a>
+        <a href="chat.html" class="nav-link"><i class="fas fa-comments"></i> Ask the Standard</a>
+        <a href="knowledge-graph.html" class="nav-link"><i class="fas fa-diagram-project"></i> Knowledge Graph</a>
+        <a href="consumer.html" class="nav-link"><i class="fas fa-user-shield"></i> Consumer Mode</a>
+        <a href="verify.html" class="nav-link"><i class="fas fa-qrcode"></i> Scan & Verify</a>
+      </nav>
+
+      <div class="nav-actions">
+        <button class="theme-toggle-btn" id="themeToggleBtn" onclick="toggleTheme()" title="Toggle Dark/Light Mode">
+          <i class="fas fa-moon"></i>
+        </button>
+        <a href="chat.html" class="btn-ai-launch">
+          <i class="fas fa-sparkles"></i> Ask AI Copilot
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <!-- ================= SIH DEMO HEADER ================= -->
+  <div style="background:var(--slate-100);border-bottom:1px solid var(--border-color);padding:0.6rem 2rem;">
+    <div style="max-width:1400px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px;font-size:0.82rem;">
+      <span style="color:var(--slate-500);font-weight:600;"><i class="fas fa-building-flag"></i> Industry Compliance Workspace • MSME & Manufacturer Guidance Platform</span>
+      <span style="color:var(--bis-blue);font-weight:700;"><i class="fas fa-info-circle"></i> Grounded in Authoritative BIS Quality Control Orders (QCO)</span>
+    </div>
+  </div>
+
+  <!-- ================= COPILOT MAIN WORKSPACE ================= -->
+  <div style="max-width:1400px;margin:1.5rem auto 3rem;padding:0 1.5rem;">
+    
+    <!-- Step 1: Industry Input Form -->
+    <div class="g-card" style="margin-bottom:1.5rem;">
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:1rem;flex-wrap:wrap;gap:10px;">
+        <div>
+          <h2 style="font-size:1.3rem;font-weight:800;color:var(--gov-navy);"><i class="fas fa-sliders" style="color:var(--bis-blue);"></i> Step 1: Define Product & Manufacturing Context</h2>
+          <p style="font-size:0.85rem;color:var(--slate-500);">Enter your product details to generate a structured BIS compliance checklist and readiness score.</p>
+        </div>
+        <span class="demo-badge-tag" style="background:rgba(59,130,246,0.15);color:var(--bis-blue);padding:4px 10px;border-radius:4px;font-size:0.75rem;font-weight:700;">Demo Data Active</span>
+      </div>
+
+      <div style="display:grid;grid-template-columns:repeat(auto-fit, minmax(240px, 1fr));gap:1rem;">
+        <div>
+          <label style="display:block;font-size:0.8rem;font-weight:700;color:var(--gov-navy);margin-bottom:6px;">Product Name</label>
+          <input type="text" id="copilotProduct" value="Electric Kettle" placeholder="e.g. Electric Kettle, Helmet, Wire..." class="verify-input-field" style="width:100%;" />
+        </div>
+        <div>
+          <label style="display:block;font-size:0.8rem;font-weight:700;color:var(--gov-navy);margin-bottom:6px;">Industry Sector</label>
+          <select id="copilotSector" class="verify-input-field" style="width:100%;">
+            <option value="electrical">Electrical & Electronics</option>
+            <option value="automotive">Automotive & Road Safety</option>
+            <option value="civil">Civil & Structural Steel</option>
+            <option value="toys">Toys & Child Safety</option>
+            <option value="food">Food & Bottled Water</option>
+          </select>
+        </div>
+        <div>
+          <label style="display:block;font-size:0.8rem;font-weight:700;color:var(--gov-navy);margin-bottom:6px;">Enterprise Scale</label>
+          <select id="copilotScale" class="verify-input-field" style="width:100%;">
+            <option value="micro">Micro MSME (50% BIS Fee Concession)</option>
+            <option value="small">Small Enterprise (20% Fee Concession)</option>
+            <option value="medium">Medium / Large Industry</option>
+          </select>
+        </div>
+      </div>
+
+      <div style="margin-top:1.25rem;display:flex;gap:10px;flex-wrap:wrap;">
+        <button onclick="generateWorkspace()" class="btn-ai-launch" style="background:linear-gradient(135deg, #2563EB 0%, #1D4ED8 100%);padding:10px 22px;font-size:0.9rem;border:none;">
+          <i class="fas fa-diagram-project"></i> Generate Compliance Workspace
+        </button>
+        <button onclick="loadSampleKettle()" style="background:var(--slate-100);color:var(--gov-navy);padding:10px 18px;border-radius:var(--radius-full);font-weight:600;font-size:0.85rem;border:1px solid var(--border-color);">
+          ⚡ Demo Sample: Electric Kettle (IS 302)
+        </button>
+        <button onclick="loadSampleHelmet()" style="background:var(--slate-100);color:var(--gov-navy);padding:10px 18px;border-radius:var(--radius-full);font-weight:600;font-size:0.85rem;border:1px solid var(--border-color);">
+          🪖 Demo Sample: Two-Wheeler Helmet (IS 4151)
+        </button>
+      </div>
+    </div>
+
+    <!-- Workspace Container -->
+    <div id="workspaceResults" style="display:grid;grid-template-columns:340px 1fr;gap:1.5rem;">
+      
+      <!-- Left Column: Compliance Readiness Score Card -->
+      <div style="display:flex;flex-direction:column;gap:1.5rem;">
+        
+        <div class="g-card" style="text-align:center;padding:1.75rem 1.25rem;">
+          <h3 style="font-size:0.9rem;font-weight:700;color:var(--slate-500);text-transform:uppercase;letter-spacing:0.5px;margin-bottom:1rem;">Compliance Readiness Score</h3>
+          
+          <div style="position:relative;width:140px;height:140px;margin:0 auto 1.25rem;display:flex;align-items:center;justify-content:center;background:radial-gradient(circle, var(--slate-100) 60%, transparent 60%);border-radius:50%;border:8px solid #2563EB;">
+            <div style="text-align:center;">
+              <span id="readinessScoreVal" style="font-size:2.2rem;font-weight:800;color:var(--gov-navy);line-height:1;">72%</span>
+              <div style="font-size:0.68rem;color:var(--slate-500);font-weight:700;margin-top:2px;">READY TO AUDIT</div>
+            </div>
+          </div>
+
+          <div style="font-size:0.8rem;text-align:left;background:var(--slate-50);border:1px solid var(--border-color);border-radius:var(--radius-md);padding:12px;">
+            <div style="font-weight:700;color:var(--gov-navy);margin-bottom:6px;"><i class="fas fa-calculator" style="color:var(--bis-blue);"></i> Transparent Score Breakdown:</div>
+            <div style="display:flex;justify-content:space-between;margin-bottom:4px;color:#10B981;"><span>✓ Product Info & Standard</span> <span>+40%</span></div>
+            <div style="display:flex;justify-content:space-between;margin-bottom:4px;color:#10B981;"><span>✓ 4/5 Clauses Addressed</span> <span>+32%</span></div>
+            <div style="display:flex;justify-content:space-between;margin-bottom:4px;color:#EF4444;"><span>⚠ 1 Document Missing</span> <span>-12%</span></div>
+            <div style="display:flex;justify-content:space-between;color:#F59E0B;"><span>⚠ Lab Testing Pending</span> <span>-16%</span></div>
+          </div>
+
+          <div style="margin-top:1.25rem;padding-top:1rem;border-top:1px solid var(--border-color);font-size:0.78rem;color:var(--slate-500);text-align:left;">
+            <strong>MSME Concession Status:</strong><br />
+            <span style="color:#10B981;font-weight:700;">✓ Eligible for 50% Marking Fee Concession</span> under Micro Enterprise scheme.
+          </div>
+        </div>
+
+        <!-- Applicable Standard Card -->
+        <div class="g-card">
+          <div style="font-size:0.75rem;font-weight:700;color:var(--bis-blue);text-transform:uppercase;margin-bottom:4px;">Identified Applicable Standard</div>
+          <h4 id="activeStdCode" style="font-size:1.1rem;font-weight:800;color:var(--gov-navy);margin-bottom:6px;">IS 302 (Part 2/Sec 15):2024</h4>
+          <p id="activeStdTitle" style="font-size:0.82rem;color:var(--slate-500);line-height:1.4;margin-bottom:12px;">Safety of Household Electrical Appliances - Particular Requirements for Heating Liquids</p>
+          <div style="display:flex;gap:6px;flex-wrap:wrap;font-size:0.72rem;">
+            <span style="background:rgba(239,68,68,0.15);color:#EF4444;padding:2px 8px;border-radius:4px;font-weight:700;">Mandatory QCO Active</span>
+            <span style="background:rgba(59,130,246,0.15);color:var(--bis-blue);padding:2px 8px;border-radius:4px;font-weight:700;">Scheme-I ISI Mark</span>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Right Column: Interactive Checklist & Document Analyzer -->
+      <div style="display:flex;flex-direction:column;gap:1.5rem;">
+        
+        <!-- Interactive Checklist Section -->
+        <div class="g-card">
+          <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:1rem;flex-wrap:wrap;gap:10px;">
+            <div>
+              <h3 style="font-size:1.15rem;font-weight:800;color:var(--gov-navy);"><i class="fas fa-list-check" style="color:var(--bis-blue);"></i> Interactive Clause & Testing Compliance Checklist</h3>
+              <p style="font-size:0.8rem;color:var(--slate-500);">Mark requirements complete to update your visual compliance score.</p>
+            </div>
+            <div style="font-size:0.8rem;font-weight:700;color:var(--slate-500);" id="checklistCountStr">4 of 5 Tasks Addressed</div>
+          </div>
+
+          <!-- Progress Bar -->
+          <div style="width:100%;height:8px;background:var(--slate-100);border-radius:4px;overflow:hidden;margin-bottom:1.25rem;">
+            <div id="chkProgressBar" style="width:72%;height:100%;background:linear-gradient(90deg, #2563EB, #10B981);transition:width 0.3s ease;"></div>
+          </div>
+
+          <!-- Checklist Items list -->
+          <div id="checklistItemsContainer" style="display:flex;flex-direction:column;gap:10px;">
+            <!-- Rendered dynamically -->
+          </div>
+        </div>
+
+        <!-- Document Analyzer (Gap Analysis) Section -->
+        <div class="g-card">
+          <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:1rem;flex-wrap:wrap;gap:10px;">
+            <div>
+              <h3 style="font-size:1.15rem;font-weight:800;color:var(--gov-navy);"><i class="fas fa-file-shield" style="color:var(--bis-blue);"></i> Technical Document Gap Analyzer</h3>
+              <p style="font-size:0.8rem;color:var(--slate-500);">Upload or select a test report / spec sheet to extract clause compliance and missing requirements.</p>
+            </div>
+            <span class="demo-badge-tag" style="background:rgba(245,158,11,0.15);color:#D97706;padding:2px 8px;border-radius:4px;font-size:0.72rem;font-weight:700;">AI Gap Analysis</span>
+          </div>
+
+          <div style="border:2px dashed var(--border-color);border-radius:var(--radius-lg);padding:1.5rem;text-align:center;background:var(--slate-50);margin-bottom:1rem;">
+            <i class="fas fa-cloud-arrow-up" style="font-size:2rem;color:var(--bis-blue);margin-bottom:8px;"></i>
+            <div style="font-size:0.9rem;font-weight:700;color:var(--gov-navy);">Drag & Drop Compliance Document or Test Report</div>
+            <div style="font-size:0.78rem;color:var(--slate-500);margin-bottom:12px;">Supports PDF, DOCX, or scanned test certificate images</div>
+            
+            <div style="display:flex;justify-content:center;gap:8px;flex-wrap:wrap;">
+              <button onclick="analyzeSampleDoc('spec')" style="background:var(--slate-100);color:var(--gov-navy);padding:6px 12px;border-radius:var(--radius-sm);font-size:0.78rem;font-weight:600;border:1px solid var(--border-color);">
+                📄 Sample 1: Kettle Spec Sheet (SS 304)
+              </button>
+              <button onclick="analyzeSampleDoc('test')" style="background:var(--slate-100);color:var(--gov-navy);padding:6px 12px;border-radius:var(--radius-sm);font-size:0.78rem;font-weight:600;border:1px solid var(--border-color);">
+                📄 Sample 2: Dielectric Test Report
+              </button>
+              <button onclick="analyzeSampleDoc('incomplete')" style="background:var(--slate-100);color:var(--gov-navy);padding:6px 12px;border-radius:var(--radius-sm);font-size:0.78rem;font-weight:600;border:1px solid var(--border-color);">
+                📄 Sample 3: Incomplete Declaration
+              </button>
+            </div>
+          </div>
+
+          <!-- Analysis Results Display Box -->
+          <div id="docAnalysisResults" style="display:none;background:var(--slate-50);border:1px solid var(--border-color);border-radius:var(--radius-md);padding:1.25rem;">
+            <!-- Output rendered dynamically -->
+          </div>
+
+          <div style="margin-top:1rem;font-size:0.75rem;color:var(--slate-500);display:flex;align-items:center;gap:6px;">
+            <i class="fas fa-shield-cat" style="color:var(--bis-blue);"></i>
+            <span>ℹ️ AI explanation based on referenced BIS information. Does not constitute legal certification.</span>
+          </div>
+
+        </div>
+
+      </div>
+
+    </div>
+
+  </div>
+
+  <!-- ================= FOOTER ================= -->
+  <footer class="main-footer">
+    <div class="footer-inner">
+      <div class="footer-col">
+        <div class="footer-brand">
+          <div class="brand-logo-badge" style="width:34px;height:34px;font-size:1rem;">
+            <i class="fas fa-landmark"></i>
+          </div>
+          <span style="font-weight:800;font-size:1.1rem;color:white;">BIS MANAK-AI</span>
+        </div>
+        <p style="font-size:0.85rem;margin-top:12px;line-height:1.6;">
+          An Intelligent Compliance Copilot developed for the Bureau of Indian Standards (SIH26107).
+        </p>
+      </div>
+      <div class="footer-col">
+        <h4>Quick Navigation</h4>
+        <ul style="list-style:none;line-height:2;">
+          <li><a href="index.html">Home Landing</a></li>
+          <li><a href="copilot.html">Industry Copilot</a></li>
+          <li><a href="chat.html">Ask the Standard</a></li>
+          <li><a href="knowledge-graph.html">Knowledge Graph</a></li>
+          <li><a href="consumer.html">Consumer Mode</a></li>
+          <li><a href="verify.html">Scan & Verify</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      © 2026 Bureau of Indian Standards (BIS) • AI-powered Intelligent Assistant for Indian Standards (SIH26107)
+    </div>
+  </footer>
+
+  <!-- ================= SCRIPT LOGIC ================= -->
+  <script src="js/database.js"></script>
+  <script>
+    let currentChecklistData = [
+      { id: 1, clause: "Clause 19.4", title: "Dual Dry-Boil Auto-Cut Switch", status: "completed", mandatory: true },
+      { id: 2, clause: "Clause 13.2", title: "Leakage Current Below 0.75 mA", status: "completed", mandatory: true },
+      { id: 3, clause: "Clause 22.11", title: "Food Grade SS 304 Inner Liner Certificate", status: "completed", mandatory: true },
+      { id: 4, clause: "Clause 7.1", title: "Laser-Engraved Rating Plate Marking", status: "completed", mandatory: true },
+      { id: 5, clause: "Lab Testing", title: "NABL Independent Test Report under IS 302", status: "attention", mandatory: true }
+    ];
+
+    function renderChecklist() {
+      const container = document.getElementById('checklistItemsContainer');
+      if (!container) return;
+
+      container.innerHTML = currentChecklistData.map(item => `
+        <div style="display:flex;align-items:center;justify-content:space-between;padding:12px 14px;background:var(--bg-card);border:1px solid var(--border-color);border-radius:var(--radius-md);gap:10px;">
+          <div>
+            <span style="font-size:0.75rem;font-weight:700;color:var(--bis-blue);">${item.clause}</span>
+            <div style="font-size:0.88rem;font-weight:700;color:var(--gov-navy);">${item.title}</div>
+          </div>
+          <div>
+            <select onchange="updateItemStatus(${item.id}, this.value)" style="padding:6px 10px;border-radius:var(--radius-sm);font-size:0.78rem;font-weight:700;background:var(--slate-50);color:var(--gov-navy);border:1px solid var(--border-color);cursor:pointer;">
+              <option value="completed" ${item.status === 'completed' ? 'selected' : ''}>✓ Completed</option>
+              <option value="attention" ${item.status === 'attention' ? 'selected' : ''}>⚠ Needs Attention</option>
+              <option value="started" ${item.status === 'started' ? 'selected' : ''}>○ Not Started</option>
+              <option value="verify" ${item.status === 'verify' ? 'selected' : ''}>? Requires Verification</option>
+            </select>
+          </div>
+        </div>
+      `).join('');
+
+      recalculateScore();
+    }
+
+    function updateItemStatus(id, newStatus) {
+      const item = currentChecklistData.find(x => x.id === id);
+      if (item) {
+        item.status = newStatus;
+        recalculateScore();
+      }
+    }
+
+    function recalculateScore() {
+      const completed = currentChecklistData.filter(x => x.status === 'completed').length;
+      const total = currentChecklistData.length;
+      const score = Math.round((completed / total) * 90 + 10);
+
+      document.getElementById('readinessScoreVal').textContent = score + '%';
+      document.getElementById('checklistCountStr').textContent = `${completed} of ${total} Tasks Addressed`;
+      document.getElementById('chkProgressBar').style.width = score + '%';
+    }
+
+    function loadSampleKettle() {
+      document.getElementById('copilotProduct').value = 'Electric Kettle';
+      document.getElementById('copilotSector').value = 'electrical';
+      document.getElementById('activeStdCode').textContent = 'IS 302 (Part 2/Sec 15):2024';
+      document.getElementById('activeStdTitle').textContent = 'Safety of Household Electrical Appliances - Particular Requirements for Heating Liquids';
+      currentChecklistData = [
+        { id: 1, clause: "Clause 19.4", title: "Dual Dry-Boil Auto-Cut Switch", status: "completed", mandatory: true },
+        { id: 2, clause: "Clause 13.2", title: "Leakage Current Below 0.75 mA", status: "completed", mandatory: true },
+        { id: 3, clause: "Clause 22.11", title: "Food Grade SS 304 Inner Liner Certificate", status: "completed", mandatory: true },
+        { id: 4, clause: "Clause 7.1", title: "Laser-Engraved Rating Plate Marking", status: "completed", mandatory: true },
+        { id: 5, clause: "Lab Testing", title: "NABL Independent Test Report under IS 302", status: "attention", mandatory: true }
+      ];
+      renderChecklist();
+    }
+
+    function loadSampleHelmet() {
+      document.getElementById('copilotProduct').value = 'Two-Wheeler Helmet';
+      document.getElementById('copilotSector').value = 'automotive';
+      document.getElementById('activeStdCode').textContent = 'IS 4151:2015';
+      document.getElementById('activeStdTitle').textContent = 'Protective Helmets for Riders of Two-Wheeled Motor Vehicles';
+      currentChecklistData = [
+        { id: 1, clause: "Clause 6.1", title: "Drop Tower Impact Attenuation (<275g)", status: "completed", mandatory: true },
+        { id: 2, clause: "Clause 6.2", title: "3kg Conical Striker Penetration Test", status: "completed", mandatory: true },
+        { id: 3, clause: "Clause 6.3", title: "Dynamic Chin Strap Retention Test", status: "completed", mandatory: true },
+        { id: 4, clause: "Weight Limit", title: "Total Weight Under 1.2 kg Cap", status: "completed", mandatory: true },
+        { id: 5, clause: "Visor Safety", title: "Optical Clarity & Scratch Resistance (IS 9944)", status: "started", mandatory: true }
+      ];
+      renderChecklist();
+    }
+
+    function generateWorkspace() {
+      const prod = document.getElementById('copilotProduct').value.trim();
+      if (!prod) return;
+      loadSampleKettle();
+    }
+
+    function analyzeSampleDoc(type) {
+      const res = document.getElementById('docAnalysisResults');
+      res.style.display = 'block';
+      res.innerHTML = `<div style="text-align:center;padding:1rem;color:var(--slate-500);"><i class="fas fa-spinner fa-spin"></i> Analyzing document against IS 302 clauses...</div>`;
+
+      setTimeout(() => {
+        if (type === 'spec') {
+          res.innerHTML = `
+            <div style="font-weight:800;color:var(--gov-navy);font-size:0.95rem;margin-bottom:8px;">📄 Document Finding: Product Spec Sheet (SS 304 Kettle)</div>
+            <div style="display:flex;flex-direction:column;gap:6px;font-size:0.82rem;">
+              <div style="color:#10B981;">✓ <strong>Clause 22.11 Satisfied:</strong> Interior body certified food-grade SS 304 stainless steel.</div>
+              <div style="color:#10B981;">✓ <strong>Clause 7.1 Satisfied:</strong> Rated voltage specified 230V AC 50Hz, 1500W.</div>
+              <div style="color:#F59E0B;">⚠ <strong>Clause 19.4 Warning:</strong> Primary steam sensor specified, but secondary thermal fuse model missing.</div>
+              <div style="color:#EF4444;">❌ <strong>Missing Requirement:</strong> Ground earthing wire gauge specification not mentioned.</div>
+            </div>
+          `;
+        } else if (type === 'test') {
+          res.innerHTML = `
+            <div style="font-weight:800;color:var(--gov-navy);font-size:0.95rem;margin-bottom:8px;">📄 Document Finding: NABL Dielectric Test Report</div>
+            <div style="display:flex;flex-direction:column;gap:6px;font-size:0.82rem;">
+              <div style="color:#10B981;">✓ <strong>Clause 13.2 Satisfied:</strong> High Voltage breakdown test passed at 1250V AC for 60 seconds.</div>
+              <div style="color:#10B981;">✓ <strong>Earth Bonding Satisfied:</strong> Resistance recorded 0.04 Ω (limit <0.1 Ω).</div>
+              <div style="color:#F59E0B;">🔍 <strong>Requires Verification:</strong> Leakage current recorded 0.68 mA (within 0.75 mA limit, close to threshold).</div>
+            </div>
+          `;
+        } else {
+          res.innerHTML = `
+            <div style="font-weight:800;color:#DC2626;font-size:0.95rem;margin-bottom:8px;">📄 Document Finding: Incomplete Declaration Form</div>
+            <div style="display:flex;flex-direction:column;gap:6px;font-size:0.82rem;">
+              <div style="color:#EF4444;">❌ <strong>Clause Mismatch:</strong> Reference cited IS 302:2009 (outdated edition). Needs IS 302:2024 update.</div>
+              <div style="color:#EF4444;">❌ <strong>Missing Info:</strong> Factory quality control manager signature and stamp missing.</div>
+            </div>
+          `;
+        }
+      }, 600);
+    }
+
+    window.onload = function() {
+      loadSampleKettle();
+      const urlParams = new URLSearchParams(window.location.search);
+      if (urlParams.get('demo') === 'checklist') {
+        window.scrollTo({ top: 300, behavior: 'smooth' });
+      } else if (urlParams.get('demo') === 'doc') {
+        analyzeSampleDoc('spec');
+        window.scrollTo({ top: 700, behavior: 'smooth' });
+      }
+    };
+  </script>
+  <script src="js/command-palette.js"></script>
+  <script src="js/wizard.js"></script>
+</body>
+</html>

@@ -1,0 +1,49 @@
+{
+  "standard_number": "IS 3196 (Part 1):2006",
+  "title": "Welded Low Carbon Steel Cylinders for Low Pressure Liquefiable Gases \u2014 Part 1: Cylinders for Liquefied Petroleum Gas (LPG)",
+  "edition": "Fifth Revision",
+  "year": 2006,
+  "division": "MED",
+  "division_name": "Mechanical Engineering Division",
+  "effective_status": "CURRENT",
+  "is_mandatory": true,
+  "qco_name": "Gas Cylinders (Quality Control) Mandatory Order",
+  "scheme": "Scheme-I (ISI Mark Product Certification)",
+  "source_authority": "Bureau of Indian Standards / Petroleum and Explosives Safety Organization (PESO)",
+  "supersedes": [
+    "IS 3196 (Part 1):1992"
+  ],
+  "amendments": [
+    "Amendment No. 1 (2011)",
+    "Amendment No. 2 (2016)",
+    "Amendment No. 3 (2020)"
+  ],
+  "clauses": [
+    {
+      "clause": "6.1",
+      "title": "Hydrostatic Stretch Test & Test Pressure (2.5 MPa / 25 bar)",
+      "page": 4,
+      "text": "Clause 6.1 (Hydrostatic Test Pressure): Every welded domestic LPG cylinder (e.g. 14.2 kg LPG capacity) shall be subjected to a hydrostatic test pressure of not less than 2.5 MPa (25 kgf/cm\u00b2 / 25 bar). Under the volumetric expansion test, permanent volumetric expansion shall NOT exceed 10% of total expansion at test pressure.",
+      "keywords": [
+        "lpg cylinder",
+        "hydrostatic test 25 bar",
+        "2.5 mpa",
+        "volumetric stretch 10%",
+        "is 3196",
+        "peso"
+      ]
+    },
+    {
+      "clause": "8.2",
+      "title": "Hydrostatic Bursting Pressure (Minimum 4.5 MPa / 45 bar)",
+      "page": 7,
+      "text": "Clause 8.2 (Hydraulic Bursting Pressure Test): Sample cylinders selected from each batch of 200 cylinders shall be pressurized to destruction. Minimum bursting pressure shall not be less than 4.5 MPa (45 kgf/cm\u00b2 / 45 bar) or 2.25 times the test pressure.",
+      "keywords": [
+        "burst pressure 45 bar",
+        "4.5 mpa",
+        "lpg burst test",
+        "is 3196"
+      ]
+    }
+  ]
+}

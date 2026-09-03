@@ -1,0 +1,383 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>BIS Trust Copilot — Verified AI for Indian Standards, Compliance & Certification</title>
+  
+  <!-- Fonts & Icons -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+  
+  <!-- CSS -->
+  <link rel="stylesheet" href="css/style.css" />
+  <link rel="stylesheet" href="css/command-palette.css" />
+  
+  <!-- Theme Script -->
+  <script src="js/theme.js"></script>
+</head>
+<body>
+
+  <!-- ================= TOP GOV HEADER ================= -->
+  <div class="gov-top-bar">
+    <div class="gov-top-left">
+      <span class="gov-emblem-text">🇮🇳 <strong>GOVERNMENT OF INDIA</strong> | Ministry of Consumer Affairs, Food & Public Distribution</span>
+    </div>
+    <div class="gov-top-right">
+      <a href="https://www.bis.gov.in" target="_blank">Official Portal</a>
+      <span>|</span>
+      <a href="https://www.services.bis.gov.in" target="_blank">Manakonline (e-BIS)</a>
+      <span>|</span>
+      <a href="verify.html">BIS CARE</a>
+      <span>|</span>
+      <select class="lang-selector" id="langToggle">
+        <option value="en">English</option>
+        <option value="hi">हिंदी (Hindi)</option>
+      </select>
+    </div>
+  </div>
+
+  <!-- ================= MAIN NAVIGATION ================= -->
+  <header class="main-header">
+    <div class="header-inner">
+      <div class="brand-section">
+        <a href="index.html" style="display:flex;align-items:center;gap:12px;">
+          <div class="brand-logo-badge">
+            <i class="fas fa-landmark"></i>
+          </div>
+          <div class="brand-titles">
+            <div class="brand-main">
+              BIS Trust Copilot <span class="gemini-pill"><i class="fas fa-shield-halved"></i> Compliance Copilot</span>
+            </div>
+            <div class="brand-sub">भारतीय मानक ब्यूरो • Bureau of Indian Standards (Govt. of India)</div>
+          </div>
+        </a>
+      </div>
+
+      <nav class="nav-menu">
+        <a href="index.html" class="nav-link active"><i class="fas fa-home"></i> Home</a>
+        <a href="copilot.html" class="nav-link"><i class="fas fa-industry"></i> Industry Copilot</a>
+        <a href="chat.html" class="nav-link"><i class="fas fa-comments"></i> Ask the Standard</a>
+        <a href="knowledge-graph.html" class="nav-link"><i class="fas fa-diagram-project"></i> Knowledge Graph</a>
+        <a href="consumer.html" class="nav-link"><i class="fas fa-user-shield"></i> Consumer Mode</a>
+        <a href="verify.html" class="nav-link"><i class="fas fa-qrcode"></i> Scan & Verify</a>
+      </nav>
+
+      <div class="nav-actions">
+        <button class="theme-toggle-btn" id="themeToggleBtn" onclick="toggleTheme()" title="Toggle Dark/Light Mode" aria-label="Toggle Theme">
+          <i class="fas fa-moon"></i>
+        </button>
+        <a href="copilot.html" class="btn-ai-launch">
+          <i class="fas fa-sparkles"></i> Launch Copilot
+        </a>
+        <button class="btn-settings-icon" onclick="openSettingsModal()" title="System Configuration">
+          <i class="fas fa-gear"></i>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- ================= SIH GUIDED DEMO MODE BANNER ================= -->
+  <div class="sih-demo-banner" style="background:linear-gradient(90deg, #1E1B4B 0%, #312E81 50%, #4338CA 100%);color:white;padding:10px 1.5rem;border-bottom:1px solid rgba(255,255,255,0.15);">
+    <div style="max-width:1400px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px;font-size:0.85rem;">
+      <div style="display:flex;align-items:center;gap:10px;font-weight:700;">
+        <span style="background:#F59E0B;color:#0F172A;padding:2px 8px;border-radius:4px;font-size:0.75rem;text-transform:uppercase;">SIH 2026 Judging Demo</span>
+        <span><i class="fas fa-play-circle"></i> 3-5 Minute Step-by-Step Presentation Script:</span>
+      </div>
+      <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;">
+        <a href="copilot.html?demo=1" style="background:rgba(255,255,255,0.15);color:white;padding:4px 10px;border-radius:20px;font-size:0.78rem;font-weight:600;border:1px solid rgba(255,255,255,0.3);">1. Industry Workspace</a>
+        <a href="copilot.html?demo=checklist" style="background:rgba(255,255,255,0.15);color:white;padding:4px 10px;border-radius:20px;font-size:0.78rem;font-weight:600;border:1px solid rgba(255,255,255,0.3);">2. Readiness Score & Checklist</a>
+        <a href="copilot.html?demo=doc" style="background:rgba(255,255,255,0.15);color:white;padding:4px 10px;border-radius:20px;font-size:0.78rem;font-weight:600;border:1px solid rgba(255,255,255,0.3);">3. Document Analyzer</a>
+        <a href="knowledge-graph.html" style="background:rgba(255,255,255,0.15);color:white;padding:4px 10px;border-radius:20px;font-size:0.78rem;font-weight:600;border:1px solid rgba(255,255,255,0.3);">4. Knowledge Graph & Compare</a>
+        <a href="consumer.html" style="background:rgba(255,255,255,0.15);color:white;padding:4px 10px;border-radius:20px;font-size:0.78rem;font-weight:600;border:1px solid rgba(255,255,255,0.3);">5. Consumer Mode (Hinglish)</a>
+        <a href="verify.html" style="background:rgba(255,255,255,0.15);color:white;padding:4px 10px;border-radius:20px;font-size:0.78rem;font-weight:600;border:1px solid rgba(255,255,255,0.3);">6. Scan & Verify OCR</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- ================= HERO SECTION ================= -->
+  <section class="hero-wrapper">
+    <div class="hero-pattern"></div>
+    <div class="hero-container">
+      <div class="hero-badge-pill">
+        <span class="pulse-dot"></span>
+        <span>BIS Compliance Intelligence Platform • SIH 2026</span>
+      </div>
+      
+      <h1 class="hero-title">
+        Transforming Complex Indian Standards into <br />
+        <span class="text-gradient">Actionable Compliance Intelligence for India</span>
+      </h1>
+      
+      <p class="hero-desc">
+        Not just a chatbot — an intelligent BIS compliance copilot that grounds Indian Standards (IS), Quality Control Orders (QCOs), and testing requirements into step-by-step readiness for MSMEs, manufacturers, and consumers.
+      </p>
+
+      <!-- Hero CTA Buttons -->
+      <div style="display:flex;align-items:center;justify-content:center;gap:12px;margin-bottom:2rem;flex-wrap:wrap;">
+        <a href="copilot.html" style="background:linear-gradient(135deg, #2563EB 0%, #1D4ED8 100%);color:white;padding:12px 24px;border-radius:var(--radius-full);font-weight:700;font-size:0.95rem;box-shadow:0 4px 14px rgba(37,99,235,0.35);display:inline-flex;align-items:center;gap:8px;">
+          <i class="fas fa-clipboard-check"></i> Check My Product Compliance
+        </a>
+        <button onclick="openComplianceWizard()" style="background:linear-gradient(135deg, #10B981 0%, #059669 100%);color:white;padding:12px 24px;border-radius:var(--radius-full);font-weight:700;font-size:0.95rem;border:none;cursor:pointer;box-shadow:0 4px 14px rgba(16,185,129,0.35);display:inline-flex;align-items:center;gap:8px;">
+          <i class="fas fa-calculator"></i> ISI Wizard & Fee Calculator
+        </button>
+        <button class="cmd-palette-trigger" style="background:rgba(255,255,255,0.08);color:#F8FAFC;padding:12px 20px;border-radius:var(--radius-full);font-weight:600;font-size:0.95rem;border:1px solid rgba(255,255,255,0.15);cursor:pointer;display:inline-flex;align-items:center;gap:8px;">
+          <i class="fas fa-search" style="color:#60A5FA;"></i> Search (Ctrl + K)
+        </button>
+      </div>
+        <a href="chat.html" style="background:var(--slate-100);color:var(--gov-navy);padding:12px 22px;border-radius:var(--radius-full);font-weight:700;font-size:0.95rem;border:1.5px solid var(--border-color);display:inline-flex;align-items:center;gap:8px;">
+          <i class="fas fa-magnifying-glass"></i> Ask the Standard
+        </a>
+        <a href="knowledge-graph.html" style="background:var(--slate-100);color:var(--gov-navy);padding:12px 22px;border-radius:var(--radius-full);font-weight:700;font-size:0.95rem;border:1.5px solid var(--border-color);display:inline-flex;align-items:center;gap:8px;">
+          <i class="fas fa-diagram-project"></i> Explore Knowledge Graph
+        </a>
+        <a href="verify.html" style="background:var(--slate-100);color:var(--gov-navy);padding:12px 22px;border-radius:var(--radius-full);font-weight:700;font-size:0.95rem;border:1.5px solid var(--border-color);display:inline-flex;align-items:center;gap:8px;">
+          <i class="fas fa-qrcode"></i> Verify Product Marking
+        </a>
+      </div>
+
+      <!-- Master Search Bar -->
+      <div class="master-search-card">
+        <div class="search-icon-box">
+          <i class="fas fa-magnifying-glass"></i>
+        </div>
+        <input 
+          type="text" 
+          id="masterHomeInput" 
+          class="master-search-input" 
+          placeholder='Enter product or question (e.g. "Electric Kettle safety", "IS 4151 helmet", "IS 694 wire")'
+          onkeydown="if(event.key === 'Enter') executeHomeSearch()"
+        />
+        <button class="chat-tool-btn home-mic-btn" id="homeMicBtn" onclick="toggleVoiceInput('home')" title="Bol kar search karein (Voice Input)" style="margin-right:4px;">
+          <i class="fas fa-microphone"></i>
+        </button>
+        <button class="btn-master-ask" onclick="executeHomeSearch()">
+          <i class="fas fa-arrow-right"></i> Search Standard
+        </button>
+      </div>
+
+      <!-- Quick Suggestion Chips -->
+      <div class="query-suggestions">
+        <span class="suggestion-label">Popular Standards:</span>
+        <button class="sugg-chip" onclick="populateHomeSearch('IS 4151:2015 Protective Helmets specification')">🪖 Two-Wheeler Helmets (IS 4151)</button>
+        <button class="sugg-chip" onclick="populateHomeSearch('IS 694:2010 PVC Insulated Electric Cables')">⚡ Electrical Cables (IS 694)</button>
+        <button class="sugg-chip" onclick="populateHomeSearch('IS 1786:2008 TMT Steel Bars for Construction')">🏗️ TMT Steel Bars (IS 1786)</button>
+        <button class="sugg-chip" onclick="populateHomeSearch('IS 9873 Safety Aspects for Children Toys')">🧸 Toy Safety (IS 9873)</button>
+        <button class="sugg-chip" onclick="populateHomeSearch('Step by step procedure for BIS Scheme-I license')">📋 How to Apply for ISI Mark</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= METRICS STRIP ================= -->
+  <section class="metrics-strip">
+    <div class="metrics-container">
+      <div class="metric-item">
+        <div class="metric-icon-wrap"><i class="fas fa-book-open"></i></div>
+        <div>
+          <div class="metric-value">22,000+</div>
+          <div class="metric-caption">Indian Standards Formulated</div>
+        </div>
+      </div>
+      <div class="metric-item">
+        <div class="metric-icon-wrap"><i class="fas fa-industry"></i></div>
+        <div>
+          <div class="metric-value">6.3 Cr+</div>
+          <div class="metric-caption">MSMEs & Startups Supported</div>
+        </div>
+      </div>
+      <div class="metric-item">
+        <div class="metric-icon-wrap"><i class="fas fa-certificate"></i></div>
+        <div>
+          <div class="metric-value">54,000+</div>
+          <div class="metric-caption">Active ISI Licences in Force</div>
+        </div>
+      </div>
+      <div class="metric-item">
+        <div class="metric-icon-wrap"><i class="fas fa-bolt"></i></div>
+        <div>
+          <div class="metric-value">&lt; 3 Sec</div>
+          <div class="metric-caption">AI Query Retrieval Speed</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= CORE BIS SERVICE MODULES ================= -->
+  <section class="section-wrapper">
+    <div class="section-head">
+      <span class="section-tag">Key Modules</span>
+      <h2 class="section-title">Comprehensive BIS Digital Ecosystem</h2>
+      <p class="section-subtitle">Designed to streamline standard conformity for manufacturers and safeguard consumer rights across India.</p>
+    </div>
+
+    <div class="portals-grid">
+      <!-- Portal 1 -->
+      <div class="portal-card" onclick="window.location.href='chat.html'">
+        <div class="portal-icon blue"><i class="fas fa-brain"></i></div>
+        <h3>Intelligent Standards Assistant</h3>
+        <p>Natural language reasoning to identify applicable IS codes, test parameters, QCO mandatory orders, and in-house lab setup requirements.</p>
+        <div class="portal-footer">
+          <span class="portal-action-link">Open Assistant <i class="fas fa-arrow-right"></i></span>
+        </div>
+      </div>
+
+      <!-- Portal 2 -->
+      <div class="portal-card" onclick="window.location.href='verify.html'">
+        <div class="portal-icon green"><i class="fas fa-shield-check"></i></div>
+        <h3>Real-time ISI & HUID Verifier</h3>
+        <p>Instant verification of 7-digit CM/L numbers on ISI marked products and 6-digit alphanumeric Hallmark Unique ID (HUID) for gold jewellery.</p>
+        <div class="portal-footer">
+          <span class="portal-action-link">Verify Product <i class="fas fa-arrow-right"></i></span>
+        </div>
+      </div>
+
+      <!-- Portal 3 -->
+      <div class="portal-card" onclick="sessionStorage.setItem('pendingQuery', 'Explain step by step BIS Scheme-I licensing procedure and fee concessions for MSME startups'); window.location.href='chat.html'">
+        <div class="portal-icon amber"><i class="fas fa-clipboard-list-check"></i></div>
+        <h3>Manakonline Licensing Guide</h3>
+        <p>Interactive compliance roadmap for Scheme-I (ISI Mark), Scheme-IV (Foreign Manufacturers Certification), and Compulsory Registration Scheme (CRS).</p>
+        <div class="portal-footer">
+          <span class="portal-action-link">Explore Guide <i class="fas fa-arrow-right"></i></span>
+        </div>
+      </div>
+
+      <!-- Portal 4 -->
+      <div class="portal-card" onclick="sessionStorage.setItem('pendingQuery', 'How to file a formal complaint for counterfeit ISI marked goods under Section 29 of BIS Act 2016'); window.location.href='chat.html'">
+        <div class="portal-icon purple"><i class="fas fa-scale-balanced"></i></div>
+        <h3>Enforcement & Consumer Redressal</h3>
+        <p>AI-assisted legal complaint drafting for defective, substandard, or counterfeit ISI products under BIS Act 2016 and Consumer Protection Act.</p>
+        <div class="portal-footer">
+          <span class="portal-action-link">Report Violation <i class="fas fa-arrow-right"></i></span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= LIVE STANDARDS REPOSITORY PREVIEW ================= -->
+  <section class="standards-preview-section" id="standardsCatalog">
+    <div class="section-wrapper" style="padding-top:0;padding-bottom:0;">
+      <div class="section-head">
+        <span class="section-tag">Repository</span>
+        <h2 class="section-title">Key Indian Standards (IS) Master Directory</h2>
+        <p class="section-subtitle">Directly explore major mandatory standards currently enforced under Quality Control Orders.</p>
+      </div>
+
+      <div class="standards-table-wrapper">
+        <div class="standards-table-header">
+          <div style="font-weight:700;color:var(--gov-navy);font-size:1.05rem;">
+            <i class="fas fa-database"></i> Featured Indian Standards
+          </div>
+          <div class="standards-search-mini">
+            <i class="fas fa-search" style="color:var(--slate-400)"></i>
+            <input type="text" placeholder="Filter standards (e.g. Cables, Steel, Helmet)..." oninput="renderStandardsTable(this.value)" />
+          </div>
+        </div>
+
+        <table class="standards-table">
+          <thead>
+            <tr>
+              <th>IS Code</th>
+              <th>Standard Title</th>
+              <th>Sector / Category</th>
+              <th>Regulatory Status</th>
+              <th>Action</th>
+            </tr>
+          </thead>
+          <tbody id="standardsTableBody">
+            <!-- Populated via database.js / chat.js -->
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= FOOTER ================= -->
+  <footer class="main-footer">
+    <div class="footer-top">
+      <div class="footer-col">
+        <h4>Bureau of Indian Standards (BIS)</h4>
+        <p>
+          The National Standards Body of India established under the BIS Act 2016 for the harmonious development of the activities of standardization, marking, and quality certification of goods.
+        </p>
+        <div style="margin-top:14px;color:var(--gold-accent);font-size:0.85rem;font-weight:600;">
+          मानक: पथप्रदर्शक: (Standards Lead to Progress)
+        </div>
+      </div>
+
+      <div class="footer-col">
+        <h4>Government Portals</h4>
+        <ul class="footer-links">
+          <li><a href="https://www.bis.gov.in" target="_blank">BIS Official Website</a></li>
+          <li><a href="https://www.services.bis.gov.in" target="_blank">Manakonline Portal</a></li>
+          <li><a href="https://www.crsbis.in" target="_blank">CRS Portal for Electronics</a></li>
+          <li><a href="https://consumeraffairs.nic.in" target="_blank">Dept of Consumer Affairs</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-col">
+        <h4>Services & Schemes</h4>
+        <ul class="footer-links">
+          <li><a href="chat.html">Product Certification (Scheme-I)</a></li>
+          <li><a href="verify.html">Hallmarking of Gold (HUID)</a></li>
+          <li><a href="chat.html">Laboratory Recognition (LRS)</a></li>
+          <li><a href="verify.html">Consumer Grievance / BIS CARE</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-col">
+        <h4>National Helpline</h4>
+        <p>Consumer Grievance Toll Free:<br /><strong style="color:white;font-size:1.1rem;">1800-11-4000</strong></p>
+        <p style="margin-top:8px;">National Consumer Helpline: <strong>1915</strong></p>
+        <p style="margin-top:8px;">Smart India Hackathon 2026 (SIH26107)</p>
+      </div>
+    </div>
+
+    <div class="footer-bottom">
+      © 2026 Bureau of Indian Standards (BIS) • AI-powered Intelligent Assistant for Indian Standards (SIH26107) • Designed for Ministry of Consumer Affairs, Government of India
+    </div>
+  </footer>
+
+  <!-- ================= SETTINGS MODAL (DISCREET) ================= -->
+  <div class="modal-backdrop" id="settingsModal">
+    <div class="modal-card">
+      <div class="modal-header">
+        <h3><i class="fas fa-sliders"></i> Engine Configuration</h3>
+        <button onclick="closeSettingsModal()" style="background:transparent;font-size:1.2rem;color:var(--slate-400);"><i class="fas fa-xmark"></i></button>
+      </div>
+      <div class="modal-body">
+        <div class="form-group-modal">
+          <label>Google Gemini API Key (Optional)</label>
+          <input type="password" id="settingApiKey" placeholder="Enter Gemini AI Studio key (starts with AIzaSy...)" />
+          <span style="font-size:0.72rem;color:var(--slate-500);">Key is stored locally in your browser. Leave blank to use built-in MANAK-AI Standards Engine.</span>
+        </div>
+        <div class="form-group-modal">
+          <label>Language Preference</label>
+          <select id="settingLang">
+            <option value="bilingual">Bilingual (English + Hindi)</option>
+            <option value="en">English Only</option>
+            <option value="hi">हिंदी (Hindi Only)</option>
+          </select>
+        </div>
+        <div class="form-group-modal" style="margin-top:12px;">
+          <label style="display:flex;align-items:center;justify-content:space-between;cursor:pointer;font-weight:600;">
+            <span><i class="fas fa-moon" style="color:var(--gemini-purple);"></i> Dark Theme Mode</span>
+            <input type="checkbox" id="darkModeCheckbox" onchange="toggleTheme()" style="width:18px;height:18px;cursor:pointer;accent-color:var(--primary-blue);" />
+          </label>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button onclick="closeSettingsModal()" style="background:var(--slate-100);color:var(--slate-700);padding:8px 16px;border-radius:6px;font-weight:600;">Cancel</button>
+        <button onclick="saveSettings()" style="background:var(--primary-blue);color:white;padding:8px 20px;border-radius:6px;font-weight:600;">Save Configuration</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Scripts -->
+  <script src="js/database.js"></script>
+  <script src="js/chat.js"></script>
+  <script src="js/command-palette.js"></script>
+  <script src="js/wizard.js"></script>
+</body>
+</html>

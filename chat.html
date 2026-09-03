@@ -1,0 +1,1574 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
+  <title>BIS Trust Copilot — Verified AI for Indian Standards, Compliance & Certification</title>
+  
+  <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
+  <meta http-equiv="Pragma" content="no-cache" />
+  <meta http-equiv="Expires" content="0" />
+  
+  <!-- PWA Web App Manifest for Offline Mobile Installation -->
+  <link rel="manifest" href="manifest.json" />
+  <meta name="theme-color" content="#0B0F17" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+
+  <!-- Fonts & FontAwesome 6 -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Fira+Code:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+  
+  <!-- CSS -->
+  <link rel="stylesheet" href="css/style.css?v=2.4" />
+  <link rel="stylesheet" href="css/command-palette.css?v=2.4" />
+
+  <!-- PDF.js CDN for Visual Gazette Canvas Rendering -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+  
+  <!-- Tesseract.js (Client-side Neural OCR Engine) -->
+  <script src="https://cdn.jsdelivr.net/npm/tesseract.js@5/dist/tesseract.min.js"></script>
+
+  <!-- HTML2PDF CDN for Instant Grievance & MSME PDF Generation -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+
+  <!-- DOMPurify (Client-side XSS Protection for Markdown & Dynamic DOM) -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/dompurify/3.0.9/purify.min.js"></script>
+
+  <!-- ================= PHASE 4: UI STYLES (IS DISPLAY, STREAMING CURSOR, PROGRESS, ERROR UI) ================= -->
+  <style id="phase4-custom-styles">
+    /* 1. Progress Bar (Multi-Stage Loading) */
+    .chat-progress-container {
+      padding: 8px 24px 7px;
+      background: rgba(17, 24, 39, 0.8);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border-color);
+      animation: phase4FadeInDown 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+      z-index: 25;
+      transition: all 0.3s ease;
+    }
+    .progress-bar-track {
+      width: 100%;
+      height: 4px;
+      background: rgba(255, 255, 255, 0.08);
+      border-radius: 9999px;
+      overflow: hidden;
+      position: relative;
+    }
+    .progress-bar-fill {
+      height: 100%;
+      width: 0%;
+      background: linear-gradient(90deg, #3B82F6, #8B5CF6, #EC4899, #3B82F6);
+      background-size: 200% 100%;
+      border-radius: 9999px;
+      transition: width 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+      animation: phase4GradientShimmer 2s linear infinite;
+      box-shadow: 0 0 10px rgba(59, 130, 246, 0.6);
+    }
+    @keyframes phase4GradientShimmer {
+      0% { background-position: 0% 0%; }
+      100% { background-position: 200% 0%; }
+    }
+    .progress-meta-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-top: 5px;
+      font-size: 0.76rem;
+      color: var(--text-muted);
+    }
+    .progress-step-text {
+      display: flex;
+      align-items: center;
+      gap: 7px;
+      color: var(--primary-blue);
+      font-weight: 600;
+    }
+    .progress-percent {
+      font-family: 'Fira Code', monospace;
+      font-size: 0.72rem;
+      color: var(--text-subtle);
+    }
+
+    /* 2. IS Code Display Box (Positioned directly above composer input) */
+    .is-code-display-card {
+      background: linear-gradient(135deg, rgba(17, 24, 39, 0.95), rgba(15, 23, 42, 0.98));
+      border: 1px solid rgba(59, 130, 246, 0.35);
+      border-radius: var(--radius-md, 10px);
+      padding: 12px 16px;
+      margin-bottom: 10px;
+      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.45), 0 0 16px rgba(59, 130, 246, 0.15);
+      backdrop-filter: blur(14px);
+      animation: phase4SlideUp 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      position: relative;
+      overflow: hidden;
+    }
+    .is-code-display-card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; width: 4px; height: 100%;
+      background: linear-gradient(180deg, var(--primary-blue), var(--primary-purple));
+    }
+    .is-code-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 6px;
+    }
+    .is-code-badge-group {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+    .is-code-badge-pill {
+      background: rgba(59, 130, 246, 0.18);
+      border: 1px solid rgba(59, 130, 246, 0.45);
+      color: #60A5FA;
+      padding: 3px 10px;
+      border-radius: 9999px;
+      font-size: 0.8rem;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .is-code-status-tag {
+      font-size: 0.68rem;
+      font-weight: 700;
+      padding: 2px 8px;
+      border-radius: 4px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+    .is-code-status-tag.mandatory {
+      background: rgba(239, 68, 68, 0.18);
+      color: #F87171;
+      border: 1px solid rgba(239, 68, 68, 0.35);
+    }
+    .is-code-status-tag.voluntary {
+      background: rgba(16, 185, 129, 0.18);
+      color: #34D399;
+      border: 1px solid rgba(16, 185, 129, 0.35);
+    }
+    .is-code-division-tag {
+      font-size: 0.7rem;
+      color: var(--text-subtle);
+      background: rgba(255, 255, 255, 0.06);
+      padding: 2px 7px;
+      border-radius: 4px;
+    }
+    .is-code-close-btn {
+      background: transparent;
+      border: none;
+      color: var(--text-subtle);
+      cursor: pointer;
+      padding: 4px 6px;
+      font-size: 0.85rem;
+      border-radius: 4px;
+      transition: all 0.15s;
+    }
+    .is-code-close-btn:hover {
+      color: var(--text-main);
+      background: rgba(255, 255, 255, 0.08);
+    }
+    .is-code-title {
+      margin: 0 0 4px 0;
+      font-size: 0.88rem;
+      font-weight: 600;
+      color: var(--text-main);
+    }
+    .is-code-description {
+      margin: 0 0 8px 0;
+      font-size: 0.78rem;
+      color: var(--text-muted);
+      line-height: 1.4;
+    }
+    .is-code-meta-chips {
+      display: flex;
+      gap: 6px;
+      flex-wrap: wrap;
+      margin-bottom: 10px;
+    }
+    .is-code-meta-chips .meta-chip {
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid var(--border-color);
+      padding: 2px 8px;
+      border-radius: 4px;
+      font-size: 0.7rem;
+      color: var(--text-muted);
+      display: flex;
+      align-items: center;
+      gap: 5px;
+    }
+    .is-code-actions {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+    .btn-is-action {
+      font-size: 0.74rem;
+      font-weight: 600;
+      padding: 5px 12px;
+      border-radius: 6px;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      text-decoration: none;
+      transition: all 0.15s;
+    }
+    .btn-is-action.primary {
+      background: var(--primary-blue);
+      color: #fff;
+      border: none;
+    }
+    .btn-is-action.primary:hover {
+      background: #2563EB;
+      transform: translateY(-1px);
+    }
+    .btn-is-action.secondary {
+      background: rgba(255, 255, 255, 0.08);
+      color: var(--text-main);
+      border: 1px solid var(--border-color);
+    }
+    .btn-is-action.secondary:hover {
+      background: rgba(255, 255, 255, 0.14);
+      transform: translateY(-1px);
+    }
+    .btn-is-action.copy {
+      background: transparent;
+      color: var(--text-muted);
+      border: 1px dashed var(--border-color);
+    }
+    .btn-is-action.copy:hover {
+      color: var(--text-main);
+      border-color: var(--text-subtle);
+    }
+
+    /* 3. Real-Time Typing Indicator & Streaming Cursor */
+    .streaming-cursor {
+      display: inline-block;
+      width: 7px;
+      height: 1.15em;
+      background: #3B82F6;
+      margin-left: 3px;
+      vertical-align: -0.15em;
+      border-radius: 2px;
+      animation: modernCursorBlink 0.75s infinite cubic-bezier(0.4, 0, 0.2, 1);
+      box-shadow: 0 0 8px rgba(59, 130, 246, 0.8), 0 0 16px rgba(139, 92, 246, 0.4);
+    }
+    @keyframes modernCursorBlink {
+      0%, 100% { opacity: 1; transform: scaleY(1); }
+      50% { opacity: 0.15; transform: scaleY(0.7); }
+    }
+    .typing-status-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 5px 12px;
+      background: rgba(17, 24, 39, 0.9);
+      border: 1px solid rgba(59, 130, 246, 0.35);
+      border-radius: 9999px;
+      font-size: 0.75rem;
+      color: var(--text-muted);
+      margin: 6px 16px;
+      backdrop-filter: blur(8px);
+      animation: phase4FadeIn 0.25s ease-out;
+    }
+    .typing-dots {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+    .typing-dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: var(--primary-blue);
+      animation: phase4DotPulse 1.4s infinite ease-in-out both;
+    }
+    .typing-dot:nth-child(1) { animation-delay: -0.32s; }
+    .typing-dot:nth-child(2) { animation-delay: -0.16s; }
+    @keyframes phase4DotPulse {
+      0%, 80%, 100% { transform: scale(0.6); opacity: 0.35; }
+      40% { transform: scale(1.15); opacity: 1; }
+    }
+
+    /* 4. Error Handling Banner (Better UI) */
+    .chat-error-banner {
+      padding: 8px 16px 12px;
+      animation: phase4SlideUp 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+      z-index: 20;
+    }
+    .error-banner-inner {
+      background: linear-gradient(135deg, rgba(239, 68, 68, 0.12), rgba(17, 24, 39, 0.95));
+      border: 1px solid rgba(239, 68, 68, 0.4);
+      border-radius: var(--radius-md, 10px);
+      padding: 12px 16px;
+      display: flex;
+      gap: 12px;
+      align-items: flex-start;
+      box-shadow: 0 4px 18px rgba(239, 68, 68, 0.15);
+      backdrop-filter: blur(12px);
+      position: relative;
+    }
+    .error-badge-icon {
+      width: 32px;
+      height: 32px;
+      border-radius: 8px;
+      background: rgba(239, 68, 68, 0.2);
+      color: #EF4444;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1rem;
+      flex-shrink: 0;
+    }
+    .error-text-content {
+      flex: 1;
+    }
+    .error-header-row {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 4px;
+    }
+    .error-title {
+      color: #F87171;
+      font-size: 0.88rem;
+      font-weight: 700;
+    }
+    .error-status-badge {
+      background: rgba(239, 68, 68, 0.2);
+      color: #FCA5A5;
+      font-size: 0.68rem;
+      padding: 1px 6px;
+      border-radius: 4px;
+      font-weight: 600;
+      text-transform: uppercase;
+    }
+    .error-description {
+      font-size: 0.8rem;
+      color: var(--text-muted);
+      margin: 0 0 10px 0;
+      line-height: 1.4;
+    }
+    .error-actions-group {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+    .btn-error-pill {
+      font-size: 0.74rem;
+      font-weight: 600;
+      padding: 4px 11px;
+      border-radius: 6px;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      text-decoration: none;
+      transition: all 0.15s;
+    }
+    .btn-error-pill.primary {
+      background: #EF4444;
+      color: white;
+      border: none;
+    }
+    .btn-error-pill.primary:hover {
+      background: #DC2626;
+    }
+    .btn-error-pill.secondary {
+      background: rgba(255, 255, 255, 0.08);
+      color: var(--text-main);
+      border: 1px solid var(--border-color);
+    }
+    .btn-error-pill.secondary:hover {
+      background: rgba(255, 255, 255, 0.15);
+    }
+    .btn-error-pill.dismiss {
+      background: transparent;
+      color: var(--text-subtle);
+      border: none;
+    }
+    .btn-error-pill.dismiss:hover {
+      color: var(--text-main);
+    }
+    .error-close-cross {
+      background: transparent;
+      border: none;
+      color: var(--text-subtle);
+      cursor: pointer;
+      padding: 3px 6px;
+      font-size: 0.85rem;
+    }
+    .error-close-cross:hover {
+      color: var(--text-main);
+    }
+
+    @keyframes phase4FadeInDown {
+      from { opacity: 0; transform: translateY(-8px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes phase4SlideUp {
+      from { opacity: 0; transform: translateY(12px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes phase4FadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ================= TOP GOV HEADER ================= -->
+  <div class="gov-top-bar">
+    <div class="gov-emblem-badge">
+      <span>🇮🇳 <strong>SIH 2026 PROTOTYPE</strong> • Problem Statement SIH26107 (Ministry of Consumer Affairs / BIS Research Copilot)</span>
+      <span style="color:var(--border-color);">|</span>
+      <span>Research Sandbox • Verified Evidence Grounding</span>
+    </div>
+    <div class="gov-nav-links">
+      <button onclick="openWhyUsModal()" style="background:rgba(59,130,246,0.15);color:var(--primary-blue);border:1px solid rgba(59,130,246,0.3);padding:2px 8px;border-radius:4px;font-size:0.72rem;font-weight:700;display:flex;align-items:center;gap:4px;">
+        <i class="fas fa-sparkles"></i> Why Us vs BIS CARE
+      </button>
+      <span>•</span>
+      <a href="index.html">Portal Home</a>
+      <span>•</span>
+      <a href="copilot.html">MSME Copilot</a>
+      <span>•</span>
+      <a href="knowledge-graph.html">Knowledge Graph</a>
+      <span>•</span>
+      <a href="consumer.html">Consumer Rights</a>
+      <span>•</span>
+      <a href="verify.html">Scan & Verify</a>
+    </div>
+  </div>
+
+  <!-- Mobile Sidebar Backdrop Overlay -->
+  <div class="sidebar-backdrop" id="sidebarBackdrop" onclick="toggleSidebar(false)"></div>
+
+  <!-- ================= MASTER APP WORKSPACE ================= -->
+  <div class="app-master-container">
+
+    <!-- ================= REDESIGNED MANAK-AI SIDEBAR ================= -->
+    <aside class="app-sidebar" id="appSidebar" aria-label="MANAK-AI Navigation">
+      <!-- 1. Top Brand Area -->
+      <div class="sidebar-header">
+        <a href="index.html" class="sidebar-brand-box" title="MANAK-AI Portal Home">
+          <div class="brand-icon-shield">
+            <i class="fas fa-shield-halved"></i>
+          </div>
+          <div class="brand-name-wrap">
+            <span class="brand-name-text">Trust Copilot</span>
+            <span class="brand-badge-ai">Verified AI</span>
+          </div>
+        </a>
+        <button class="btn-sidebar-collapse" id="btnSidebarCollapse" onclick="toggleSidebar()" title="Collapse Sidebar (Ctrl + \)" aria-label="Toggle Sidebar">
+          <i class="fas fa-bars-staggered"></i>
+        </button>
+      </div>
+
+      <!-- 2. Primary Actions -->
+      <div class="sidebar-primary-actions">
+        <button class="btn-new-conversation" onclick="startNewConversation()" title="New Conversation (Ctrl + N)">
+          <i class="fas fa-plus"></i>
+          <span class="btn-text">New Conversation</span>
+        </button>
+        <button class="btn-sidebar-search" onclick="openCommandPalette()" title="Search Standards, Tools & Actions (Ctrl + K)">
+          <div class="search-left">
+            <i class="fas fa-magnifying-glass"></i>
+            <span class="btn-text">Search</span>
+          </div>
+          <kbd class="shortcut-badge">Ctrl K</kbd>
+        </button>
+      </div>
+
+      <!-- 3. Core Navigation (3 Clean Destinations) -->
+      <nav class="sidebar-nav-section" aria-label="Core Navigation">
+        <button class="sidebar-nav-item active" id="navItemChat" onclick="activateNavTab('chat')" title="Active Chat Assistant">
+          <i class="fas fa-message"></i>
+          <span class="nav-label">Chat</span>
+        </button>
+        <button class="sidebar-nav-item" id="navItemDocuments" onclick="activateNavTab('documents'); navigateToDocuments();" title="Gazette Document Studio & Evidence">
+          <i class="fas fa-file-lines"></i>
+          <span class="nav-label">Documents</span>
+        </button>
+        <button class="sidebar-nav-item" id="navItemTools" onclick="activateNavTab('tools'); openToolsModal();" title="Centralized Verification & Compliance Tools">
+          <i class="fas fa-screwdriver-wrench"></i>
+          <span class="nav-label">Tools</span>
+        </button>
+      </nav>
+
+      <!-- 4. Conversations List (Main Scrollable Region) -->
+      <div class="sidebar-conversations-wrapper">
+        <div class="sidebar-section-header">
+          <span class="section-title">CONVERSATIONS</span>
+          <button class="btn-see-all" onclick="openHistoryDrawer()" title="See all past conversations">See all</button>
+        </div>
+        <div class="sidebar-conversations-scroll" id="dynamicConversationsList" role="list">
+          <!-- Populated dynamically via renderDynamicHistory() -->
+        </div>
+      </div>
+
+      <!-- 5. Bottom User & Settings Area -->
+      <div class="sidebar-bottom-area">
+        <div class="sidebar-user-card" id="sidebarUserCard" onclick="toggleUserMenu(event)" role="button" aria-haspopup="true" aria-expanded="false" title="User Profile & Settings">
+          <div class="user-avatar-circle" id="sidebarUserAvatar">M</div>
+          <div class="user-info-text">
+            <span class="user-display-name" id="sidebarUserName">Madhav Gupta</span>
+            <span class="user-display-role" id="sidebarUserRole">Consumer Mode</span>
+          </div>
+          <button class="btn-user-more" aria-label="User Options" onclick="event.stopPropagation(); toggleUserMenu(event);">
+            <i class="fas fa-ellipsis-vertical"></i>
+          </button>
+        </div>
+
+        <!-- User Popup Menu -->
+        <div class="user-popup-menu" id="userPopupMenu">
+          <div class="popup-menu-header">
+            <span class="popup-user-title">MANAK-AI</span>
+          </div>
+          <button class="popup-menu-item" onclick="openSettingsModal(); closeUserMenu();">
+            <i class="fas fa-gear"></i>
+            <span>Settings</span>
+          </button>
+          <button class="popup-menu-item" onclick="openToolsModal(); closeUserMenu();">
+            <i class="fas fa-screwdriver-wrench"></i>
+            <span>Tools Hub</span>
+          </button>
+          <button class="popup-menu-item" onclick="toggleRoleDropdown(); closeUserMenu();">
+            <i class="fas fa-user-gear"></i>
+            <span>Switch Role Persona</span>
+          </button>
+          <button class="popup-menu-item" onclick="toggleTheme(); closeUserMenu();">
+            <i class="fas fa-circle-half-stroke"></i>
+            <span>Toggle Theme</span>
+          </button>
+          <button class="popup-menu-item" onclick="openWhyUsModal(); closeUserMenu();">
+            <i class="fas fa-circle-question"></i>
+            <span>Why Us vs BIS CARE</span>
+          </button>
+          <div class="popup-menu-divider"></div>
+          <button class="popup-menu-item danger" onclick="confirmClearAllConversations(); closeUserMenu();">
+            <i class="fas fa-trash-can"></i>
+            <span>Clear Conversations</span>
+          </button>
+        </div>
+      </div>
+    </aside>
+
+    <!-- ================= MAIN CHAT WORKSPACE ================= -->
+    <main class="main-chat-workspace">
+      
+      <!-- Top Utility Header (Clean & Uncluttered) -->
+      <div class="workspace-top-nav">
+        <div class="nav-left-controls">
+          <button class="btn-sidebar-toggle-mobile" onclick="toggleSidebar()" title="Toggle Sidebar">
+            <i class="fas fa-bars"></i>
+          </button>
+          <div class="nav-active-context" id="navActiveContext">
+            <span class="context-brand-title">MANAK-AI</span>
+            <span class="context-divider">/</span>
+            <span class="context-session-name" id="currentSessionDisplayTitle">Indian Standards Assistant</span>
+          </div>
+        </div>
+
+        <div class="nav-right-controls">
+          <!-- Role / Persona Selector (Consumer / MSME / Inspector) -->
+          <div class="role-selector-box">
+            <button class="btn-role-trigger" onclick="toggleRoleDropdown()" title="Switch User Role Persona">
+              <i class="fas fa-user-gear" style="color:var(--gold-accent);"></i>
+              <span id="selectedRoleLabel">Consumer Mode</span>
+              <i class="fas fa-chevron-down" style="font-size:0.65rem;color:var(--text-subtle);"></i>
+            </button>
+            <div class="model-dropdown-menu" id="roleDropdown">
+              <div class="model-option-item selected" onclick="selectUserRole('consumer', 'Consumer Mode')">
+                <strong>👤 Consumer Mode</strong>
+                <small>Product Safety, HUID Hallmarking & Grievances</small>
+              </div>
+              <div class="model-option-item" onclick="selectUserRole('msme', 'MSME Manufacturer Mode')">
+                <strong>🏭 MSME Manufacturer Mode</strong>
+                <small>STI Auditing, 50% Subsidy & Scheme-I Roadmaps</small>
+              </div>
+              <div class="model-option-item" onclick="selectUserRole('inspector', 'BIS Inspector Mode')">
+                <strong>🏛️ BIS Inspector Mode</strong>
+                <small>Market Surveillance, Seizure Rules & Lab Audits</small>
+              </div>
+            </div>
+          </div>
+
+          <!-- Status Indicator Pill -->
+          <div class="system-status-pill" title="AI Inference Engine Online">
+            <div class="status-dot-pulse"></div>
+            <span class="status-pill-text">Online</span>
+          </div>
+
+          <!-- Settings Modal Button -->
+          <button class="btn-nav-utility icon-only" onclick="openSettingsModal()" title="Settings & Preferences">
+            <i class="fas fa-gear"></i>
+          </button>
+        </div>
+      </div>
+
+
+
+      <!-- Messages Stream -->
+      <div class="chat-scroll-stream" id="chatMessages">
+
+        <!-- ================= MODERN CLEAN HOME / WELCOME SCREEN ================= -->
+        <div class="workspace-empty-hero" id="chatWelcomeBox">
+          <div class="hero-brand-mark">
+            <div class="brand-icon-shield large">
+              <i class="fas fa-shield-halved"></i>
+            </div>
+            <h1 class="empty-hero-title">BIS Trust Copilot</h1>
+            <p class="empty-hero-sub">Verified AI for Indian Standards, Compliance & Certification</p>
+          </div>
+
+          <!-- Central Guidance Hint -->
+          <div class="hero-guidance-box" onclick="focusComposerInput()">
+            <i class="fas fa-magnifying-glass"></i>
+            <span>Ask anything about BIS, Indian Standards, certification or compliance...</span>
+          </div>
+
+          <!-- 3 Primary Action Pills -->
+          <div class="hero-primary-actions-row">
+            <button class="hero-action-pill primary" onclick="focusComposerInput()">
+              <i class="fas fa-comment-dots"></i>
+              <span>Ask Trust Copilot</span>
+            </button>
+            <button class="hero-action-pill" onclick="openToolsModal('verify')">
+              <i class="fas fa-qrcode"></i>
+              <span>Verify a Product</span>
+            </button>
+            <button class="hero-action-pill" onclick="triggerDocumentAnalysis()">
+              <i class="fas fa-file-invoice"></i>
+              <span>Analyze a Document</span>
+            </button>
+          </div>
+
+          <!-- Secondary Quick Topic Chips Row -->
+          <div class="hero-secondary-chips-row">
+            <span class="chips-label">Popular:</span>
+            <button class="hero-chip" onclick="sendPredefinedQuery('What are the mandatory testing requirements for IS 4151 helmets?')">
+              <i class="fas fa-hard-hat"></i> Standards (IS 4151)
+            </button>
+            <button class="hero-chip" onclick="sendPredefinedQuery('List mandatory Quality Control Orders (QCOs) enforcement timelines for 2026.')">
+              <i class="fas fa-gavel"></i> QCOs
+            </button>
+            <button class="hero-chip" onclick="openToolsModal('hallmarking')">
+              <i class="fas fa-ring"></i> Hallmarking
+            </button>
+            <button class="hero-chip" onclick="openToolsModal('compliance')">
+              <i class="fas fa-clipboard-check"></i> Compliance
+            </button>
+          </div>
+        </div>
+
+      </div>
+
+
+
+      <!-- ================= PHASE 4: ERROR HANDLING (BETTER UI BANNER) ================= -->
+      <div class="chat-error-banner" id="chatErrorBanner" style="display:none;">
+        <div class="error-banner-inner">
+          <div class="error-badge-icon">
+            <i class="fas fa-triangle-exclamation"></i>
+          </div>
+          <div class="error-text-content">
+            <div class="error-header-row">
+              <strong class="error-title" id="chatErrorTitle">AI Inference Notice</strong>
+              <span class="error-status-badge" id="chatErrorStatusBadge">Attention Required</span>
+            </div>
+            <p class="error-description" id="chatErrorDesc">
+              An unexpected issue occurred while grounding the response. Please verify your connection or try again.
+            </p>
+            <div class="error-actions-group">
+              <button class="btn-error-pill primary" id="btnErrorRetry" onclick="retryLastFailedQuery()">
+                <i class="fas fa-rotate-right"></i> Retry Query
+              </button>
+              <a class="btn-error-pill secondary" href="https://standardsbis.bsbedge.com" target="_blank" rel="noopener">
+                <i class="fas fa-arrow-up-right-from-square"></i> Official BIS Portal
+              </a>
+              <button class="btn-error-pill dismiss" onclick="dismissChatError()">
+                Dismiss
+              </button>
+            </div>
+          </div>
+          <button class="error-close-cross" onclick="dismissChatError()" title="Dismiss">
+            <i class="fas fa-xmark"></i>
+          </button>
+        </div>
+      </div>
+
+      <!-- ================= FLOATING COMPOSER ($100M SAAS INPUT) ================= -->
+      <div class="chat-composer-outer">
+        <div class="chat-composer-container">
+
+          <!-- ================= PHASE 4: IS CODE DISPLAY BOX (CHAT KE NICHE) ================= -->
+          <div class="is-code-display-card" id="isCodeDisplayCard" style="display:none;">
+            <div class="is-code-header">
+              <div class="is-code-badge-group">
+                <span class="is-code-badge-pill">
+                  <i class="fas fa-shield-halved"></i> <strong id="isCodeDisplayNumber">IS 4151:2015</strong>
+                </span>
+                <span class="is-code-status-tag mandatory" id="isCodeStatusTag">MANDATORY QCO</span>
+                <span class="is-code-division-tag" id="isCodeDivisionTag">TED • Transport Engineering</span>
+              </div>
+              <button class="is-code-close-btn" onclick="toggleISCodeDisplay(false)" title="Minimize Standards Card">
+                <i class="fas fa-xmark"></i>
+              </button>
+            </div>
+            
+            <div class="is-code-body">
+              <h4 class="is-code-title" id="isCodeDisplayTitle">Two-Wheeler Protective Helmets — Specification</h4>
+              <p class="is-code-description" id="isCodeDisplayDesc">
+                Mandatory Quality Control Order enforced by MoRTH. Peak acceleration ≤ 300g, retention drop height 3.0m on steel anvil.
+              </p>
+              <div class="is-code-meta-chips" id="isCodeMetaChips">
+                <span class="meta-chip"><i class="fas fa-gavel"></i> MoRTH Statutory Order</span>
+                <span class="meta-chip"><i class="fas fa-certificate"></i> Scheme-I (ISI Mark)</span>
+                <span class="meta-chip"><i class="fas fa-flask"></i> Drop Anvil Test (Cl. 7.4)</span>
+              </div>
+            </div>
+
+            <div class="is-code-actions">
+              <a class="btn-is-action primary" id="isCodePortalLink" href="https://standardsbis.bsbedge.com" target="_blank" rel="noopener">
+                <i class="fas fa-arrow-up-right-from-square"></i> Open on BIS Standards Portal
+              </a>
+              <button class="btn-is-action secondary" id="isCodeStudioBtn" onclick="openStandardInStudio()">
+                <i class="fas fa-book-open"></i> Open in Gazette Studio
+              </button>
+              <button class="btn-is-action copy" onclick="copyISCitation()" title="Copy Standard Citation">
+                <i class="fas fa-copy"></i> Copy Citation
+              </button>
+            </div>
+          </div>
+          
+          <!-- Compact Quick Action Strip Above Input -->
+          <div class="composer-quick-actions-strip">
+            <button class="composer-chip-btn" onclick="openToolsModal('verify')">
+              <i class="fas fa-qrcode"></i> <span>Verify</span>
+            </button>
+            <button class="composer-chip-btn" onclick="triggerDocumentAnalysis()">
+              <i class="fas fa-file-lines"></i> <span>Analyze Document</span>
+            </button>
+            
+            <div class="composer-tools-dropdown-wrap">
+              <button class="composer-chip-btn dropdown" onclick="toggleComposerToolsMenu(event)">
+                <i class="fas fa-screwdriver-wrench"></i> <span>Tools</span> <i class="fas fa-chevron-down" style="font-size:0.6rem;"></i>
+              </button>
+              <div class="composer-tools-menu" id="composerToolsMenu">
+                <button class="composer-menu-item" onclick="executeInStreamTool('verify_cml')">
+                  <i class="fas fa-certificate" style="color:var(--status-green);"></i>
+                  <span>CM/L License Lookup</span>
+                </button>
+                <button class="composer-menu-item" onclick="executeInStreamTool('huid_calc')">
+                  <i class="fas fa-ring" style="color:var(--gold-accent);"></i>
+                  <span>HUID Gold Purity Calculator</span>
+                </button>
+                <button class="composer-menu-item" onclick="executeInStreamTool('msme_audit')">
+                  <i class="fas fa-industry" style="color:var(--primary-blue);"></i>
+                  <span>MSME 78% STI In-House Audit</span>
+                </button>
+                <button class="composer-menu-item" onclick="executeInStreamTool('complaint_gen')">
+                  <i class="fas fa-file-pen" style="color:var(--status-red);"></i>
+                  <span>Auto Grievance Notice Generator</span>
+                </button>
+                <button class="composer-menu-item" onclick="togglePDFPane()">
+                  <i class="fas fa-book-open" style="color:var(--primary-purple);"></i>
+                  <span>Gazette Evidence Studio</span>
+                </button>
+                <div class="popup-menu-divider"></div>
+                <button class="composer-menu-item" onclick="openToolsModal()">
+                  <i class="fas fa-grid-2"></i>
+                  <span>Open Full Tools Hub...</span>
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Input Capsule Card -->
+          <div class="input-capsule-card">
+            <!-- File & Photo Upload Input -->
+            <input type="file" id="fileUploadInput" accept="image/*,.pdf,.docx,.txt" style="display:none;" onchange="handleFileUpload(event)" />
+            <button class="composer-action-btn" onclick="document.getElementById('fileUploadInput').click()" title="Attach Document / Photo for Analysis">
+              <i class="fas fa-paperclip"></i>
+            </button>
+            <button class="composer-action-btn" onclick="triggerCameraScanWizard()" title="Live Computer Vision Camera Scan">
+              <i class="fas fa-camera"></i>
+            </button>
+
+            <!-- Textarea -->
+            <textarea 
+              id="userInput" 
+              class="composer-textarea" 
+              placeholder="Ask anything about BIS, Indian Standards, certification or compliance..." 
+              rows="1"
+              onkeydown="if(event.key==='Enter' && !event.shiftKey){ event.preventDefault(); if(typeof submitUserQuery==='function') submitUserQuery(); }"
+            ></textarea>
+
+            <!-- Voice Language Switcher (Hindi / English) -->
+            <button class="btn-voice-lang-pill" id="btnVoiceLang" onclick="toggleVoiceLanguage()" title="Switch Voice Input Language (Hindi / English)">
+              <i class="fas fa-language"></i> <span>HI</span>
+            </button>
+
+            <!-- Voice Mic (Speech Recognition) -->
+            <button class="composer-action-btn" id="micBtn" onclick="toggleVoiceInput()" title="Voice Input (Web Speech API)">
+              <i class="fas fa-microphone"></i>
+            </button>
+
+            <!-- Send Button -->
+            <button class="btn-send-capsule" id="sendBtn" type="button" onclick="if(typeof submitUserQuery==='function') submitUserQuery();" title="Send Inquiry">
+              <i class="fas fa-arrow-up"></i>
+            </button>
+          </div>
+
+          <div class="composer-legal-subtext">
+            MANAK-AI is grounded in official Gazette Notifications & Indian Standards • SIH 2026
+          </div>
+
+        </div>
+      </div>
+
+    </main>
+
+    <!-- ================= SPLIT-SCREEN DOCUMENT STUDIO (RIGHT PANE) ================= -->
+    <aside class="pdf-evidence-pane" id="pdfEvidencePane">
+      <div class="pdf-pane-header">
+        <div class="pdf-doc-meta">
+          <span class="pdf-doc-title" id="pdfDocTitle">IS 4151:2015 — Official Gazette Preview</span>
+          <span class="pdf-doc-clause" id="pdfDocClauseTag">Clause 7.4 (Impact Attenuation Test) • Page 14</span>
+        </div>
+        <div style="display:flex;gap:6px;">
+          <button class="toolbar-action-btn" onclick="window.open('https://www.services.bis.gov.in', '_blank')" title="Open on e-BIS Portal">
+            <i class="fas fa-up-right-from-square"></i>
+          </button>
+          <button class="toolbar-action-btn" onclick="togglePDFPane()" title="Close Document Viewer">
+            <i class="fas fa-xmark"></i>
+          </button>
+        </div>
+      </div>
+
+      <div class="pdf-viewport-content" id="pdfViewportContent">
+        <div style="color:var(--text-subtle);margin-bottom:12px;font-size:0.75rem;">
+          [BUREAU OF INDIAN STANDARDS — OFFICIAL STATUTORY DOCUMENT REPOSITORY]
+        </div>
+        
+        <p style="color:var(--text-muted);margin-bottom:10px;">
+          <strong>BUREAU OF INDIAN STANDARDS (MANAK BHAVAN)</strong><br />
+          9 Bahadur Shah Zafar Marg, New Delhi 110002
+        </p>
+        <hr style="border-color:var(--border-color);margin:12px 0;" />
+
+        <div id="pdfContentRenderArea">
+          <h4 style="color:var(--text-main);margin-bottom:6px;">7. PERFORMANCE REQUIREMENTS</h4>
+          <p>7.1 General — Helmets shall satisfy requirements for shock absorption, retention, and field of vision.</p>
+          
+          <div class="pdf-clause-highlight-box">
+            <strong>7.4 Impact Attenuation Test:</strong><br />
+            Helmets shall be subjected to impact attenuation test on a drop-tower anvil. Peak acceleration imparted to the headform shall not exceed 300 g (2 940 m/s²), and cumulative time during which acceleration exceeds 150 g shall not exceed 5.0 ms.
+          </div>
+
+          <p>8.2 Retention System — Under a quasi-static dynamic load of 1.0 kN, dynamic displacement shall not exceed 35 mm, and residual displacement after load removal shall not exceed 25 mm.</p>
+        </div>
+      </div>
+    </aside>
+
+  </div>
+
+  <!-- ================= TOAST NOTIFICATION CONTAINER ================= -->
+  <div class="toast-container" id="toastContainer"></div>
+
+  <!-- ================= CENTRALIZED TOOLS HUB MODAL ================= -->
+  <div class="cmd-palette-backdrop" id="toolsModal" onclick="if(event.target === this) closeToolsModal()">
+    <div class="cmd-palette-box tools-hub-modal">
+      <div class="tools-hub-header">
+        <div class="tools-hub-title-wrap">
+          <i class="fas fa-screwdriver-wrench" style="color:var(--primary-blue);font-size:1.2rem;"></i>
+          <div>
+            <h3 class="tools-hub-title">MANAK-AI Tools Hub</h3>
+            <p class="tools-hub-sub">Specialized compliance, verification and analysis utilities</p>
+          </div>
+        </div>
+        <button class="btn-modal-close" onclick="closeToolsModal()"><i class="fas fa-xmark"></i></button>
+      </div>
+
+      <div class="tools-hub-grid">
+        <!-- Section 1: Verify -->
+        <div class="tools-category-card">
+          <div class="category-head">
+            <i class="fas fa-shield-check" style="color:var(--status-green);"></i>
+            <span>VERIFICATION</span>
+          </div>
+          <div class="category-items">
+            <button class="tool-launcher-item" onclick="closeToolsModal(); executeInStreamTool('verify_cml');">
+              <strong>CM/L License Lookup</strong>
+              <small>Validate 7-digit manufacturer license against BIS registry</small>
+            </button>
+            <button class="tool-launcher-item" onclick="closeToolsModal(); executeInStreamTool('huid_calc');">
+              <strong>6-Digit Gold HUID Check</strong>
+              <small>Verify purity (916/750) and hallmarking center validity</small>
+            </button>
+            <button class="tool-launcher-item" onclick="closeToolsModal(); triggerCameraScanWizard();">
+              <strong>Live Packaging Camera Scan</strong>
+              <small>Dual-signal vision check for ISI mark & barcode geometry</small>
+            </button>
+          </div>
+        </div>
+
+        <!-- Section 2: Documents -->
+        <div class="tools-category-card">
+          <div class="category-head">
+            <i class="fas fa-file-invoice" style="color:var(--primary-blue);"></i>
+            <span>DOCUMENTS</span>
+          </div>
+          <div class="category-items">
+            <button class="tool-launcher-item" onclick="closeToolsModal(); togglePDFPane();">
+              <strong>Gazette Evidence Studio</strong>
+              <small>Split-screen statutory gazette clauses with auto-highlight</small>
+            </button>
+            <button class="tool-launcher-item" onclick="closeToolsModal(); document.getElementById('fileUploadInput').click();">
+              <strong>OCR Certificate Extractor</strong>
+              <small>Extract test values from uploaded test lab certificates</small>
+            </button>
+            <button class="tool-launcher-item" onclick="closeToolsModal(); executeInStreamTool('complaint_gen');">
+              <strong>Section 29 Legal Notice PDF</strong>
+              <small>Auto-draft formatted legal notice for non-compliant goods</small>
+            </button>
+          </div>
+        </div>
+
+        <!-- Section 3: Compliance & MSME -->
+        <div class="tools-category-card">
+          <div class="category-head">
+            <i class="fas fa-industry" style="color:var(--gold-accent);"></i>
+            <span>COMPLIANCE & MSME</span>
+          </div>
+          <div class="category-items">
+            <button class="tool-launcher-item" onclick="closeToolsModal(); executeInStreamTool('msme_audit');">
+              <strong>78% STI In-House Audit</strong>
+              <small>Scheme of Testing & Inspection readiness assessment</small>
+            </button>
+            <button class="tool-launcher-item" onclick="closeToolsModal(); sendPredefinedQuery('What is the 50% marking fee concession scheme for Micro startups on Manakonline?');">
+              <strong>50% Marking Fee Concession</strong>
+              <small>Scheme-I financial subsidy rules for Micro startups</small>
+            </button>
+            <button class="tool-launcher-item" onclick="closeToolsModal(); sendPredefinedQuery('What are the statutory penalties and imprisonment under Section 29, BIS Act 2016 for counterfeit ISI marks?');">
+              <strong>Section 29 Penal Rules</strong>
+              <small>Statutory penalties, fines, and seizure guidelines</small>
+            </button>
+          </div>
+        </div>
+
+        <!-- Section 4: Hallmarking & Gold -->
+        <div class="tools-category-card">
+          <div class="category-head">
+            <i class="fas fa-ring" style="color:var(--saffron);"></i>
+            <span>HALLMARKING & CONSUMER</span>
+          </div>
+          <div class="category-items">
+            <button class="tool-launcher-item" onclick="closeToolsModal(); executeInStreamTool('huid_calc');">
+              <strong>Gold Purity Calculator</strong>
+              <small>Calculate 22K (916) / 18K (750) / 14K (585) net gold value</small>
+            </button>
+            <button class="tool-launcher-item" onclick="closeToolsModal(); sendPredefinedQuery('What is the 3X differential compensation rule if hallmarked gold purity is below 22K?');">
+              <strong>3X Differential Compensation</strong>
+              <small>Statutory 3X refund rule for hallmarked gold purity fraud</small>
+            </button>
+            <button class="tool-launcher-item" onclick="closeToolsModal(); openCommandPalette();">
+              <strong>Standards Spotlight Search</strong>
+              <small>Browse all core Indian Standards catalog</small>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ================= UNIFIED SETTINGS MODAL ================= -->
+  <div class="cmd-palette-backdrop" id="settingsModal" onclick="if(event.target === this) closeSettingsModal()">
+    <div class="cmd-palette-box settings-modal-box">
+      <div class="settings-modal-header">
+        <h3 class="settings-modal-title">
+          <i class="fas fa-gear" style="color:var(--primary-blue);"></i> Settings & Preferences
+        </h3>
+        <button class="btn-modal-close" onclick="closeSettingsModal()"><i class="fas fa-xmark"></i></button>
+      </div>
+
+      <div class="settings-modal-body">
+        <!-- Settings Nav Tabs -->
+        <div class="settings-tabs-strip">
+          <button class="settings-tab-btn active" onclick="switchSettingsTab('general')">General</button>
+          <button class="settings-tab-btn" onclick="switchSettingsTab('ai')">AI & Model</button>
+          <button class="settings-tab-btn" onclick="switchSettingsTab('voice')">Voice & Audio</button>
+          <button class="settings-tab-btn" onclick="switchSettingsTab('data')">Data & History</button>
+          <button class="settings-tab-btn" onclick="switchSettingsTab('about')">About</button>
+        </div>
+
+        <!-- Tab 1: General -->
+        <div class="settings-tab-pane active" id="tabGeneral">
+          <div class="settings-row">
+            <div>
+              <strong>Active Persona Role</strong>
+              <small>Adapts terminology and compliance checks</small>
+            </div>
+            <select class="settings-select" onchange="selectUserRole(this.value, this.options[this.selectedIndex].text)">
+              <option value="consumer" selected>Consumer Mode</option>
+              <option value="msme">MSME Manufacturer Mode</option>
+              <option value="inspector">BIS Inspector Mode</option>
+            </select>
+          </div>
+          <div class="settings-row">
+            <div>
+              <strong>Color Theme</strong>
+              <small>Switch dark and light appearance</small>
+            </div>
+            <button class="btn-settings-action" onclick="toggleTheme()">
+              <i class="fas fa-circle-half-stroke"></i> Toggle Theme
+            </button>
+          </div>
+        </div>
+
+        <!-- Tab 2: AI & Model Preferences -->
+        <div class="settings-tab-pane" id="tabAi">
+          <div class="settings-row">
+            <div>
+              <strong>Default Inference Engine</strong>
+              <small>Google Gemini 3.5 Flash Lite (Fast & Reliable)</small>
+            </div>
+            <select class="settings-select" onchange="selectModel(this.value, this.options[this.selectedIndex].text)">
+              <option value="gemini-3.5-flash-lite" selected>Gemini 3.5 Flash Lite (Ultra-Low Latency & High Speed)</option>
+              <option value="gemini-3.5-flash">Gemini 3.5 Flash (Balanced Multimodal)</option>
+              <option value="gemini-3.6-flash">Gemini 3.6 Flash (Advanced Reasoning)</option>
+              <option value="vision">Vision Inspector (OCR + Vision)</option>
+            </select>
+          </div>
+          <div class="settings-row">
+            <div>
+              <strong>Real-Time Token Streaming</strong>
+              <small>Stream tokens in real-time via Server-Sent Events</small>
+            </div>
+            <span class="settings-badge-active">Enabled</span>
+          </div>
+        </div>
+
+        <!-- Tab 3: Voice -->
+        <div class="settings-tab-pane" id="tabVoice">
+          <div class="settings-row">
+            <div>
+              <strong>Voice Recognition Language</strong>
+              <small>Supports English and Hindi Speech-to-Text</small>
+            </div>
+            <select class="settings-select" onchange="currentVoiceLang = this.value; showToast('Voice language set to ' + (this.value==='hi-IN'?'Hindi':'English'), 'info');">
+              <option value="en-IN" selected>English (India)</option>
+              <option value="hi-IN">Hindi (हिन्दी)</option>
+            </select>
+          </div>
+        </div>
+
+        <!-- Tab 4: Data -->
+        <div class="settings-tab-pane" id="tabData">
+          <div class="settings-row">
+            <div>
+              <strong>Export Chat Session</strong>
+              <small>Print or save consultation as official PDF</small>
+            </div>
+            <button class="btn-settings-action" onclick="exportChatSession()">
+              <i class="fas fa-print"></i> Export / Print
+            </button>
+          </div>
+          <div class="settings-row">
+            <div>
+              <strong>Clear Conversation History</strong>
+              <small>Remove all saved sessions from local browser storage</small>
+            </div>
+            <button class="btn-settings-action danger" onclick="confirmClearAllConversations()">
+              <i class="fas fa-trash-can"></i> Clear History
+            </button>
+          </div>
+        </div>
+
+        <!-- Tab 5: About -->
+        <div class="settings-tab-pane" id="tabAbout">
+          <p style="font-size:0.84rem;color:var(--text-muted);margin-bottom:12px;">
+            <strong>MANAK-AI</strong> is an intelligent Copilot for Bureau of Indian Standards (BIS) compliance, consumer protection, and MSME manufacturing certification.
+          </p>
+          <button class="btn-settings-action" onclick="closeSettingsModal(); openWhyUsModal();">
+            <i class="fas fa-sparkles"></i> Compare MANAK-AI vs Official BIS CARE App
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ================= VOICE LISTENING TOAST ================= -->
+  <div class="voice-wave-modal" id="listeningToast">
+    <div class="voice-soundwave-bars">
+      <span></span><span></span><span></span><span></span>
+    </div>
+    <span id="voiceToastText">🎙️ Listening... (Speak your query...)</span>
+    <button onclick="toggleVoiceInput()" style="background:rgba(255,255,255,0.15);color:var(--text-main);padding:2px 8px;border-radius:12px;font-size:0.72rem;">Done</button>
+  </div>
+
+  <!-- ================= COMMAND PALETTE (Ctrl + K) ================= -->
+  <div class="cmd-palette-backdrop" id="cmdPalette" onclick="if(event.target === this) closeCommandPalette()">
+    <div class="cmd-palette-box">
+      <div class="cmd-palette-input-wrap">
+        <i class="fas fa-magnifying-glass" style="color:var(--primary-blue);"></i>
+        <input type="text" id="cmdSearchInput" class="cmd-palette-input" placeholder="Type a command or search standards..." oninput="filterCommandPalette(this.value)" />
+        <span class="cmd-badge">ESC to exit</span>
+      </div>
+      <div class="cmd-palette-list" id="cmdPaletteList">
+        <div class="cmd-palette-item" onclick="executeCmdItem('new_chat')">
+          <span><i class="fas fa-plus"></i> Start New Consultation</span>
+          <span class="cmd-badge">Ctrl+N</span>
+        </div>
+        <div class="cmd-palette-item" onclick="executeCmdItem('scan_camera')">
+          <span><i class="fas fa-camera"></i> Live Computer Vision Scanner</span>
+          <span class="cmd-badge">Alt+S</span>
+        </div>
+        <div class="cmd-palette-item" onclick="executeCmdItem('verify_huid')">
+          <span><i class="fas fa-ring"></i> Verify 6-Digit Gold HUID</span>
+          <span class="cmd-badge">Alt+H</span>
+        </div>
+        <div class="cmd-palette-item" onclick="executeCmdItem('msme_audit')">
+          <span><i class="fas fa-industry"></i> Run MSME 78% STI Compliance Audit</span>
+          <span class="cmd-badge">Alt+M</span>
+        </div>
+        <div class="cmd-palette-item" onclick="executeCmdItem('split_pdf')">
+          <span><i class="fas fa-book-open"></i> Open Split-Screen Gazette PDF</span>
+          <span class="cmd-badge">Alt+P</span>
+        </div>
+        <div class="cmd-palette-item" onclick="executeCmdItem('toggle_theme')">
+          <span><i class="fas fa-circle-half-stroke"></i> Toggle Dark / Light Theme</span>
+          <span class="cmd-badge">Alt+T</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ================= WHY US VS BIS CARE COMPARISON MODAL ================= -->
+  <div class="cmd-palette-backdrop" id="whyUsModal" onclick="if(event.target === this) closeWhyUsModal()">
+    <div class="cmd-palette-box" style="max-width:680px;padding:24px;">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;">
+        <h3 style="margin:0;font-size:1.15rem;color:var(--text-main);display:flex;align-items:center;gap:8px;">
+          <i class="fas fa-sparkles" style="color:var(--primary-blue);"></i> MANAK-AI vs Official BIS CARE App
+        </h3>
+        <button onclick="closeWhyUsModal()" style="color:var(--text-subtle);padding:4px;"><i class="fas fa-xmark"></i></button>
+      </div>
+      <p style="font-size:0.82rem;color:var(--text-muted);margin-bottom:16px;">
+        While the official <strong>BIS CARE</strong> mobile app provides baseline lookup for licenses and HUIDs, <strong>MANAK-AI</strong> provides the deep <strong>AI Reasoning, Multi-tier MSME Auditing, and Evidence-backed Grounding</strong> required for SIH 2026.
+      </p>
+      <table class="trust-matrix-table" style="width:100%;border-collapse:collapse;font-size:0.82rem;margin-bottom:16px;">
+        <tr style="background:rgba(255,255,255,0.06);">
+          <th style="padding:8px 12px;border:1px solid var(--border-color);text-align:left;">Capability Area</th>
+          <th style="padding:8px 12px;border:1px solid var(--border-color);text-align:left;">Official BIS CARE App</th>
+          <th style="padding:8px 12px;border:1px solid var(--border-color);text-align:left;color:var(--primary-blue);">MANAK-AI (Ours)</th>
+        </tr>
+        <tr>
+          <td style="padding:8px 12px;border:1px solid var(--border-color);"><strong>Natural Language Reasoning</strong></td>
+          <td style="padding:8px 12px;border:1px solid var(--border-color);color:var(--status-red);">❌ Static search only</td>
+          <td style="padding:8px 12px;border:1px solid var(--border-color);color:var(--status-green);">✅ Full multi-turn conversational AI reasoning</td>
+        </tr>
+        <tr>
+          <td style="padding:8px 12px;border:1px solid var(--border-color);"><strong>Gazette Evidence Studio</strong></td>
+          <td style="padding:8px 12px;border:1px solid var(--border-color);color:var(--status-red);">❌ Not available</td>
+          <td style="padding:8px 12px;border:1px solid var(--border-color);color:var(--status-green);">✅ Split-screen PDF with clause auto-highlight</td>
+        </tr>
+        <tr>
+          <td style="padding:8px 12px;border:1px solid var(--border-color);"><strong>MSME Factory Compliance</strong></td>
+          <td style="padding:8px 12px;border:1px solid var(--border-color);color:var(--status-red);">❌ No STI auditing</td>
+          <td style="padding:8px 12px;border:1px solid var(--border-color);color:var(--status-green);">✅ 78% Readiness Scorecard & 1-click PDF export</td>
+        </tr>
+        <tr>
+          <td style="padding:8px 12px;border:1px solid var(--border-color);"><strong>Dual-Signal Verification</strong></td>
+          <td style="padding:8px 12px;border:1px solid var(--border-color);">⚠️ Number match only</td>
+          <td style="padding:8px 12px;border:1px solid var(--border-color);color:var(--status-green);">✅ License Match + CV Logo Geometry (Dual-Signal)</td>
+        </tr>
+        <tr>
+          <td style="padding:8px 12px;border:1px solid var(--border-color);"><strong>Consumer Grievance Generator</strong></td>
+          <td style="padding:8px 12px;border:1px solid var(--border-color);">⚠️ Basic complaint form</td>
+          <td style="padding:8px 12px;border:1px solid var(--border-color);color:var(--status-green);">✅ Auto-drafted Section 29 legal notice PDF</td>
+        </tr>
+      </table>
+      <div style="text-align:right;">
+        <button onclick="closeWhyUsModal()" style="background:var(--primary-blue);color:white;padding:6px 16px;border-radius:6px;font-size:0.8rem;font-weight:700;">Got It</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ================= LIVE CAMERA SCANNER VIEWPORT MODAL ================= -->
+  <div class="cmd-palette-backdrop" id="cameraModal" onclick="if(event.target === this) closeCameraModal()">
+    <div class="cmd-palette-box" style="max-width:560px;padding:20px;">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;">
+        <h3 style="margin:0;font-size:1.1rem;color:var(--text-main);display:flex;align-items:center;gap:8px;">
+          <i class="fas fa-camera" style="color:var(--primary-blue);"></i> Real-Time BIS Packaging Vision Scanner
+        </h3>
+        <button onclick="closeCameraModal()" style="color:var(--text-subtle);padding:4px;"><i class="fas fa-xmark"></i></button>
+      </div>
+
+      <p style="font-size:0.8rem;color:var(--text-muted);margin-bottom:12px;">
+        Align the <strong>ISI Mark (IS:XXXX)</strong> or <strong>6-digit Gold HUID</strong> within the target frame.
+      </p>
+
+      <!-- Video Viewfinder Container -->
+      <div class="camera-video-container" style="position:relative;width:100%;height:300px;background:#000;border-radius:10px;overflow:hidden;margin-bottom:10px;">
+        <video id="cameraVideo" autoplay playsinline muted style="width:100%;height:100%;object-fit:cover;"></video>
+        <canvas id="cameraCanvas" style="display:none;"></canvas>
+        
+        <!-- Live AR Status Badge Overlay -->
+        <div class="live-ar-badge" id="arTrackingBadge">
+          <i class="fas fa-crosshairs"></i>
+          <span id="arTrackingText">🎯 SCANNING FOR ISI MARK / HUID / QR</span>
+        </div>
+
+        <!-- Target Alignment Reticle -->
+        <div class="camera-reticle-box" id="cameraReticleBox">
+          <span class="reticle-corner tl"></span>
+          <span class="reticle-corner tr"></span>
+          <span class="reticle-corner bl"></span>
+          <span class="reticle-corner br"></span>
+          <div class="reticle-scan-line"></div>
+          <span class="reticle-label">ALIGN ISI MARK / HUID</span>
+        </div>
+
+        <!-- Flip Camera Button Overlay -->
+        <button onclick="toggleCameraFacing()" title="Flip Camera (Front / Back)" style="position:absolute;top:10px;right:10px;background:rgba(0,0,0,0.65);color:#fff;border:1px solid rgba(255,255,255,0.25);border-radius:50%;width:36px;height:36px;display:flex;align-items:center;justify-content:center;cursor:pointer;z-index:10;">
+          <i class="fas fa-camera-rotate"></i>
+        </button>
+      </div>
+
+      <!-- Live Camera Status Notice -->
+      <div id="cameraStatusMsg" style="display:none;font-size:0.8rem;padding:8px 12px;background:rgba(255,255,255,0.05);border-radius:6px;margin-bottom:12px;line-height:1.4;"></div>
+
+      <!-- Action Buttons -->
+      <div style="display:flex;gap:10px;justify-content:space-between;align-items:center;margin-bottom:14px;flex-wrap:wrap;">
+        <button class="btn-camera-action" onclick="captureCameraFrame()" style="flex:1;min-width:180px;background:var(--primary-blue);color:white;padding:10px;border-radius:8px;font-weight:700;font-size:0.85rem;display:flex;align-items:center;justify-content:center;gap:8px;">
+          <i class="fas fa-camera-retro"></i> Capture & Scan
+        </button>
+
+        <input type="file" id="cameraFallbackUploadInput" accept="image/*,.pdf,.docx,.txt" style="display:none;" onchange="handleCameraFallbackUpload(event)" />
+        <button onclick="document.getElementById('cameraFallbackUploadInput').click()" style="background:rgba(59,130,246,0.15);border:1px solid rgba(59,130,246,0.35);color:var(--primary-blue);padding:10px 14px;border-radius:8px;font-size:0.85rem;font-weight:700;display:flex;align-items:center;gap:6px;">
+          <i class="fas fa-upload"></i> Upload Photo
+        </button>
+
+        <button onclick="closeCameraModal()" style="background:rgba(255,255,255,0.08);color:var(--text-main);padding:10px 14px;border-radius:8px;font-size:0.85rem;font-weight:600;">
+          Close
+        </button>
+      </div>
+
+      <!-- 1-Click Fast Judge Test Samples -->
+      <div style="border-top:1px solid var(--border-color);padding-top:12px;">
+        <span style="font-size:0.75rem;color:var(--text-muted);display:block;margin-bottom:8px;font-weight:600;">⚡ OR RUN 1-CLICK TEST SCENARIOS (Pre-Indexed Demo Ground Truth Dataset):</span>
+        <div style="display:flex;flex-wrap:wrap;gap:8px;">
+          <button onclick="testSampleVerification('genuine')" style="background:rgba(16,185,129,0.15);border:1px solid rgba(16,185,129,0.3);color:var(--status-green);padding:4px 10px;border-radius:6px;font-size:0.75rem;font-weight:700;">
+            🟢 Helmet — GENUINE (CM/L-8530092)
+          </button>
+          <button onclick="testSampleVerification('counterfeit')" style="background:rgba(239,68,68,0.15);border:1px solid rgba(239,68,68,0.3);color:var(--status-red);padding:4px 10px;border-radius:6px;font-size:0.75rem;font-weight:700;">
+            🔴 Helmet — COUNTERFEIT (CM/L-4091823)
+          </button>
+          <button onclick="testSampleVerification('huid')" style="background:rgba(234,179,8,0.15);border:1px solid rgba(234,179,8,0.3);color:var(--gold-accent);padding:4px 10px;border-radius:6px;font-size:0.75rem;font-weight:700;">
+            🟡 22K Gold — VERIFIED HUID (AB8492)
+          </button>
+          <button onclick="testSampleVerification('huid_fraud')" style="background:rgba(239,68,68,0.12);border:1px solid rgba(239,68,68,0.3);color:var(--status-red);padding:4px 10px;border-radius:6px;font-size:0.75rem;font-weight:700;">
+            🔴 Gold Ring — HUID PURITY FRAUD (FA9999)
+          </button>
+          <button onclick="testSampleVerification('huid_fake')" style="background:rgba(239,68,68,0.18);border:1px solid rgba(239,68,68,0.5);color:var(--status-red);padding:4px 10px;border-radius:6px;font-size:0.75rem;font-weight:700;">
+            ⛔ Bangle — CLONED/FAKE HUID (XY9901)
+          </button>
+          <button onclick="testSampleVerification('cable')" style="background:rgba(59,130,246,0.15);border:1px solid rgba(59,130,246,0.3);color:var(--primary-blue);padding:4px 10px;border-radius:6px;font-size:0.75rem;font-weight:700;">
+            🟢 Cable — GENUINE HAVELLS (CM/L-7200194)
+          </button>
+          <button onclick="testSampleVerification('toy')" style="background:rgba(99,102,241,0.15);border:1px solid rgba(99,102,241,0.3);color:var(--primary-purple);padding:4px 10px;border-radius:6px;font-size:0.75rem;font-weight:700;">
+            🟢 Toy — FUNSKOOL ISI (CM/L-2200341)
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Scripts -->
+  <script src="js/database.js?v=2.6"></script>
+  <script src="js/chat.js?v=2.6"></script>
+  <script src="js/command-palette.js?v=2.6"></script>
+  <script src="js/wizard.js?v=2.6"></script>
+
+  <!-- ================= PHASE 4: CLIENT-SIDE UI ENHANCEMENT ENGINE ================= -->
+  <script id="phase4-ui-engine">
+    // 1. Authoritative Standards Quick-Reference Dictionary for Instant Display Card
+    const PHASE4_STANDARDS_REGISTRY = {
+      '4151': {
+        code: 'IS 4151:2015',
+        title: 'Two-Wheeler Protective Helmets — Specification',
+        div: 'TED • Transport Engineering',
+        desc: 'Mandatory MoRTH QCO. Peak headform acceleration ≤ 300g (2940 m/s²), retention drop height 3.0m on flat & hemispherical anvils.',
+        chips: ['MoRTH Mandatory', 'Scheme-I ISI Mark', 'Drop Anvil Cl. 7.4'],
+        qco: true,
+        url: 'https://standardsbis.bsbedge.com'
+      },
+      '1786': {
+        code: 'IS 1786:2008',
+        title: 'High Strength Deformed Steel Bars (TMT / Rebars) for Concrete Reinforcement',
+        div: 'CED • Civil Engineering',
+        desc: 'Mandatory Ministry of Steel QCO. Covers Fe 500, Fe 500D, Fe 550D. Carbon max 0.25%, TS/YS ratio ≥ 1.10, min elongation 16%.',
+        chips: ['Ministry of Steel QCO', 'Fe 500D / 550D', 'Mandrel Bend Cl. 9.3'],
+        qco: true,
+        url: 'https://standardsbis.bsbedge.com'
+      },
+      '1417': {
+        code: 'IS 1417:2016',
+        title: 'Gold and Gold Alloys, Jewellery/Artefacts — Fineness & Hallmarking',
+        div: 'MTD • Metallurgical Engineering',
+        desc: 'Mandatory MoCA Hallmarking Scheme-IV. Mandates 6-digit alphanumeric laser HUID with BIS triangular hallmark mark & purity (916/750/585).',
+        chips: ['MoCA Mandatory', '6-Digit Laser HUID', '3X Purity Compensation'],
+        qco: true,
+        url: 'https://www.services.bis.gov.in'
+      },
+      '14543': {
+        code: 'IS 14543:2024',
+        title: 'Packaged Drinking Water (Other Than Packaged Natural Mineral Water)',
+        div: 'FAD • Food and Agriculture',
+        desc: 'Mandatory FSSAI & MoCA Statutory Order. Zero coliforms/E. coli, TDS range 75–500 mg/L, automated UV/ozonation, in-house microbiology lab.',
+        chips: ['FSSAI Mandatory', 'Scheme-I ISI Mark', 'Zero Coliforms Cl. 5'],
+        qco: true,
+        url: 'https://standardsbis.bsbedge.com'
+      },
+      '694': {
+        code: 'IS 694:2010',
+        title: 'PVC Insulated Cables for Working Voltages up to and including 1100 V',
+        div: 'ETD • Electrotechnical Division',
+        desc: 'Mandatory DPIIT Electrical Wires Order. Copper conductor resistance, FRLS insulation, spark testing at 6 kV AC, halogen acid gas emission.',
+        chips: ['DPIIT Mandatory', 'Building Wires', 'HV Spark Test 6kV'],
+        qco: true,
+        url: 'https://standardsbis.bsbedge.com'
+      },
+      '2347': {
+        code: 'IS 2347:2017',
+        title: 'Domestic Pressure Cookers — Safety Requirements',
+        div: 'MED • Mechanical Engineering',
+        desc: 'Mandatory DPIIT QCO. Proof hydraulic pressure test 3.0 kgf/cm² (300 kPa), operating safety relief valve 1.0–1.4 kgf/cm².',
+        chips: ['DPIIT Mandatory', 'Hydro Proof 3.0 kgf/cm²', 'Fusible Plug'],
+        qco: true,
+        url: 'https://standardsbis.bsbedge.com'
+      },
+      '2082': {
+        code: 'IS 2082:2018',
+        title: 'Stationary Storage Type Electric Water Heaters (Geysers)',
+        div: 'ETD • Electrotechnical Division',
+        desc: 'Mandatory DPIIT QCO. Rated pressure test up to 8 bar, immersion heater leakage current < 0.75 mA, thermal cutout trip limit.',
+        chips: ['DPIIT Mandatory', 'Electrical Safety', '8 Bar Pressure'],
+        qco: true,
+        url: 'https://standardsbis.bsbedge.com'
+      },
+      '269': {
+        code: 'IS 269:2015',
+        title: 'Ordinary Portland Cement (33, 43 and 53 Grade) — Specification',
+        div: 'CED • Civil Engineering',
+        desc: 'Mandatory DPIIT Cement QCO. Compressive strength 53 MPa (28 days), Blaine fineness min 225 m²/kg, sound Le-Chatelier expansion ≤ 10mm.',
+        chips: ['DPIIT Mandatory', '53 Grade OPC', 'Strength Cl. 6'],
+        qco: true,
+        url: 'https://standardsbis.bsbedge.com'
+      },
+      '1293': {
+        code: 'IS 1293:2019',
+        title: 'Plugs and Socket-Outlets for Domestic and Similar Purposes (6A and 16A)',
+        div: 'ETD • Electrotechnical Division',
+        desc: 'Mandatory DPIIT Electrical Accessories QCO. Shuttered safety contacts, temperature rise ≤ 45K, mechanical endurance 10,000 cycles.',
+        chips: ['DPIIT Mandatory', 'Shuttered Safety', '10,000 Cycles'],
+        qco: true,
+        url: 'https://standardsbis.bsbedge.com'
+      },
+      '9873': {
+        code: 'IS 9873 (Part 1-9):2019',
+        title: 'Safety of Toys — Mechanical, Physical & Chemical Safety',
+        div: 'PCD • Petroleum, Coal and Related Products',
+        desc: 'Mandatory DPIIT Toys Quality Control Order. Heavy metal migration (lead ≤ 90 mg/kg), sharp edges, phthalate plasticizers restriction.',
+        chips: ['DPIIT Mandatory', 'Scheme-I ISI Mark', 'Heavy Metal Safe'],
+        qco: true,
+        url: 'https://standardsbis.bsbedge.com'
+      }
+    };
+
+    let lastFailedQueryText = '';
+
+    // Clean, no-op UI progress hooks (standard chat interface)
+    window.showChatProgress = function() {};
+    window.hideChatProgress = function() {};
+    window.showTypingIndicator = function() {};
+    window.hideTypingIndicator = function() {};
+
+    // ================= 3. IS CODE DISPLAY CARD CONTROLLER =================
+    window.updateISCodeDisplay = function(codeKey) {
+      const card = document.getElementById('isCodeDisplayCard');
+      if (!card) return;
+
+      const standard = PHASE4_STANDARDS_REGISTRY[codeKey];
+      if (!standard) return;
+
+      const numEl = document.getElementById('isCodeDisplayNumber');
+      const statusEl = document.getElementById('isCodeStatusTag');
+      const divEl = document.getElementById('isCodeDivisionTag');
+      const titleEl = document.getElementById('isCodeDisplayTitle');
+      const descEl = document.getElementById('isCodeDisplayDesc');
+      const chipsEl = document.getElementById('isCodeMetaChips');
+      const linkEl = document.getElementById('isCodePortalLink');
+
+      if (numEl) numEl.textContent = standard.code;
+      if (statusEl) {
+        statusEl.textContent = standard.qco ? 'MANDATORY QCO' : 'VOLUNTARY STANDARD';
+        statusEl.className = 'is-code-status-tag ' + (standard.qco ? 'mandatory' : 'voluntary');
+      }
+      if (divEl) divEl.textContent = standard.div;
+      if (titleEl) titleEl.textContent = standard.title;
+      if (descEl) descEl.textContent = standard.desc;
+
+      if (chipsEl && standard.chips) {
+        chipsEl.innerHTML = standard.chips.map(c => `<span class="meta-chip"><i class="fas fa-check-circle" style="color:var(--status-green);"></i> ${c}</span>`).join('');
+      }
+
+      if (linkEl) linkEl.href = standard.url || 'https://standardsbis.bsbedge.com';
+
+      card.style.display = 'block';
+    };
+
+    window.toggleISCodeDisplay = function(show) {
+      const card = document.getElementById('isCodeDisplayCard');
+      if (card) {
+        card.style.display = (show === false) ? 'none' : 'block';
+      }
+    };
+
+    window.openStandardInStudio = function() {
+      if (typeof togglePDFPane === 'function') {
+        togglePDFPane();
+      }
+    };
+
+    window.copyISCitation = function() {
+      const numEl = document.getElementById('isCodeDisplayNumber');
+      const titleEl = document.getElementById('isCodeDisplayTitle');
+      const text = `[BIS • ${numEl ? numEl.textContent : 'Indian Standard'} — ${titleEl ? titleEl.textContent : 'Specification'}]`;
+      navigator.clipboard.writeText(text).then(() => {
+        if (typeof showToast === 'function') {
+          showToast('Citation copied: ' + text, 'success');
+        } else {
+          alert('Citation copied to clipboard!');
+        }
+      });
+    };
+
+    // ================= 4. ENHANCED ERROR BANNER CONTROLLER =================
+    window.showChatError = function(title, description, statusBadge) {
+      const banner = document.getElementById('chatErrorBanner');
+      const titleEl = document.getElementById('chatErrorTitle');
+      const descEl = document.getElementById('chatErrorDesc');
+      const badgeEl = document.getElementById('chatErrorStatusBadge');
+      if (!banner) return;
+
+      if (titleEl && title) titleEl.textContent = title;
+      if (descEl && description) descEl.textContent = description;
+      if (badgeEl && statusBadge) badgeEl.textContent = statusBadge;
+
+      banner.style.display = 'block';
+      window.hideChatProgress();
+      window.hideTypingIndicator();
+    };
+
+    window.dismissChatError = function() {
+      const banner = document.getElementById('chatErrorBanner');
+      if (banner) banner.style.display = 'none';
+    };
+
+    window.retryLastFailedQuery = function() {
+      window.dismissChatError();
+      if (lastFailedQueryText) {
+        const input = document.getElementById('userInput');
+        if (input) input.value = lastFailedQueryText;
+        if (typeof submitUserQuery === 'function') {
+          submitUserQuery();
+        }
+      }
+    };
+
+    // ================= 5. AUTOMATIC QUERY & MUTATION OBSERVER HOOKS =================
+    document.addEventListener('DOMContentLoaded', function() {
+      const input = document.getElementById('userInput');
+      const sendBtn = document.getElementById('sendBtn');
+
+      // Detect IS standards in query as user types or submits
+      function checkQueryForStandards(text) {
+        if (!text) return;
+        const lower = text.toLowerCase();
+        for (const [codeKey, std] of Object.entries(PHASE4_STANDARDS_REGISTRY)) {
+          if (lower.includes(codeKey) || lower.includes(std.code.toLowerCase()) || 
+             (codeKey === '4151' && (lower.includes('helmet') || lower.includes('helmets'))) ||
+             (codeKey === '1786' && (lower.includes('sariya') || lower.includes('tmt') || lower.includes('steel bar'))) ||
+             (codeKey === '1417' && (lower.includes('gold') || lower.includes('huid') || lower.includes('hallmark') || lower.includes('sona'))) ||
+             (codeKey === '14543' && (lower.includes('water bottle') || lower.includes('drinking water') || lower.includes('packaged water'))) ||
+             (codeKey === '694' && (lower.includes('wire') || lower.includes('cable') || lower.includes('taar'))) ||
+             (codeKey === '2347' && (lower.includes('pressure cooker') || lower.includes('cooker'))) ||
+             (codeKey === '2082' && (lower.includes('geyser') || lower.includes('water heater'))) ||
+             (codeKey === '269' && (lower.includes('cement') || lower.includes('opc'))) ||
+             (codeKey === '9873' && (lower.includes('toy') || lower.includes('toys')))) {
+            window.updateISCodeDisplay(codeKey);
+            break;
+          }
+        }
+      }
+
+      if (sendBtn) {
+        sendBtn.addEventListener('click', function(e) {
+          e.preventDefault();
+          if (typeof submitUserQuery === 'function') submitUserQuery();
+        });
+      }
+
+      if (input) {
+        input.addEventListener('keydown', function(e) {
+          if (e.key === 'Enter' && !e.shiftKey) {
+            e.preventDefault();
+            if (typeof submitUserQuery === 'function') submitUserQuery();
+          }
+        });
+      }
+
+      // Mutation Observer on Chat Stream to automatically stop progress and detect IS numbers in AI replies
+      const chatContainer = document.getElementById('chatMessages');
+      if (chatContainer) {
+        const observer = new MutationObserver(function(mutations) {
+          const streamRows = chatContainer.querySelectorAll('.msg-stream-row.ai');
+          if (streamRows.length > 0) {
+            const latest = streamRows[streamRows.length - 1];
+            const textContent = latest.textContent || '';
+            
+            // If tokens are streaming, hide progress bar and typing indicator
+            if (textContent.length > 25) {
+              window.hideChatProgress();
+              window.hideTypingIndicator();
+              checkQueryForStandards(textContent);
+            }
+
+            // If error text detected in bubble, show error card
+            if (textContent.includes('⚠️ Engine Notice:') || textContent.includes('Proxy Error') || textContent.includes('Rate limit')) {
+              window.showChatError('AI Inference Notice', textContent.slice(0, 180), 'Retry Available');
+            }
+          }
+        });
+        observer.observe(chatContainer, { childList: true, subtree: true, characterData: true });
+      }
+    });
+
+    // Register PWA Service Worker if available
+    if ('serviceWorker' in navigator && window.location.protocol.startsWith('http')) {
+      window.addEventListener('load', function() {
+        navigator.serviceWorker.register('/sw.js').catch(function() {});
+      });
+    }
+  </script>
+</body>
+</html>

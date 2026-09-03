@@ -1,0 +1,74 @@
+{
+  "standard_number": "IS 4151:2015",
+  "title": "Protective Helmets for Two-Wheeler Riders \u2014 Specification",
+  "edition": "Fourth Revision",
+  "year": 2015,
+  "division": "TED",
+  "division_name": "Transport Engineering Division",
+  "effective_status": "CURRENT",
+  "is_mandatory": true,
+  "qco_name": "Two-Wheeler Helmets (Quality Control) Mandatory Order",
+  "scheme": "Scheme-I (ISI Mark Product Certification)",
+  "source_authority": "Bureau of Indian Standards / Ministry of Road Transport and Highways (MoRTH)",
+  "supersedes": [
+    "IS 4151:1993"
+  ],
+  "amendments": [
+    "Amendment No. 1 (2018)",
+    "Amendment No. 2 (2020)"
+  ],
+  "clauses": [
+    {
+      "clause": "7.4",
+      "title": "Impact Absorption Test & Peak Headform Deceleration Limit",
+      "page": 6,
+      "text": "Clause 7.4 (Impact Absorption Test): The helmet shall be subjected to impact drops on flat and hemispherical steel anvils from a fall velocity of 7.52 m/s (drop height 2.88 metres, impact energy 138 J). The peak acceleration recorded by the triaxial accelerometer inside the calibrated headform shall NOT exceed 300 g (2943 m/s\u00b2). The acceleration shall not exceed 150 g for a cumulative duration greater than 5.0 milliseconds.",
+      "keywords": [
+        "helmet impact",
+        "300 g peak",
+        "drop height 2.88m",
+        "headform acceleration",
+        "is 4151",
+        "clause 7.4"
+      ]
+    },
+    {
+      "clause": "8.2",
+      "title": "Retention System Dynamic Extension and Slippage Limits",
+      "page": 8,
+      "text": "Clause 8.2 (Retention System Strength Test): The retention strap is subjected to a static pre-load of 50 N followed by a dynamic drop mass of 10 kg from a height of 750 mm (shock energy 73.5 J). The dynamic displacement of the retention system shall not exceed 35 mm. Residual permanent elongation after test shall not exceed 25 mm. The buckle mechanism shall not release under test.",
+      "keywords": [
+        "retention system",
+        "chin strap displacement 35mm",
+        "dynamic drop test",
+        "is 4151",
+        "clause 8.2"
+      ]
+    },
+    {
+      "clause": "9.1",
+      "title": "Visor Luminous Transmittance & Optical Clarity",
+      "page": 11,
+      "text": "Clause 9.1 & IS 9973 (Visor Optical Quality): For clear visors, total luminous transmittance shall not be less than 85% when tested under standard illuminant A. For tinted visors (daytime use only), transmittance shall not be less than 50%. The visor shall not shatter, crack, or produce sharp fragments when impacted by a 6 mm steel ball at 60 m/s.",
+      "keywords": [
+        "visor transmittance 85%",
+        "optical clarity",
+        "tinted visor",
+        "steel ball impact",
+        "is 4151"
+      ]
+    },
+    {
+      "clause": "6.1",
+      "title": "Maximum Permissible Weight of Protective Helmet",
+      "page": 4,
+      "text": "Clause 6.1.4 (Helmet Mass Restriction): Under Amendment No. 1 (2018), the maximum total weight of a complete protective helmet (including shell, protective padding, comfort liner, retention system, and visor) shall not exceed 1.50 kg (1500 grams).",
+      "keywords": [
+        "helmet weight 1500g",
+        "mass limit 1.5kg",
+        "is 4151",
+        "clause 6.1"
+      ]
+    }
+  ]
+}

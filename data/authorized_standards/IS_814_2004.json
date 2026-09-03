@@ -1,0 +1,40 @@
+{
+  "standard_number": "IS 814:2004",
+  "title": "Covered Electrodes for Manual Metal Arc Welding of Carbon and Carbon Manganese Steel",
+  "edition": "Sixth Revision",
+  "year": 2004,
+  "division": "MTD",
+  "division_name": "Metallurgical Engineering Division",
+  "effective_status": "CURRENT",
+  "is_mandatory": true,
+  "qco_name": "Welding Wires and Electrodes (Quality Control) Order",
+  "scheme": "Scheme-I (ISI Mark Product Certification)",
+  "source_authority": "Bureau of Indian Standards / Ministry of Steel",
+  "clauses": [
+    {
+      "clause": "5.1",
+      "title": "All-Weld Metal Tensile and Yield Strength Requirements",
+      "page": 8,
+      "text": "Clause 5.1 & Table 3: Deposited weld metal for classification E41 shall exhibit minimum yield strength of 330 MPa, tensile strength between 410 and 510 MPa, and minimum elongation of 22 percent on gauge length 5.65√So.",
+      "keywords": [
+        "is 814",
+        "welding electrode",
+        "tensile strength 410 mpa",
+        "elongation 22 percent",
+        "arc welding"
+      ]
+    },
+    {
+      "clause": "6.3",
+      "title": "Charpy V-Notch Impact Toughness Test at Sub-Zero Temperatures",
+      "page": 11,
+      "text": "Clause 6.3: Charpy V-notch impact energy absorption shall not be less than 47 Joules at test temperature of 0°C (and 27 Joules at -20°C for sub-zero grade electrodes) to prevent brittle fracture in bridges and pressure vessels.",
+      "keywords": [
+        "charpy impact test",
+        "47 joules",
+        "sub zero welding",
+        "is 814"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,42 @@
+{
+  "standard_number": "BIS HALLMARKING REGULATIONS 2021",
+  "title": "Gold & Silver Jewellery Mandatory Hallmarking Regulations & 3X Consumer Compensation",
+  "edition": "Central Gazette Notification 2021",
+  "year": 2021,
+  "division": "MTD",
+  "division_name": "Metallurgical Engineering Division",
+  "effective_status": "CURRENT",
+  "is_mandatory": true,
+  "qco_name": "Hallmarking of Gold Jewellery and Gold Artefacts Order",
+  "scheme": "Scheme-IV (Hallmarking of Precious Metals)",
+  "source_authority": "Bureau of Indian Standards / Department of Consumer Affairs",
+  "clauses": [
+    {
+      "clause": "Regulation 6",
+      "title": "Mandatory 3-Part Hallmark Signs and 6-Digit HUID",
+      "page": 4,
+      "text": "Regulation 6: All gold jewellery sold in hallmarked districts must bear exactly 3 indelible marks: 1. The BIS Logo (triangular mark), 2. Purity in Karat and Fineness (24K999, 22K916, 20K833, 18K750, 14K585), and 3. A 6-character alphanumeric Unique Identification Number (HUID). Sale of hallmarked jewellery without HUID is illegal.",
+      "keywords": [
+        "huid",
+        "gold hallmarking",
+        "22k916",
+        "bis hallmark 3 marks",
+        "purity karats",
+        "18k750"
+      ]
+    },
+    {
+      "clause": "Regulation 12",
+      "title": "3X Consumer Compensation for Substandard Purity Gold",
+      "page": 9,
+      "text": "Regulation 12: If any hallmarked jewellery purchased by a consumer is tested at a BIS-recognized Assaying and Hallmarking Centre (AHC) or Referral Lab and found to have less purity than marked, the registered jeweller shall compensate the consumer with 3 times (3X) the difference in the price of the shortage in purity, along with reimbursement of testing charges.",
+      "keywords": [
+        "3x compensation",
+        "gold purity refund",
+        "substandard gold penalty",
+        "consumer rights gold",
+        "testing charges refund"
+      ]
+    }
+  ]
+}

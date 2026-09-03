@@ -1,0 +1,47 @@
+{
+  "standard_number": "IS 2112:2014",
+  "title": "Silver and Silver Alloys \u2014 Jewellery/Artefacts \u2014 Fineness and Marking",
+  "edition": "Third Revision",
+  "year": 2014,
+  "division": "MTD",
+  "division_name": "Metallurgical Engineering Division",
+  "effective_status": "CURRENT",
+  "is_mandatory": true,
+  "qco_name": "Hallmarking of Silver Jewellery and Silver Artefacts Order",
+  "scheme": "Scheme-IV (HUID Hallmarking of Gold and Silver)",
+  "source_authority": "Bureau of Indian Standards / Department of Consumer Affairs",
+  "supersedes": [
+    "IS 2112:2003"
+  ],
+  "amendments": [
+    "Amendment No. 1 (2019)"
+  ],
+  "clauses": [
+    {
+      "clause": "4.1",
+      "title": "Recognized Silver Fineness Grades (Parts per Thousand)",
+      "page": 2,
+      "text": "Clause 4.1 & Table 1 (Official Recognized Silver Grades in India): (1) 999 Fineness = 999.0 parts per thousand (Pure Silver); (2) 970 Fineness = 970.0 ppt; (3) 925 Fineness = 925.0 ppt (Sterling Silver); (4) 900 Fineness = 900.0 ppt; (5) 835 Fineness = 835.0 ppt; (6) 800 Fineness = 800.0 ppt. Negative tolerance is ZERO.",
+      "keywords": [
+        "silver hallmarking",
+        "925 sterling silver",
+        "999 pure silver",
+        "800 silver",
+        "is 2112",
+        "fineness ppt"
+      ]
+    },
+    {
+      "clause": "5.1",
+      "title": "Mandatory Hallmarking Marks on Silver Articles",
+      "page": 3,
+      "text": "Clause 5.1 (Hallmarking Components for Silver): Every hallmarked silver piece shall bear: (1) BIS triangular logo. (2) Purity mark in parts per thousand (e.g., '999', '925', '800'). (3) Six-digit alphanumeric HUID identification code.",
+      "keywords": [
+        "silver huid",
+        "bis logo",
+        "silver purity mark",
+        "is 2112"
+      ]
+    }
+  ]
+}

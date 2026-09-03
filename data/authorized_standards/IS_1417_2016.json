@@ -1,0 +1,65 @@
+{
+  "standard_number": "IS 1417:2016",
+  "title": "Gold and Gold Alloys, Silver and Silver Alloys \u2014 Jewellery/Artefacts \u2014 Fineness and Marking",
+  "edition": "Fifth Revision",
+  "year": 2016,
+  "division": "MTD",
+  "division_name": "Metallurgical Engineering Division",
+  "effective_status": "CURRENT",
+  "is_mandatory": true,
+  "qco_name": "Hallmarking of Gold Jewellery and Gold Artefacts Mandatory Order",
+  "scheme": "Scheme-IV (HUID Hallmarking of Gold and Silver)",
+  "source_authority": "Bureau of Indian Standards / Department of Consumer Affairs Gazette",
+  "supersedes": [
+    "IS 1417:2009"
+  ],
+  "amendments": [
+    "Amendment No. 1 (2019)",
+    "Amendment No. 2 (2021)"
+  ],
+  "clauses": [
+    {
+      "clause": "4.1",
+      "title": "Official Recognized Karatage and Fineness Levels (Parts per Thousand)",
+      "page": 2,
+      "text": "Clause 4.1 & Table 1 (Official Recognized Gold Grades in India): (1) 24 Karat = 999.0 parts per thousand (ppt); (2) 23 Karat = 958.0 ppt; (3) 22 Karat = 916.0 ppt; (4) 20 Karat = 833.0 ppt; (5) 18 Karat = 750.0 ppt; (6) 14 Karat = 585.0 ppt; (7) 9 Karat = 375.0 ppt. Negative purity tolerance is ZERO. Assay value must meet or exceed declared fineness.",
+      "keywords": [
+        "gold purity",
+        "22k 916",
+        "24k 999",
+        "18k 750",
+        "14k 585",
+        "fineness ppt",
+        "is 1417"
+      ]
+    },
+    {
+      "clause": "5.1",
+      "title": "Mandatory Three-Mark Hallmarking Structure (HUID Structure)",
+      "page": 4,
+      "text": "Clause 5.1 (Composition of Official Gold Hallmark): Under the 2021 Hallmarking Regulations, every hallmarked gold article shall bear exactly three mandatory laser marks: (1) The BIS Logo (standard triangular symbol). (2) Purity in Karat and Fineness (e.g., '22K916' or '18K750'). (3) Six-digit alphanumeric Hallmark Unique Identification code (HUID e.g., 'AB8492') unique to that individual piece.",
+      "keywords": [
+        "huid 6-digit",
+        "bis logo",
+        "hallmark marks",
+        "purity mark",
+        "is 1417",
+        "clause 5.1"
+      ]
+    },
+    {
+      "clause": "6.2",
+      "title": "Lead Fire Assay Reference Test Method (Cupellation)",
+      "page": 6,
+      "text": "Clause 6.2 & IS 1418 (Fire Assay / Cupellation Method for Gold Testing): The definitive referee test method for gold fineness is fire assay cupellation. The sample is wrapped in lead foil with silver inquartation, cupelled at 1100\u00b0C to oxidize base metals, and parted with nitric acid (HNO3) to determine gold mass with accuracy up to 0.1 ppt (0.01%).",
+      "keywords": [
+        "fire assay",
+        "cupellation",
+        "gold assaying",
+        "is 1418",
+        "is 1417",
+        "lead foil"
+      ]
+    }
+  ]
+}

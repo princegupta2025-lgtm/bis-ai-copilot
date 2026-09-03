@@ -1,0 +1,41 @@
+{
+  "standard_number": "IS 732:2019",
+  "title": "Code of Practice for Electrical Wiring Installations",
+  "edition": "Fourth Revision",
+  "year": 2019,
+  "division": "ETD",
+  "division_name": "Electrotechnical Division",
+  "effective_status": "CURRENT",
+  "is_mandatory": true,
+  "qco_name": "Central Electricity Authority (Safety Requirements) Mandate",
+  "scheme": "Scheme-I / National Electrical Code of India (SP 30)",
+  "source_authority": "Bureau of Indian Standards / Central Electricity Authority",
+  "clauses": [
+    {
+      "clause": "5.4",
+      "title": "Sizing of Circuit Conductors and Voltage Drop Limits",
+      "page": 22,
+      "text": "Clause 5.4: Copper conductors shall have minimum cross-sectional area of 1.5 mm\u00b2 for lighting sub-circuits and 2.5 mm\u00b2 for 16A power sub-circuits. Voltage drop from consumer intake point to any terminal outlet shall not exceed 4 percent of nominal supply voltage.",
+      "keywords": [
+        "is 732",
+        "electrical wiring",
+        "voltage drop 4 percent",
+        "conductor size 2.5 mm",
+        "copper wire"
+      ]
+    },
+    {
+      "clause": "9.1",
+      "title": "Mandatory Earthing Resistance and Shock Protection",
+      "page": 35,
+      "text": "Clause 9.1: Total earth loop impedance and earth electrode resistance for residential premises shall not exceed 5.0 Ohms. Independent earth pits must connect to main switchboard earth bar using copper earth strip of minimum 25x3 mm.",
+      "keywords": [
+        "earthing resistance",
+        "5 ohms earth",
+        "earth pit",
+        "shock prevention",
+        "is 732"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,59 @@
+{
+  "centralLab": {
+    "name": "BIS Central Laboratory",
+    "location": "Plot No. 20/9, Site IV, Sahibabad Industrial Area, Ghaziabad, UP - 201010",
+    "scope": "Comprehensive Chemical, Electrical, Mechanical, Microbiological, Civil and Food Testing"
+  },
+  "regionalLabs": [
+    {
+      "region": "Western Regional Laboratory (WROL)",
+      "location": "Manakalaya, E-9, MIDC, Andheri (East), Mumbai - 400093",
+      "specialties": [
+        "Chemical",
+        "Mechanical",
+        "Metallurgical",
+        "Electrical"
+      ]
+    },
+    {
+      "region": "Eastern Regional Laboratory (EROL)",
+      "location": "1/14, C.I.T. Scheme VII M, V.I.P. Road, Kolkata - 700054",
+      "specialties": [
+        "Food & Water",
+        "Microbiology",
+        "Electrical",
+        "Chemical"
+      ]
+    },
+    {
+      "region": "Southern Regional Laboratory (SROL)",
+      "location": "CIT Campus, IV Cross Road, Taramani, Chennai - 600113",
+      "specialties": [
+        "Electronics",
+        "Batteries",
+        "Solar PV",
+        "Chemical"
+      ]
+    },
+    {
+      "region": "Northern Regional Laboratory (NROL)",
+      "location": "Plot No. 4-A, Sector 27-B, Mohali, Punjab - 160019",
+      "specialties": [
+        "Mechanical",
+        "Steel & Rebars",
+        "Cables",
+        "Helmets"
+      ]
+    }
+  ],
+  "labRecognitionScheme": {
+    "name": "Laboratory Recognition Scheme (LRS)",
+    "standard": "ISO/IEC 17025 (NABL Accreditation)",
+    "description": "BIS recognizes external third-party and government testing laboratories for testing samples of products under domestic and foreign certification schemes."
+  },
+  "assayingCentres": {
+    "name": "BIS-Recognized Assaying and Hallmarking Centres (AHCs)",
+    "auditStandard": "IS 15820",
+    "description": "Certified testing facilities equipped with XRF and Lead Fire Assay Cupellation for hallmarking jewellery with laser HUID."
+  }
+}

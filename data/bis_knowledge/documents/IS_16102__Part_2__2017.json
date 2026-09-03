@@ -1,0 +1,40 @@
+{
+  "standard_number": "IS 16102 (Part 2):2017",
+  "title": "Self-Ballasted LED Lamps for General Lighting Services \u2014 Part 2: Performance Requirements",
+  "edition": "First Revision",
+  "year": 2017,
+  "division": "LITD",
+  "division_name": "Electronics & Information Technology Division",
+  "effective_status": "CURRENT",
+  "is_mandatory": true,
+  "qco_name": "Electronics and Information Technology Goods (Compulsory Registration) Order",
+  "scheme": "Scheme-II (Compulsory Registration Scheme - CRS)",
+  "source_authority": "Bureau of Indian Standards / MeitY",
+  "clauses": [
+    {
+      "clause": "7.1",
+      "title": "Luminous Efficacy and Power Factor Mandates",
+      "page": 6,
+      "text": "Clause 7.1: Minimum luminous efficacy of LED lamps shall not be less than 100 lumens per Watt. For lamps with rated power above 5W, the electrical power factor shall be at least 0.90 to minimize grid reactive power distortion.",
+      "keywords": [
+        "led lamp",
+        "is 16102",
+        "luminous efficacy 100 lm/w",
+        "power factor 0.90",
+        "meity crs"
+      ]
+    },
+    {
+      "clause": "8.2",
+      "title": "Rated Life and Lumen Maintenance (L70 Test)",
+      "page": 10,
+      "text": "Clause 8.2: Rated operating life shall be minimum 25,000 burning hours. At 6,000 burning hours, the lumen maintenance percentage shall be not less than 80 percent of initial measured lumens.",
+      "keywords": [
+        "25000 hours life",
+        "l70 lumen test",
+        "led durability",
+        "is 16102 part 2"
+      ]
+    }
+  ]
+}

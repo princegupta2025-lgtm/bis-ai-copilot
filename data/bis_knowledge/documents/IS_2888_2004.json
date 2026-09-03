@@ -1,0 +1,48 @@
+{
+  "standard_number": "IS 2888:2004",
+  "title": "Toilet Soap \u2014 Specification",
+  "edition": "Third Revision",
+  "year": 2004,
+  "division": "CHD",
+  "division_name": "Chemical Division",
+  "effective_status": "CURRENT",
+  "is_mandatory": false,
+  "scheme": "Scheme-I (ISI Mark Product Certification)",
+  "source_authority": "Bureau of Indian Standards",
+  "supersedes": [
+    "IS 2888:1983"
+  ],
+  "amendments": [
+    "Amendment No. 1 (2007)",
+    "Amendment No. 2 (2012)"
+  ],
+  "clauses": [
+    {
+      "clause": "4.1",
+      "title": "Total Fatty Matter (TFM) and Classification Grades",
+      "page": 2,
+      "text": "Clause 4.1 & Table 1 (Classification and Requirements for Toilet Soaps): Toilet soaps are classified into three quality grades based on Total Fatty Matter (TFM) by mass: Grade 1 = TFM not less than 76.0%; Grade 2 = TFM not less than 70.0%; Grade 3 = TFM not less than 60.0%. Moisture and volatile matter at 105\u00b0C shall not exceed 22.0% for Grade 1.",
+      "keywords": [
+        "toilet soap",
+        "tfm 76%",
+        "total fatty matter",
+        "grade 1 soap",
+        "grade 2 soap",
+        "grade 3 soap",
+        "is 2888"
+      ]
+    },
+    {
+      "clause": "4.3",
+      "title": "Free Caustic Alkali & Insoluble Matter Limits",
+      "page": 3,
+      "text": "Clause 4.3 & Table 1 (Chemical Limits): Free caustic alkali as NaOH shall NOT exceed 0.05% by mass. Matter insoluble in alcohol shall not exceed 3.0% for Grade 1. Chlorides (as NaCl) shall not exceed 1.5% by mass.",
+      "keywords": [
+        "free caustic alkali 0.05%",
+        "soap chemical limits",
+        "is 2888",
+        "table 1"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,40 @@
+{
+  "standard_number": "IS 16102 (Part 1):2012",
+  "title": "Self-Ballasted LED Lamps for General Lighting Services \u2014 Part 1: Safety Requirements",
+  "edition": "First Revision",
+  "year": 2012,
+  "division": "ETD",
+  "division_name": "Electrotechnical Division",
+  "effective_status": "CURRENT",
+  "is_mandatory": true,
+  "qco_name": "Self-Ballasted LED Lamps (Quality Control) Mandatory Order",
+  "scheme": "Scheme-II (Compulsory Registration Scheme - CRS)",
+  "source_authority": "Bureau of Indian Standards / MeitY Gazette",
+  "clauses": [
+    {
+      "clause": "6.1",
+      "title": "Lamp Cap Interchangeability and B22d / E27 Dimensions",
+      "page": 3,
+      "text": "Clause 6.1 (Cap Dimensions): LED lamp caps (B22d bayonet or E27 edison screw) shall conform to IS 9249 / IEC 60061-1 gauges. Creepage distance and clearance between cap contacts and accessible metal parts shall not be less than 5.0 mm.",
+      "keywords": [
+        "led lamp safety",
+        "b22d cap",
+        "e27 cap",
+        "creepage distance 5mm",
+        "is 16102"
+      ]
+    },
+    {
+      "clause": "8.1",
+      "title": "Insulation Resistance and Electric Strength Withstand",
+      "page": 5,
+      "text": "Clause 8.1 (Dielectric Electric Strength): Insulation resistance between current-carrying parts and accessible enclosure shall be min 4.0 M\u03a9. High voltage test: 4000 V AC (rms) applied for 1 minute without breakdown.",
+      "keywords": [
+        "insulation resistance 4 megohms",
+        "dielectric test 4000v",
+        "led bulb",
+        "is 16102"
+      ]
+    }
+  ]
+}

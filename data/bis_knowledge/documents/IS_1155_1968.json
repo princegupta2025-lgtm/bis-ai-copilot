@@ -1,0 +1,28 @@
+{
+  "standard_number": "IS 1155:1968",
+  "title": "Wheat Flour (Maida) for General Purposes \u2014 Specification",
+  "edition": "Second Revision",
+  "year": 1968,
+  "division": "FAD",
+  "division_name": "Food and Agriculture Division",
+  "effective_status": "CURRENT",
+  "is_mandatory": false,
+  "scheme": "Scheme-I (ISI Mark Product Certification)",
+  "source_authority": "Bureau of Indian Standards / FSSAI",
+  "clauses": [
+    {
+      "clause": "3.1",
+      "title": "Quality Limits for Wheat Flour (Maida)",
+      "page": 2,
+      "text": "Clause 3.1 & Table 1 (Chemical Requirements for Maida): (a) Moisture max 13.0% by mass. (b) Total Ash max 0.70% on dry basis. (c) Acid Insoluble Ash max 0.05% on dry basis. (d) Gluten (dry basis) not less than 7.5%. (e) Alcoholic Acidity (as H2SO4) max 0.12%. (f) Uric acid max 100 mg/kg.",
+      "keywords": [
+        "maida wheat flour",
+        "gluten 7.5%",
+        "moisture 13%",
+        "total ash 0.70%",
+        "is 1155",
+        "table 1"
+      ]
+    }
+  ]
+}

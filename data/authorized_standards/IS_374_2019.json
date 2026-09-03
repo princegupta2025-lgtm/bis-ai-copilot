@@ -1,0 +1,44 @@
+{
+  "standard_number": "IS 374:2019",
+  "title": "Electric Ceiling Type Fans and Regulators \u2014 Specification",
+  "edition": "Fifth Revision",
+  "year": 2019,
+  "division": "ETD",
+  "division_name": "Electrotechnical Division",
+  "effective_status": "CURRENT",
+  "is_mandatory": true,
+  "qco_name": "Ceiling Fans (Quality Control) Mandatory Order",
+  "scheme": "Scheme-I (ISI Mark Product Certification)",
+  "source_authority": "Bureau of Indian Standards / BEE",
+  "supersedes": [
+    "IS 374:1979"
+  ],
+  "clauses": [
+    {
+      "clause": "6.1",
+      "title": "Air Delivery & Service Value Limits (Energy Efficiency)",
+      "page": 4,
+      "text": "Clause 6.1 & Table 1 (Air Delivery and Service Value for 1200 mm Sweep Fans): Minimum air delivery for 1200 mm sweep fan shall be 210 m\u00b3/min (210 CMM). Minimum service value (air delivery per watt of power input) shall be 4.0 m\u00b3/min/W for Star 1 and up to 6.0 m\u00b3/min/W for 5-Star BLDC energy efficient ceiling fans. Maximum power consumption shall not exceed 50 W (30 W for BLDC).",
+      "keywords": [
+        "ceiling fan",
+        "air delivery 210 cmm",
+        "service value 4.0",
+        "bldc fan 30w",
+        "is 374",
+        "table 1"
+      ]
+    },
+    {
+      "clause": "8.2",
+      "title": "Suspension System Safety & Mechanical Strength Test",
+      "page": 7,
+      "text": "Clause 8.2 (Downrod and Shackle Safety Test): The fan suspension system (downrod, shackle, and split pin) shall withstand a tensile proof load of not less than 1000 N (100 kgf) for 1 minute without permanent deformation or loosening.",
+      "keywords": [
+        "downrod tensile load 1000 n",
+        "shackle safety",
+        "ceiling fan safety",
+        "is 374"
+      ]
+    }
+  ]
+}

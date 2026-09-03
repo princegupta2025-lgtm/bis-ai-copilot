@@ -1,0 +1,43 @@
+{
+  "standard_number": "IS 2082:2018",
+  "title": "Stationary Storage Type Electric Water Heaters (Geysers) \u2014 Specification",
+  "edition": "Sixth Revision",
+  "year": 2018,
+  "division": "ETD",
+  "division_name": "Electrotechnical Division",
+  "effective_status": "CURRENT",
+  "is_mandatory": true,
+  "qco_name": "Electric Water Heaters (Quality Control) Mandatory Order",
+  "scheme": "Scheme-I (ISI Mark Product Certification)",
+  "source_authority": "Bureau of Indian Standards / BEE",
+  "supersedes": [
+    "IS 2082:1993"
+  ],
+  "clauses": [
+    {
+      "clause": "7.1",
+      "title": "Rated Pressure and Hydrostatic Proof Test Limits",
+      "page": 4,
+      "text": "Clause 7.1 (Rated Working Pressure and Proof Pressure): Water heater inner tanks are rated for working pressures of 0.6 MPa (6.0 bar) or 0.8 MPa (8.0 bar). Every tank shall withstand a factory hydraulic proof pressure test of 1.5 times the rated pressure (0.9 MPa to 1.2 MPa / 12 bar) for 5 minutes without leakage or permanent distortion.",
+      "keywords": [
+        "water heater geyser",
+        "tank pressure 6 bar 8 bar",
+        "hydraulic test 12 bar",
+        "is 2082"
+      ]
+    },
+    {
+      "clause": "9.1",
+      "title": "Standing Loss / Daily Energy Consumption Limits",
+      "page": 7,
+      "text": "Clause 9.1 & Table 2 (Standing Energy Loss in kWh/24h): For a 25-litre vertical water heater operating at 65\u00b0C: BEE 5-Star max standing loss is 0.40 kWh/24h; 4-Star max is 0.45 kWh/24h; 3-Star max is 0.50 kWh/24h.",
+      "keywords": [
+        "standing loss",
+        "energy consumption geyser",
+        "25 litre geyser",
+        "is 2082",
+        "table 2"
+      ]
+    }
+  ]
+}

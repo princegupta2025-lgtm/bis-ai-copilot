@@ -1,0 +1,83 @@
+{
+  "cmlLicenses": {
+    "8530092": {
+      "valid": true,
+      "brand": "STUDDS ACCESSORIES LIMITED",
+      "standard": "IS 4151:2015",
+      "product": "Two-Wheeler Protective Helmet",
+      "status": "ACTIVE",
+      "validUntil": "2027-12-31",
+      "factory": "Plot 9, Sector 58, Faridabad, Haryana",
+      "operativeScheme": "Scheme-I (ISI Mark)"
+    },
+    "7200194": {
+      "valid": true,
+      "brand": "HAVELLS INDIA LIMITED",
+      "standard": "IS 694:2010",
+      "product": "PVC Insulated Cables for Working Voltages up to 1100V",
+      "status": "ACTIVE",
+      "validUntil": "2028-06-30",
+      "factory": "Industrial Area, Alwar, Rajasthan",
+      "operativeScheme": "Scheme-I (ISI Mark)"
+    },
+    "2200341": {
+      "valid": true,
+      "brand": "FUNSKOOL (INDIA) LIMITED",
+      "standard": "IS 9873 (Part 1):2019",
+      "product": "Safety of Toys",
+      "status": "ACTIVE",
+      "validUntil": "2027-03-31",
+      "factory": "SIPCOT Industrial Complex, Ranipet, Tamil Nadu",
+      "operativeScheme": "Scheme-I (ISI Mark)"
+    },
+    "9100288": {
+      "valid": true,
+      "brand": "BISLERI INTERNATIONAL PVT LTD",
+      "standard": "IS 14543:2024",
+      "product": "Packaged Drinking Water",
+      "status": "ACTIVE",
+      "validUntil": "2027-09-30",
+      "factory": "Western Express Highway, Andheri East, Mumbai",
+      "operativeScheme": "Scheme-I (ISI Mark)"
+    },
+    "4091823": {
+      "valid": false,
+      "brand": "UNKNOWN / UNLICENSED REPLICA",
+      "standard": "IS 4151:2015",
+      "product": "Two-Wheeler Helmet",
+      "status": "CANCELLED / SUSPENDED",
+      "reason": "Failed Section 29 Compliance: Chin Strap Dynamic Retention Failure",
+      "operativeScheme": "Scheme-I (ISI Mark)"
+    }
+  },
+  "goldHuids": {
+    "AB8492": {
+      "valid": true,
+      "purity": "22K (916 Fineness)",
+      "assayCenter": "AHC-DEL-042 (BIS Recognized Hallmarking Centre, Delhi)",
+      "jeweler": "Tanishq (Titan Company Limited)",
+      "hallmarkDate": "2026-01-15",
+      "status": "VERIFIED GENUINE",
+      "articleType": "Gold Necklace"
+    },
+    "FA9999": {
+      "valid": true,
+      "purity": "18K (750 Fineness)",
+      "assayCenter": "AHC-MUM-018 (BIS Recognized Hallmarking Centre, Mumbai)",
+      "jeweler": "Malabar Gold & Diamonds",
+      "hallmarkDate": "2026-02-10",
+      "status": "VERIFIED GENUINE",
+      "articleType": "Gold Ring"
+    },
+    "XY9901": {
+      "valid": false,
+      "purity": "UNVERIFIED",
+      "assayCenter": "NONE",
+      "jeweler": "UNREGISTERED DEALER",
+      "hallmarkDate": "NONE",
+      "status": "FAKE / CLONED HUID",
+      "reason": "HUID not present on central BIS Manakonline database. Suspected Rule 49 violation.",
+      "articleType": "Gold Bangle"
+    }
+  }
+}

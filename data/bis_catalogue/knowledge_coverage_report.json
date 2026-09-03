@@ -1,0 +1,21 @@
+{
+  "reportGeneratedAt": "2026-09-01T16:52:06Z",
+  "project": "BIS Trust Copilot / MANAK-AI (SIH26107)",
+  "pipelineStatus": "OPERATIONAL",
+  "catalogueMaster": {
+    "totalCatalogueRecords": 23450,
+    "uniqueStandardNumbers": 23401,
+    "technicalDivisionsCount": 15
+  },
+  "deepKnowledgeLayer": {
+    "fullTextStandards": 54,
+    "fullTextCoveragePct": 0.231,
+    "totalDocuments": 54,
+    "totalClauses": 217,
+    "totalChunks": 217,
+    "totalEmbeddings": 217,
+    "currentStandardsWithFullText": 54,
+    "standardsWithCatalogueOnly": 23347,
+    "embeddingModel": "BAAI/bge-small-en-v1.5 (384-D)"
+  }
+}

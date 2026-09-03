@@ -1,0 +1,44 @@
+{
+  "standard_number": "IS 2553 (Part 2):2019",
+  "title": "Safety Glass \u2014 Specification \u2014 Part 2: For Road Transport",
+  "edition": "Fourth Revision",
+  "year": 2019,
+  "division": "TED",
+  "division_name": "Transport Engineering Division",
+  "effective_status": "CURRENT",
+  "is_mandatory": true,
+  "qco_name": "Safety Glass (Quality Control) Mandatory Order",
+  "scheme": "Scheme-I (ISI Mark Product Certification)",
+  "source_authority": "Bureau of Indian Standards / MoRTH",
+  "supersedes": [
+    "IS 2553 (Part 2):1992"
+  ],
+  "clauses": [
+    {
+      "clause": "5.1",
+      "title": "Visual Light Transmittance Limits for Windscreens & Side Windows",
+      "page": 4,
+      "text": "Clause 5.1 & CMVR Rule 100 (Light Transmission Requirements): (a) Laminated safety glass windscreens shall have a total visual light transmittance of NOT less than 70.0%. (b) Side and rear glasses shall have light transmittance of NOT less than 50.0%.",
+      "keywords": [
+        "safety glass",
+        "windscreen transmittance 70%",
+        "side glass 50%",
+        "is 2553 part 2",
+        "cmvr rule 100"
+      ]
+    },
+    {
+      "clause": "6.2",
+      "title": "High Impact Ball Drop Test (227g Steel Ball from 4.0m Height)",
+      "page": 8,
+      "text": "Clause 6.2 (Ball Impact Test on Laminated Glass): A 227 g polished steel ball (38 mm dia) is dropped from a height of 4.0 metres onto the center of a clamped glass panel at 20\u00b15\u00b0C. The ball shall NOT penetrate the interlayer, and maximum weight of detached glass fragments from the underside shall not exceed 12.0 grams.",
+      "keywords": [
+        "ball impact test 4m",
+        "laminated glass",
+        "227g steel ball",
+        "is 2553",
+        "windscreen safety"
+      ]
+    }
+  ]
+}

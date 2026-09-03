@@ -1,0 +1,26 @@
+{
+  "standard_number": "IS 1061:1997",
+  "title": "Disinfectant Fluids, Phenolic Type \u2014 Specification (Black and White Fluids)",
+  "edition": "Third Revision",
+  "year": 1997,
+  "division": "CHD",
+  "division_name": "Chemical Division",
+  "effective_status": "CURRENT",
+  "is_mandatory": false,
+  "scheme": "Scheme-I (ISI Mark Product Certification)",
+  "source_authority": "Bureau of Indian Standards",
+  "clauses": [
+    {
+      "clause": "4.2",
+      "title": "Rideal-Walker Germicidal Coefficient (RWC) Rating",
+      "page": 2,
+      "text": "Clause 4.2 & Table 1 (Germicidal Performance): Disinfectant fluids are graded by Rideal-Walker Coefficient (RWC) against Salmonella typhi: Grade 1 = RWC not less than 18.0; Grade 2 = RWC not less than 10.0; Grade 3 = RWC not less than 5.0. Fluid shall remain homogeneous without phase separation on dilution with hard water (300 ppm CaCO3 equivalent).",
+      "keywords": [
+        "disinfectant fluid",
+        "rideal walker coefficient rwc 18",
+        "phenol coefficient",
+        "is 1061"
+      ]
+    }
+  ]
+}

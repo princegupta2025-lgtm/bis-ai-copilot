@@ -1,0 +1,65 @@
+{
+  "standard_number": "IS 1239 (Part 1):2004",
+  "title": "Steel Tubes, Tubulars and Other Wrought Steel Fittings \u2014 Part 1: Steel Tubes",
+  "edition": "Sixth Revision",
+  "year": 2004,
+  "division": "CED",
+  "division_name": "Civil Engineering Division",
+  "effective_status": "CURRENT",
+  "is_mandatory": true,
+  "qco_name": "Pipes and Tubes (Quality Control) Mandatory Order",
+  "scheme": "Scheme-I (ISI Mark Product Certification)",
+  "source_authority": "Bureau of Indian Standards / Ministry of Steel",
+  "supersedes": [
+    "IS 1239 (Part 1):1990"
+  ],
+  "amendments": [
+    "Amendment No. 1 (2007)",
+    "Amendment No. 2 (2012)",
+    "Amendment No. 3 (2017)"
+  ],
+  "clauses": [
+    {
+      "clause": "5.1",
+      "title": "Classification of Steel Tubes into Light, Medium & Heavy Classes",
+      "page": 2,
+      "text": "Clause 5.1 & Table 1-3 (Dimensions and Nominal Weights of Steel Tubes): Tubes are classified based on wall thickness into Light (Class A - Yellow color code), Medium (Class B - Blue color code), and Heavy (Class C - Red color code). Nominal bore ranges from 15 mm (1/2 inch) to 150 mm (6 inch). Minimum tensile strength is 320 MPa, elongation >= 12% to 20%.",
+      "keywords": [
+        "is 1239",
+        "steel tubes",
+        "light medium heavy",
+        "color coding",
+        "class a b c",
+        "tensile strength"
+      ]
+    },
+    {
+      "clause": "8.2",
+      "title": "Hydrostatic Pressure Test & Leak Tightness",
+      "page": 5,
+      "text": "Clause 8.2 (Hydrostatic Leak Test): Every tube shall withstand a hydraulic pressure test of 5.0 MPa (50 bar) at the mill for not less than 5 seconds without showing any leakage, sweating, or permanent structural deformation.",
+      "keywords": [
+        "hydrostatic test",
+        "50 bar",
+        "5.0 mpa",
+        "pressure test",
+        "is 1239",
+        "leak tightness"
+      ]
+    },
+    {
+      "clause": "9.1",
+      "title": "Galvanizing Requirements for G.I. Pipes",
+      "page": 7,
+      "text": "Clause 9.1 & IS 4736 (Hot-Dip Galvanized Zinc Coating): For galvanized tubes (GI Pipes), the average mass of zinc coating shall not be less than 400 g/m\u00b2 of surface area (equivalent to a nominal coating thickness of approx 55 microns). The zinc coating shall pass the Preece copper sulphate dipping test for uniformity (4 one-minute dips).",
+      "keywords": [
+        "galvanized pipe",
+        "gi pipe",
+        "zinc coating 400 g/m2",
+        "preece test",
+        "is 1239",
+        "is 4736"
+      ]
+    }
+  ]
+}

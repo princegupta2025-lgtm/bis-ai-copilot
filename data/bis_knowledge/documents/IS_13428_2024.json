@@ -1,0 +1,40 @@
+{
+  "standard_number": "IS 13428:2024",
+  "title": "Packaged Natural Mineral Water \u2014 Specification",
+  "edition": "Fourth Revision",
+  "year": 2024,
+  "division": "FAD",
+  "division_name": "Food and Agriculture Division",
+  "effective_status": "CURRENT",
+  "is_mandatory": true,
+  "qco_name": "Packaged Drinking and Mineral Water Mandatory Quality Control Order",
+  "scheme": "Scheme-I (Mandatory ISI Mark Certification)",
+  "source_authority": "Bureau of Indian Standards / FSSAI",
+  "clauses": [
+    {
+      "clause": "3.1",
+      "title": "Source Origin and Prohibition of Chemical Treatments",
+      "page": 4,
+      "text": "Clause 3.1: Packaged Natural Mineral Water must be obtained directly from authorized natural subterranean sources (natural springs, deep artesian wells). Any chemical treatment or modification of natural mineral composition is strictly prohibited; only physical filtration and decantation are allowed.",
+      "keywords": [
+        "is 13428",
+        "natural mineral water",
+        "spring water",
+        "fssai",
+        "chemical treatment ban"
+      ]
+    },
+    {
+      "clause": "4.2",
+      "title": "Microbiological Purity and Trace Heavy Metals",
+      "page": 7,
+      "text": "Clause 4.2 & Table 2: Total plate count after 72 hours at 20-22\u00b0C shall not exceed 100 CFU/ml. E. coli, Salmonella, Pseudomonas aeruginosa, and Faecal Streptococci shall be zero in 250 ml sample. Arsenic max 0.01 mg/L, Lead max 0.01 mg/L, Barium max 0.7 mg/L.",
+      "keywords": [
+        "zero e coli",
+        "pseudomonas aeruginosa",
+        "mineral water test",
+        "is 13428 table 2"
+      ]
+    }
+  ]
+}

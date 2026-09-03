@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Consumer Safety Mode • BIS MANAK-AI (SIH 2026)</title>
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+  <link rel="stylesheet" href="css/style.css" />
+  <link rel="stylesheet" href="css/command-palette.css" />
+  <script src="js/theme.js"></script>
+</head>
+<body>
+
+  <!-- ================= GOV TOP BAR ================= -->
+  <div class="gov-top-bar">
+    <div class="gov-container">
+      <div class="gov-left">
+        <span><i class="fas fa-flag"></i> Government of India • Ministry of Consumer Affairs, Food & Public Distribution</span>
+        <span class="m-hide"> | Consumer Protection Branch</span>
+      </div>
+      <div class="gov-right">
+        <span>SIH Project ID: SIH26107</span>
+        <span class="demo-badge-tag"><i class="fas fa-user-shield"></i> Consumer Protection Mode</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- ================= MAIN NAVIGATION ================= -->
+  <header class="main-header">
+    <div class="header-inner">
+      <div class="brand-section">
+        <a href="index.html" style="display:flex;align-items:center;gap:12px;">
+          <div class="brand-logo-badge">
+            <i class="fas fa-landmark"></i>
+          </div>
+          <div class="brand-titles">
+            <div class="brand-main">
+              BIS MANAK-AI <span class="gemini-pill"><i class="fas fa-user-shield"></i> Consumer Mode</span>
+            </div>
+            <div class="brand-sub">भारतीय मानक ब्यूरो • Bureau of Indian Standards (Govt. of India)</div>
+          </div>
+        </a>
+      </div>
+
+      <nav class="nav-menu">
+        <a href="index.html" class="nav-link"><i class="fas fa-home"></i> Home</a>
+        <a href="copilot.html" class="nav-link"><i class="fas fa-industry"></i> Industry Copilot</a>
+        <a href="chat.html" class="nav-link"><i class="fas fa-comments"></i> Ask the Standard</a>
+        <a href="knowledge-graph.html" class="nav-link"><i class="fas fa-diagram-project"></i> Knowledge Graph</a>
+        <a href="consumer.html" class="nav-link active"><i class="fas fa-user-shield"></i> Consumer Mode</a>
+        <a href="verify.html" class="nav-link"><i class="fas fa-qrcode"></i> Scan & Verify</a>
+      </nav>
+
+      <div class="nav-actions">
+        <button class="theme-toggle-btn" id="themeToggleBtn" onclick="toggleTheme()" title="Toggle Dark/Light Mode">
+          <i class="fas fa-moon"></i>
+        </button>
+        <a href="chat.html" class="btn-ai-launch">
+          <i class="fas fa-comments"></i> Ask AI in Hinglish
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <!-- ================= HERO ================= -->
+  <section class="hero-wrapper" style="padding:2.5rem 1.5rem;">
+    <div class="hero-container" style="max-width:900px;">
+      <div class="hero-badge-pill">
+        <span class="pulse-dot"></span>
+        <span>Aapka Adhikar • Consumer Awareness Portal</span>
+      </div>
+      <h1 class="hero-title" style="font-size:2.2rem;">
+        What Should You Check Before Buying Any Product in India? <br />
+        <span class="text-gradient">Simple Consumer Safety Guidance (Hindi / Hinglish / English)</span>
+      </h1>
+      <p class="hero-desc">
+        Learn how to identify genuine ISI marks, 6-digit gold HUID codes, and mandatory safety marks to protect your family from dangerous counterfeits.
+      </p>
+    </div>
+  </section>
+
+  <!-- ================= CONSUMER CHECKLIST CARDS ================= -->
+  <div style="max-width:1400px;margin:2rem auto 4rem;padding:0 1.5rem;">
+    
+    <div style="margin-bottom:1.5rem;">
+      <h2 style="font-size:1.4rem;font-weight:800;color:var(--gov-navy);"><i class="fas fa-basket-shopping" style="color:var(--bis-blue);"></i> Select Product to View "What Should I Check?" Checklist</h2>
+      <p style="font-size:0.85rem;color:var(--slate-500);">Interactive buying guide for daily consumer essentials.</p>
+    </div>
+
+    <!-- Product Category Tabs -->
+    <div style="display:flex;gap:10px;margin-bottom:1.5rem;flex-wrap:wrap;">
+      <button onclick="loadConsumerGuide('appliance')" class="v-tab-btn active" id="tabAppliance"><i class="fas fa-plug"></i> Home Appliances & Kettles</button>
+      <button onclick="loadConsumerGuide('gold')" class="v-tab-btn" id="tabGold"><i class="fas fa-gem"></i> Gold & Jewellery (HUID)</button>
+      <button onclick="loadConsumerGuide('helmet')" class="v-tab-btn" id="tabHelmet"><i class="fas fa-helmet-safety"></i> Two-Wheeler Helmets</button>
+      <button onclick="loadConsumerGuide('toy')" class="v-tab-btn" id="tabToy"><i class="fas fa-puzzle-piece"></i> Children's Toys</button>
+      <button onclick="loadConsumerGuide('water')" class="v-tab-btn" id="tabWater"><i class="fas fa-bottle-water"></i> Bottled Water & Jars</button>
+    </div>
+
+    <!-- Active Consumer Guidance Box -->
+    <div id="consumerGuideContainer" class="g-card" style="padding:2rem;">
+      <!-- Content rendered dynamically -->
+    </div>
+
+    <!-- Common Hinglish Questions Box -->
+    <div style="margin-top:3rem;">
+      <h3 style="font-size:1.2rem;font-weight:800;color:var(--gov-navy);margin-bottom:1rem;"><i class="fas fa-comments" style="color:var(--bis-blue);"></i> Frequently Asked Consumer Questions (Hinglish Support)</h3>
+      
+      <div style="display:grid;grid-template-columns:repeat(auto-fit, minmax(320px, 1fr));gap:1rem;">
+        <div class="g-card" style="cursor:pointer;" onclick="askConsumerAI('Mujhe electric kettle kharidni hai, safety ke liye kya check karun?')">
+          <div style="font-weight:700;color:var(--gov-navy);margin-bottom:4px;">"Mujhe electric kettle kharidni hai, safety ke liye kya check karun?"</div>
+          <p style="font-size:0.8rem;color:var(--slate-500);">Click to ask AI in natural Hinglish about 3-pin earth plugs, auto-cut thermal fuse, and IS 302 certification.</p>
+        </div>
+        <div class="g-card" style="cursor:pointer;" onclick="askConsumerAI('Sona khareedte waqt HUID code kaise check karein?')">
+          <div style="font-weight:700;color:var(--gov-navy);margin-bottom:4px;">"Sona khareedte waqt HUID code kaise check karein?"</div>
+          <p style="font-size:0.8rem;color:var(--slate-500);">Click to ask AI about 6-digit hallmark codes, 22K916 fineness, and BIS CARE app validation.</p>
+        </div>
+        <div class="g-card" style="cursor:pointer;" onclick="askConsumerAI('Fake ISI mark product mile toh complaint kaise karein?')">
+          <div style="font-weight:700;color:var(--gov-navy);margin-bottom:4px;">"Fake ISI mark product mile toh complaint kaise karein?"</div>
+          <p style="font-size:0.8rem;color:var(--slate-500);">Click to ask AI about Section 29 legal penalties and filing enforcement reports.</p>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- ================= FOOTER ================= -->
+  <footer class="main-footer">
+    <div class="footer-inner">
+      <div class="footer-col">
+        <div class="footer-brand">
+          <div class="brand-logo-badge" style="width:34px;height:34px;font-size:1rem;">
+            <i class="fas fa-landmark"></i>
+          </div>
+          <span style="font-weight:800;font-size:1.1rem;color:white;">BIS MANAK-AI</span>
+        </div>
+        <p style="font-size:0.85rem;margin-top:12px;line-height:1.6;">
+          Consumer Protection & Standards Guidance Portal (SIH26107).
+        </p>
+      </div>
+      <div class="footer-col">
+        <h4>Quick Links</h4>
+        <ul style="list-style:none;line-height:2;">
+          <li><a href="index.html">Home</a></li>
+          <li><a href="copilot.html">Industry Copilot</a></li>
+          <li><a href="consumer.html">Consumer Mode</a></li>
+          <li><a href="verify.html">Scan & Verify</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      © 2026 Bureau of Indian Standards (BIS) • Consumer Protection & Safety Intelligence (SIH26107)
+    </div>
+  </footer>
+
+  <!-- ================= SCRIPT ================= -->
+  <script>
+    function setActiveTab(btnId) {
+      document.querySelectorAll('.v-tab-btn').forEach(b => b.classList.remove('active'));
+      document.getElementById(btnId).classList.add('active');
+    }
+
+    function loadConsumerGuide(category) {
+      const box = document.getElementById('consumerGuideContainer');
+      
+      if (category === 'appliance') {
+        setActiveTab('tabAppliance');
+        box.innerHTML = `
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:1rem;flex-wrap:wrap;">
+            <h3 style="font-size:1.3rem;font-weight:800;color:var(--gov-navy);">⚡ Electric Kettles & Household Heating Appliances</h3>
+            <span style="background:rgba(239,68,68,0.15);color:#EF4444;padding:4px 10px;border-radius:4px;font-size:0.75rem;font-weight:700;">Mandatory ISI Product</span>
+          </div>
+
+          <div style="display:grid;grid-template-columns:repeat(auto-fit, minmax(280px, 1fr));gap:1.25rem;">
+            <div style="background:var(--slate-50);border:1px solid var(--border-color);border-radius:var(--radius-md);padding:1rem;">
+              <h4 style="font-size:0.95rem;font-weight:700;color:#10B981;margin-bottom:6px;">1. Look for 7-Digit CM/L Number</h4>
+              <p style="font-size:0.82rem;color:var(--slate-500);line-height:1.5;">Check the rating label at the bottom of the kettle. Authentic products display **ISI Mark** with a valid 7-digit CM/L-XXXXXXX code.</p>
+            </div>
+            <div style="background:var(--slate-50);border:1px solid var(--border-color);border-radius:var(--radius-md);padding:1rem;">
+              <h4 style="font-size:0.95rem;font-weight:700;color:#10B981;margin-bottom:6px;">2. Earthed 3-Pin Molded Plug</h4>
+              <p style="font-size:0.82rem;color:var(--slate-500);line-height:1.5;">Never buy 2-pin kettles! Under IS 302, a thick earth pin is mandatory to prevent lethal electric shocks.</p>
+            </div>
+            <div style="background:var(--slate-50);border:1px solid var(--border-color);border-radius:var(--radius-md);padding:1rem;">
+              <h4 style="font-size:0.95rem;font-weight:700;color:#10B981;margin-bottom:6px;">3. Automatic Steam & Dry-Boil Cutout</h4>
+              <p style="font-size:0.82rem;color:var(--slate-500);line-height:1.5;">The kettle must trip automatically when water boils or if turned on empty.</p>
+            </div>
+          </div>
+        `;
+      } else if (category === 'gold') {
+        setActiveTab('tabGold');
+        box.innerHTML = `
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:1rem;flex-wrap:wrap;">
+            <h3 style="font-size:1.3rem;font-weight:800;color:var(--gov-navy);">🪙 Gold Jewellery (6-Digit HUID Hallmark)</h3>
+            <span style="background:rgba(217,119,6,0.15);color:#D97706;padding:4px 10px;border-radius:4px;font-size:0.75rem;font-weight:700;">Mandatory Law in 343+ Districts</span>
+          </div>
+
+          <div style="display:grid;grid-template-columns:repeat(auto-fit, minmax(280px, 1fr));gap:1.25rem;">
+            <div style="background:var(--slate-50);border:1px solid var(--border-color);border-radius:var(--radius-md);padding:1rem;">
+              <h4 style="font-size:0.95rem;font-weight:700;color:#D97706;margin-bottom:6px;">1. BIS Triangle Logo</h4>
+              <p style="font-size:0.82rem;color:var(--slate-500);line-height:1.5;">Ensure the official BIS triangular stamp is laser-engraved inside the ring or chain.</p>
+            </div>
+            <div style="background:var(--slate-50);border:1px solid var(--border-color);border-radius:var(--radius-md);padding:1rem;">
+              <h4 style="font-size:0.95rem;font-weight:700;color:#D97706;margin-bottom:6px;">2. Purity & Fineness Mark</h4>
+              <p style="font-size:0.82rem;color:var(--slate-500);line-height:1.5;">Look for **22K916** (91.6% Pure Gold), **18K750** (75% Pure), or **14K585**.</p>
+            </div>
+            <div style="background:var(--slate-50);border:1px solid var(--border-color);border-radius:var(--radius-md);padding:1rem;">
+              <h4 style="font-size:0.95rem;font-weight:700;color:#D97706;margin-bottom:6px;">3. Unique 6-Digit HUID Code</h4>
+              <p style="font-size:0.82rem;color:var(--slate-500);line-height:1.5;">Every gold article must carry a 6-digit alphanumeric code (e.g. AB12CD). Verify it on our Verifier page.</p>
+            </div>
+          </div>
+        `;
+      } else if (category === 'helmet') {
+        setActiveTab('tabHelmet');
+        box.innerHTML = `
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:1rem;flex-wrap:wrap;">
+            <h3 style="font-size:1.3rem;font-weight:800;color:var(--gov-navy);">🪖 Two-Wheeler Rider Helmets (IS 4151:2015)</h3>
+            <span style="background:rgba(239,68,68,0.15);color:#EF4444;padding:4px 10px;border-radius:4px;font-size:0.75rem;font-weight:700;">Mandatory Law - Section 129 Motor Vehicles Act</span>
+          </div>
+
+          <div style="display:grid;grid-template-columns:repeat(auto-fit, minmax(280px, 1fr));gap:1.25rem;">
+            <div style="background:var(--slate-50);border:1px solid var(--border-color);border-radius:var(--radius-md);padding:1rem;">
+              <h4 style="font-size:0.95rem;font-weight:700;color:#10B981;margin-bottom:6px;">1. Stamped CM/L Number on EPS Shell</h4>
+              <p style="font-size:0.82rem;color:var(--slate-500);line-height:1.5;">Roadside fake helmets use cheap stickers. Authentic helmets have the ISI logo and CM/L number embossed into the outer shell or back label.</p>
+            </div>
+            <div style="background:var(--slate-50);border:1px solid var(--border-color);border-radius:var(--radius-md);padding:1rem;">
+              <h4 style="font-size:0.95rem;font-weight:700;color:#10B981;margin-bottom:6px;">2. Maximum 1.2 kg Weight Cap</h4>
+              <p style="font-size:0.82rem;color:var(--slate-500);line-height:1.5;">Heavy non-standard helmets cause neck fatigue. IS 4151 caps total weight under 1.2 kg.</p>
+            </div>
+          </div>
+        `;
+      } else {
+        setActiveTab('tabToy');
+        box.innerHTML = `
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:1rem;flex-wrap:wrap;">
+            <h3 style="font-size:1.3rem;font-weight:800;color:var(--gov-navy);">🧸 Children's Toys (IS 9873 Non-Toxic Safety)</h3>
+            <span style="background:rgba(59,130,246,0.15);color:var(--bis-blue);padding:4px 10px;border-radius:4px;font-size:0.75rem;font-weight:700;">Toys QCO Mandate</span>
+          </div>
+          <p style="font-size:0.85rem;color:var(--slate-500);">Check for small parts choke warnings, zero toxic heavy metal paint declarations, and the mandatory ISI mark on toy boxes.</p>
+        `;
+      }
+    }
+
+    function askConsumerAI(queryText) {
+      sessionStorage.setItem('pendingQuery', queryText);
+      window.location.href = 'chat.html';
+    }
+
+    window.onload = function() {
+      loadConsumerGuide('appliance');
+    };
+  </script>
+  <script src="js/database.js"></script>
+  <script src="js/command-palette.js"></script>
+  <script src="js/wizard.js"></script>
+</body>
+</html>

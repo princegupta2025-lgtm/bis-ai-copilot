@@ -1,0 +1,40 @@
+{
+  "standard_number": "IS 15636:2012",
+  "title": "Automotive Vehicles \u2014 Pneumatic Tyres for Passenger Car Vehicles \u2014 Diagonal and Radial Ply",
+  "edition": "First Revision",
+  "year": 2012,
+  "division": "TED",
+  "division_name": "Transport Engineering Division",
+  "effective_status": "CURRENT",
+  "is_mandatory": true,
+  "qco_name": "Pneumatic Tyres and Tubes for Automotive Vehicles (Quality Control) Order",
+  "scheme": "Scheme-I (ISI Mark Product Certification)",
+  "source_authority": "Bureau of Indian Standards / MoRTH Gazette",
+  "clauses": [
+    {
+      "clause": "4.2",
+      "title": "High-Speed Endurance Performance Test on Test Drum",
+      "page": 5,
+      "text": "Clause 4.2 & Annex F (High-Speed Drum Test): The tyre is run on a 1.7 m diameter test drum at ambient temperature 38\u00b13\u00b0C under 80% rated load for 34 hours through progressive speed steps up to its rated speed symbol (e.g. T = 190 km/h; H = 210 km/h; V = 240 km/h). Criteria: No tread separation, ply separation, cord chunking, or bead failure.",
+      "keywords": [
+        "tyre high speed test",
+        "speed symbol t h v",
+        "drum test",
+        "is 15636",
+        "morth qco"
+      ]
+    },
+    {
+      "clause": "4.3",
+      "title": "Tread Wear Indicators (TWI) Height Requirement",
+      "page": 7,
+      "text": "Clause 4.3 (Tread Wear Indicators): Every passenger car tyre shall have at least 6 tread wear indicator ribs molded across the tread. The height of the TWI ribs shall be 1.6\u00b10.1 mm above the base of the tread groove.",
+      "keywords": [
+        "tread wear indicator twi",
+        "twi height 1.6mm",
+        "minimum tread depth",
+        "is 15636"
+      ]
+    }
+  ]
+}

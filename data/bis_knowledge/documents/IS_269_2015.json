@@ -1,0 +1,67 @@
+{
+  "standard_number": "IS 269:2015",
+  "title": "Ordinary Portland Cement \u2014 Specification",
+  "edition": "Sixth Revision",
+  "year": 2015,
+  "division": "CED",
+  "division_name": "Civil Engineering Division",
+  "effective_status": "CURRENT",
+  "is_mandatory": true,
+  "qco_name": "Cement (Quality Control) Mandatory Statutory Order",
+  "scheme": "Scheme-I (ISI Mark Product Certification)",
+  "source_authority": "Bureau of Indian Standards / DPIIT Gazette",
+  "supersedes": [
+    "IS 269:1989",
+    "IS 8112:1989",
+    "IS 12269:1987"
+  ],
+  "amendments": [
+    "Amendment No. 1 (2018)",
+    "Amendment No. 2 (2021)"
+  ],
+  "clauses": [
+    {
+      "clause": "5.1",
+      "title": "Chemical Requirements for OPC Cement",
+      "page": 2,
+      "text": "Clause 5.1 & Table 1 (Chemical Requirements of Ordinary Portland Cement): (a) Ratio of percentage of lime to percentages of silica, alumina and iron oxide (Lime Saturation Factor / LSF) shall be between 0.66 and 1.02. (b) Ratio of percentage of alumina to that of iron oxide >= 0.66. (c) Insoluble residue max 5.0% by mass. (d) Magnesia (MgO) max 6.0% by mass. (e) Total sulphur content as SO3 max 3.5% by mass. (f) Loss on ignition (LOI) max 5.0% by mass. (g) Total chloride content max 0.10% by mass.",
+      "keywords": [
+        "opc cement",
+        "lsf",
+        "loss on ignition",
+        "insoluble residue",
+        "magnesia limit",
+        "is 269",
+        "table 1"
+      ]
+    },
+    {
+      "clause": "6.1",
+      "title": "Physical Requirements \u2014 Fineness, Setting Time & Soundness",
+      "page": 3,
+      "text": "Clause 6.1 & Table 2 (Physical Requirements of OPC 33, 43, and 53 Grades): (1) Fineness by Blaine specific surface: Not less than 225 m\u00b2/kg. (2) Soundness: By Le-Chatelier method not more than 10 mm expansion; By Autoclave method not more than 0.8% expansion. (3) Setting Time: Initial setting time not less than 30 minutes; Final setting time not more than 600 minutes (10 hours).",
+      "keywords": [
+        "fineness",
+        "blaine 225",
+        "initial setting time 30 min",
+        "final setting time 600 min",
+        "soundness 10mm",
+        "is 269"
+      ]
+    },
+    {
+      "clause": "6.2",
+      "title": "Compressive Strength Requirements (28-Day Strength)",
+      "page": 4,
+      "text": "Clause 6.2 & Table 2 (Compressive Strength on Standard Mortar Cubes): (1) OPC 33 Grade: 3-day strength min 16.0 MPa, 7-day min 22.0 MPa, 28-day min 33.0 MPa to max 48.0 MPa. (2) OPC 43 Grade: 3-day strength min 23.0 MPa, 7-day min 33.0 MPa, 28-day min 43.0 MPa to max 58.0 MPa. (3) OPC 53 Grade: 3-day strength min 27.0 MPa, 7-day min 37.0 MPa, 28-day min 53.0 MPa (no maximum limit).",
+      "keywords": [
+        "opc 53 grade",
+        "opc 43 grade",
+        "compressive strength",
+        "28 day strength 53 mpa",
+        "mortar cube test",
+        "is 269"
+      ]
+    }
+  ]
+}

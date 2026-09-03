@@ -1,0 +1,46 @@
+{
+  "standard_number": "IS 15683:2018",
+  "title": "Portable Fire Extinguishers \u2014 Performance and Construction \u2014 Specification",
+  "edition": "First Revision",
+  "year": 2018,
+  "division": "MED",
+  "division_name": "Mechanical Engineering Division",
+  "effective_status": "CURRENT",
+  "is_mandatory": true,
+  "qco_name": "Fire Safety Equipment (Quality Control) Mandatory Statutory Order",
+  "scheme": "Scheme-I (ISI Mark Product Certification)",
+  "source_authority": "Bureau of Indian Standards / Ministry of Home Affairs Fire Services",
+  "supersedes": [
+    "IS 15683:2006"
+  ],
+  "amendments": [
+    "Amendment No. 1 (2021)"
+  ],
+  "clauses": [
+    {
+      "clause": "6.1",
+      "title": "Operating Temperatures and Hydraulic Burst Pressure",
+      "page": 4,
+      "text": "Clause 6.1 & Table 1 (Extinguisher Pressure Ratings): The cylinder body of stored pressure fire extinguishers shall have a minimum hydraulic burst pressure of 5.5 MPa (55 bar) or 3 times the maximum operating service pressure. Operating temperature range: -20\u00b0C to +55\u00b0C for dry chemical powder ABC type; +5\u00b0C to +55\u00b0C for water and foam types.",
+      "keywords": [
+        "fire extinguisher",
+        "burst pressure 55 bar",
+        "stored pressure",
+        "is 15683",
+        "abc powder"
+      ]
+    },
+    {
+      "clause": "7.2",
+      "title": "Discharge Duration and Percentage Extinguishant Retention Limits",
+      "page": 8,
+      "text": "Clause 7.2 & Table 3 (Effective Discharge Requirements): Extinguishers shall discharge not less than 85% of their total rated chemical charge within: 4 kg ABC Powder = min 13 seconds; 6 kg ABC Powder = min 15 seconds; 9 kg ABC Powder = min 20 seconds. Range of discharge jet shall be not less than 4.0 metres for 6 kg/9 kg units.",
+      "keywords": [
+        "discharge duration 15s",
+        "effective discharge 85%",
+        "jet range 4m",
+        "is 15683"
+      ]
+    }
+  ]
+}

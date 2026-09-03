@@ -1,0 +1,50 @@
+{
+  "standard_number": "IS 1460:2017",
+  "title": "Automotive Diesel Fuel \u2014 Specification (BS-VI Compliant)",
+  "edition": "Sixth Revision",
+  "year": 2017,
+  "division": "PCD",
+  "division_name": "Petroleum, Coal and Related Products Division",
+  "effective_status": "CURRENT",
+  "is_mandatory": true,
+  "qco_name": "Automotive Fuels (Quality Control) Mandatory Order",
+  "scheme": "Scheme-I (ISI Mark Product Certification)",
+  "source_authority": "Bureau of Indian Standards / Ministry of Petroleum and Natural Gas (MoPNG)",
+  "supersedes": [
+    "IS 1460:2005"
+  ],
+  "amendments": [
+    "Amendment No. 1 (2019)",
+    "Amendment No. 2 (2022)"
+  ],
+  "clauses": [
+    {
+      "clause": "4.1",
+      "title": "Sulphur Content Limit for BS-VI Automotive Diesel (10 ppm max)",
+      "page": 2,
+      "text": "Clause 4.1 & Table 1 (Requirements for Bharat Stage VI Automotive Diesel Fuel): (a) Total Sulphur content shall NOT exceed 10.0 mg/kg (10.0 ppm max). (b) Cetane Number shall not be less than 51.0 (Cetane Index min 46.0). (c) Density at 15\u00b0C shall be between 820.0 kg/m\u00b3 and 845.0 kg/m\u00b3. (d) Flash point (Abel) shall not be less than 35.0\u00b0C. (e) Kinematic Viscosity at 40\u00b0C shall be 2.0 to 4.5 cSt (mm\u00b2/s). (f) Polycyclic Aromatic Hydrocarbons (PAH) max 8.0% by mass.",
+      "keywords": [
+        "bs-vi diesel",
+        "sulphur 10 ppm",
+        "cetane number 51",
+        "density 820 to 845",
+        "flash point 35c",
+        "is 1460",
+        "table 1"
+      ]
+    },
+    {
+      "clause": "4.3",
+      "title": "Lubricity and Cold Filter Plugging Point (CFPP) Limits",
+      "page": 4,
+      "text": "Clause 4.3 & Table 1 (Lubricity and Cold Flow Properties): (a) Wear scar diameter (HFRR test at 60\u00b0C) shall NOT exceed 460 microns to prevent fuel injector pump wear. (b) Cold Filter Plugging Point (CFPP): For Winter grade in plain areas max +6\u00b0C; for Winter grade in high altitude sub-zero Himalayan areas max -6\u00b0C to -30\u00b0C.",
+      "keywords": [
+        "lubricity 460 microns",
+        "hfrr test",
+        "cfpp cold flow",
+        "is 1460",
+        "diesel lubricity"
+      ]
+    }
+  ]
+}

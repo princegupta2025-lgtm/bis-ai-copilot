@@ -1,0 +1,131 @@
+{
+  "version": "2.6",
+  "authority": "Bureau of Indian Standards (Govt. of India)",
+  "standards": [
+    {
+      "code": "IS 4151:2015",
+      "title": "Protective Helmets for Two-Wheeler Riders — Specification",
+      "division": "TED (Transport Engineering Division)",
+      "status": "MANDATORY QCO",
+      "ministry": "Ministry of Road Transport and Highways (MoRTH)",
+      "scheme": "Scheme-I (ISI Mark)",
+      "scope": "Specifies materials, construction, workmanship, finish, and performance requirements for helmets for riders of two-wheeled motor vehicles.",
+      "criticalClauses": [
+        {
+          "clause": "7.4",
+          "title": "Impact Absorption Test",
+          "requirement": "Peak acceleration shall not exceed 300g (approx 2940 m/s²), and the duration of acceleration greater than 150g shall not exceed 5.0 milliseconds, dropped from 3.0m on flat and hemispherical steel anvils."
+        },
+        {
+          "clause": "7.5",
+          "title": "Retention System Dynamic Test",
+          "requirement": "Chin strap shall not break; dynamic displacement under 10 kg drop weight from 0.75m shall not exceed 35 mm, and residual displacement shall not exceed 15 mm."
+        },
+        {
+          "clause": "7.6",
+          "title": "Rigidity Test",
+          "requirement": "Initial load 30N, maximum load 630N applied along longitudinal and transverse axes. Deformation difference shall not exceed 40 mm."
+        }
+      ]
+    },
+    {
+      "code": "IS 1417:2016",
+      "title": "Gold and Gold Alloys, Jewellery/Artefacts — Fineness and Marking",
+      "division": "MTD (Metallurgical Engineering Division)",
+      "status": "MANDATORY STATUTORY ORDER",
+      "ministry": "Ministry of Consumer Affairs, Food and Public Distribution",
+      "scheme": "Scheme-IV (Hallmarking)",
+      "scope": "Prescribes requirements for fineness and marking of gold jewellery and artefacts sold to Indian consumers.",
+      "criticalClauses": [
+        {
+          "clause": "5.1",
+          "title": "Standard Fineness Grades",
+          "requirement": "Recognized consumer purity carats: 24K (999), 23K (958), 22K (916), 20K (833), 18K (750), 14K (585), and 9K (375)."
+        },
+        {
+          "clause": "6.2",
+          "title": "Mandatory Three Hallmark Symbols",
+          "requirement": "Every hallmarked article must bear: (1) BIS triangular mark, (2) Purity in carat and fineness (e.g., 22K916), (3) 6-digit alphanumeric laser HUID identifier."
+        },
+        {
+          "clause": "Rule 49",
+          "title": "Statutory 3X Under-Caratage Compensation",
+          "requirement": "If purity is assayed below billed fineness, consumer is legally entitled to compensation equal to 3 times the purity difference calculated at current market rate, plus testing fee refund."
+        }
+      ]
+    },
+    {
+      "code": "IS 14543:2024",
+      "title": "Packaged Drinking Water (Other Than Packaged Natural Mineral Water)",
+      "division": "FAD (Food and Agriculture Division)",
+      "status": "MANDATORY STATUTORY ORDER",
+      "ministry": "Food Safety and Standards Authority of India (FSSAI) & BIS",
+      "scheme": "Scheme-I (ISI Mark)",
+      "scope": "Prescribes microbiological, physical, and chemical requirements for packaged drinking water filled in sealed hermetic containers.",
+      "criticalClauses": [
+        {
+          "clause": "5.1",
+          "title": "Microbiological Cleanliness",
+          "requirement": "Total Coliforms, E. coli, Faecal Streptococci, and Pseudomonas aeruginosa must be completely ABSENT in 250 ml of sample."
+        },
+        {
+          "clause": "5.2",
+          "title": "TDS and Physical Range",
+          "requirement": "Total Dissolved Solids (TDS) range: 75 mg/L to 500 mg/L; Turbidity max 2 NTU; pH 6.5 to 8.5."
+        },
+        {
+          "clause": "STI Table 1",
+          "title": "Factory Testing Protocol",
+          "requirement": "Daily in-house microbiological incubation tests and daily testing of TDS, pH, and ozone/chlorine residual."
+        }
+      ]
+    },
+    {
+      "code": "IS 1786:2008",
+      "title": "High Strength Deformed Steel Bars and Wires for Concrete Reinforcement",
+      "division": "CED (Civil Engineering Division)",
+      "status": "MANDATORY QCO",
+      "ministry": "Ministry of Steel",
+      "scheme": "Scheme-I (ISI Mark)",
+      "scope": "Covers requirements of thermo-mechanically treated (TMT) steel bars for reinforced concrete structures.",
+      "criticalClauses": [
+        {
+          "clause": "6.1",
+          "title": "Chemical Composition Limits",
+          "requirement": "Carbon max 0.25% for Fe 500D; Sulphur max 0.040%; Phosphorus max 0.040%; S+P max 0.075%."
+        },
+        {
+          "clause": "8.1",
+          "title": "Mechanical Properties",
+          "requirement": "Fe 500D: Yield strength min 500 MPa, Tensile strength min 565 MPa (TS/YS ratio ≥ 1.10), Total elongation min 16.0%."
+        },
+        {
+          "clause": "9.3",
+          "title": "Mandrel Bend and Rebend Test",
+          "requirement": "Bars bent through 135° around mandrel, aged in boiling water at 100°C for 30 minutes, bent back through 157.5° without surface rupture or fracture."
+        }
+      ]
+    },
+    {
+      "code": "IS 694:2010",
+      "title": "PVC Insulated Cables for Working Voltages up to and including 1100 V",
+      "division": "ETD (Electrotechnical Division)",
+      "status": "MANDATORY QCO",
+      "ministry": "DPIIT, Ministry of Commerce and Industry",
+      "scheme": "Scheme-I (ISI Mark)",
+      "scope": "Applies to building wires, flexible cords, and general electric cables with copper or aluminum conductors.",
+      "criticalClauses": [
+        {
+          "clause": "9.1",
+          "title": "High Voltage Spark Testing",
+          "requirement": "All insulated cable cores must withstand online high-voltage AC spark testing at 6 kV AC (or 9 kV DC) during extrusion without breakdown."
+        },
+        {
+          "clause": "10.2",
+          "title": "FRLS Insulation Fire Resistance",
+          "requirement": "Flame Retardant Low Smoke (FRLS) cables must satisfy Critical Oxygen Index min 29% and Halogen Acid Gas emission ≤ 20% by weight."
+        }
+      ]
+    }
+  ]
+}

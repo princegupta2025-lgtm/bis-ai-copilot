@@ -1,0 +1,42 @@
+{
+  "standard_number": "IS 17017 (Part 1):2018",
+  "title": "Electric Vehicle Conductive Charging System — Part 1: General Requirements",
+  "edition": "First Edition",
+  "year": 2018,
+  "division": "ETD",
+  "division_name": "Electrotechnical Division",
+  "effective_status": "CURRENT",
+  "is_mandatory": true,
+  "qco_name": "Electric Vehicles and Charging Stations (Quality Control) Order",
+  "scheme": "Scheme-II (Compulsory Registration Scheme - CRS)",
+  "source_authority": "Bureau of Indian Standards / Ministry of Heavy Industries",
+  "clauses": [
+    {
+      "clause": "6.1",
+      "title": "EV Charging Operational Modes (Mode 1 to Mode 4)",
+      "page": 8,
+      "text": "Clause 6.1: Specifies 4 EV charging modes: Mode 1 (non-dedicated domestic socket max 16A, prohibited in public), Mode 2 (domestic socket with In-Cable Control and Protection Device - ICCPD max 32A), Mode 3 (dedicated AC EV supply equipment - EVSE with pilot wire handshake), and Mode 4 (fast DC off-board charger with bidirectional CAN communication).",
+      "keywords": [
+        "ev charging",
+        "is 17017",
+        "electric vehicle",
+        "mode 3",
+        "mode 4",
+        "fast charger"
+      ]
+    },
+    {
+      "clause": "8.4",
+      "title": "Electrical Shock Protection and Residual Current Device (RCD)",
+      "page": 16,
+      "text": "Clause 8.4: All public and domestic EV charging points must incorporate Type B or Type A RCD with 6 mA smooth DC fault detection to disconnect power in less than 40 milliseconds upon detection of earth leakage currents.",
+      "keywords": [
+        "rcd protection",
+        "earth leakage",
+        "ev safety",
+        "type b rcd",
+        "is 17017"
+      ]
+    }
+  ]
+}

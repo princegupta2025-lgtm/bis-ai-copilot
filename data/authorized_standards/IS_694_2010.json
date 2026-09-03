@@ -1,0 +1,76 @@
+{
+  "standard_number": "IS 694:2010",
+  "title": "Polyvinyl Chloride (PVC) Insulated Cables for Working Voltages up to and Including 1100 V",
+  "edition": "Fourth Revision",
+  "year": 2010,
+  "division": "ETD",
+  "division_name": "Electrotechnical Division",
+  "effective_status": "CURRENT",
+  "is_mandatory": true,
+  "qco_name": "Electrical Wires and Cables (Quality Control) Mandatory Order",
+  "scheme": "Scheme-I (ISI Mark Product Certification)",
+  "source_authority": "Bureau of Indian Standards / Ministry of Commerce & Industry",
+  "supersedes": [
+    "IS 694:1990"
+  ],
+  "amendments": [
+    "Amendment No. 1 (2014)",
+    "Amendment No. 2 (2020)"
+  ],
+  "clauses": [
+    {
+      "clause": "6.2",
+      "title": "Conductor Construction & Material Resistance Limits",
+      "page": 3,
+      "text": "Clause 6.2 & IS 8130 (Conductors for Insulated Electric Cables): Conductors shall be of high-conductivity plain annealed copper or aluminium (Class 1 solid, Class 2 stranded, or Class 5 flexible). Maximum DC conductor resistance at 20\u00b0C: For 1.0 sq.mm flexible copper = 19.5 \u03a9/km; 1.5 sq.mm flexible copper = 13.3 \u03a9/km; 2.5 sq.mm flexible copper = 7.98 \u03a9/km; 4.0 sq.mm flexible copper = 4.95 \u03a9/km; 6.0 sq.mm flexible copper = 3.30 \u03a9/km.",
+      "keywords": [
+        "conductor resistance",
+        "is 694",
+        "copper conductor",
+        "1.5 sq mm",
+        "2.5 sq mm",
+        "is 8130"
+      ]
+    },
+    {
+      "clause": "7.1",
+      "title": "PVC Insulation Thickness and Dielectric Performance",
+      "page": 5,
+      "text": "Clause 7.1 & Table 2 (Thickness of PVC Insulation): Minimum thickness of Type A insulation: 0.5 sq.mm = 0.6 mm (min at any point 0.44 mm); 1.0 sq.mm = 0.6 mm; 1.5 sq.mm = 0.7 mm; 2.5 sq.mm = 0.8 mm; 4.0 sq.mm = 0.8 mm; 6.0 sq.mm = 0.8 mm. Volume resistivity at 20\u00b0C shall not be less than 1.0 x 10\u00b9\u00b3 \u03a9-cm (at 70\u00b0C min 1.0 x 10\u00b9\u2070 \u03a9-cm).",
+      "keywords": [
+        "pvc insulation",
+        "insulation thickness",
+        "volume resistivity",
+        "is 694",
+        "table 2"
+      ]
+    },
+    {
+      "clause": "14.2",
+      "title": "High Voltage AC Spark Test & Water Immersion Withstand",
+      "page": 8,
+      "text": "Clause 14.2 (High Voltage Dielectric Withstand Test): Finished cable coils shall be immersed in water for 1 hour at 20\u00b15\u00b0C and shall withstand an AC test voltage of 3.0 kV (rms) applied between conductor and water for 5 minutes without breakdown or puncture. Online spark test voltages: 6 kV AC (rms) for insulation thickness up to 1.0 mm.",
+      "keywords": [
+        "high voltage test",
+        "3 kv test",
+        "spark test 6kv",
+        "dielectric breakdown",
+        "is 694"
+      ]
+    },
+    {
+      "clause": "16.1",
+      "title": "Flammability Test & Thermal Stability Limits",
+      "page": 10,
+      "text": "Clause 16.1 & IS 10810 (Part 53) (Oxygen Index and Flammability Resistance): For FR (Flame Retardant) and FRLS cables, the Oxygen Index shall not be less than 29% when tested at 27\u00b12\u00b0C. Temperature Index not less than 250\u00b0C. For FRLS cables, smoke density rating shall not exceed 60% light transmittance and acid gas emission shall not exceed 20% HCl by mass.",
+      "keywords": [
+        "flame retardant",
+        "frls cable",
+        "oxygen index 29%",
+        "smoke density",
+        "is 694",
+        "is 10810"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,43 @@
+{
+  "standard_number": "IS 1476 (Part 1):2018",
+  "title": "Performance of Household Refrigerating Appliances \u2014 Refrigerators with or without Low Temperature Compartment",
+  "edition": "Second Revision",
+  "year": 2018,
+  "division": "MED",
+  "division_name": "Mechanical Engineering Division",
+  "effective_status": "CURRENT",
+  "is_mandatory": true,
+  "qco_name": "Household Refrigerating Appliances (Quality Control) Order",
+  "scheme": "Scheme-I (ISI Mark Product Certification)",
+  "source_authority": "Bureau of Indian Standards / BEE",
+  "supersedes": [
+    "IS 1476 (Part 1):2000"
+  ],
+  "clauses": [
+    {
+      "clause": "5.1",
+      "title": "Storage Temperature Ratings (Fresh Food Compartment & Freezer)",
+      "page": 4,
+      "text": "Clause 5.1 & Table 1 (Storage Temperature Limits): In standard climate (T class, ambient 43\u00b0C): (a) Fresh food compartment temperature shall remain between 0.0\u00b0C and +4.0\u00b0C. (b) One-star freezer compartment <= -6.0\u00b0C; Two-star <= -12.0\u00b0C; Three-star and Four-star freezer compartment <= -18.0\u00b0C.",
+      "keywords": [
+        "refrigerator temperature",
+        "freezer -18c",
+        "fresh food 0 to 4c",
+        "is 1476",
+        "star rating"
+      ]
+    },
+    {
+      "clause": "7.2",
+      "title": "Pull-Down Test & Freezing Capacity Under Tropical Ambient (43\u00b0C)",
+      "page": 8,
+      "text": "Clause 7.2 (Pull-Down Test): When started from room temperature at 43\u00b0C ambient, the refrigerator shall cool all fresh food storage compartments below 7.0\u00b0C and freezer below -12.0\u00b0C within 3.5 hours of continuous operation.",
+      "keywords": [
+        "pull down test 3.5 hours",
+        "tropical climate 43c",
+        "refrigerator pull down",
+        "is 1476"
+      ]
+    }
+  ]
+}

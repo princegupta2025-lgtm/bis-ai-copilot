@@ -1,0 +1,19 @@
+{
+  "name": "bis-ai-assistant",
+  "version": "2.0.0",
+  "description": "BIS Trust Copilot — AI-Powered Standards & Compliance Suite (SIH 2026)",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "index": "node scripts/index_documents.js",
+    "eval": "node scripts/eval_rag.js",
+    "test": "node scripts/eval_rag.js"
+  },
+  "dependencies": {
+    "@xenova/transformers": "^2.17.2",
+    "compression": "^1.8.1",
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.7",
+    "express": "^4.21.2"
+  }
+}

@@ -1,0 +1,58 @@
+{
+  "standard_number": "IS 2347:2017",
+  "title": "Domestic Pressure Cookers \u2014 Specification",
+  "edition": "Fifth Revision",
+  "year": 2017,
+  "division": "MED",
+  "division_name": "Mechanical Engineering Division",
+  "effective_status": "CURRENT",
+  "is_mandatory": true,
+  "qco_name": "Domestic Pressure Cooker (Quality Control) Mandatory Statutory Order",
+  "scheme": "Scheme-I (ISI Mark Product Certification)",
+  "source_authority": "Bureau of Indian Standards / DPIIT Gazette",
+  "supersedes": [
+    "IS 2347:2006"
+  ],
+  "amendments": [
+    "Amendment No. 1 (2020)",
+    "Amendment No. 2 (2022)"
+  ],
+  "clauses": [
+    {
+      "clause": "5.1",
+      "title": "Operating Pressure & Normal Regulated Cooking Pressure Limits",
+      "page": 3,
+      "text": "Clause 5.1 & Clause 8.1 (Operating Cooking Pressure): The pressure regulating device (vent weight assembly) shall maintain the internal operating steam pressure between 98 kPa (1.0 kgf/cm\u00b2) and 105 kPa (1.07 kgf/cm\u00b2) under continuous heating.",
+      "keywords": [
+        "pressure cooker",
+        "operating pressure 98 to 105 kpa",
+        "is 2347",
+        "vent weight"
+      ]
+    },
+    {
+      "clause": "8.2",
+      "title": "Hydraulic Burst Pressure Test (Minimum 400 kPa)",
+      "page": 5,
+      "text": "Clause 8.2 (Hydraulic Proof & Burst Pressure Test): The cooker body and lid assembly shall withstand a hydrostatic burst pressure test of not less than 400 kPa (4.0 kgf/cm\u00b2) without leakage, permanent distortion, or structural failure/bursting.",
+      "keywords": [
+        "burst pressure 400 kpa",
+        "hydraulic burst test",
+        "is 2347",
+        "clause 8.2"
+      ]
+    },
+    {
+      "clause": "8.4",
+      "title": "Fusible Safety Plug & Gasket Release System (GRS) Pressure Release Limits",
+      "page": 7,
+      "text": "Clause 8.4 (Secondary Safety Release Mechanisms): If the vent tube is intentionally blocked: (a) The secondary safety device (fusible safety plug) shall fuse and release steam at an internal pressure between 130 kPa and 200 kPa. (b) The Gasket Release System (GRS) slot shall vent steam safely downwards at a pressure not exceeding 300 kPa.",
+      "keywords": [
+        "safety plug 130 to 200 kpa",
+        "grs gasket release 300 kpa",
+        "secondary safety",
+        "is 2347"
+      ]
+    }
+  ]
+}

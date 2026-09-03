@@ -1,0 +1,81 @@
+{
+  "standard_number": "IS 456:2000",
+  "title": "Plain and Reinforced Concrete \u2014 Code of Practice",
+  "edition": "Fourth Revision",
+  "year": 2000,
+  "division": "CED",
+  "division_name": "Civil Engineering Division",
+  "effective_status": "CURRENT",
+  "is_mandatory": false,
+  "scheme": "Scheme-I (ISI Mark Product Certification)",
+  "source_authority": "Bureau of Indian Standards / National Building Code of India",
+  "supersedes": [
+    "IS 456:1978"
+  ],
+  "amendments": [
+    "Amendment No. 1 (2001)",
+    "Amendment No. 2 (2005)",
+    "Amendment No. 3 (2007)",
+    "Amendment No. 4 (2013)",
+    "Amendment No. 5 (2019)"
+  ],
+  "clauses": [
+    {
+      "clause": "6.1",
+      "title": "Concrete Characteristic Strength & Grades",
+      "page": 14,
+      "text": "Clause 6.1 & Table 2 (Grades of Concrete): Concrete is classified into Ordinary Concrete (M10, M15, M20), Standard Concrete (M25, M30, M35, M40, M45, M50, M55, M60), and High Strength Concrete (M65, M70, M75, M80, M85, M90, M100). The characteristic compressive strength (fck) is specified at 28 days on a 150 mm cube with a 95% confidence level. For reinforced concrete, minimum grade shall be M20.",
+      "keywords": [
+        "concrete grade",
+        "fck",
+        "is 456",
+        "compressive strength",
+        "m20",
+        "m25",
+        "m40"
+      ]
+    },
+    {
+      "clause": "8.2.2",
+      "title": "Durability & Minimum Cement Content Limits",
+      "page": 20,
+      "text": "Clause 8.2.2 & Table 5 (Minimum Cement Content and Maximum Free Water-Cement Ratio): For RCC under Mild exposure: Min cement 300 kg/m\u00b3, Max W/C 0.55, Min grade M20; Moderate: Min cement 300 kg/m\u00b3, Max W/C 0.50, Min grade M25; Severe: Min cement 320 kg/m\u00b3, Max W/C 0.45, Min grade M30; Very Severe: Min cement 340 kg/m\u00b3, Max W/C 0.45, Min grade M35; Extreme (tidal/marine): Min cement 360 kg/m\u00b3, Max W/C 0.40, Min grade M40. Maximum cement content shall not exceed 450 kg/m\u00b3.",
+      "keywords": [
+        "water cement ratio",
+        "durability",
+        "cement content",
+        "exposure condition",
+        "is 456",
+        "table 5"
+      ]
+    },
+    {
+      "clause": "26.4",
+      "title": "Nominal Cover to Reinforcement Bars",
+      "page": 46,
+      "text": "Clause 26.4.2 & Table 16 (Nominal Cover to Meet Durability Requirements): Minimum concrete cover to main reinforcement: Mild exposure = 20 mm; Moderate = 30 mm; Severe = 45 mm; Very Severe = 50 mm; Extreme = 75 mm. Nominal cover shall not be less than the diameter of the bar. For slabs: min 20 mm; beams: min 25 mm; columns: min 40 mm (or bar diameter); footings: min 50 mm.",
+      "keywords": [
+        "clear cover",
+        "nominal cover",
+        "rebar cover",
+        "durability cover",
+        "is 456",
+        "table 16"
+      ]
+    },
+    {
+      "clause": "38.1",
+      "title": "Limit State of Collapse - Assumptions for Flexure",
+      "page": 67,
+      "text": "Clause 38.1 (Assumptions for Flexure in Limit State Design): (a) Plane sections remain plane after bending. (b) Maximum strain in concrete at outermost compression fibre is 0.0035 in bending. (c) Tensile strength of concrete is ignored. (d) Partial safety factor for concrete is \u03b3m = 1.50 and for steel is \u03b3m = 1.15. Maximum design compressive stress in concrete is 0.446 fck. Maximum steel strain at failure >= 0.002 + (fy / (1.15 * Es)).",
+      "keywords": [
+        "limit state",
+        "flexure",
+        "gamma m",
+        "concrete strain 0.0035",
+        "partial safety factor",
+        "is 456"
+      ]
+    }
+  ]
+}

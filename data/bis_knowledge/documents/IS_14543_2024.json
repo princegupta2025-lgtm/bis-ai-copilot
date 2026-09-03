@@ -1,0 +1,62 @@
+{
+  "standard_number": "IS 14543:2024",
+  "title": "Packaged Drinking Water (Other Than Packaged Natural Mineral Water) \u2014 Specification",
+  "edition": "Third Revision",
+  "year": 2024,
+  "division": "FAD",
+  "division_name": "Food and Agriculture Division",
+  "effective_status": "CURRENT",
+  "is_mandatory": true,
+  "qco_name": "Packaged Drinking Water (Quality Control) Mandatory Order",
+  "scheme": "Scheme-I (ISI Mark Product Certification)",
+  "source_authority": "Bureau of Indian Standards / Food Safety and Standards Authority of India (FSSAI)",
+  "supersedes": [
+    "IS 14543:2016",
+    "IS 14543:2004"
+  ],
+  "amendments": [
+    "Amendment No. 1 (2024)"
+  ],
+  "clauses": [
+    {
+      "clause": "4.1",
+      "title": "Total Dissolved Solids & Mineralization Profile",
+      "page": 3,
+      "text": "Clause 4.1 & Table 1 (Physical and Chemical Requirements): Total Dissolved Solids (TDS) shall be between 75 mg/L and 500 mg/L. pH value shall be between 6.5 and 8.5. Turbidity shall not exceed 2 NTU. Calcium (as Ca) shall be between 10 mg/L and 75 mg/L. Magnesium (as Mg) shall be between 5 mg/L and 30 mg/L. Water must be remineralized if purified by reverse osmosis (RO).",
+      "keywords": [
+        "packaged water",
+        "tds 75 to 500",
+        "calcium",
+        "magnesium",
+        "is 14543",
+        "table 1"
+      ]
+    },
+    {
+      "clause": "5.1",
+      "title": "Microbiological Sterility Criteria (Zero Colony Formers)",
+      "page": 5,
+      "text": "Clause 5.1 & Table 2 (Microbiological Requirements for Packaged Water): In any 250 ml container sample: (a) Escherichia coli = Absent (0 CFU/250 ml). (b) Coliform bacteria = Absent (0 CFU/250 ml). (c) Pseudomonas aeruginosa = Absent (0 CFU/250 ml). (d) Faecal Streptococci = Absent (0 CFU/250 ml). (e) Yeast and Moulds = Absent (0 CFU/250 ml). Aerobic microbial count at 37\u00b0C shall not exceed 20 CFU/ml (at 20-22\u00b0C max 100 CFU/ml).",
+      "keywords": [
+        "pseudomonas aeruginosa",
+        "zero cfu",
+        "microbiology 250ml",
+        "packaged drinking water",
+        "is 14543"
+      ]
+    },
+    {
+      "clause": "6.2",
+      "title": "Residual Ozone and Disinfection By-Products (Bromate Limits)",
+      "page": 7,
+      "text": "Clause 6.2 (Disinfection Parameters and By-Products): Ozone concentration at the time of bottling shall be between 0.10 mg/L and 0.20 mg/L. Residual ozone at point of sale shall not exceed 0.05 mg/L. Bromate (BrO3) concentration shall NOT exceed 0.01 mg/L (10 ppb) to prevent carcinogenic disinfection by-product formation.",
+      "keywords": [
+        "ozone limit",
+        "bromate 10 ppb",
+        "disinfection by-products",
+        "is 14543",
+        "residual ozone"
+      ]
+    }
+  ]
+}

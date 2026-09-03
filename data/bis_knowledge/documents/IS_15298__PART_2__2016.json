@@ -1,0 +1,34 @@
+{
+  "standard_number": "IS 15298 (PART 2):2016",
+  "title": "Safety Footwear for Industrial Workers",
+  "edition": "Current Edition",
+  "year": 2026,
+  "division": "TXD",
+  "division_name": "TXD Standards Division",
+  "category": "Personal Protective Equipment",
+  "effective_status": "CURRENT",
+  "is_mandatory": true,
+  "qco_name": "Safety Footwear for Industrial Workers (Quality Control Mandatory Order)",
+  "scheme": "Scheme-I (ISI Mark Product Certification)",
+  "source_authority": "Bureau of Indian Standards / Gazette of India",
+  "clauses": [
+    {
+      "clause": "Clause 5.3",
+      "title": "Specification & Requirements Part 1",
+      "page": 2,
+      "text": "Clause 5.3 Impact Resistance: Safety footwear steel toe-caps shall withstand an impact energy of at least 200 Joules without clearance falling below 14 mm.\\n\\nClause 5.4 Penetration Resistance: Puncture-resistant midsoles must withstand nail penetration force of at least 1100 Newtons.\\n\\nClause 6.1 Antistatic and Slip Resistance: Outsole must exhibit dynamic coefficient of friction > 0.32 on ceramic tile with sodium lauryl sulphate lubricant.",
+      "keywords": [
+        "clause",
+        "impact",
+        "resistance",
+        "safety",
+        "footwear",
+        "steel",
+        "caps",
+        "shall",
+        "is 15298 (part 2):2016",
+        "safety footwear for industrial workers"
+      ]
+    }
+  ]
+}

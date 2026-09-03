@@ -1,0 +1,107 @@
+[
+  {
+    "record_id": "scheme:scheme-1",
+    "type": "conformity_scheme",
+    "scheme_name": "Scheme-I (Product Certification / ISI Mark)",
+    "statutory_authority": "BIS Act 2016 Section 13, 14, 15 & Conformity Assessment Regulations 2018",
+    "identifier_format": "CM/L-XXXXXXX (7 or 8 numeric digits)",
+    "scope": "Mandatory and voluntary product certification for domestic and foreign manufacturers.",
+    "factory_audit_required": true,
+    "sti_in_house_lab_mandate": "Factory must maintain an operational in-house testing lab meeting STI requirements before license grant.",
+    "msme_concession": "50% concession on minimum marking fee for Micro and Small Enterprises with valid Udyam Registration.",
+    "portal_url": "https://www.manakonline.in/",
+    "source": {
+      "authority": "Bureau of Indian Standards",
+      "url": "https://www.bis.gov.in/product-certification/",
+      "document_title": "Product Certification Scheme (Scheme-I) Guidelines",
+      "page_or_section": "Conformity Assessment Guidelines 2018",
+      "retrieved_at": "2026-09-01T22:33:00+05:30",
+      "content_hash": "23610db52566a0f219ff822aa85c9aab187ecbbc0871076a71d1a2aef55a07e6"
+    },
+    "verification_status": "official_verified"
+  },
+  {
+    "record_id": "scheme:scheme-2-crs",
+    "type": "conformity_scheme",
+    "scheme_name": "Scheme-II (Compulsory Registration Scheme - CRS)",
+    "statutory_authority": "MeitY / MNRE / BIS Act 2016 Section 13 & Schedule-II Regulations",
+    "identifier_format": "R-XXXXXXXX (8 numeric digits under standard mark)",
+    "scope": "Electronics, Information Technology equipment, Solar PV inverters and modules, LED luminaires.",
+    "factory_audit_required": false,
+    "testing_requirement": "Sample testing only in BIS-recognized labs under Laboratory Recognition Scheme (LRS). Self-Declaration of Conformity (SDoC).",
+    "portal_url": "https://www.crsbis.in/",
+    "source": {
+      "authority": "Bureau of Indian Standards / MeitY",
+      "url": "https://www.crsbis.in/BIS/about-crs.do",
+      "document_title": "Compulsory Registration Scheme (CRS) Guidelines",
+      "page_or_section": "About CRS",
+      "retrieved_at": "2026-09-01T22:33:00+05:30",
+      "content_hash": "113e0f04708e489021ab39984a1b731af411f1692162b993b81ef4417bfe2d78"
+    },
+    "verification_status": "official_verified"
+  },
+  {
+    "record_id": "scheme:fmcs",
+    "type": "conformity_scheme",
+    "scheme_name": "Foreign Manufacturers Certification Scheme (FMCS)",
+    "statutory_authority": "BIS Act 2016 Section 13 & Conformity Assessment Regulations 2018 Regulation 3(1)(b)",
+    "identifier_format": "CM/L-XXXXXXX (Standard ISI Mark with designated country identification)",
+    "official_description": "FMCS is officially described as the scheme through which BIS grants licences to foreign manufacturers under the BIS Act and Conformity Assessment Regulations.",
+    "air_mandate": "Nomination of an Authorized Indian Representative (AIR) is legally mandatory. The AIR must be a resident of India, declare legal responsibility, and represent the foreign manufacturer in compliance and legal matters.",
+    "portal_url": "https://www.bis.gov.in/fmcs/",
+    "source": {
+      "authority": "Bureau of Indian Standards",
+      "url": "https://www.bis.gov.in/fmcs/certification-process/aboutfmcs/?lang=en",
+      "document_title": "Foreign Manufacturers Certification Scheme (FMCS) Manual",
+      "page_or_section": "About FMCS / Nomination of AIR",
+      "retrieved_at": "2026-09-01T22:33:00+05:30",
+      "content_hash": "5fc16c7b96625a5cdd09d61d0e20f7b72da00502c488e0f6710a8b2199f5e30d"
+    },
+    "verification_status": "official_verified"
+  },
+  {
+    "record_id": "scheme:scheme-4-hallmarking",
+    "type": "conformity_scheme",
+    "scheme_name": "Scheme-IV (Hallmarking of Gold and Silver Jewellery)",
+    "statutory_authority": "BIS (Hallmarking) Regulations 2018 & Mandatory Hallmarking Order S.O. 15.01.2020",
+    "identifier_format": "6-Character Alphanumeric HUID (e.g. AB1234)",
+    "hallmark_marks": [
+      "1. BIS Triangular Logo",
+      "2. Purity in Karat and Fineness (24K999, 23K958, 22K916, 20K833, 18K750, 14K585)",
+      "3. 6-Character Alphanumeric HUID Laser Engraved"
+    ],
+    "regulation_12_compensation": "If hallmarked jewellery tested at an Assaying & Hallmarking Centre is found substandard in purity, the jeweller shall compensate the consumer with 3 times (3X) the difference in value of the shortage in purity, along with full refund of testing fees.",
+    "portal_url": "https://www.bis.gov.in/hallmarking-overview/",
+    "source": {
+      "authority": "Bureau of Indian Standards / Department of Consumer Affairs",
+      "url": "https://www.bis.gov.in/hallmarking-overview/consumer-protection/?lang=en",
+      "document_title": "Hallmarking Consumer Protection & Regulation 12 Guidelines",
+      "page_or_section": "Consumer Protection / Compensation Rules",
+      "retrieved_at": "2026-09-01T22:33:00+05:30",
+      "content_hash": "e4aa9ecdb2e7bea1a80c55d0e106b39aeca15890287314e9487f03bc6eaa505b"
+    },
+    "verification_status": "official_verified"
+  },
+  {
+    "record_id": "scheme:bis-care-verification",
+    "type": "conformity_scheme",
+    "scheme_name": "BIS Care Official Consumer Verification & Complaint App",
+    "statutory_authority": "Bureau of Indian Standards Act 2016 Citizen Redressal Mechanism",
+    "verification_capabilities": [
+      "Verify CM/L Licence Number (ISI Mark)",
+      "Verify Registration Number (CRS R-Number)",
+      "Verify 6-Digit Alphanumeric HUID on Gold Jewellery",
+      "Lodge Consumer Grievances with geo-tagged photos and tracking"
+    ],
+    "cv_scanner_rule": "Any Computer Vision / OCR camera inspection must explicitly be marked as 'Preliminary Visual Check (Unconfirmed until validated against official BIS / BIS Care registry)'.",
+    "source": {
+      "authority": "Bureau of Indian Standards",
+      "url": "https://www.bis.gov.in/bis-apps/",
+      "document_title": "BIS Care Mobile Application Specifications",
+      "page_or_section": "App Verification Services",
+      "retrieved_at": "2026-09-01T22:33:00+05:30",
+      "content_hash": "e689671f412122ab26fe7328fced3eb4be867ce1ac7305edce1f658be738ca98"
+    },
+    "verification_status": "official_verified"
+  }
+]

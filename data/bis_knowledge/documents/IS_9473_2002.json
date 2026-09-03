@@ -1,0 +1,47 @@
+{
+  "standard_number": "IS 9473:2002",
+  "title": "Respiratory Protective Devices \u2014 Filtering Half Masks to Protect Against Particles \u2014 Specification",
+  "edition": "First Revision (Equivalent to EN 149:2001)",
+  "year": 2002,
+  "division": "TXD",
+  "division_name": "Textiles Division",
+  "effective_status": "CURRENT",
+  "is_mandatory": true,
+  "qco_name": "Personal Protective Equipment (Quality Control) Mandatory Order",
+  "scheme": "Scheme-I (ISI Mark Product Certification)",
+  "source_authority": "Bureau of Indian Standards / Ministry of Textiles Gazette",
+  "supersedes": [],
+  "amendments": [
+    "Amendment No. 1 (2018)",
+    "Amendment No. 2 (2020)"
+  ],
+  "clauses": [
+    {
+      "clause": "5.1",
+      "title": "Filtering Half Mask Classification (FFP1, FFP2, FFP3)",
+      "page": 3,
+      "text": "Clause 5.1 & Table 1 (Classification and Filter Penetration Limits): Filtering half masks are classified based on aerosol penetration (tested with NaCl at 95 L/min and paraffin oil): (1) Class FFP1: Maximum penetration 20.0% (Filtration efficiency min 80.0%). (2) Class FFP2: Maximum penetration 6.0% (Filtration efficiency min 94.0% - equivalent to N95). (3) Class FFP3: Maximum penetration 1.0% (Filtration efficiency min 99.0%). Total inward leakage (TIL) shall not exceed 8.0% for FFP2.",
+      "keywords": [
+        "ffp2 n95",
+        "ffp1 ffp2 ffp3",
+        "filtration efficiency 94%",
+        "particulate mask",
+        "is 9473",
+        "table 1"
+      ]
+    },
+    {
+      "clause": "7.1",
+      "title": "Breathing Resistance Limits Across Filter Media",
+      "page": 6,
+      "text": "Clause 7.1 & Table 2 (Breathing Resistance in mbar): For Class FFP2: Inhalation resistance at 30 L/min shall not exceed 0.7 mbar (70 Pa); at 95 L/min shall not exceed 2.4 mbar (240 Pa); Exhalation resistance at 160 L/min shall not exceed 3.0 mbar (300 Pa).",
+      "keywords": [
+        "breathing resistance",
+        "inhalation resistance",
+        "exhalation resistance",
+        "is 9473",
+        "table 2"
+      ]
+    }
+  ]
+}

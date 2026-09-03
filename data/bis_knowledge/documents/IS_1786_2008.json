@@ -1,0 +1,78 @@
+{
+  "standard_number": "IS 1786:2008",
+  "title": "High Strength Deformed Steel Bars and Wires for Concrete Reinforcement \u2014 Specification",
+  "edition": "Fourth Revision",
+  "year": 2008,
+  "division": "CED",
+  "division_name": "Civil Engineering Division",
+  "effective_status": "CURRENT",
+  "is_mandatory": true,
+  "qco_name": "Steel and Steel Products (Quality Control) Mandatory Statutory Order",
+  "scheme": "Scheme-I (ISI Mark Product Certification)",
+  "source_authority": "Bureau of Indian Standards / Ministry of Steel Gazette",
+  "supersedes": [
+    "IS 1786:1985"
+  ],
+  "amendments": [
+    "Amendment No. 1 (2012)",
+    "Amendment No. 2 (2017)",
+    "Amendment No. 3 (2020)"
+  ],
+  "clauses": [
+    {
+      "clause": "4.2",
+      "title": "Chemical Composition & Carbon Equivalent",
+      "page": 2,
+      "text": "Clause 4.2 & Table 1 (Chemical Composition): For Fe 500D grade: Carbon (C) max 0.25%, Sulphur (S) max 0.040%, Phosphorus (P) max 0.040%, (S + P) combined max 0.075%. Carbon Equivalent (CE) = C + (Mn/6) + (Cr+Mo+V)/5 + (Ni+Cu)/15 shall not exceed 0.42% for weldable grade steel. For Fe 500S grade (earthquake resistant): C max 0.25%, S max 0.045%, P max 0.045%, (S+P) max 0.085%, CE max 0.42%.",
+      "keywords": [
+        "fe 500d",
+        "carbon limit",
+        "sulphur",
+        "phosphorus",
+        "carbon equivalent",
+        "is 1786",
+        "tmt steel"
+      ]
+    },
+    {
+      "clause": "8.1",
+      "title": "Mechanical Properties & Tensile Test Parameters",
+      "page": 4,
+      "text": "Clause 8.1 & Table 3 (Mechanical Properties of TMT Bars): (1) Fe 415: 0.2% Proof Stress min 415 N/mm\u00b2, Tensile Strength (TS) min 485 N/mm\u00b2 (10% higher than proof stress), Elongation min 14.5%, Total Elongation at Max Force (TS/YS ratio) min 1.10. (2) Fe 500D: 0.2% Proof Stress min 500.0 N/mm\u00b2, TS min 565.0 N/mm\u00b2 (TS/YS ratio min 1.10), Elongation min 16.0%, Total Elongation at max force min 5.0%. (3) Fe 550D: 0.2% Proof Stress min 550 N/mm\u00b2, TS min 600 N/mm\u00b2, Elongation min 14.5%.",
+      "keywords": [
+        "proof stress",
+        "tensile strength",
+        "fe 500d yield strength",
+        "elongation 16%",
+        "is 1786",
+        "table 3"
+      ]
+    },
+    {
+      "clause": "9.1",
+      "title": "Bend and Rebend Test Tolerances",
+      "page": 6,
+      "text": "Clause 9.1 & Clause 9.2 (Bend and Rebend Test Requirements): (a) Bend Test: The test piece shall be bent to 180\u00b0 around a mandrel (mandrel dia for Fe 500D: 3d for dia <= 20mm; 4d for dia > 20mm) and shall show no transverse rupture or cracks visible to unaided eye. (b) Rebend Test: Bent to 135\u00b0, aged in boiling water at 100\u00b0C for 30 minutes, cooled, and rebent back to 157.5\u00b0 without cracking.",
+      "keywords": [
+        "bend test",
+        "rebend test",
+        "mandrel diameter",
+        "180 degree bend",
+        "is 1786"
+      ]
+    },
+    {
+      "clause": "7.2",
+      "title": "Nominal Mass Tolerances per Metre Run",
+      "page": 3,
+      "text": "Clause 7.2 & Table 2 (Nominal Mass and Tolerances per Metre Run): For diameter up to 10 mm: tolerance on nominal mass per metre run is \u00b17%; over 10 mm up to 16 mm: \u00b15%; over 16 mm: \u00b13%. The batch tolerance across 10 tonnes shall be \u00b14% for dia <= 10mm, \u00b13% for dia > 10mm.",
+      "keywords": [
+        "mass tolerance",
+        "weight per metre",
+        "is 1786",
+        "table 2",
+        "tolerance"
+      ]
+    }
+  ]
+}

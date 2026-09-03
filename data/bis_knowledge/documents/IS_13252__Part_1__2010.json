@@ -1,0 +1,61 @@
+{
+  "standard_number": "IS 13252 (Part 1):2010",
+  "title": "Information Technology Equipment \u2014 Safety \u2014 Part 1: General Requirements",
+  "edition": "Second Revision (Equivalent to IEC 60950-1:2005)",
+  "year": 2010,
+  "division": "LITD",
+  "division_name": "Electronics and Information Technology Division",
+  "effective_status": "CURRENT",
+  "is_mandatory": true,
+  "qco_name": "Electronics and Information Technology Goods (Compulsory Registration Scheme - CRS) Mandatory Order",
+  "scheme": "Scheme-II (Compulsory Registration Scheme - CRS)",
+  "source_authority": "Bureau of Indian Standards / Ministry of Electronics and Information Technology (MeitY)",
+  "supersedes": [
+    "IS 13252:2003"
+  ],
+  "amendments": [
+    "Amendment No. 1 (2013)",
+    "Amendment No. 2 (2017)"
+  ],
+  "clauses": [
+    {
+      "clause": "2.1",
+      "title": "Protection from Electric Shock & Safe Extra Low Voltage (SELV)",
+      "page": 18,
+      "text": "Clause 2.1 & Clause 2.2 (Safety Extra Low Voltage / SELV Circuits): SELV circuits must not exceed a maximum voltage of 42.4 V peak or 60 V DC under normal operating conditions or single fault conditions. Accessible parts of IT equipment shall be isolated from hazardous primary mains (230 V) by double or reinforced insulation.",
+      "keywords": [
+        "selv 60v dc",
+        "electric shock",
+        "it equipment safety",
+        "is 13252",
+        "meity crs"
+      ]
+    },
+    {
+      "clause": "4.7",
+      "title": "Resistance to Fire & Flammability Ratings of Enclosures",
+      "page": 45,
+      "text": "Clause 4.7 (Flammability Class of Materials): Polymeric enclosures for movable IT equipment having a mass exceeding 18 kg shall have a flammability classification of V-1 or better (V-0 / 5V) in accordance with IEC 60695-11-10. Internal printed circuit boards shall be constructed of V-1 class flame-retardant laminate.",
+      "keywords": [
+        "flammability rating v-0 v-1",
+        "fire resistance",
+        "pcb laminate",
+        "is 13252",
+        "clause 4.7"
+      ]
+    },
+    {
+      "clause": "5.2",
+      "title": "High Voltage Electric Strength (Dielectric Test)",
+      "page": 62,
+      "text": "Clause 5.2 & Table 5B (Electric Strength Withstand Test): Routine electric strength test voltage between primary circuits and accessible earthed parts shall be 1500 V AC (rms) or 2121 V DC applied for 1 minute (or 1800 V AC for 1 second during routine factory testing) without insulation puncture or flashover.",
+      "keywords": [
+        "dielectric withstand 1500v",
+        "hipot test",
+        "electric strength",
+        "is 13252",
+        "table 5b"
+      ]
+    }
+  ]
+}

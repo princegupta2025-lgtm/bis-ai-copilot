@@ -1,0 +1,701 @@
+{
+    "products":  [
+                     {
+                         "id":  "prod:two-wheeler-helmet",
+                         "division":  "TED",
+                         "qco_name":  "Two-Wheeler Helmets (Quality Control) Mandatory Statutory Order",
+                         "labs":  [
+                                      "BIS Central Laboratory (Sahibabad)",
+                                      "NABL Accredited Helmet Testing Laboratories"
+                                  ],
+                         "issuing_ministry":  "Ministry of Road Transport and Highways (MoRTH)",
+                         "base_num":  "4151",
+                         "name":  "Two-Wheeler Protective Helmet",
+                         "is_mandatory":  true,
+                         "key_tests":  [
+                                           "Impact Absorption Test (Clause 7.4)",
+                                           "Retention System Strength Test (Clause 8.2)",
+                                           "Visor Optical Clarity (Clause 9.1)"
+                                       ],
+                         "status":  "CURRENT",
+                         "standard_code":  "IS 4151:2015",
+                         "rationale":  "IS 4151:2015 is the mandatory national standard for protective helmets for motorcycle and two-wheeler riders under Central Motor Vehicles Rules (CMVR) and MoRTH QCO.",
+                         "aliases":  [
+                                         "helmet",
+                                         "helmets",
+                                         "bike helmet",
+                                         "motorcycle helmet",
+                                         "protective helmet",
+                                         "two wheeler helmet",
+                                         "rider helmet"
+                                     ],
+                         "scheme":  "Scheme-I (ISI Mark Product Certification)",
+                         "hindi_terms":  [
+                                             "helmet",
+                                             "helmat",
+                                             "bike ka helmet",
+                                             "motorcycle helmet",
+                                             "sir ki suraksha helmet"
+                                         ]
+                     },
+                     {
+                         "id":  "prod:tmt-steel-bars",
+                         "division":  "CED",
+                         "qco_name":  "Steel and Steel Products (Quality Control) Order",
+                         "labs":  [
+                                      "BIS Central Laboratory",
+                                      "National Metallurgical Laboratory (NML)",
+                                      "NABL Accredited Steel Testing Labs"
+                                  ],
+                         "issuing_ministry":  "Ministry of Steel",
+                         "base_num":  "1786",
+                         "name":  "TMT Rebars / High Strength Deformed Steel Bars",
+                         "is_mandatory":  true,
+                         "key_tests":  [
+                                           "Tensile Strength \u0026 0.2% Proof Stress (Clause 8.1)",
+                                           "Carbon \u0026 Sulphur Chemical Limits (Clause 4.2)",
+                                           "Bend and Rebend Test (Clause 9.1)"
+                                       ],
+                         "status":  "CURRENT",
+                         "standard_code":  "IS 1786:2008",
+                         "rationale":  "IS 1786:2008 covers high-strength deformed steel bars and wires for concrete reinforcement in building construction.",
+                         "aliases":  [
+                                         "tmt bar",
+                                         "tmt bars",
+                                         "tmt sariya",
+                                         "steel rebar",
+                                         "reinforcement steel",
+                                         "construction steel",
+                                         "fe 500d",
+                                         "fe 550d",
+                                         "fe 415",
+                                         "sariya",
+                                         "concrete reinforcement wire"
+                                     ],
+                         "scheme":  "Scheme-I (ISI Mark Product Certification)",
+                         "hindi_terms":  [
+                                             "sariya",
+                                             "tmt sariya",
+                                             "lohe ka sariya",
+                                             "makan banane ka sariya",
+                                             "cement sariya"
+                                         ]
+                     },
+                     {
+                         "id":  "prod:gold-hallmark-jewellery",
+                         "division":  "MTD",
+                         "qco_name":  "Hallmarking of Gold Jewellery and Artefacts Mandatory Order",
+                         "labs":  [
+                                      "BIS Recognized Assaying and Hallmarking Centres (AHCs)"
+                                  ],
+                         "issuing_ministry":  "Ministry of Consumer Affairs, Food \u0026 Public Distribution",
+                         "base_num":  "1417",
+                         "name":  "Gold Artefacts \u0026 Jewellery Hallmarking",
+                         "is_mandatory":  true,
+                         "key_tests":  [
+                                           "X-Ray Fluorescence (XRF) Spectrometry (Clause 6.1)",
+                                           "Fire Assay Cupellation Lead Method (IS 1418)",
+                                           "6-Digit Alphanumeric HUID Laser Marking"
+                                       ],
+                         "status":  "CURRENT",
+                         "standard_code":  "IS 1417:2016",
+                         "rationale":  "IS 1417:2016 prescribes gold purity grades (916/22K, 750/18K, 585/14K) and mandatory 6-digit HUID hallmarking.",
+                         "aliases":  [
+                                         "gold",
+                                         "gold jewellery",
+                                         "gold jewelry",
+                                         "gold ring",
+                                         "gold chain",
+                                         "gold hallmark",
+                                         "precious metal",
+                                         "precious metals",
+                                         "scheme iv",
+                                         "scheme-iv",
+                                         "ahc",
+                                         "huid",
+                                         "22k gold",
+                                         "18k gold",
+                                         "14k gold",
+                                         "916 gold",
+                                         "hallmarked gold"
+                                     ],
+                         "scheme":  "Scheme-IV (Precious Metals Hallmarking / 6-Digit HUID)",
+                         "hindi_terms":  [
+                                             "sona",
+                                             "sone ke gehne",
+                                             "sona hallmark",
+                                             "huid number",
+                                             "sone ki ring",
+                                             "22 carat sona"
+                                         ]
+                     },
+                     {
+                         "id":  "prod:silver-hallmark-jewellery",
+                         "division":  "MTD",
+                         "qco_name":  "Silver Hallmarking Voluntary Scheme",
+                         "labs":  [
+                                      "BIS Recognized Assaying and Hallmarking Centres (AHCs)"
+                                  ],
+                         "issuing_ministry":  "Ministry of Consumer Affairs, Food \u0026 Public Distribution",
+                         "base_num":  "2112",
+                         "name":  "Silver Artefacts \u0026 Jewellery Hallmarking",
+                         "is_mandatory":  false,
+                         "key_tests":  [
+                                           "Potentiometric Titration",
+                                           "XRF Purity Verification"
+                                       ],
+                         "status":  "CURRENT",
+                         "standard_code":  "IS 2112:2014",
+                         "rationale":  "IS 2112:2014 specifies purity grades for silver alloys and artefacts (999, 970, 925, 900, 835, 800 fineness).",
+                         "aliases":  [
+                                         "silver",
+                                         "silver jewellery",
+                                         "silver jewelry",
+                                         "silver hallmark",
+                                         "chandi",
+                                         "999 silver",
+                                         "925 sterling silver"
+                                     ],
+                         "scheme":  "Scheme-IV (Precious Metals Hallmarking)",
+                         "hindi_terms":  [
+                                             "chandi",
+                                             "chandi ke bartan",
+                                             "chandi hallmark",
+                                             "chandi ki payal"
+                                         ]
+                     },
+                     {
+                         "id":  "prod:packaged-drinking-water",
+                         "division":  "FAD",
+                         "qco_name":  "Packaged Drinking Water Mandatory Certification Order",
+                         "labs":  [
+                                      "BIS Central Laboratory",
+                                      "NABL Accredited Water Testing Labs"
+                                  ],
+                         "issuing_ministry":  "Ministry of Consumer Affairs \u0026 Food Safety and Standards Authority of India (FSSAI)",
+                         "base_num":  "14543",
+                         "name":  "Packaged Drinking Water (Other than Natural Mineral Water)",
+                         "is_mandatory":  true,
+                         "key_tests":  [
+                                           "Microbiological Safety - Coliform \u0026 E. coli Zero Count (Clause 5.3)",
+                                           "Total Dissolved Solids TDS 75-500 mg/L (Table 1)",
+                                           "Pesticide Residue Limits (Table 3)"
+                                       ],
+                         "status":  "CURRENT",
+                         "standard_code":  "IS 14543:2024",
+                         "rationale":  "IS 14543:2024 is the mandatory standard for packaged drinking water sold in sealed plastic bottles, pouches, and jars.",
+                         "aliases":  [
+                                         "packaged drinking water",
+                                         "water bottle",
+                                         "bisleri",
+                                         "packaged water",
+                                         "mineral water bottle",
+                                         "bottled water",
+                                         "water jar",
+                                         "20l water jar"
+                                     ],
+                         "scheme":  "Scheme-I (ISI Mark Product Certification)",
+                         "hindi_terms":  [
+                                             "paani ki bottle",
+                                             "bottled paani",
+                                             "drinking water bottle",
+                                             "peene ka paani bottle"
+                                         ]
+                     },
+                     {
+                         "id":  "prod:drinking-water-piped",
+                         "division":  "FAD",
+                         "qco_name":  "Drinking Water National Quality Benchmark",
+                         "labs":  [
+                                      "Public Health Engineering Labs",
+                                      "BIS Recognized Labs"
+                                  ],
+                         "issuing_ministry":  "Ministry of Jal Shakti / Bureau of Indian Standards",
+                         "base_num":  "10500",
+                         "name":  "Drinking Water Supply (Tap Water / Municipal Water)",
+                         "is_mandatory":  false,
+                         "key_tests":  [
+                                           "pH (6.5 to 8.5)",
+                                           "TDS max 500 mg/L (permissible up to 2000 mg/L)",
+                                           "Turbidity max 1 NTU",
+                                           "Heavy Metals (Lead \u003c= 0.01 mg/L, Arsenic \u003c= 0.01 mg/L)"
+                                       ],
+                         "status":  "CURRENT",
+                         "standard_code":  "IS 10500:2012",
+                         "rationale":  "IS 10500:2012 specifies the essential physical, chemical, and bacteriological quality requirements for potable municipal and domestic drinking water.",
+                         "aliases":  [
+                                         "drinking water",
+                                         "tap water",
+                                         "municipal water",
+                                         "potable water",
+                                         "well water",
+                                         "borewell water",
+                                         "jal jeevan mission water"
+                                     ],
+                         "scheme":  "Scheme-I (Product Specification Benchmark)",
+                         "hindi_terms":  [
+                                             "peene ka paani",
+                                             "nal ka paani",
+                                             "drinking water niyam",
+                                             "jal jeevan water"
+                                         ]
+                     },
+                     {
+                         "id":  "prod:electric-cables",
+                         "division":  "ETD",
+                         "qco_name":  "Electrical Wires and Cables (Quality Control) Order",
+                         "labs":  [
+                                      "Central Power Research Institute (CPRI)",
+                                      "BIS Central Lab",
+                                      "NABL Cable Testing Labs"
+                                  ],
+                         "issuing_ministry":  "Department for Promotion of Industry and Internal Trade (DPIIT)",
+                         "base_num":  "694",
+                         "name":  "PVC Insulated Domestic Electric Wires \u0026 Cables",
+                         "is_mandatory":  true,
+                         "key_tests":  [
+                                           "Conductor Resistance Test (Clause 6.2 / Table 2)",
+                                           "Insulation Resistance Test (Clause 8.1)",
+                                           "High Voltage Spark Test (Clause 9.1)",
+                                           "Flammability Test"
+                                       ],
+                         "status":  "CURRENT",
+                         "standard_code":  "IS 694:2010",
+                         "rationale":  "IS 694:2010 covers PVC insulated unsheathed and sheathed cables for working voltages up to and including 1100 V for domestic wiring.",
+                         "aliases":  [
+                                         "electric wire",
+                                         "electric cables",
+                                         "pvc cables",
+                                         "copper wire",
+                                         "house wire",
+                                         "wiring cable",
+                                         "flexible cable",
+                                         "power cord"
+                                     ],
+                         "scheme":  "Scheme-I (ISI Mark Product Certification)",
+                         "hindi_terms":  [
+                                             "bijli ka taar",
+                                             "house wiring taar",
+                                             "copper taar",
+                                             "pvc cable",
+                                             "wiring ka taar"
+                                         ]
+                     },
+                     {
+                         "id":  "prod:pressure-cooker",
+                         "division":  "PGD",
+                         "qco_name":  "Domestic Pressure Cooker (Quality Control) Mandatory Order",
+                         "labs":  [
+                                      "BIS Central Laboratory",
+                                      "NABL Mechanical Testing Labs"
+                                  ],
+                         "issuing_ministry":  "Department for Promotion of Industry and Internal Trade (DPIIT)",
+                         "base_num":  "2347",
+                         "name":  "Domestic Pressure Cooker (Aluminium and Stainless Steel)",
+                         "is_mandatory":  true,
+                         "key_tests":  [
+                                           "Hydrostatic Proof Pressure Test (Clause 6.2)",
+                                           "Bursting Pressure Test \u003e= 300 kPa (Clause 6.3)",
+                                           "Safety Vent \u0026 Fusible Plug Release Pressure Test (Clause 8.1)"
+                                       ],
+                         "status":  "CURRENT",
+                         "standard_code":  "IS 2347:2017",
+                         "rationale":  "IS 2347:2017 specifies safety, manufacturing, and performance requirements for domestic pressure cookers to prevent explosion hazards.",
+                         "aliases":  [
+                                         "pressure cooker",
+                                         "cooker",
+                                         "aluminium cooker",
+                                         "steel pressure cooker",
+                                         "cooking cooker",
+                                         "kitchen cooker"
+                                     ],
+                         "scheme":  "Scheme-I (ISI Mark Product Certification)",
+                         "hindi_terms":  [
+                                             "pressure cooker",
+                                             "cooker",
+                                             "khana banane ka cooker",
+                                             "cooker safety niyam"
+                                         ]
+                     },
+                     {
+                         "id":  "prod:electric-geyser",
+                         "division":  "ETD",
+                         "qco_name":  "Electrical Appliances (Quality Control) Order",
+                         "labs":  [
+                                      "CPRI",
+                                      "BIS Central Lab",
+                                      "NABL Electrical Labs"
+                                  ],
+                         "issuing_ministry":  "Department for Promotion of Industry and Internal Trade (DPIIT) / BEE",
+                         "base_num":  "2082",
+                         "name":  "Stationary Storage Electric Water Heaters (Geysers)",
+                         "is_mandatory":  true,
+                         "key_tests":  [
+                                           "Standing Loss Energy Efficiency Test (Clause 14.1 / Table 2)",
+                                           "Rated Pressure \u0026 Hydraulic Test up to 1.0 MPa (Clause 16.2)",
+                                           "Electrical Leakage Current \u0026 Earth Continuity (IS 302-1)"
+                                       ],
+                         "status":  "CURRENT",
+                         "standard_code":  "IS 2082:2018",
+                         "rationale":  "IS 2082:2018 covers safety and performance requirements for stationary electric storage water heaters for domestic use.",
+                         "aliases":  [
+                                         "geyser",
+                                         "electric geyser",
+                                         "water heater",
+                                         "storage water heater",
+                                         "instant water heater",
+                                         "bathroom geyser",
+                                         "electric water heater"
+                                     ],
+                         "scheme":  "Scheme-I (ISI Mark Product Certification)",
+                         "hindi_terms":  [
+                                             "geyser",
+                                             "bijli ka geyser",
+                                             "pani garam karne ka geyser",
+                                             "water heater"
+                                         ]
+                     },
+                     {
+                         "id":  "prod:ceiling-fan",
+                         "division":  "ETD",
+                         "qco_name":  "Electric Ceiling Fans (Quality Control) Order",
+                         "labs":  [
+                                      "BIS Central Laboratory",
+                                      "NABL Electrical Labs"
+                                  ],
+                         "issuing_ministry":  "DPIIT / Bureau of Energy Efficiency (BEE)",
+                         "base_num":  "374",
+                         "name":  "Electric Ceiling Fans and Regulators",
+                         "is_mandatory":  true,
+                         "key_tests":  [
+                                           "Air Delivery Min 210 m3/min (Clause 6.1)",
+                                           "Service Value Ratio (Clause 6.2)",
+                                           "Suspension Downrod 1000 N Proof Load Test (Clause 8.2)"
+                                       ],
+                         "status":  "CURRENT",
+                         "standard_code":  "IS 374:2019",
+                         "rationale":  "IS 374:2019 specifies energy efficiency, safety downrod strength, and air delivery for ceiling type electric fans.",
+                         "aliases":  [
+                                         "ceiling fan",
+                                         "fan",
+                                         "electric fan",
+                                         "bldc fan",
+                                         "5 star fan",
+                                         "room fan",
+                                         "fan regulator"
+                                     ],
+                         "scheme":  "Scheme-I (ISI Mark Product Certification)",
+                         "hindi_terms":  [
+                                             "pankha",
+                                             "chhat ka pankha",
+                                             "bldc pankha",
+                                             "ceiling fan niyam"
+                                         ]
+                     },
+                     {
+                         "id":  "prod:led-bulb",
+                         "division":  "ETD",
+                         "qco_name":  "Electronics and IT Goods (Compulsory Registration) Order / MeitY QCO",
+                         "labs":  [
+                                      "ERTL",
+                                      "ETDC",
+                                      "BIS/NABL Electronics Labs"
+                                  ],
+                         "issuing_ministry":  "Ministry of Electronics and Information Technology (MeitY)",
+                         "base_num":  "16102",
+                         "name":  "Self-Ballasted LED Lamps / LED Bulbs",
+                         "is_mandatory":  true,
+                         "key_tests":  [
+                                           "Electric Shock Protection (Clause 6)",
+                                           "Insulation Resistance \u0026 Electric Strength (Clause 7)",
+                                           "Cap Temperature Rise Test (Clause 12)"
+                                       ],
+                         "status":  "CURRENT",
+                         "standard_code":  "IS 16102 (Part 1):2012",
+                         "rationale":  "IS 16102 (Part 1):2012 covers safety requirements for self-ballasted LED lamps for general lighting services under CRS.",
+                         "aliases":  [
+                                         "led bulb",
+                                         "led lamp",
+                                         "led light",
+                                         "bulb",
+                                         "lighting",
+                                         "b22 led bulb",
+                                         "e27 led bulb"
+                                     ],
+                         "scheme":  "Scheme-II (Compulsory Registration Scheme - CRS)",
+                         "hindi_terms":  [
+                                             "led bulb",
+                                             "led lattu",
+                                             "bulb",
+                                             "bijli bulb"
+                                         ]
+                     },
+                     {
+                         "id":  "prod:toys-children",
+                         "division":  "PCD",
+                         "qco_name":  "Toys (Quality Control) Mandatory Order",
+                         "labs":  [
+                                      "BIS Central Lab",
+                                      "NABL Accredited Toy Testing Labs"
+                                  ],
+                         "issuing_ministry":  "Department for Promotion of Industry and Internal Trade (DPIIT)",
+                         "base_num":  "9873",
+                         "name":  "Safety of Toys for Children",
+                         "is_mandatory":  true,
+                         "key_tests":  [
+                                           "Small Parts Choking Hazard Gauge Test (Clause 5.1)",
+                                           "Sharp Edges and Points Test (Clause 5.7)",
+                                           "Drop and Impact Test for Children under 36 Months (Clause 5.24)"
+                                       ],
+                         "status":  "CURRENT",
+                         "standard_code":  "IS 9873 (Part 1):2019",
+                         "rationale":  "IS 9873 (Part 1):2019 governs mechanical and physical safety aspects of children\u0027s toys to prevent choking and laceration risks.",
+                         "aliases":  [
+                                         "toy",
+                                         "toys",
+                                         "children toy",
+                                         "kids toy",
+                                         "plastic toy",
+                                         "electric toy",
+                                         "stuffed toy",
+                                         "board game"
+                                     ],
+                         "scheme":  "Scheme-I (ISI Mark Product Certification)",
+                         "hindi_terms":  [
+                                             "khilone",
+                                             "baccho ke khilone",
+                                             "plastic khilone",
+                                             "toy safety niyam"
+                                         ]
+                     },
+                     {
+                         "id":  "prod:footwear-leather-rubber",
+                         "division":  "CHD",
+                         "qco_name":  "Footwear made from Leather and other Materials (Quality Control) Order",
+                         "labs":  [
+                                      "FDDI Labs",
+                                      "CLRI Chennai",
+                                      "BIS Recognized Footwear Testing Labs"
+                                  ],
+                         "issuing_ministry":  "Department for Promotion of Industry and Internal Trade (DPIIT)",
+                         "base_num":  "15844",
+                         "name":  "Footwear Made from Leather, Rubber and Polymeric Materials",
+                         "is_mandatory":  true,
+                         "key_tests":  [
+                                           "Upper-to-Sole Bond Adhesion Strength (Clause 5.2)",
+                                           "Flexing Resistance of Outsole (Clause 5.4)",
+                                           "Abrasion Resistance Test (Clause 5.6)"
+                                       ],
+                         "status":  "CURRENT",
+                         "standard_code":  "IS 15844 (Part 1):2023",
+                         "rationale":  "IS 15844 (Part 1):2023 specifies safety, durability, and material performance requirements for sports and general footwear.",
+                         "aliases":  [
+                                         "footwear",
+                                         "shoes",
+                                         "leather shoes",
+                                         "sports shoes",
+                                         "safety shoes",
+                                         "chappal",
+                                         "sandals",
+                                         "boots"
+                                     ],
+                         "scheme":  "Scheme-I (ISI Mark Product Certification)",
+                         "hindi_terms":  [
+                                             "joota",
+                                             "joote",
+                                             "chappal",
+                                             "leather joota",
+                                             "safety joota"
+                                         ]
+                     },
+                     {
+                         "id":  "prod:stainless-steel-water-bottle",
+                         "division":  "PGD",
+                         "qco_name":  "Cookware and Utensils (Quality Control) Order",
+                         "labs":  [
+                                      "BIS Central Laboratory",
+                                      "NABL Mechanical Labs"
+                                  ],
+                         "issuing_ministry":  "Department for Promotion of Industry and Internal Trade (DPIIT)",
+                         "base_num":  "17526",
+                         "name":  "Stainless Steel Vacuum Flasks \u0026 Insulated Water Bottles",
+                         "is_mandatory":  true,
+                         "key_tests":  [
+                                           "Thermal Insulation Performance Test (Clause 6.2)",
+                                           "Food Grade Stainless Steel Chemical Limits SS 304 (Clause 4.1)",
+                                           "Leakage Test (Clause 6.5)"
+                                       ],
+                         "status":  "CURRENT",
+                         "standard_code":  "IS 17526:2021",
+                         "rationale":  "IS 17526:2021 prescribes quality, food-contact grade stainless steel alloy, and temperature retention for stainless steel vacuum flasks.",
+                         "aliases":  [
+                                         "steel bottle",
+                                         "steel water bottle",
+                                         "insulated bottle",
+                                         "vacuum flask",
+                                         "thermos flask",
+                                         "stainless steel bottle",
+                                         "milton bottle"
+                                     ],
+                         "scheme":  "Scheme-I (ISI Mark Product Certification)",
+                         "hindi_terms":  [
+                                             "steel ki bottle",
+                                             "pani ki steel bottle",
+                                             "thermos",
+                                             "steel flask"
+                                         ]
+                     },
+                     {
+                         "id":  "prod:lpg-cylinder",
+                         "division":  "PGD",
+                         "qco_name":  "Gas Cylinders Rules / PESO \u0026 Statutory Mandatory Order",
+                         "labs":  [
+                                      "BIS Central Lab",
+                                      "PESO Approved Cylinder Testing Stations"
+                                  ],
+                         "issuing_ministry":  "Ministry of Petroleum and Natural Gas (MoPNG) / PESO",
+                         "base_num":  "3196",
+                         "name":  "Welded Low Carbon Steel Cylinders for LPG",
+                         "is_mandatory":  true,
+                         "key_tests":  [
+                                           "Hydrostatic Test Pressure 2.50 MPa (Clause 9.1)",
+                                           "Volumetric Expansion Test (Clause 9.2)",
+                                           "Bursting Pressure Test \u003e= 4.50 MPa (Clause 9.3)"
+                                       ],
+                         "status":  "CURRENT",
+                         "standard_code":  "IS 3196 (Part 1):2006",
+                         "rationale":  "IS 3196 (Part 1):2006 governs manufacturing, welding, safety valves, and pressure tests for LPG cooking gas cylinders.",
+                         "aliases":  [
+                                         "lpg cylinder",
+                                         "gas cylinder",
+                                         "cooking gas cylinder",
+                                         "indane cylinder",
+                                         "hp gas cylinder",
+                                         "bharat gas cylinder",
+                                         "14.2kg cylinder"
+                                     ],
+                         "scheme":  "Scheme-I (ISI Mark Product Certification)",
+                         "hindi_terms":  [
+                                             "gas cylinder",
+                                             "lpg cylinder",
+                                             "rasoi gas cylinder",
+                                             "cylinder niyam"
+                                         ]
+                     },
+                     {
+                         "id":  "prod:cement-opc-ppc",
+                         "division":  "CED",
+                         "qco_name":  "Cement (Quality Control) Mandatory Order",
+                         "labs":  [
+                                      "National Council for Cement and Building Materials (NCCBM)",
+                                      "BIS Central Lab"
+                                  ],
+                         "issuing_ministry":  "Department for Promotion of Industry and Internal Trade (DPIIT)",
+                         "base_num":  "269",
+                         "name":  "Ordinary Portland Cement (OPC) \u0026 Portland Pozzolana Cement (PPC)",
+                         "is_mandatory":  true,
+                         "key_tests":  [
+                                           "Compressive Strength 28-Day Test (Clause 6.2)",
+                                           "Soundness Le-Chatelier Expansion \u003c= 10mm (Clause 6.1)",
+                                           "Initial Setting Time \u003e= 30 mins (Clause 6.1)"
+                                       ],
+                         "status":  "CURRENT",
+                         "standard_code":  "IS 269:2015",
+                         "rationale":  "IS 269:2015 covers chemical and physical requirements for Ordinary Portland Cement across 33, 43, and 53 grades.",
+                         "aliases":  [
+                                         "cement",
+                                         "opc cement",
+                                         "ppc cement",
+                                         "opc 53",
+                                         "opc 43",
+                                         "ultratech cement",
+                                         "amvbuja cement",
+                                         "construction cement"
+                                     ],
+                         "scheme":  "Scheme-I (ISI Mark Product Certification)",
+                         "hindi_terms":  [
+                                             "cement",
+                                             "simint",
+                                             "makan ka cement",
+                                             "cement niyam"
+                                         ]
+                     },
+                     {
+                         "id":  "prod:concrete-design",
+                         "division":  "CED",
+                         "qco_name":  "National Building Code of India (NBC) Primary Code",
+                         "labs":  [
+                                      "Civil Engineering Testing Labs",
+                                      "NCCBM",
+                                      "BIS Recognized Labs"
+                                  ],
+                         "issuing_ministry":  "Bureau of Indian Standards",
+                         "base_num":  "456",
+                         "name":  "Plain and Reinforced Concrete Code of Practice",
+                         "is_mandatory":  false,
+                         "key_tests":  [
+                                           "28-Day Cube Compressive Strength fck (Clause 6.1)",
+                                           "Minimum Cover to Rebars for Durability (Table 16)",
+                                           "Max Water-Cement Ratio (Table 5)"
+                                       ],
+                         "status":  "CURRENT",
+                         "standard_code":  "IS 456:2000",
+                         "rationale":  "IS 456:2000 is the national building code governing design and construction of plain and reinforced concrete structures in India.",
+                         "aliases":  [
+                                         "concrete",
+                                         "rcc",
+                                         "reinforced concrete",
+                                         "concrete mix",
+                                         "m20 concrete",
+                                         "m25 concrete",
+                                         "slab concrete",
+                                         "column concrete"
+                                     ],
+                         "scheme":  "Scheme-I (Code of Practice Benchmark)",
+                         "hindi_terms":  [
+                                             "concrete",
+                                             "chhat ki concrete",
+                                             "rcc slab",
+                                             "concrete mix niyam"
+                                         ]
+                     },
+                     {
+                         "id":  "prod:li-ion-battery",
+                         "division":  "LITD",
+                         "qco_name":  "Electronics and Information Technology Goods (Compulsory Registration) Order",
+                         "labs":  [
+                                      "ERTL",
+                                      "ETDC",
+                                      "TUV/UL BIS Recognized Labs"
+                                  ],
+                         "issuing_ministry":  "Ministry of Electronics and Information Technology (MeitY)",
+                         "base_num":  "16046",
+                         "name":  "Secondary Lithium-ion Cells \u0026 Batteries for Portable Applications",
+                         "is_mandatory":  true,
+                         "key_tests":  [
+                                           "Continuous Charging at Constant Voltage (Clause 7.2.1)",
+                                           "External Short Circuit Test (Clause 7.3.2)",
+                                           "Thermal Abuse Test 130 deg C (Clause 7.3.4)",
+                                           "Free Fall Drop Test (Clause 7.3.3)"
+                                       ],
+                         "status":  "CURRENT",
+                         "standard_code":  "IS 16046 (Part 2):2018",
+                         "rationale":  "IS 16046 (Part 2):2018 (equivalent to IEC 62133-2) specifies safety tests against thermal runaway, short circuit, and explosion for portable Li-ion batteries under CRS.",
+                         "aliases":  [
+                                         "lithium battery",
+                                         "li-ion battery",
+                                         "phone battery",
+                                         "laptop battery",
+                                         "power bank battery",
+                                         "portable battery"
+                                     ],
+                         "scheme":  "Scheme-II (Compulsory Registration Scheme - CRS)",
+                         "hindi_terms":  [
+                                             "mobile battery",
+                                             "laptop battery",
+                                             "lithium battery",
+                                             "power bank"
+                                         ]
+                     }
+                 ]
+}

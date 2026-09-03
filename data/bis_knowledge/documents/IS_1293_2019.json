@@ -1,0 +1,61 @@
+{
+  "standard_number": "IS 1293:2019",
+  "title": "Plugs and Socket-Outlets of Rated Voltage up to and Including 250 V and Rated Current up to and Including 16 A \u2014 Specification",
+  "edition": "Fourth Revision",
+  "year": 2019,
+  "division": "ETD",
+  "division_name": "Electrotechnical Division",
+  "effective_status": "CURRENT",
+  "is_mandatory": true,
+  "qco_name": "Plugs and Socket-Outlets and Alternating Current Direct Connected Static Prepayment Meters for Active Energy (Quality Control) Order",
+  "scheme": "Scheme-I (ISI Mark Product Certification)",
+  "source_authority": "Bureau of Indian Standards / Ministry of Commerce & Industry Gazette",
+  "supersedes": [
+    "IS 1293:2005"
+  ],
+  "amendments": [
+    "Amendment No. 1 (2020)",
+    "Amendment No. 2 (2021)"
+  ],
+  "clauses": [
+    {
+      "clause": "6.1",
+      "title": "Standard Ratings and Configurations (6A & 16A Systems)",
+      "page": 3,
+      "text": "Clause 6.1 (Standard Voltage and Current Ratings): Preferred ratings are 2.5 A (two-pin non-rewirable), 6 A (three-pin 250V), and 16 A (three-pin 250V). Combined 6A/16A dual sockets are permitted provided both pin configurations mate without damage and retain contact pressure.",
+      "keywords": [
+        "plug socket",
+        "6a 16a",
+        "is 1293",
+        "250v",
+        "dual socket",
+        "standard ratings"
+      ]
+    },
+    {
+      "clause": "10.1",
+      "title": "Safety Shutter Mechanisms & Protection Against Electric Shock",
+      "page": 7,
+      "text": "Clause 10.1 & Clause 10.5 (Safety Shutters and Ingress Protection): All domestic 6A and 16A socket-outlets shall be provided with automatic safety shutters. Live socket apertures shall remain closed until the earth pin is inserted or two live pins are inserted simultaneously. A test probe of 1.0 mm dia applied with 1 N force shall not make electrical contact with live parts.",
+      "keywords": [
+        "safety shutters",
+        "electric shock protection",
+        "test probe",
+        "is 1293",
+        "shutter mechanism"
+      ]
+    },
+    {
+      "clause": "19.1",
+      "title": "Temperature Rise Limits at Rated Load Current",
+      "page": 12,
+      "text": "Clause 19.1 (Temperature Rise Test): When carrying rated current (6 A or 16 A) for 1 hour, the temperature rise of terminals and contact pins shall not exceed 45 K (45\u00b0C above ambient). Insulation resistance between live parts and accessible metallic surfaces shall not be less than 5 M\u03a9 after humidity treatment at 95% RH.",
+      "keywords": [
+        "temperature rise 45k",
+        "rated current",
+        "insulation resistance 5 megohms",
+        "is 1293"
+      ]
+    }
+  ]
+}
