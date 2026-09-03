@@ -1013,6 +1013,54 @@ a { color: inherit; text-decoration: none; }
   justify-content: center;
 }
 
+/* Glassmorphic Why Us vs BIS CARE Header Badge */
+.btn-why-us-glass {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: rgba(59, 130, 246, 0.12);
+  color: #60A5FA;
+  border: 1px solid rgba(59, 130, 246, 0.28);
+  padding: 5px 12px;
+  border-radius: 9999px;
+  font-size: 0.76rem;
+  font-weight: 600;
+  cursor: pointer;
+  backdrop-filter: blur(8px);
+  transition: all 0.22s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: 0 2px 8px rgba(59, 130, 246, 0.08);
+  white-space: nowrap;
+}
+
+.btn-why-us-glass:hover {
+  background: rgba(59, 130, 246, 0.22);
+  color: #93C5FD;
+  border-color: rgba(59, 130, 246, 0.5);
+  box-shadow: 0 4px 14px rgba(59, 130, 246, 0.25);
+  transform: translateY(-1px);
+}
+
+.btn-why-us-glass i {
+  color: #F59E0B;
+  font-size: 0.74rem;
+  animation: pulseSparkle 2s ease-in-out infinite;
+}
+
+@keyframes pulseSparkle {
+  0%, 100% { transform: scale(1); opacity: 0.9; }
+  50% { transform: scale(1.18); opacity: 1; }
+}
+
+@media (max-width: 680px) {
+  .btn-why-us-glass span {
+    display: none;
+  }
+  .btn-why-us-glass {
+    padding: 6px 9px;
+    border-radius: 50%;
+  }
+}
+
 /* ==========================================================================
    Chat Stream / Message Container
    ========================================================================== */
@@ -3830,30 +3878,6 @@ html, body {
 </head>
 <body>
 
-  <!-- ================= TOP GOV HEADER ================= -->
-  <div class="gov-top-bar">
-    <div class="gov-emblem-badge">
-      <span>🇮🇳 <strong>SIH 2026 PROTOTYPE</strong> • Problem Statement SIH26107 (Ministry of Consumer Affairs / BIS Research Copilot)</span>
-      <span style="color:var(--border-color);">|</span>
-      <span>Research Sandbox • Verified Evidence Grounding</span>
-    </div>
-    <div class="gov-nav-links">
-      <button onclick="openWhyUsModal()" style="background:rgba(59,130,246,0.15);color:var(--primary-blue);border:1px solid rgba(59,130,246,0.3);padding:2px 8px;border-radius:4px;font-size:0.72rem;font-weight:700;display:flex;align-items:center;gap:4px;">
-        <i class="fas fa-sparkles"></i> Why Us vs BIS CARE
-      </button>
-      <span>•</span>
-      <a href="index.html">Portal Home</a>
-      <span>•</span>
-      <a href="copilot.html">MSME Copilot</a>
-      <span>•</span>
-      <a href="knowledge-graph.html">Knowledge Graph</a>
-      <span>•</span>
-      <a href="consumer.html">Consumer Rights</a>
-      <span>•</span>
-      <a href="verify.html">Scan & Verify</a>
-    </div>
-  </div>
-
   <!-- Mobile Sidebar Backdrop Overlay -->
   <div class="sidebar-backdrop" id="sidebarBackdrop" onclick="toggleSidebar(false)"></div>
 
@@ -3984,6 +4008,12 @@ html, body {
         </div>
 
         <div class="nav-right-controls">
+          <!-- Why Us vs BIS CARE Glassmorphic Badge -->
+          <button class="btn-why-us-glass" onclick="openWhyUsModal()" title="Comparison: Why Us vs BIS CARE App">
+            <i class="fas fa-sparkles"></i>
+            <span>Why Us vs BIS CARE</span>
+          </button>
+
           <!-- Role / Persona Selector (Consumer / MSME / Inspector) -->
           <div class="role-selector-box">
             <button class="btn-role-trigger" onclick="toggleRoleDropdown()" title="Switch User Role Persona">
