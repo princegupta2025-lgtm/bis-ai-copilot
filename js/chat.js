@@ -30,6 +30,9 @@ const APP_STATE = {
   conversationHistory: []
 };
 
+let speechRecognizer = null;
+let currentVoiceLang = 'hi-IN'; // 'hi-IN' or 'en-IN'
+
 function initApplication() {
   initUI();
   initKeyShortcuts();
@@ -2623,7 +2626,10 @@ async function submitUserQuery() {
   if (sendBtn) sendBtn.disabled = true;
 
   // 2. MODULE 4 — Quick-path: detect raw 7-digit CM/L or 6-digit HUID before LLM call
-  const quickVerify = VerificationEngine.verifyIdentifier(query);
+  const engine = (typeof VerificationEngine !== 'undefined' && typeof VerificationEngine.verifyIdentifier === 'function')
+    ? VerificationEngine
+    : (typeof window !== 'undefined' && window.VerificationEngine && typeof window.VerificationEngine.verifyIdentifier === 'function' ? window.VerificationEngine : null);
+  const quickVerify = engine ? engine.verifyIdentifier(query) : { status: 'ERROR' };
   if (quickVerify.status !== 'ERROR') {
     // Direct verification route — skip RAG + LLM entirely
     if (sendBtn) sendBtn.disabled = false;
@@ -3729,7 +3735,7 @@ function finalizeBubble(aiBubbleId, fullText, matchedDoc, originalQuery, ragChun
             </a>
           </div>
         `;
-        contentEl.appendChild(chip);
+        if (contentEl) contentEl.appendChild(chip);
       });
 
       bubbleEl.appendChild(details);
@@ -4035,9 +4041,8 @@ function copyStoredMessage(id, btn) {
 
 // ==========================================================================
 // Vernacular Speech Recognition & Bhashini Voice Gateway
+// (speechRecognizer and currentVoiceLang declared at top state block)
 // ==========================================================================
-let speechRecognizer = null;
-let currentVoiceLang = 'hi-IN'; // 'hi-IN' or 'en-IN'
 
 function toggleVoiceLanguage() {
   currentVoiceLang = currentVoiceLang === 'hi-IN' ? 'en-IN' : 'hi-IN';
@@ -4148,6 +4153,16 @@ function readAloudStoredMessage(id, btn) {
 }
 
 function focusComposerInput() {
+  const welcome = document.getElementById('chatWelcomeBox');
+  const heroInput = document.getElementById('heroPromptInput');
+  const isWelcomeVisible = welcome && window.getComputedStyle(welcome).display !== 'none';
+  
+  if (isWelcomeVisible && heroInput) {
+    heroInput.focus();
+    heroInput.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    return;
+  }
+
   const input = document.getElementById('userInput');
   if (input) {
     input.focus();
@@ -4179,11 +4194,20 @@ function startNewConversation() {
         <p class="empty-hero-sub">Your BIS & Indian Standards Assistant</p>
       </div>
 
-      <!-- Central Guidance Hint -->
-      <div class="hero-guidance-box" onclick="focusComposerInput()">
-        <i class="fas fa-magnifying-glass"></i>
-        <span>Ask anything about BIS, Indian Standards, certification or compliance...</span>
-      </div>
+      <!-- Central Interactive Hero Prompt Input -->
+      <form class="hero-guidance-box" onsubmit="event.preventDefault(); const val=document.getElementById('heroPromptInput').value.trim(); if(val){ if(window.sendPredefinedQuery) window.sendPredefinedQuery(val); else if(typeof sendPredefinedQuery==='function') sendPredefinedQuery(val); }">
+        <i class="fas fa-magnifying-glass" style="color:var(--primary-blue);font-size:1rem;margin-left:4px;"></i>
+        <input 
+          type="text" 
+          id="heroPromptInput" 
+          class="hero-prompt-input" 
+          placeholder="Ask anything about BIS, Indian Standards, certification or compliance..." 
+          autocomplete="off"
+        />
+        <button type="submit" class="hero-prompt-submit-btn" title="Send Prompt" aria-label="Send Prompt">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="19" x2="12" y2="5"></line><polyline points="5 12 12 5 19 12"></polyline></svg>
+        </button>
+      </form>
 
       <!-- 3 Primary Action Pills -->
       <div class="hero-primary-actions-row">
