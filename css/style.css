@@ -1012,54 +1012,6 @@ a { color: inherit; text-decoration: none; }
   justify-content: center;
 }
 
-/* Glassmorphic Why Us vs BIS CARE Header Badge */
-.btn-why-us-glass {
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  background: rgba(59, 130, 246, 0.12);
-  color: #60A5FA;
-  border: 1px solid rgba(59, 130, 246, 0.28);
-  padding: 5px 12px;
-  border-radius: 9999px;
-  font-size: 0.76rem;
-  font-weight: 600;
-  cursor: pointer;
-  backdrop-filter: blur(8px);
-  transition: all 0.22s cubic-bezier(0.4, 0, 0.2, 1);
-  box-shadow: 0 2px 8px rgba(59, 130, 246, 0.08);
-  white-space: nowrap;
-}
-
-.btn-why-us-glass:hover {
-  background: rgba(59, 130, 246, 0.22);
-  color: #93C5FD;
-  border-color: rgba(59, 130, 246, 0.5);
-  box-shadow: 0 4px 14px rgba(59, 130, 246, 0.25);
-  transform: translateY(-1px);
-}
-
-.btn-why-us-glass i {
-  color: #F59E0B;
-  font-size: 0.74rem;
-  animation: pulseSparkle 2s ease-in-out infinite;
-}
-
-@keyframes pulseSparkle {
-  0%, 100% { transform: scale(1); opacity: 0.9; }
-  50% { transform: scale(1.18); opacity: 1; }
-}
-
-@media (max-width: 680px) {
-  .btn-why-us-glass span {
-    display: none;
-  }
-  .btn-why-us-glass {
-    padding: 6px 9px;
-    border-radius: 50%;
-  }
-}
-
 /* ==========================================================================
    Chat Stream / Message Container
    ========================================================================== */

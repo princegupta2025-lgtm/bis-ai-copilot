@@ -200,27 +200,7 @@
     }
   }
 
-  // Global Key Listener
-  document.addEventListener('keydown', function (e) {
-    if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === 'k') {
-      e.preventDefault();
-      const backdrop = document.getElementById('cmdPaletteBackdrop');
-      if (backdrop && backdrop.classList.contains('active')) {
-        closePalette();
-      } else {
-        openPalette();
-      }
-    }
-  });
-
-  // Attach triggers to elements with data-cmd-trigger or .cmd-palette-trigger
-  document.addEventListener('click', function (e) {
-    if (e.target.closest('[data-cmd-trigger]') || e.target.closest('.cmd-palette-trigger')) {
-      e.preventDefault();
-      openPalette();
-    }
-  });
-
-  window.openCommandPalette = openPalette;
-  window.closeCommandPalette = closePalette;
+  // Global Key Listener (Disabled for clean Government Portal UX)
+  window.openCommandPalette = function() {};
+  window.closeCommandPalette = function() {};
 })();
