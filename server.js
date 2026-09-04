@@ -296,6 +296,44 @@ try {
   console.warn('⚠️ National catalog file load notice:', e.message);
 }
 
+// Precedence Rule: Authoritative Standards (data/authorized_standards/*.json) always take precedence over compact_lookup.json
+try {
+  const authDir = path.join(__dirname, 'data', 'authorized_standards');
+  if (fs.existsSync(authDir)) {
+    const authFiles = fs.readdirSync(authDir).filter(f => f.endsWith('.json'));
+    let overriddenCount = 0;
+    authFiles.forEach(file => {
+      try {
+        const doc = JSON.parse(fs.readFileSync(path.join(authDir, file), 'utf8'));
+        const stdNum = doc.standard_number || file.replace('.json', '');
+        const baseNumMatch = stdNum.match(/(?:IS|BIS)\s*(\d+)/i);
+        const baseNum = baseNumMatch ? baseNumMatch[1] : stdNum.replace(/\D/g, '');
+        if (baseNum) {
+          nationalCatalogueData[baseNum] = {
+            id: stdNum.replace(/[\s:]/g, '-'),
+            code: stdNum,
+            bNum: baseNum,
+            title: doc.title || 'Official Indian Standard Specification',
+            div: doc.division || doc.division_name || 'BIS',
+            divName: doc.division_name || doc.division || 'Bureau of Indian Standards',
+            year: doc.year || 2020,
+            status: 'CURRENT',
+            scheme: doc.scheme || (doc.is_mandatory ? 'Scheme-I (ISI Mark Product Certification)' : 'Voluntary Standard'),
+            mand: doc.is_mandatory === true,
+            qco: doc.qco_name || (doc.is_mandatory ? 'Mandatory Statutory Quality Control Order Enforced' : null),
+            ministry: doc.ministry || 'Bureau of Indian Standards',
+            doc: true
+          };
+          overriddenCount++;
+        }
+      } catch (e) {}
+    });
+    if (overriddenCount > 0) {
+      console.log(`✅ Applied authoritative precedence: ${overriddenCount} verified standards overrode catalog records.`);
+    }
+  }
+} catch (e) {}
+
 // Load Pre-Indexed Semantic Vector Store (384-D)
 const vectorDbPath = path.join(__dirname, 'data', 'bis_rag_embeddings.json');
 if (fs.existsSync(vectorDbPath)) {
@@ -308,7 +346,7 @@ if (fs.existsSync(vectorDbPath)) {
   }
 }
 
-// Augment Vector Store with Authoritative Verified Clauses (e.g. IS 14543, IS 4151, IS 1786)
+// Augment Vector Store with Authoritative Verified Clauses (e.g. IS 14543, IS 4151, IS 1786, IS 694)
 const authStandardsDir = path.join(__dirname, 'data', 'authorized_standards');
 if (fs.existsSync(authStandardsDir) && bisVectorStore) {
   try {
@@ -346,7 +384,7 @@ if (fs.existsSync(authStandardsDir) && bisVectorStore) {
 }
 
 // Initialize Pretrained Semantic Transformer Model (BAAI/bge-small-en-v1.5)
-(async function initEmbeddingEngine() {
+async function initEmbeddingEngine() {
   try {
     const { pipeline } = require('@xenova/transformers');
     console.log('Loading genuine pretrained transformer: BAAI/bge-small-en-v1.5 (384-D)...');
@@ -355,6 +393,7 @@ if (fs.existsSync(authStandardsDir) && bisVectorStore) {
 
     // Generate 384-D dense embeddings for augmented authorized clauses
     if (bisVectorStore) {
+      console.time('Embedding ~120 authorized clauses');
       let embeddedCount = 0;
       for (const chunk of bisVectorStore) {
         if (!chunk.embedding && chunk.text) {
@@ -365,6 +404,7 @@ if (fs.existsSync(authStandardsDir) && bisVectorStore) {
           } catch (e) {}
         }
       }
+      console.timeEnd('Embedding ~120 authorized clauses');
       if (embeddedCount > 0) {
         console.log(`✅ Generated 384-D semantic embeddings for ${embeddedCount} authorized clauses.`);
       }
@@ -372,7 +412,7 @@ if (fs.existsSync(authStandardsDir) && bisVectorStore) {
   } catch (err) {
     console.warn('⚠️ Xenova Transformer initialization notice (falling back to pre-indexed vectors):', err.message);
   }
-})();
+}
 
 // Helper: Cosine Similarity between two Float32 / Number arrays
 function computeCosineSimilarity(vecA, vecB) {
@@ -585,6 +625,18 @@ function extractBaseStandardNum(standardCode) {
   const m = standardCode.match(/(?:IS|BIS)\s*(\d+)/i);
   return m ? m[1] : null;
 }
+
+/**
+ * Exact standard code matcher with token and word boundaries.
+ * Prevents substring collisions (e.g. '14151985' matching '4151' or 'LAB-8178606' matching '1786').
+ */
+const matchesStandardCode = (stdCode, ec) => {
+  if (!stdCode || !ec) return false;
+  const baseMatch = stdCode.match(/(?:IS|BIS)\s*(\d+)/i);
+  if (baseMatch && baseMatch[1] === ec) return true;
+  const clean = stdCode.replace(/\D/g, '');
+  return clean === ec;
+};
 
 /**
  * Phase 3: Build Dynamic IS Code Knowledge Block from Verified Registry
@@ -1107,8 +1159,7 @@ async function performHybridRAG(query, { topK = 8, role = 'consumer' } = {}) {
   // Ensure chunks matching extractedCodes from taxonomy are in candidate pool
   if (extractedCodes.length > 0 && bisVectorStore) {
     bisVectorStore.forEach((chunk) => {
-      const baseNum = extractBaseStandardNum(chunk.standardCode);
-      if (baseNum && extractedCodes.includes(baseNum)) {
+      if (extractedCodes.some(ec => matchesStandardCode(chunk.standardCode, ec))) {
         const chunkId = chunk.id || `${chunk.standardCode}-${chunk.clauseTitle}`;
         if (!fusionMap.has(chunkId)) {
           fusionMap.set(chunkId, {
@@ -1135,7 +1186,7 @@ async function performHybridRAG(query, { topK = 8, role = 'consumer' } = {}) {
     }
 
     // High boost for standards identified via semantic keyword taxonomy (e.g. TMT -> IS 1786, Water -> IS 14543)
-    if (baseNum && extractedCodes.includes(baseNum)) {
+    if (extractedCodes.some(ec => matchesStandardCode(entry.chunk.standardCode, ec))) {
       boostedRRF *= 1.50;
     }
 
@@ -1572,9 +1623,30 @@ app.use((err, req, res, next) => {
 });
 
 // ============================================================================
-// PHASE 1: EXPLICIT 127.0.0.1 HOST BINDING
+// PHASE 1: EXPLICIT 127.0.0.1 HOST BINDING & ASYNC STARTUP
 // ============================================================================
-app.listen(PORT, HOST, () => {
-  console.log(`🚀 MANAK-AI (BIS Trust Copilot) securely running on http://${HOST}:${PORT}/chat.html`);
-  console.log(`🔒 Security Hardened: Phase 1 (Protection), Phase 2 (Server Prompt), Phase 3 (Dynamic IS Injection)`);
-});
+let serverInstance = null;
+
+async function startServer() {
+  await initEmbeddingEngine();
+  serverInstance = app.listen(PORT, HOST, () => {
+    console.log(`🚀 MANAK-AI (BIS Trust Copilot) securely running on http://${HOST}:${PORT}/chat.html`);
+    console.log(`🔒 Security Hardened: Phase 1 (Protection), Phase 2 (Server Prompt), Phase 3 (Dynamic IS Injection)`);
+  });
+  return serverInstance;
+}
+
+// Only auto-listen when executed directly as main script
+if (require.main === module) {
+  startServer();
+}
+
+module.exports = {
+  app,
+  startServer,
+  performHybridRAG,
+  matchesStandardCode,
+  extractISCodes,
+  extractBaseStandardNum,
+  initEmbeddingEngine
+};

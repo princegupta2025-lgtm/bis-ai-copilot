@@ -105,6 +105,22 @@ All knowledge assets indexed in MANAK-AI are grounded in official statutory gaze
 
 ---
 
+## 🎯 Canonical Entry Points & Distribution Architecture
+
+To avoid ambiguity across different demo and deployment targets, this repository maintains clearly designated entry points:
+
+| File / Path | Role & Target | Description |
+| :--- | :--- | :--- |
+| **`chat.html`** | **Primary Canonical UI** | The live, interactive AI Copilot interface connecting directly to `server.js` (`/api/chat`, `/api/rag`, `/api/recommend-standard`). Includes live telemetry, multimodal OCR, and multilingual support. |
+| **`index.html`** | **Portal & Landing Page** | Public web portal presenting project overview, features, and links to BIS CARE verification modules. |
+| **`server.js`** | **Primary Production Backend** | Enterprise Node.js server hosting the Xenova 384-D BGE transformer, Okapi BM25 index, RRF fusion, and secure Gemini proxy. |
+| **`standalone_complete.html`** | **Offline Standalone Bundle** | 100% self-contained single-file offline bundle with inlined styles and logic, built for air-gapped demo environments. |
+| **`out/`** | **Export Distribution Bundle** | Pre-packaged export directory containing standalone distribution artifacts (`out/standalone_app.html`, `out/server.js`) for isolated deployment. |
+
+> **Development Notice**: All core feature development, RAG enhancements, and security hardening are applied directly to root source files (`server.js`, `chat.html`, `css/style.css`, `js/chat.js`). Downstream standalone distribution bundles are synchronized from these canonical sources.
+
+---
+
 ## 🔒 Security Hardening (Phase 1–3 Complete)
 
 - **Defense-in-Depth File Protection**: Direct HTTP access to `.env`, `.git`, `package.json`, server scripts, and credentials is unconditionally blocked with **HTTP 403 Forbidden**.
