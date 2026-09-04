@@ -3426,3 +3426,296 @@ html, body {
 }
 .wizard-btn.success:hover { background: #059669; }
 
+/* ==========================================================================
+   ENHANCEMENTS: HERO STATS STRIP, SKELETON LOADERS & RECOMMENDATION ENGINE
+   ========================================================================== */
+
+/* 1. Hero Stats Strip */
+.hero-stats-strip {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 24px;
+  background: rgba(17, 24, 39, 0.65);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: var(--radius-lg, 16px);
+  padding: 12px 28px;
+  margin: 18px 0 24px 0;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.25);
+  max-width: 620px;
+  width: 100%;
+}
+
+.stat-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  min-width: 120px;
+}
+
+.stat-number {
+  font-size: 1.35rem;
+  font-weight: 800;
+  color: var(--text-main, #F3F4F6);
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  letter-spacing: -0.02em;
+  background: linear-gradient(135deg, #FFFFFF 30%, #93C5FD 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.stat-label {
+  font-size: 0.72rem;
+  font-weight: 600;
+  color: var(--text-muted, #9CA3AF);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin-top: 2px;
+}
+
+.stat-divider {
+  width: 1px;
+  height: 32px;
+  background: rgba(255, 255, 255, 0.1);
+}
+
+/* 2. Skeleton Loaders (CSS Shimmer replacing spinners) */
+@keyframes skeletonShimmer {
+  0% {
+    background-position: -200% 0;
+  }
+  100% {
+    background-position: 200% 0;
+  }
+}
+
+.skeleton-box {
+  background: linear-gradient(90deg, rgba(255, 255, 255, 0.04) 25%, rgba(255, 255, 255, 0.11) 50%, rgba(255, 255, 255, 0.04) 75%);
+  background-size: 200% 100%;
+  animation: skeletonShimmer 1.5s infinite ease-in-out;
+  border-radius: var(--radius-sm, 6px);
+}
+
+.skeleton-card {
+  background: rgba(17, 24, 39, 0.5);
+  border: 1px solid rgba(255, 255, 255, 0.07);
+  border-radius: var(--radius-md, 10px);
+  padding: 16px;
+  margin-bottom: 12px;
+}
+
+.skeleton-line {
+  height: 12px;
+  margin-bottom: 10px;
+  border-radius: 4px;
+}
+.skeleton-line.short { width: 35%; }
+.skeleton-line.medium { width: 65%; }
+.skeleton-line.long { width: 92%; }
+
+/* 3. Grounding Badges */
+.grounding-badge-high {
+  background: rgba(16, 185, 129, 0.15) !important;
+  color: var(--status-green, #10B981) !important;
+  border: 1px solid rgba(16, 185, 129, 0.35) !important;
+}
+
+.grounding-badge-med {
+  background: rgba(245, 158, 11, 0.15) !important;
+  color: var(--status-amber, #F59E0B) !important;
+  border: 1px solid rgba(245, 158, 11, 0.35) !important;
+}
+
+.grounding-badge-low {
+  background: rgba(239, 68, 68, 0.15) !important;
+  color: var(--status-red, #EF4444) !important;
+  border: 1px solid rgba(239, 68, 68, 0.35) !important;
+}
+
+/* 4. Product Recommendation Modal & Cards */
+.rec-modal-content {
+  max-width: 680px;
+  width: 92%;
+  background: #0F172A;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: var(--radius-lg, 16px);
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.7);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  max-height: 88vh;
+}
+
+.rec-modal-header {
+  padding: 20px 24px;
+  background: rgba(15, 23, 42, 0.95);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.rec-modal-body {
+  padding: 24px;
+  overflow-y: auto;
+  flex: 1;
+}
+
+.rec-input-group {
+  margin-bottom: 18px;
+}
+
+.rec-textarea {
+  width: 100%;
+  background: rgba(30, 41, 59, 0.6);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: var(--radius-md, 10px);
+  color: var(--text-main, #F3F4F6);
+  font-family: inherit;
+  font-size: 0.88rem;
+  padding: 12px 14px;
+  resize: vertical;
+  min-height: 90px;
+  transition: var(--transition);
+  box-sizing: border-box;
+}
+
+.rec-textarea:focus {
+  outline: none;
+  border-color: var(--primary-blue, #3B82F6);
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.2);
+}
+
+.rec-card {
+  background: rgba(17, 24, 39, 0.8);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: var(--radius-md, 10px);
+  padding: 16px;
+  margin-bottom: 14px;
+  transition: transform 0.18s ease, border-color 0.18s ease;
+}
+
+.rec-card:hover {
+  transform: translateY(-2px);
+  border-color: rgba(59, 130, 246, 0.4);
+}
+
+.rec-card-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 8px;
+}
+
+.rec-is-code {
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: #60A5FA;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.rec-badges-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin: 8px 0;
+}
+
+.rec-pill {
+  font-size: 0.72rem;
+  font-weight: 600;
+  padding: 3px 8px;
+  border-radius: var(--radius-full, 9999px);
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.rec-pill.mandatory {
+  background: rgba(239, 68, 68, 0.15);
+  color: #F87171;
+  border: 1px solid rgba(239, 68, 68, 0.35);
+}
+
+.rec-pill.voluntary {
+  background: rgba(107, 114, 128, 0.2);
+  color: #9CA3AF;
+  border: 1px solid rgba(107, 114, 128, 0.35);
+}
+
+.rec-pill.scheme {
+  background: rgba(99, 102, 241, 0.15);
+  color: #A5B4FC;
+  border: 1px solid rgba(99, 102, 241, 0.35);
+}
+
+.rec-citations-box {
+  margin-top: 10px;
+  padding: 10px 12px;
+  background: rgba(0, 0, 0, 0.25);
+  border-radius: var(--radius-sm, 6px);
+  font-size: 0.78rem;
+  color: var(--text-muted, #9CA3AF);
+}
+
+.rec-fallback-box {
+  background: rgba(245, 158, 11, 0.08);
+  border: 1px solid rgba(245, 158, 11, 0.25);
+  border-radius: var(--radius-md, 10px);
+  padding: 18px;
+  margin-top: 12px;
+}
+
+.rec-fallback-list {
+  margin-top: 10px;
+  padding-left: 20px;
+  font-size: 0.82rem;
+  color: #CBD5E1;
+  line-height: 1.6;
+}
+
+/* 5. Responsive Adjustments */
+@media (max-width: 768px) {
+  .hero-stats-strip {
+    gap: 12px;
+    padding: 10px 14px;
+    max-width: 100%;
+  }
+  .stat-item {
+    min-width: 80px;
+  }
+  .stat-number {
+    font-size: 1.15rem;
+  }
+  .stat-label {
+    font-size: 0.65rem;
+  }
+  .rec-modal-content {
+    width: 95%;
+    max-height: 92vh;
+  }
+}
+
+@media (max-width: 480px) {
+  .hero-stats-strip {
+    flex-wrap: wrap;
+    justify-content: space-around;
+    gap: 8px;
+  }
+  .stat-divider {
+    display: none;
+  }
+  .stat-item {
+    min-width: 70px;
+  }
+  .stat-number {
+    font-size: 1.05rem;
+  }
+}
+

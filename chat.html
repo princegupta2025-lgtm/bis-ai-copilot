@@ -35,6 +35,11 @@
 
   <!-- DOMPurify (Client-side XSS Protection for Markdown & Dynamic DOM) -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/dompurify/3.0.9/purify.min.js"></script>
+  <script>
+    if (typeof DOMPurify === 'undefined') {
+      document.write('<script src="https://cdn.jsdelivr.net/npm/dompurify@3.0.9/dist/purify.min.js"><\/script>');
+    }
+  </script>
 
   <!-- ================= PHASE 4: UI STYLES (IS DISPLAY, STREAMING CURSOR, PROGRESS, ERROR UI) ================= -->
   <style id="phase4-custom-styles">
@@ -583,17 +588,39 @@
             <p class="empty-hero-sub">Verified AI for Indian Standards, Compliance & Certification</p>
           </div>
 
+          <!-- Live Animated Stats Strip (SIH 2026 Core Metrics) -->
+          <div class="hero-stats-strip" id="heroStatsStrip">
+            <div class="stat-item">
+              <span class="stat-number" id="statStandardsCount" data-target="23401">23,401</span>
+              <span class="stat-label">Indian Standards</span>
+            </div>
+            <div class="stat-divider"></div>
+            <div class="stat-item">
+              <span class="stat-number" id="statQcoCount" data-target="769">769</span>
+              <span class="stat-label">Enforced QCOs</span>
+            </div>
+            <div class="stat-divider"></div>
+            <div class="stat-item">
+              <span class="stat-number" id="statLabsCount" data-target="431">431</span>
+              <span class="stat-label">Approved Labs</span>
+            </div>
+          </div>
+
           <!-- Central Guidance Hint -->
           <div class="hero-guidance-box" onclick="focusComposerInput()">
             <i class="fas fa-magnifying-glass"></i>
             <span>Ask anything about BIS, Indian Standards, certification or compliance...</span>
           </div>
 
-          <!-- 3 Primary Action Pills -->
+          <!-- 4 Primary Action Pills -->
           <div class="hero-primary-actions-row">
             <button class="hero-action-pill primary" onclick="focusComposerInput()">
               <i class="fas fa-comment-dots"></i>
               <span>Ask Trust Copilot</span>
+            </button>
+            <button class="hero-action-pill" onclick="openProductRecommendationModal()">
+              <i class="fas fa-compass-drafting"></i>
+              <span>Find Product Standard</span>
             </button>
             <button class="hero-action-pill" onclick="openToolsModal('verify')">
               <i class="fas fa-qrcode"></i>
@@ -605,20 +632,20 @@
             </button>
           </div>
 
-          <!-- Secondary Quick Topic Chips Row -->
+          <!-- Secondary Quick Topic Chips Row (4 High-Impact SIH Demos) -->
           <div class="hero-secondary-chips-row">
-            <span class="chips-label">Popular:</span>
-            <button class="hero-chip" onclick="sendPredefinedQuery('What are the mandatory testing requirements for IS 4151 helmets?')">
-              <i class="fas fa-hard-hat"></i> Standards (IS 4151)
+            <span class="chips-label">Demo Queries:</span>
+            <button class="hero-chip" onclick="sendPredefinedQuery('List mandatory Quality Control Orders (QCOs) timelines and legal penalties under BIS Act 2016.')">
+              <i class="fas fa-gavel"></i> QCO Lookup
             </button>
-            <button class="hero-chip" onclick="sendPredefinedQuery('List mandatory Quality Control Orders (QCOs) enforcement timelines for 2026.')">
-              <i class="fas fa-gavel"></i> QCOs
+            <button class="hero-chip" onclick="sendPredefinedQuery('How to verify 6-digit laser HUID on gold jewellery and calculate pure gold value?')">
+              <i class="fas fa-ring"></i> Hallmarking & HUID
             </button>
-            <button class="hero-chip" onclick="openToolsModal('hallmarking')">
-              <i class="fas fa-ring"></i> Hallmarking
+            <button class="hero-chip" onclick="sendPredefinedQuery('What are the STI testing and fee concessions for MSME manufacturers under BIS Scheme-I?')">
+              <i class="fas fa-industry"></i> MSME Compliance
             </button>
-            <button class="hero-chip" onclick="openToolsModal('compliance')">
-              <i class="fas fa-clipboard-check"></i> Compliance
+            <button class="hero-chip" onclick="openProductRecommendationModal()">
+              <i class="fas fa-boxes-stacked"></i> Product Recommendation
             </button>
           </div>
         </div>
@@ -1073,6 +1100,45 @@
   <div id="cmdPalette" style="display:none;"></div>
   <div id="whyUsModal" style="display:none;"></div>
 
+  <!-- ================= PRODUCT STANDARD RECOMMENDATION MODAL ================= -->
+  <div class="cmd-palette-backdrop" id="productRecommendModal" style="display:none;" onclick="if(event.target === this) closeProductRecommendationModal()">
+    <div class="rec-modal-content">
+      <div class="rec-modal-header">
+        <div>
+          <h3 style="margin:0;font-size:1.1rem;color:var(--text-main);display:flex;align-items:center;gap:8px;">
+            <i class="fas fa-compass-drafting" style="color:var(--primary-blue);"></i> Product Standard Recommendation
+          </h3>
+          <p style="margin:4px 0 0 0;font-size:0.78rem;color:var(--text-muted);">
+            Describe your product to identify applicable Indian Standards, mandatory QCOs, and certification schemes.
+          </p>
+        </div>
+        <button onclick="closeProductRecommendationModal()" style="background:none;border:none;color:var(--text-subtle);font-size:1.1rem;cursor:pointer;padding:4px;"><i class="fas fa-xmark"></i></button>
+      </div>
+
+      <div class="rec-modal-body">
+        <div class="rec-input-group">
+          <label style="display:block;font-size:0.8rem;font-weight:600;color:var(--text-muted);margin-bottom:6px;">
+            Product Technical Description / Specifications:
+          </label>
+          <textarea id="productDescInput" class="rec-textarea" placeholder="e.g. We manufacture 20-litre polycarbonate water containers / bottles for drinking water packaging, or two-wheeler protective helmets for motorcycle riders..."></textarea>
+        </div>
+
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;">
+          <div style="font-size:0.75rem;color:var(--text-subtle);">
+            <i class="fas fa-shield-halved" style="color:var(--status-green);"></i> Grounded strictly in official BIS Gazette & National Catalog
+          </div>
+          <button class="wizard-btn primary" id="btnSubmitRecommend" onclick="submitProductRecommendation()">
+            <i class="fas fa-magnifying-glass"></i> Identify Standards
+          </button>
+        </div>
+
+        <div id="productRecommendResults">
+          <!-- Populated dynamically with skeleton loaders or grounded standard cards -->
+        </div>
+      </div>
+    </div>
+  </div>
+
   <!-- ================= LIVE CAMERA SCANNER VIEWPORT MODAL ================= -->
   <div class="cmd-palette-backdrop" id="cameraModal" onclick="if(event.target === this) closeCameraModal()">
     <div class="cmd-palette-box" style="max-width:560px;padding:20px;">
@@ -1299,7 +1365,10 @@
       if (descEl) descEl.textContent = standard.desc;
 
       if (chipsEl && standard.chips) {
-        chipsEl.innerHTML = standard.chips.map(c => `<span class="meta-chip"><i class="fas fa-check-circle" style="color:var(--status-green);"></i> ${c}</span>`).join('');
+        const safeMapChip = function(txt) {
+          return String(txt).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;').replace(/'/g, '&#039;');
+        };
+        chipsEl.innerHTML = standard.chips.map(c => `<span class="meta-chip"><i class="fas fa-check-circle" style="color:var(--status-green);"></i> ${safeMapChip(c)}</span>`).join('');
       }
 
       if (linkEl) linkEl.href = standard.url || 'https://standardsbis.bsbedge.com';

@@ -363,17 +363,17 @@ function openClauseInPDF(standardCode, clauseTitle, pageNo, snippetText, updateU
       <div class="pdf-clause-highlight-box" style="background:rgba(234,179,8,0.12);border-left:4px solid var(--gold-accent);padding:14px;border-radius:0 8px 8px 0;margin:14px 0;box-shadow:0 0 16px rgba(234,179,8,0.1);">
         <strong style="color:var(--gold-accent);font-size:0.92rem;">${escapeHtml(activeClause)}:</strong><br />
         <div style="font-size:0.84rem;line-height:1.6;color:var(--text-main);margin-top:6px;">
-          ${(activeEvidence || '').replace(/\n/g, '<br/>')}
+          ${escapeHtml(activeEvidence || '').replace(/\n/g, '<br/>')}
         </div>
       </div>
 
       <div style="background:var(--bg-app);border:1px solid var(--border-color);border-radius:6px;padding:10px;font-size:0.75rem;margin-top:14px;">
         <div style="display:flex;justify-content:space-between;margin-bottom:4px;">
-          <span><i class="fas fa-check-circle" style="color:var(--status-green);"></i> <strong>Legal Status:</strong> ${doc ? doc.status : 'Active Mandatory Standard'}</span>
-          <span style="color:var(--text-subtle);"><strong>Ref:</strong> ${cleanCode}</span>
+          <span><i class="fas fa-check-circle" style="color:var(--status-green);"></i> <strong>Legal Status:</strong> ${escapeHtml(doc ? doc.status : 'Active Mandatory Standard')}</span>
+          <span style="color:var(--text-subtle);"><strong>Ref:</strong> ${escapeHtml(cleanCode)}</span>
         </div>
         <div style="color:var(--text-subtle);">
-          <i class="fas fa-fingerprint" style="color:var(--primary-blue);"></i> <strong>Gazette Hash:</strong> <code>${hashVal}</code> (Official Repo)
+          <i class="fas fa-fingerprint" style="color:var(--primary-blue);"></i> <strong>Gazette Hash:</strong> <code>${escapeHtml(hashVal)}</code> (Official Repo)
         </div>
       </div>
       
@@ -2557,13 +2557,13 @@ function recalcCompensation(uid) {
   if (!result.eligible) {
     resultEl.style.background = 'rgba(239,68,68,0.08)';
     resultEl.style.borderLeftColor = 'var(--status-red)';
-    resultEl.innerHTML = `<strong style="color:var(--status-red);">⚠️ ${result.message}</strong>`;
+    resultEl.innerHTML = `<strong style="color:var(--status-red);">⚠️ ${escapeHtml(result.message)}</strong>`;
   } else {
     resultEl.style.background = 'rgba(16,185,129,0.08)';
     resultEl.style.borderLeftColor = 'var(--status-green)';
     resultEl.innerHTML = `
       <div style="font-size:0.78rem;color:var(--text-muted);margin-bottom:4px;">
-        Shortfall: ${result.purityShortfallPercent} &nbsp;|&nbsp; ${result.shortfallGrams}g pure gold
+        Shortfall: ${escapeHtml(result.purityShortfallPercent)} &nbsp;|&nbsp; ${escapeHtml(result.shortfallGrams)}g pure gold
         &nbsp;|&nbsp; Base deficit: ₹${parseFloat(result.baseDeficit).toLocaleString('en-IN')}
       </div>
       <strong>3X Statutory Payout: ₹${parseFloat(result.statutoryRefund3X).toLocaleString('en-IN', {minimumFractionDigits:2})}</strong>
@@ -2732,7 +2732,7 @@ async function submitUserQuery() {
     if (bubble) {
       bubble.innerHTML = `
         <div style="background:rgba(245,158,11,0.12);border-left:4px solid var(--status-amber);padding:10px 14px;border-radius:0 6px 6px 0;margin-bottom:12px;font-size:0.84rem;color:var(--text-main);">
-          <strong><i class="fas fa-triangle-exclamation" style="color:var(--status-amber);"></i> Version Control Notice:</strong> You referenced <code>${versionConflict.historical}</code>. This was officially WITHDRAWN and superseded by <strong>${versionConflict.current}</strong> (${versionConflict.ministry}).
+          <strong><i class="fas fa-triangle-exclamation" style="color:var(--status-amber);"></i> Version Control Notice:</strong> You referenced <code>${escapeHtml(versionConflict.historical)}</code>. This was officially WITHDRAWN and superseded by <strong>${escapeHtml(versionConflict.current)}</strong> (${escapeHtml(versionConflict.ministry)}).
         </div>
       `;
     }
@@ -2750,11 +2750,20 @@ async function submitUserQuery() {
         if (toolbar) {
           const groundedCount = claimAudit.claims.filter(c => c.status === 'GROUNDED').length;
           const totalCount = claimAudit.claims.length;
-          const badgeColor = claimAudit.groundingScore >= 80 ? '#10B981' : (claimAudit.groundingScore >= 50 ? '#F59E0B' : '#EF4444');
+          const score = claimAudit.groundingScore;
+          let badgeClass = 'grounding-badge-low';
+          let badgeColor = 'var(--status-red, #EF4444)';
+          if (score > 85) {
+            badgeClass = 'grounding-badge-high';
+            badgeColor = 'var(--status-green, #10B981)';
+          } else if (score >= 60) {
+            badgeClass = 'grounding-badge-med';
+            badgeColor = 'var(--status-amber, #F59E0B)';
+          }
           const badgeHtml = `
-            <div style="display:inline-flex;align-items:center;gap:6px;padding:3px 8px;border-radius:12px;background:rgba(255,255,255,0.06);border:1px solid ${badgeColor};font-size:0.75rem;color:var(--text-main);margin-right:8px;" title="${claimAudit.claims.map(c => `${c.claim} (${c.status}): ${c.evidenceRef}`).join('\n')}">
+            <div class="${badgeClass}" style="display:inline-flex;align-items:center;gap:6px;padding:3px 8px;border-radius:12px;font-size:0.75rem;margin-right:8px;" title="${claimAudit.claims.map(c => `${c.claim} (${c.status}): ${c.evidenceRef}`).join('\n')}">
               <i class="fas fa-shield-check" style="color:${badgeColor};"></i>
-              <span>Gazette Grounding: <strong>${claimAudit.groundingScore}%</strong> (${groundedCount}/${totalCount} verified)</span>
+              <span>Gazette Grounding: <strong>${score}%</strong> (${groundedCount}/${totalCount} verified)</span>
             </div>
           `;
           toolbar.insertAdjacentHTML('afterbegin', badgeHtml);
@@ -3517,7 +3526,11 @@ async function callLiveLLMStreaming(userQuery, ragChunks, primaryDoc, aiBubbleId
   for (const endpoint of candidateEndpoints) {
     if (streamSuccess) break;
     for (const mod of models) {
-      try {
+        const lastUser = messages.filter(m => m.role === 'user').pop();
+        const userText = lastUser ? String(lastUser.content || '') : '';
+        const isDevanagari = /[\u0900-\u097F]/.test(userText);
+        const resolvedLang = APP_STATE.responseLanguage || (isDevanagari ? 'hi' : (currentVoiceLang && currentVoiceLang.startsWith('hi') ? 'hi' : 'en'));
+
         const response = await fetch(endpoint, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
@@ -3528,7 +3541,8 @@ async function callLiveLLMStreaming(userQuery, ragChunks, primaryDoc, aiBubbleId
             max_tokens: 1500,
             stream: true,
             ragChunks: ragChunks,
-            role: APP_STATE.userRole
+            role: APP_STATE.userRole,
+            responseLanguage: resolvedLang
           }),
           signal: AbortSignal.timeout(12000)
         });
@@ -3698,18 +3712,18 @@ function finalizeBubble(aiBubbleId, fullText, matchedDoc, originalQuery, ragChun
         chip.style.cssText = 'background:var(--bg-app);border:1px solid var(--border-color);border-radius:8px;padding:10px 14px;margin-bottom:8px;font-size:0.8rem;';
         chip.innerHTML = `
           <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:6px;">
-            <strong style="color:var(--text-main);font-size:0.86rem;"><i class="fas fa-file-contract" style="color:var(--gold-accent);"></i> ${chunk.standardCode}</strong>
+            <strong style="color:var(--text-main);font-size:0.86rem;"><i class="fas fa-file-contract" style="color:var(--gold-accent);"></i> ${escapeHtml(chunk.standardCode)}</strong>
             <span style="font-size:0.68rem;background:${evBadgeBg};color:${evBadgeColor};padding:3px 8px;border-radius:4px;font-weight:700;letter-spacing:0.3px;">${evBadgeText}</span>
           </div>
           <div style="color:var(--text-subtle);font-size:0.76rem;margin-bottom:6px;font-weight:600;">
-            <span style="color:var(--gold-accent);">${chunk.standardCode}</span> → <span style="color:var(--primary-blue);">${escapeHtml(targetClause)}</span> → <span>Page ${targetPage}</span> → <span style="color:#10B981;">Verified Evidence</span>
+            <span style="color:var(--gold-accent);">${escapeHtml(chunk.standardCode)}</span> → <span style="color:var(--primary-blue);">${escapeHtml(targetClause)}</span> → <span>Page ${parseInt(targetPage, 10) || 1}</span> → <span style="color:#10B981;">Verified Evidence</span>
           </div>
           <div style="font-size:0.78rem;color:var(--text-muted);line-height:1.4;margin-bottom:8px;background:var(--bg-card);padding:6px 8px;border-radius:4px;border-left:3px solid var(--gold-accent);">
             ${escapeHtml(chunk.text ? chunk.text.slice(0, 180) + '...' : '')}
           </div>
           <div style="display:flex;justify-content:space-between;align-items:center;">
-            <span style="font-size:0.7rem;color:var(--text-muted);">Status: ${chunk.status || 'Active Standard'}</span>
-            <a href="${chunk.sourceUrl || gazetteUrl}" target="_blank" rel="noopener noreferrer" style="color:var(--primary-blue);font-size:0.74rem;font-weight:700;text-decoration:none;display:inline-flex;align-items:center;gap:4px;">
+            <span style="font-size:0.7rem;color:var(--text-muted);">Status: ${escapeHtml(chunk.status || 'Active Standard')}</span>
+            <a href="${sanitizeUrl(chunk.sourceUrl || gazetteUrl)}" target="_blank" rel="noopener noreferrer" style="color:var(--primary-blue);font-size:0.74rem;font-weight:700;text-decoration:none;display:inline-flex;align-items:center;gap:4px;">
               Official Source: ${chunk.verificationStatus === 'official_verified' ? 'Verified Official Link' : 'Gazette Preview'} <i class="fas fa-arrow-up-right-from-square" style="font-size:0.68rem;"></i>
             </a>
           </div>
@@ -3720,7 +3734,7 @@ function finalizeBubble(aiBubbleId, fullText, matchedDoc, originalQuery, ragChun
       bubbleEl.appendChild(details);
     }
   } else if (matchedDoc) {
-    const docSlug = matchedDoc.code.replace(/[\s:]+/g, '-');
+    const docSlug = (matchedDoc.code || '').replace(/[\s:]+/g, '-');
     const targetPage = matchedDoc.pageNumber || 8;
     const targetClause = matchedDoc.clauseNumber || matchedDoc.title || 'Clause';
     const gazetteUrl = `gazette.html?doc=${encodeURIComponent(docSlug)}&page=${targetPage}&clause=${encodeURIComponent(targetClause)}`;
@@ -3735,14 +3749,14 @@ function finalizeBubble(aiBubbleId, fullText, matchedDoc, originalQuery, ragChun
       </summary>
       <div class="sources-accordion-content" style="padding:10px;">
         <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:4px;">
-          <strong style="color:var(--text-main);"><i class="fas fa-file-contract" style="color:var(--gold-accent);"></i> ${matchedDoc.code}</strong>
+          <strong style="color:var(--text-main);"><i class="fas fa-file-contract" style="color:var(--gold-accent);"></i> ${escapeHtml(matchedDoc.code)}</strong>
           <span style="font-size:0.68rem;background:rgba(59,130,246,0.15);color:#60A5FA;padding:3px 8px;border-radius:4px;font-weight:700;">🔵 LEVEL 2: VERIFIED CLAUSE EVIDENCE</span>
         </div>
         <div style="color:var(--text-subtle);font-size:0.76rem;margin-bottom:6px;font-weight:600;">
-          <span style="color:var(--gold-accent);">${matchedDoc.code}</span> → <span style="color:var(--primary-blue);">${escapeHtml(targetClause)}</span> → <span>Page ${targetPage}</span> → <span style="color:#10B981;">Verified Evidence</span>
+          <span style="color:var(--gold-accent);">${escapeHtml(matchedDoc.code)}</span> → <span style="color:var(--primary-blue);">${escapeHtml(targetClause)}</span> → <span>Page ${parseInt(targetPage, 10) || 1}</span> → <span style="color:#10B981;">Verified Evidence</span>
         </div>
         <div style="display:flex;justify-content:flex-end;">
-          <a href="${gazetteUrl}" target="_blank" rel="noopener noreferrer" style="color:var(--primary-blue);font-size:0.74rem;font-weight:700;text-decoration:none;display:inline-flex;align-items:center;gap:4px;">
+          <a href="${sanitizeUrl(gazetteUrl)}" target="_blank" rel="noopener noreferrer" style="color:var(--primary-blue);font-size:0.74rem;font-weight:700;text-decoration:none;display:inline-flex;align-items:center;gap:4px;">
             Open Gazette Viewer →
           </a>
         </div>
@@ -3853,24 +3867,59 @@ function renderMarkdown(content) {
     html = html.replace(`__CODE_BLOCK_${idx}__`, block);
   });
 
-  if (typeof DOMPurify !== 'undefined') {
-    return DOMPurify.sanitize(html, {
-      ALLOWED_TAGS: ['b', 'i', 'em', 'strong', 'a', 'p', 'br', 'ul', 'ol', 'li', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'table', 'tr', 'th', 'td', 'div', 'span', 'code', 'pre', 'button', 'hr', 'blockquote'],
-      ALLOWED_ATTR: ['href', 'target', 'rel', 'class', 'id', 'style', 'title', 'data-action', 'data-code', 'data-title', 'data-page', 'data-evidence']
-    });
-  }
-
-  return html;
+  return safeSanitizeHtml(html);
 }
 
+// Safe Sanitize HTML Engine (DOMPurify with Defensive Offline Fallback)
+function safeSanitizeHtml(rawHtml) {
+  if (!rawHtml) return '';
+  if (typeof DOMPurify !== 'undefined' && typeof DOMPurify.sanitize === 'function') {
+    return DOMPurify.sanitize(rawHtml, {
+      ALLOWED_TAGS: [
+        'b', 'i', 'em', 'strong', 'a', 'p', 'br', 'ul', 'ol', 'li',
+        'h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'table', 'tr', 'th', 'td',
+        'div', 'span', 'code', 'pre', 'button', 'hr', 'blockquote',
+        'small', 'label', 'input', 'details', 'summary'
+      ],
+      ALLOWED_ATTR: [
+        'href', 'target', 'rel', 'class', 'id', 'style', 'title',
+        'data-action', 'data-code', 'data-title', 'data-page', 'data-evidence',
+        'data-code-id', 'type', 'checked', 'aria-label', 'aria-describedby'
+      ],
+      ALLOW_DATA_ATTR: true
+    });
+  }
+  // Defensive offline fallback if DOMPurify is blocked or not loaded
+  return String(rawHtml)
+    .replace(/<\s*script[^>]*>[\s\S]*?<\s*\/\s*script\s*>/gi, '')
+    .replace(/<\s*(iframe|object|embed|applet|meta|link|base|form)[^>]*>[\s\S]*?(<\s*\/\s*\1\s*>)?/gi, '')
+    .replace(/\s+on\w+\s*=\s*(['"]).*?\1/gi, '')
+    .replace(/\s+on\w+\s*=\s*[^>\s]+/gi, '')
+    .replace(/href\s*=\s*(['"])\s*javascript:[^'"]*\1/gi, 'href="#"')
+    .replace(/src\s*=\s*(['"])\s*javascript:[^'"]*\1/gi, 'src=""');
+}
+window.safeSanitizeHtml = safeSanitizeHtml;
+
 function escapeHtml(str) {
-  return str
+  if (str === null || str === undefined) return '';
+  return String(str)
     .replace(/&/g, '&amp;')
     .replace(/</g, '&lt;')
     .replace(/>/g, '&gt;')
     .replace(/"/g, '&quot;')
     .replace(/'/g, '&#039;');
 }
+window.escapeHtml = escapeHtml;
+
+function sanitizeUrl(url) {
+  if (!url || typeof url !== 'string') return '#';
+  const trimmed = url.trim();
+  if (/^(?:https?:\/\/|mailto:|tel:|\/|\?|#|gazette\.html)/i.test(trimmed)) {
+    return trimmed;
+  }
+  return '#';
+}
+window.sanitizeUrl = sanitizeUrl;
 
 function copyCodeSnippet(codeId, btn) {
   const code = MESSAGE_REGISTRY[codeId] || '';
@@ -3923,7 +3972,7 @@ function appendMessageDirect(text, role, docCitation = null, rowId = null, origi
 
   const bubble = document.createElement('div');
   bubble.className = 'msg-text-bubble';
-  bubble.innerHTML = isHTML ? text : renderMarkdown(text);
+  bubble.innerHTML = isHTML ? safeSanitizeHtml(text) : renderMarkdown(text);
 
   if (role === 'ai' && docCitation) {
     const chip = document.createElement('span');
@@ -3991,12 +4040,16 @@ let currentVoiceLang = 'hi-IN'; // 'hi-IN' or 'en-IN'
 
 function toggleVoiceLanguage() {
   currentVoiceLang = currentVoiceLang === 'hi-IN' ? 'en-IN' : 'hi-IN';
+  APP_STATE.responseLanguage = currentVoiceLang.startsWith('hi') ? 'hi' : 'en';
   const btn = document.getElementById('btnVoiceLang');
   if (btn) {
     btn.innerHTML = currentVoiceLang === 'hi-IN' ? '<i class="fas fa-language"></i> <span>HI</span>' : '<i class="fas fa-language"></i> <span>EN</span>';
   }
   if (speechRecognizer) {
     speechRecognizer.lang = currentVoiceLang;
+  }
+  if (typeof showToast === 'function') {
+    showToast(currentVoiceLang.startsWith('hi') ? 'Language set to Hindi (हिन्दी) — Technical terms preserved' : 'Language set to English', 'info');
   }
 }
 
@@ -5091,16 +5144,16 @@ window.auditStoreBill = function() {
       </div>
 
       <div style="font-size:0.83rem;line-height:1.6;">
-        • <strong>Statutory 6-digit Laser HUID on Bill:</strong> ${hasValidHUID ? `<span style="color:var(--status-green,#10B981);font-weight:700;">✅ COMPLIANT (${rawHuid})</span>` : '<span style="color:var(--status-red,#EF4444);font-weight:700;">❌ VIOLATION — Missing or Invalid HUID on invoice</span>'}<br>
+        • <strong>Statutory 6-digit Laser HUID on Bill:</strong> ${hasValidHUID ? `<span style="color:var(--status-green,#10B981);font-weight:700;">✅ COMPLIANT (${escapeHtml(rawHuid)})</span>` : '<span style="color:var(--status-red,#EF4444);font-weight:700;">❌ VIOLATION — Missing or Invalid HUID on invoice</span>'}<br>
         • <strong>Statutory 3% GST Calculation:</strong> ${isCorrectGST ? `<span style="color:var(--status-green,#10B981);font-weight:700;">✅ Exact 3% GST (₹${statutoryGST.toLocaleString('en-IN')})</span>` : `<span style="color:var(--status-red,#EF4444);font-weight:700;">❌ GST Discrepancy: ${gstRate}% charged instead of mandatory 3%</span>`}<br>
-        • <strong>Govt GSTIN Registration:</strong> ${hasValidGSTIN ? `<span style="color:var(--status-green,#10B981);font-weight:700;">✅ Valid GSTIN Format (${gstin})</span>` : '<span style="color:var(--status-red,#EF4444);font-weight:700;">⚠️ Invalid / Missing GSTIN</span>'}<br>
+        • <strong>Govt GSTIN Registration:</strong> ${hasValidGSTIN ? `<span style="color:var(--status-green,#10B981);font-weight:700;">✅ Valid GSTIN Format (${escapeHtml(gstin)})</span>` : '<span style="color:var(--status-red,#EF4444);font-weight:700;">⚠️ Invalid / Missing GSTIN</span>'}<br>
         • <strong>Total Payable Amount:</strong> ₹${(subtotal + chargedGST).toLocaleString('en-IN')} (Article: ₹${metalPrice.toLocaleString('en-IN')} + Making: ₹${making.toLocaleString('en-IN')} + GST: ₹${chargedGST.toLocaleString('en-IN')})
       </div>
 
       ${!isPakkaBill ? `
         <div style="margin-top:12px;border-top:1px solid rgba(255,255,255,0.1);padding-top:10px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px;">
           <span style="font-size:0.78rem;color:#FCA5A5;">A kaccha bill cannot be produced as proof of hallmarked purity in Consumer Court.</span>
-          <button onclick='window.openLegalNoticeModal({ jeweller: "${escapeHtml(store)}", price: ${subtotal}, huid: "${hasValidHUID ? rawHuid : 'MISSING_HUID'}", isCode: "IS 1417 Hallmarking Order 2021", violationType: "Issuance of Kaccha Non-HUID Receipt / Violation of Hallmarking Order" })' style="background:#EF4444;color:white;border:none;padding:5px 12px;border-radius:6px;font-size:0.75rem;font-weight:700;cursor:pointer;">
+          <button onclick='window.openLegalNoticeModal({ jeweller: "${escapeHtml(store)}", price: ${subtotal}, huid: "${hasValidHUID ? escapeHtml(rawHuid) : 'MISSING_HUID'}", isCode: "IS 1417 Hallmarking Order 2021", violationType: "Issuance of Kaccha Non-HUID Receipt / Violation of Hallmarking Order" })' style="background:#EF4444;color:white;border:none;padding:5px 12px;border-radius:6px;font-size:0.75rem;font-weight:700;cursor:pointer;">
             <i class="fas fa-gavel"></i> Draft Notice to Jeweller
           </button>
         </div>
@@ -5269,7 +5322,7 @@ window.analyzeEcommerceLink = function() {
           • <strong>Brand:</strong> ${escapeHtml(analysis.brand)}<br>
           • <strong>Category:</strong> ${escapeHtml(analysis.product)}<br>
           • <strong>Standard:</strong> ${escapeHtml(analysis.standardCode || 'Mandatory QCO')}<br>
-          • <strong>Licence:</strong> ${analysis.cml ? 'CM/L-' + analysis.cml : (analysis.crs ? analysis.crs : 'Unindexed / Substandard')}
+          • <strong>Licence:</strong> ${analysis.cml ? 'CM/L-' + escapeHtml(analysis.cml) : (analysis.crs ? escapeHtml(analysis.crs) : 'Unindexed / Substandard')}
         </div>
       </div>
     `;
@@ -5395,3 +5448,263 @@ window.calculateFairGoldPrice = function() {
     `;
   }
 };
+
+// ==========================================================================
+// Live Knowledge Metrics Counter Animation
+// ==========================================================================
+function animateCounter(elementId, targetValue, duration = 1400) {
+  const el = document.getElementById(elementId);
+  if (!el) return;
+  const start = 0;
+  const startTime = performance.now();
+
+  function update(currentTime) {
+    const elapsed = currentTime - startTime;
+    const progress = Math.min(elapsed / duration, 1);
+    const easeOut = 1 - Math.pow(1 - progress, 3);
+    const current = Math.floor(start + (targetValue - start) * easeOut);
+    el.textContent = current.toLocaleString('en-IN');
+    if (progress < 1) {
+      requestAnimationFrame(update);
+    } else {
+      el.textContent = targetValue.toLocaleString('en-IN');
+    }
+  }
+  requestAnimationFrame(update);
+}
+
+async function initAnimatedStats() {
+  try {
+    let stdCount = 23401;
+    let qcoCount = 769;
+    let labCount = 431;
+
+    try {
+      const res = await fetch('/api/stats', { signal: AbortSignal.timeout(3500) });
+      if (res.ok) {
+        const data = await res.json();
+        if (data.catalogStandards) stdCount = data.catalogStandards;
+        if (data.activeQCOs) qcoCount = data.activeQCOs;
+        if (data.limsLabs) labCount = data.limsLabs;
+      }
+    } catch (e) {}
+
+    animateCounter('statStandardsCount', stdCount, 1200);
+    animateCounter('statQcoCount', qcoCount, 1000);
+    animateCounter('statLabsCount', labCount, 1000);
+  } catch (err) {}
+}
+
+// ==========================================================================
+// Product Standard Recommendation Workflow & Shimmer Skeletons
+// ==========================================================================
+function openProductRecommendationModal(prefillDesc = '') {
+  const modal = document.getElementById('productRecommendModal');
+  if (!modal) return;
+  modal.style.display = 'flex';
+  const input = document.getElementById('productDescInput');
+  if (input) {
+    if (prefillDesc) input.value = prefillDesc;
+    setTimeout(() => input.focus(), 150);
+  }
+}
+
+function closeProductRecommendationModal() {
+  const modal = document.getElementById('productRecommendModal');
+  if (modal) modal.style.display = 'none';
+}
+
+function renderRecommendationSkeletons() {
+  const container = document.getElementById('productRecommendResults');
+  if (!container) return;
+  container.innerHTML = `
+    <div style="margin-top:16px;">
+      <div style="font-size:0.8rem;color:var(--text-muted);margin-bottom:12px;display:flex;align-items:center;gap:8px;">
+        <i class="fas fa-microchip fa-spin" style="color:var(--primary-blue);"></i> Running 384-D dense semantic match & Okapi BM25 RRF fusion against 23,401 standards...
+      </div>
+      <div class="skeleton-card">
+        <div class="skeleton-line short skeleton-box" style="height:18px;"></div>
+        <div class="skeleton-line medium skeleton-box"></div>
+        <div class="skeleton-line long skeleton-box"></div>
+      </div>
+      <div class="skeleton-card">
+        <div class="skeleton-line short skeleton-box" style="height:18px;"></div>
+        <div class="skeleton-line medium skeleton-box"></div>
+        <div class="skeleton-line long skeleton-box"></div>
+      </div>
+      <div class="skeleton-card">
+        <div class="skeleton-line short skeleton-box" style="height:18px;"></div>
+        <div class="skeleton-line medium skeleton-box"></div>
+        <div class="skeleton-line long skeleton-box"></div>
+      </div>
+    </div>
+  `;
+}
+
+async function submitProductRecommendation() {
+  const input = document.getElementById('productDescInput');
+  const resultsBox = document.getElementById('productRecommendResults');
+  const submitBtn = document.getElementById('btnSubmitRecommend');
+  if (!input || !resultsBox) return;
+
+  const desc = input.value.trim();
+  if (!desc) {
+    if (typeof showToast === 'function') showToast('Please enter a product description first.', 'warning');
+    input.focus();
+    return;
+  }
+
+  if (submitBtn) submitBtn.disabled = true;
+  renderRecommendationSkeletons();
+
+  try {
+    const res = await fetch('/api/recommend-standard', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        description: desc,
+        role: APP_STATE.userRole || 'consumer'
+      }),
+      signal: AbortSignal.timeout(15000)
+    });
+
+    if (!res.ok) {
+      throw new Error(`Server returned status ${res.status}`);
+    }
+
+    const data = await res.json();
+    renderRecommendationResults(data);
+  } catch (err) {
+    resultsBox.innerHTML = `
+      <div class="rec-fallback-box" style="border-color:rgba(239,68,68,0.35);background:rgba(239,68,68,0.08);">
+        <strong style="color:var(--status-red);"><i class="fas fa-triangle-exclamation"></i> Recommendation Error</strong>
+        <p style="font-size:0.82rem;color:var(--text-muted);margin-top:6px;">
+          ${escapeHtml(err.message || 'Failed to retrieve standards recommendation.')}
+        </p>
+      </div>
+    `;
+  } finally {
+    if (submitBtn) submitBtn.disabled = false;
+  }
+}
+
+function renderRecommendationResults(data) {
+  const resultsBox = document.getElementById('productRecommendResults');
+  if (!resultsBox) return;
+
+  if (!data.sufficiently_grounded || !data.recommendations || data.recommendations.length === 0) {
+    const fallbacks = data.fallback_suggestions || [
+      "Check the BIS Manakonline Standards Portal (https://standardsbis.bsbedge.com) for recent gazette draft standards.",
+      "Consult the relevant BIS Sectional Committee (e.g., CED for Civil, ETD for Electrotechnical, MED for Mechanical).",
+      "Submit a Technical Enquiry or Formulation Request to BIS Directorate (ird@bis.gov.in) for new product categories.",
+      "Verify if your product falls under an Allied Quality Order or compulsory BIS CRS scheme."
+    ];
+
+    resultsBox.innerHTML = `
+      <div class="rec-fallback-box">
+        <div style="display:flex;align-items:center;gap:8px;color:var(--status-amber);font-weight:700;font-size:0.92rem;">
+          <i class="fas fa-circle-exclamation"></i> Unindexed or Emerging Product Standard
+        </div>
+        <p style="font-size:0.82rem;color:var(--text-muted);margin:8px 0 12px 0;">
+          No standard in the active statutory repository met the high-confidence grounding threshold for this description. To avoid hallucinating unverified requirements, please follow these official statutory steps:
+        </p>
+        <ul class="rec-fallback-list">
+          ${fallbacks.map(f => `<li>${escapeHtml(f)}</li>`).join('')}
+        </ul>
+      </div>
+    `;
+    return;
+  }
+
+  let html = `<div style="margin-top:16px;">
+    <div style="font-size:0.82rem;color:var(--text-muted);margin-bottom:12px;display:flex;justify-content:space-between;align-items:center;">
+      <span><i class="fas fa-check-double" style="color:var(--status-green);"></i> Identified <strong>${data.recommendations.length} Applicable Indian Standards</strong></span>
+      <span style="font-size:0.75rem;color:var(--text-subtle);">Grounded via Hybrid BGE+BM25 RRF</span>
+    </div>
+  `;
+
+  data.recommendations.forEach(rec => {
+    const isMand = rec.mandatory === true;
+    const gScore = rec.grounding_score || 80;
+    let badgeClass = 'grounding-badge-low';
+    let badgeColor = 'var(--status-red, #EF4444)';
+    if (gScore > 85) {
+      badgeClass = 'grounding-badge-high';
+      badgeColor = 'var(--status-green, #10B981)';
+    } else if (gScore >= 60) {
+      badgeClass = 'grounding-badge-med';
+      badgeColor = 'var(--status-amber, #F59E0B)';
+    }
+
+    html += `
+      <div class="rec-card">
+        <div class="rec-card-header">
+          <div>
+            <div class="rec-is-code">
+              <i class="fas fa-certificate" style="color:var(--gold-accent);"></i>
+              ${escapeHtml(rec.is_code)}
+            </div>
+            <div style="font-size:0.88rem;font-weight:600;color:var(--text-main);margin-top:2px;">
+              ${escapeHtml(rec.title)}
+            </div>
+          </div>
+          <span class="${badgeClass}" style="padding:3px 8px;border-radius:12px;font-size:0.72rem;font-weight:700;white-space:nowrap;">
+            ${escapeHtml(rec.confidence || `${gScore}%`)} Match
+          </span>
+        </div>
+
+        <div class="rec-badges-row">
+          <span class="rec-pill ${isMand ? 'mandatory' : 'voluntary'}">
+            <i class="fas ${isMand ? 'fa-shield-halved' : 'fa-circle-info'}"></i>
+            ${isMand ? 'Mandatory QCO Enforced' : 'Voluntary Standard'}
+          </span>
+          ${rec.scheme ? `
+            <span class="rec-pill scheme">
+              <i class="fas fa-stamp"></i> ${escapeHtml(rec.scheme)}
+            </span>
+          ` : ''}
+          ${rec.division ? `
+            <span class="rec-pill" style="background:rgba(255,255,255,0.06);color:var(--text-muted);border:1px solid rgba(255,255,255,0.1);">
+              <i class="fas fa-folder-tree"></i> ${escapeHtml(rec.division)}
+            </span>
+          ` : ''}
+        </div>
+
+        ${rec.qco ? `
+          <div style="font-size:0.78rem;color:#FCA5A5;margin:6px 0;">
+            <strong>Statutory Order:</strong> ${escapeHtml(rec.qco)}
+          </div>
+        ` : ''}
+
+        ${rec.citations && rec.citations.length > 0 ? `
+          <div class="rec-citations-box">
+            <strong style="color:var(--text-main);font-size:0.76rem;"><i class="fas fa-book-open"></i> Grounded Clause Evidence:</strong>
+            <ul style="margin:4px 0 0 16px;padding:0;">
+              ${rec.citations.map(c => `
+                <li style="margin-bottom:3px;">
+                  <strong>${escapeHtml(c.clauseTitle)}:</strong> ${escapeHtml(c.excerpt)}
+                </li>
+              `).join('')}
+            </ul>
+          </div>
+        ` : ''}
+
+        <div style="margin-top:10px;display:flex;justify-content:flex-end;gap:8px;">
+          <button class="wizard-btn secondary" style="padding:5px 10px;font-size:0.76rem;" onclick="closeProductRecommendationModal(); sendPredefinedQuery('What are the statutory testing clauses, mandatory QCO rules, and certification requirements for ${escapeHtml(rec.is_code)}?');">
+            <i class="fas fa-comments"></i> Consult Copilot on ${escapeHtml(rec.is_code)}
+          </button>
+        </div>
+      </div>
+    `;
+  });
+
+  html += '</div>';
+  resultsBox.innerHTML = html;
+}
+
+// Automatically initialize animated metrics counter on page load
+if (document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', initAnimatedStats);
+} else {
+  initAnimatedStats();
+}
