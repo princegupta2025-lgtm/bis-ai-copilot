@@ -148,64 +148,44 @@ function selectUserRole(roleKey, roleLabel, evt) {
 }
 
 function openWhyUsModal() {
-  const m = document.getElementById('whyUsModal');
-  if (m) m.classList.add('open', 'active');
+  // De-cluttered: Removed corporate marketing popup in favor of clean portal design
 }
 
 function closeWhyUsModal() {
-  const m = document.getElementById('whyUsModal');
-  if (m) m.classList.remove('open', 'active');
+  // Safe no-op
 }
 
 // (Session management functions are consolidated cleanly at the bottom of chat.js)
 
 // ==========================================================================
-// Keyboard Shortcuts & Command Palette (Ctrl+K, Ctrl+N, Esc)
+// Keyboard Shortcuts (Ctrl+N, Esc)
 // ==========================================================================
 function initKeyShortcuts() {
   document.addEventListener('keydown', (e) => {
-    if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === 'k') {
-      e.preventDefault();
-      openCommandPalette();
-    }
     if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === 'n') {
       e.preventDefault();
       startNewConversation();
     }
     if (e.key === 'Escape') {
-      closeCommandPalette();
       closeModelDropdown();
       closeRoleDropdown();
-      closeWhyUsModal();
+      if (typeof closeToolsModal === 'function') closeToolsModal();
+      if (typeof closeSettingsModal === 'function') closeSettingsModal();
+      if (typeof closeCameraModal === 'function') closeCameraModal();
     }
   });
 }
 
 function openCommandPalette() {
-  const modal = document.getElementById('cmdPalette');
-  if (modal) {
-    modal.classList.add('open');
-    const input = document.getElementById('cmdSearchInput');
-    if (input) {
-      input.value = '';
-      input.focus();
-      filterCommandPalette('');
-    }
-  }
+  // De-cluttered: Preserved for safe backwards compatibility
 }
 
 function closeCommandPalette() {
-  const modal = document.getElementById('cmdPalette');
-  if (modal) modal.classList.remove('open');
+  // Safe no-op
 }
 
 function filterCommandPalette(query) {
-  const q = (query || '').toLowerCase();
-  const items = document.querySelectorAll('.cmd-palette-item');
-  items.forEach(item => {
-    const text = item.innerText.toLowerCase();
-    item.style.display = text.includes(q) ? 'flex' : 'none';
-  });
+  // Safe no-op
 }
 
 function executeCmdItem(action) {
@@ -697,93 +677,10 @@ let arTrackingInterval = null;
 let arOffscreenCanvas = null;
 
 function startLiveARTrackingLoop(video) {
+  // High-performance static viewfinder mode: Zero CPU lag, zero battery drain
   stopLiveARTrackingLoop();
-
-  if (!arOffscreenCanvas) {
-    arOffscreenCanvas = document.createElement('canvas');
-  }
-
-  const reticleBox = document.getElementById('cameraReticleBox');
-  const arBadge = document.getElementById('arTrackingBadge');
-  const arText = document.getElementById('arTrackingText');
   const reticleLabel = document.querySelector('.reticle-label');
-
-  let barcodeDetector = null;
-  if (typeof window.BarcodeDetector !== 'undefined') {
-    try {
-      barcodeDetector = new BarcodeDetector({ formats: ['qr_code', 'ean_13', 'data_matrix'] });
-    } catch(e) {}
-  }
-
-  arTrackingInterval = setInterval(async () => {
-    if (!video || video.paused || video.ended || video.videoWidth === 0) return;
-
-    try {
-      const vw = video.videoWidth;
-      const vh = video.videoHeight;
-      arOffscreenCanvas.width = 240;
-      arOffscreenCanvas.height = Math.round((vh / vw) * 240);
-      const ctx = arOffscreenCanvas.getContext('2d');
-      ctx.drawImage(video, 0, 0, arOffscreenCanvas.width, arOffscreenCanvas.height);
-
-      let isLocked = false;
-      let lockReason = '';
-
-      // 1. Live Barcode / QR detection
-      if (barcodeDetector) {
-        try {
-          const codes = await barcodeDetector.detect(arOffscreenCanvas);
-          if (codes && codes.length > 0) {
-            isLocked = true;
-            lockReason = 'QR / BARCODE LOCKED';
-          }
-        } catch(e) {}
-      }
-
-      // 2. Optical Gradient Contrast on center target region
-      if (!isLocked) {
-        const cw = arOffscreenCanvas.width;
-        const ch = arOffscreenCanvas.height;
-        const subW = Math.round(cw * 0.5);
-        const subH = Math.round(ch * 0.5);
-        const imgData = ctx.getImageData(Math.round((cw - subW) / 2), Math.round((ch - subH) / 2), subW, subH);
-        const d = imgData.data;
-
-        let edgeEnergy = 0;
-        for (let i = 0; i < d.length - 8; i += 8) {
-          const l1 = 0.299 * d[i] + 0.587 * d[i+1] + 0.114 * d[i+2];
-          const l2 = 0.299 * d[i+4] + 0.587 * d[i+5] + 0.114 * d[i+6];
-          edgeEnergy += Math.abs(l1 - l2);
-        }
-        const avgEdge = edgeEnergy / (d.length / 8);
-        if (avgEdge > 14) {
-          isLocked = true;
-          lockReason = 'ISI MARK / HUID IN FOCUS';
-        }
-      }
-
-      // Update AR Viewfinder UI state
-      if (isLocked) {
-        if (reticleBox && !reticleBox.classList.contains('ar-target-locked')) {
-          reticleBox.classList.add('ar-target-locked');
-        }
-        if (arBadge) {
-          arBadge.classList.add('locked');
-          if (arText) arText.innerHTML = `<i class="fas fa-lock" style="color:#000;"></i> <strong>${lockReason} — TAP CAPTURE</strong>`;
-        }
-        if (reticleLabel) reticleLabel.innerText = 'TARGET LOCKED: TAP CAPTURE';
-      } else {
-        if (reticleBox && reticleBox.classList.contains('ar-target-locked')) {
-          reticleBox.classList.remove('ar-target-locked');
-        }
-        if (arBadge) {
-          arBadge.classList.remove('locked');
-          if (arText) arText.innerText = '🎯 SCANNING FOR ISI MARK / HUID / QR';
-        }
-        if (reticleLabel) reticleLabel.innerText = 'ALIGN ISI MARK / HUID';
-      }
-    } catch(err) {}
-  }, 180);
+  if (reticleLabel) reticleLabel.innerText = 'ALIGN ISI MARK / HUID';
 }
 
 function stopLiveARTrackingLoop() {
@@ -2316,41 +2213,40 @@ function executeInStreamTool(toolType) {
         <div class="bis-trust-assessment-card" id="huidCalcCard-${uid}">
           <div class="trust-card-header">
             <div>
-              <strong style="font-size:1rem;color:var(--text-main);"><i class="fas fa-ring" style="color:var(--gold-accent);"></i> Gold Purity & Valuation Calculator</strong>
-              <div style="font-size:0.75rem;color:var(--text-subtle);">Statutory BIS Hallmarking Scheme-VI Rates (IS 1417:2016)</div>
+              <strong style="font-size:1rem;color:var(--text-main);"><i class="fas fa-ring" style="color:var(--gold-accent);"></i> Statutory BIS Hallmarking Standards (IS 1417:2016)</strong>
+              <div style="font-size:0.75rem;color:var(--text-subtle);">Mandatory 3 Signs &amp; Consumer Protection under Rule 49</div>
             </div>
             <span class="trust-status-pill verified">IS 1417:2016</span>
           </div>
           
           <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:12px;">
             <div>
-              <label style="font-size:0.75rem;color:var(--text-muted);display:block;margin-bottom:3px;">Gross Weight (Grams)</label>
+              <label style="font-size:0.75rem;color:var(--text-muted);display:block;margin-bottom:3px;">Article Weight (Grams)</label>
               <input type="number" id="calcGoldWeight-${uid}" value="10.0" step="0.1" style="width:100%;background:var(--bg-app);border:1px solid var(--border-color);padding:6px 10px;border-radius:6px;font-weight:700;" oninput="updateGoldCalc(${uid})" />
             </div>
             <div>
-              <label style="font-size:0.75rem;color:var(--text-muted);display:block;margin-bottom:3px;">Purity Karat</label>
+              <label style="font-size:0.75rem;color:var(--text-muted);display:block;margin-bottom:3px;">Mandatory Purity Grade</label>
               <select id="calcGoldKarat-${uid}" style="width:100%;background:var(--bg-app);border:1px solid var(--border-color);padding:6px 10px;border-radius:6px;font-weight:700;" onchange="updateGoldCalc(${uid})">
-                <option value="91.6">22K (916 Fineness)</option>
-                <option value="75.0">18K (750 Fineness)</option>
-                <option value="58.5">14K (585 Fineness)</option>
-                <option value="99.5">24K (995 Fineness)</option>
+                <option value="91.6">22K (916 Fineness) — Mandatory Standard</option>
+                <option value="75.0">18K (750 Fineness) — Mandatory Standard</option>
+                <option value="58.5">14K (585 Fineness) — Mandatory Standard</option>
+                <option value="99.5">24K (995 Fineness) — Gold Bullion / Coins</option>
               </select>
             </div>
           </div>
 
-          <div style="background:var(--bg-app);border:1px solid var(--border-color);border-radius:8px;padding:12px;font-size:0.82rem;">
-            <div style="display:flex;justify-content:space-between;align-items:center;">
+          <div style="background:var(--bg-app);border:1px solid var(--border-color);border-radius:8px;padding:12px;font-size:0.82rem;line-height:1.5;">
+            <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;">
               <div>
-                <span style="color:var(--text-subtle);">Pure Gold Content:</span> <strong id="resPureGold-${uid}" style="color:var(--gold-accent);">9.16 g</strong><br />
-                <span style="color:var(--text-subtle);">Melt Value (@ ₹7,200/g):</span> <strong id="resMeltValue-${uid}" style="color:var(--status-green);">₹65,952.00</strong>
+                <span style="color:var(--text-subtle);">Pure Gold Content:</span> <strong id="resPureGold-${uid}" style="color:var(--gold-accent);">9.16 g</strong>
               </div>
               <div style="text-align:right;">
-                <span style="color:var(--text-subtle);">Statutory BIS Hallmark Fee:</span><br />
+                <span style="color:var(--text-subtle);">Statutory BIS Hallmark Fee:</span>
                 <strong style="color:var(--primary-blue);">₹45.00 + GST</strong>
               </div>
             </div>
-            <div style="font-size:0.7rem;color:var(--text-subtle);margin-top:8px;border-top:1px solid var(--border-color);padding-top:6px;">
-              *Illustrative benchmark rate (@ ₹7,200/g) — not official BIS valuation.
+            <div style="border-top:1px solid var(--border-color);padding-top:8px;font-size:0.76rem;color:var(--text-muted);">
+              <strong>🛡️ Statutory Consumer Guarantee (Rule 49):</strong> If assayed purity is lower than the marked fineness, the consumer is entitled to a refund of the purity difference at <strong>3 times the shortfall amount</strong> plus testing charges.
             </div>
           </div>
         </div>
@@ -2440,39 +2336,7 @@ function executeInStreamTool(toolType) {
       break;
 
     case 'material_strength':
-      appendMessage(`
-        <div class="bis-trust-assessment-card" id="strengthTestCard-${uid}">
-          <div class="trust-card-header">
-            <div>
-              <strong style="font-size:1rem;color:var(--text-main);"><i class="fas fa-vial" style="color:var(--primary-purple);"></i> Material Strength & Mechanical Stress Analyzer</strong>
-              <div style="font-size:0.75rem;color:var(--text-subtle);">Universal Testing Machine (UTM) Tensile & Yield Simulation • IS 1786:2008</div>
-            </div>
-            <span class="trust-status-pill verified">IS 1786 / Fe 500D</span>
-          </div>
-
-          <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:12px;">
-            <div>
-              <label style="font-size:0.75rem;color:var(--text-muted);display:block;margin-bottom:3px;">Yield Strength (N/mm²)</label>
-              <input type="number" id="utmYield-${uid}" value="540" style="width:100%;background:var(--bg-app);border:1px solid var(--border-color);padding:6px 10px;border-radius:6px;font-weight:700;" oninput="updateStrengthTest(${uid})" />
-            </div>
-            <div>
-              <label style="font-size:0.75rem;color:var(--text-muted);display:block;margin-bottom:3px;">Tensile Strength (UTS)</label>
-              <input type="number" id="utmUTS-${uid}" value="610" style="width:100%;background:var(--bg-app);border:1px solid var(--border-color);padding:6px 10px;border-radius:6px;font-weight:700;" oninput="updateStrengthTest(${uid})" />
-            </div>
-          </div>
-
-          <div style="background:var(--bg-app);border:1px solid var(--border-color);border-radius:8px;padding:12px;font-size:0.82rem;">
-            <div style="display:flex;justify-content:space-between;margin-bottom:6px;">
-              <span>TS/YS Ratio (Min 1.10 mandated):</span>
-              <strong id="resTSYS-${uid}" style="color:var(--status-green);">1.13 • PASS (Earthquake Ductile)</strong>
-            </div>
-            <div style="display:flex;justify-content:space-between;">
-              <span>Mandatory Mandrel Cold Bend (180°):</span>
-              <strong style="color:var(--status-green);"><i class="fas fa-check"></i> NO CRACKING DETECTED</strong>
-            </div>
-          </div>
-        </div>
-      `, 'ai', null, null, null, true);
+      sendPredefinedQuery('What are the mandatory testing requirements for High Strength Deformed Steel Bars under IS 1786:2008?');
       break;
 
     case 'compensation': {
@@ -2545,26 +2409,7 @@ function executeInStreamTool(toolType) {
     }
 
     case 'inspector_seizure':
-      appendMessage(`
-        <div class="bis-trust-assessment-card" id="seizureMemoContainer-${uid}" style="border-left:4px solid var(--status-red);">
-          <div class="trust-card-header">
-            <div>
-              <strong style="font-size:1rem;color:var(--text-main);"><i class="fas fa-gavel" style="color:var(--status-red);"></i> BIS Surveillance Seizure Memo & Panchnama</strong>
-              <div style="font-size:0.75rem;color:var(--text-subtle);">Statutory Enforcement under Section 28 & Section 29, BIS Act 2016</div>
-            </div>
-            <span class="trust-status-pill misuse">Surveillance Warrant</span>
-          </div>
-          <div style="font-size:0.82rem;background:var(--bg-app);padding:10px;border-radius:6px;border:1px solid var(--border-color);margin-bottom:10px;line-height:1.5;">
-            <strong>Enforcement Officer:</strong> BIS Quality Surveillance Branch<br />
-            <strong>Target Premise:</strong> Unlicensed Manufacturing Unit (Khasra 42, Mayapuri)<br />
-            <strong>Seized Articles:</strong> 450 Units Non-ISI Two-Wheeler Helmets (Forged CM/L-4091823)<br />
-            <strong>Legal Action:</strong> Immediate confiscation under Section 28; FIR under Section 29 (Up to 2 years imprisonment / ₹5,00,000 fine).
-          </div>
-          <button onclick="exportGrievancePDF('seizureMemoContainer-${uid}')" style="background:var(--status-red);color:white;padding:6px 14px;border-radius:6px;font-size:0.78rem;font-weight:700;display:flex;align-items:center;gap:6px;">
-            <i class="fas fa-file-pdf"></i> Download Official Seizure Memo (PDF)
-          </button>
-        </div>
-      `, 'ai', null, null, null, true);
+      sendPredefinedQuery('What are the statutory enforcement powers under Section 28 and penalties under Section 29 of BIS Act 2016 for counterfeit ISI marks?');
       break;
   }
 }
@@ -2652,30 +2497,12 @@ function updateGoldCalc(uid) {
   const k = parseFloat(kEl.value) || 91.6;
 
   const pureGrams = (w * (k / 100)).toFixed(2);
-  const meltVal = (pureGrams * 7200).toFixed(2);
-
   const resPure = document.getElementById(`resPureGold-${uid}`);
-  const resMelt = document.getElementById(`resMeltValue-${uid}`);
-
   if (resPure) resPure.innerText = `${pureGrams} g`;
-  if (resMelt) resMelt.innerText = `₹${parseFloat(meltVal).toLocaleString('en-IN')}`;
 }
 
 function updateStrengthTest(uid) {
-  const yEl = document.getElementById(`utmYield-${uid}`);
-  const uEl = document.getElementById(`utmUTS-${uid}`);
-  const resEl = document.getElementById(`resTSYS-${uid}`);
-  if (!yEl || !uEl || !resEl) return;
-
-  const y = parseFloat(yEl.value) || 500;
-  const u = parseFloat(uEl.value) || 565;
-  const ratio = (u / y).toFixed(2);
-
-  if (ratio >= 1.10) {
-    resEl.innerHTML = `${ratio} • <span style="color:var(--status-green);font-weight:700;">PASS (Ductile Grade Compliant)</span>`;
-  } else {
-    resEl.innerHTML = `${ratio} • <span style="color:var(--status-red);font-weight:700;">FAIL (TS/YS Ratio < 1.10 threshold)</span>`;
-  }
+  // Safe no-op: TMT strength calculator streamlined to statutory IS 1786 standards check
 }
 
 // 1-Click PDF Exporter using html2pdf.js
@@ -2818,14 +2645,7 @@ async function submitUserQuery() {
     return;
   }
 
-  // 2.7 Quick-path: Detect E-Commerce Links (Amazon / Flipkart / Blinkit / Meesho)
-  const isEcommerceURL = /(amazon\.|flipkart\.|blinkit\.|zepto\.|meesho\.|tatacliq\.|reliancedigital\.)/i.test(query) || /^https?:\/\//i.test(query.trim());
-  if (isEcommerceURL) {
-    if (sendBtn) sendBtn.disabled = false;
-    renderEcommerceLinkCard(query.trim());
-    saveCurrentSession(query);
-    return;
-  }
+  // 2.7 E-Commerce links flow directly to genuine RAG and Gemini reasoning
 
   // 3. Intent Classification & Multi-Tier Standards Discovery (Local -> National Catalog -> Ingestion)
   const userIntent = classifyUserIntent(query);

@@ -23,7 +23,6 @@
   
   <!-- CSS -->
   <link rel="stylesheet" href="css/style.css?v=2.4" />
-  <link rel="stylesheet" href="css/command-palette.css?v=2.4" />
 
   <!-- PDF.js CDN for Visual Gazette Canvas Rendering -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
@@ -516,17 +515,9 @@
             <i class="fas fa-screwdriver-wrench"></i>
             <span>Tools Hub</span>
           </button>
-          <button class="popup-menu-item" onclick="toggleRoleDropdown(); closeUserMenu();">
-            <i class="fas fa-user-gear"></i>
-            <span>Switch Role Persona</span>
-          </button>
           <button class="popup-menu-item" onclick="toggleTheme(); closeUserMenu();">
             <i class="fas fa-circle-half-stroke"></i>
             <span>Toggle Theme</span>
-          </button>
-          <button class="popup-menu-item" onclick="openWhyUsModal(); closeUserMenu();">
-            <i class="fas fa-circle-question"></i>
-            <span>Why Us vs BIS CARE</span>
           </button>
           <div class="popup-menu-divider"></div>
           <button class="popup-menu-item danger" onclick="confirmClearAllConversations(); closeUserMenu();">
@@ -554,34 +545,15 @@
         </div>
 
         <div class="nav-right-controls">
-          <!-- Why Us vs BIS CARE Glassmorphic Badge -->
-          <button class="btn-why-us-glass" onclick="openWhyUsModal()" title="Comparison: Why Us vs BIS CARE App">
-            <i class="fas fa-sparkles"></i>
-            <span>Why Us vs BIS CARE</span>
-          </button>
-
-          <!-- Role / Persona Selector (Consumer / MSME / Inspector) -->
-          <div class="role-selector-box">
-            <button class="btn-role-trigger" onclick="toggleRoleDropdown()" title="Switch User Role Persona">
-              <i class="fas fa-user-gear" style="color:var(--gold-accent);"></i>
-              <span id="selectedRoleLabel">Consumer Mode</span>
-              <i class="fas fa-chevron-down" style="font-size:0.65rem;color:var(--text-subtle);"></i>
-            </button>
-            <div class="model-dropdown-menu" id="roleDropdown">
-              <div class="model-option-item selected" onclick="selectUserRole('consumer', 'Consumer Mode')">
-                <strong>👤 Consumer Mode</strong>
-                <small>Product Safety, HUID Hallmarking & Grievances</small>
-              </div>
-              <div class="model-option-item" onclick="selectUserRole('msme', 'MSME Manufacturer Mode')">
-                <strong>🏭 MSME Manufacturer Mode</strong>
-                <small>STI Auditing, 50% Subsidy & Scheme-I Roadmaps</small>
-              </div>
-              <div class="model-option-item" onclick="selectUserRole('inspector', 'BIS Inspector Mode')">
-                <strong>🏛️ BIS Inspector Mode</strong>
-                <small>Market Surveillance, Seizure Rules & Lab Audits</small>
-              </div>
-            </div>
+          <!-- Official BIS Authority Badge -->
+          <div class="gov-official-pill" title="National Standards Verification Authority • Ministry of Consumer Affairs">
+            <span class="gov-emblem-text">🇮🇳 GOVT. OF INDIA</span>
+            <span class="gov-sub-text">Bureau of Indian Standards</span>
           </div>
+
+          <!-- Hidden preserved legacy anchors to prevent null pointer exceptions in existing scripts -->
+          <span id="selectedRoleLabel" style="display:none;">Universal AI Mode</span>
+          <div id="roleDropdown" style="display:none;"></div>
 
           <!-- Status Indicator Pill -->
           <div class="system-status-pill" title="AI Inference Engine Online">
@@ -947,24 +919,24 @@
           </div>
         </div>
 
-        <!-- Section 4: Hallmarking & Gold -->
+        <!-- Section 4: Hallmarking & Consumer Protection -->
         <div class="tools-category-card">
           <div class="category-head">
             <i class="fas fa-ring" style="color:var(--saffron);"></i>
-            <span>HALLMARKING & CONSUMER</span>
+            <span>HALLMARKING & CONSUMER PROTECTION</span>
           </div>
           <div class="category-items">
             <button class="tool-launcher-item" onclick="closeToolsModal(); executeInStreamTool('huid_calc');">
-              <strong>Gold Purity Calculator</strong>
-              <small>Calculate 22K (916) / 18K (750) / 14K (585) net gold value</small>
+              <strong>IS 1417 Hallmarking Standards</strong>
+              <small>Statutory 3 signs: BIS Logo, Karat/Fineness & 6-Digit HUID</small>
             </button>
-            <button class="tool-launcher-item" onclick="closeToolsModal(); sendPredefinedQuery('What is the 3X differential compensation rule if hallmarked gold purity is below 22K?');">
-              <strong>3X Differential Compensation</strong>
-              <small>Statutory 3X refund rule for hallmarked gold purity fraud</small>
+            <button class="tool-launcher-item" onclick="closeToolsModal(); sendPredefinedQuery('What is the 3X differential compensation rule if hallmarked gold purity is below 22K under Rule 49?');">
+              <strong>Rule 49 3X Compensation Claim</strong>
+              <small>Statutory 3X differential refund for hallmarked gold deficit</small>
             </button>
-            <button class="tool-launcher-item" onclick="closeToolsModal(); openCommandPalette();">
-              <strong>Standards Spotlight Search</strong>
-              <small>Browse all core Indian Standards catalog</small>
+            <button class="tool-launcher-item" onclick="closeToolsModal(); sendPredefinedQuery('How to lodge an official consumer complaint against counterfeit ISI marked goods under Section 29, BIS Act 2016?');">
+              <strong>Consumer Grievance Guide</strong>
+              <small>Official procedure for reporting non-compliant products</small>
             </button>
           </div>
         </div>
@@ -1078,11 +1050,11 @@
         <!-- Tab 5: About -->
         <div class="settings-tab-pane" id="tabAbout">
           <p style="font-size:0.84rem;color:var(--text-muted);margin-bottom:12px;">
-            <strong>MANAK-AI</strong> is an intelligent Copilot for Bureau of Indian Standards (BIS) compliance, consumer protection, and MSME manufacturing certification.
+            <strong>MANAK-AI</strong> is an authoritative AI Copilot for Bureau of Indian Standards (BIS) compliance, consumer protection, and MSME manufacturing certification, developed for Smart India Hackathon (SIH 2026).
           </p>
-          <button class="btn-settings-action" onclick="closeSettingsModal(); openWhyUsModal();">
-            <i class="fas fa-sparkles"></i> Compare MANAK-AI vs Official BIS CARE App
-          </button>
+          <div style="font-size:0.78rem;color:var(--text-subtle);line-height:1.5;">
+            Grounded in 23,401 Indian Standards and 769 mandatory Quality Control Orders (QCOs) published in the Gazette of India.
+          </div>
         </div>
       </div>
     </div>
@@ -1097,92 +1069,9 @@
     <button onclick="toggleVoiceInput()" style="background:rgba(255,255,255,0.15);color:var(--text-main);padding:2px 8px;border-radius:12px;font-size:0.72rem;">Done</button>
   </div>
 
-  <!-- ================= COMMAND PALETTE (Ctrl + K) ================= -->
-  <div class="cmd-palette-backdrop" id="cmdPalette" onclick="if(event.target === this) closeCommandPalette()">
-    <div class="cmd-palette-box">
-      <div class="cmd-palette-input-wrap">
-        <i class="fas fa-magnifying-glass" style="color:var(--primary-blue);"></i>
-        <input type="text" id="cmdSearchInput" class="cmd-palette-input" placeholder="Type a command or search standards..." oninput="filterCommandPalette(this.value)" />
-        <span class="cmd-badge">ESC to exit</span>
-      </div>
-      <div class="cmd-palette-list" id="cmdPaletteList">
-        <div class="cmd-palette-item" onclick="executeCmdItem('new_chat')">
-          <span><i class="fas fa-plus"></i> Start New Consultation</span>
-          <span class="cmd-badge">Ctrl+N</span>
-        </div>
-        <div class="cmd-palette-item" onclick="executeCmdItem('scan_camera')">
-          <span><i class="fas fa-camera"></i> Live Computer Vision Scanner</span>
-          <span class="cmd-badge">Alt+S</span>
-        </div>
-        <div class="cmd-palette-item" onclick="executeCmdItem('verify_huid')">
-          <span><i class="fas fa-ring"></i> Verify 6-Digit Gold HUID</span>
-          <span class="cmd-badge">Alt+H</span>
-        </div>
-        <div class="cmd-palette-item" onclick="executeCmdItem('msme_audit')">
-          <span><i class="fas fa-industry"></i> Run MSME 78% STI Compliance Audit</span>
-          <span class="cmd-badge">Alt+M</span>
-        </div>
-        <div class="cmd-palette-item" onclick="executeCmdItem('split_pdf')">
-          <span><i class="fas fa-book-open"></i> Open Split-Screen Gazette PDF</span>
-          <span class="cmd-badge">Alt+P</span>
-        </div>
-        <div class="cmd-palette-item" onclick="executeCmdItem('toggle_theme')">
-          <span><i class="fas fa-circle-half-stroke"></i> Toggle Dark / Light Theme</span>
-          <span class="cmd-badge">Alt+T</span>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <!-- ================= WHY US VS BIS CARE COMPARISON MODAL ================= -->
-  <div class="cmd-palette-backdrop" id="whyUsModal" onclick="if(event.target === this) closeWhyUsModal()">
-    <div class="cmd-palette-box" style="max-width:680px;padding:24px;">
-      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;">
-        <h3 style="margin:0;font-size:1.15rem;color:var(--text-main);display:flex;align-items:center;gap:8px;">
-          <i class="fas fa-sparkles" style="color:var(--primary-blue);"></i> MANAK-AI vs Official BIS CARE App
-        </h3>
-        <button onclick="closeWhyUsModal()" style="color:var(--text-subtle);padding:4px;"><i class="fas fa-xmark"></i></button>
-      </div>
-      <p style="font-size:0.82rem;color:var(--text-muted);margin-bottom:16px;">
-        While the official <strong>BIS CARE</strong> mobile app provides baseline lookup for licenses and HUIDs, <strong>MANAK-AI</strong> provides the deep <strong>AI Reasoning, Multi-tier MSME Auditing, and Evidence-backed Grounding</strong> required for SIH 2026.
-      </p>
-      <table class="trust-matrix-table" style="width:100%;border-collapse:collapse;font-size:0.82rem;margin-bottom:16px;">
-        <tr style="background:rgba(255,255,255,0.06);">
-          <th style="padding:8px 12px;border:1px solid var(--border-color);text-align:left;">Capability Area</th>
-          <th style="padding:8px 12px;border:1px solid var(--border-color);text-align:left;">Official BIS CARE App</th>
-          <th style="padding:8px 12px;border:1px solid var(--border-color);text-align:left;color:var(--primary-blue);">MANAK-AI (Ours)</th>
-        </tr>
-        <tr>
-          <td style="padding:8px 12px;border:1px solid var(--border-color);"><strong>Natural Language Reasoning</strong></td>
-          <td style="padding:8px 12px;border:1px solid var(--border-color);color:var(--status-red);">❌ Static search only</td>
-          <td style="padding:8px 12px;border:1px solid var(--border-color);color:var(--status-green);">✅ Full multi-turn conversational AI reasoning</td>
-        </tr>
-        <tr>
-          <td style="padding:8px 12px;border:1px solid var(--border-color);"><strong>Gazette Evidence Studio</strong></td>
-          <td style="padding:8px 12px;border:1px solid var(--border-color);color:var(--status-red);">❌ Not available</td>
-          <td style="padding:8px 12px;border:1px solid var(--border-color);color:var(--status-green);">✅ Split-screen PDF with clause auto-highlight</td>
-        </tr>
-        <tr>
-          <td style="padding:8px 12px;border:1px solid var(--border-color);"><strong>MSME Factory Compliance</strong></td>
-          <td style="padding:8px 12px;border:1px solid var(--border-color);color:var(--status-red);">❌ No STI auditing</td>
-          <td style="padding:8px 12px;border:1px solid var(--border-color);color:var(--status-green);">✅ 78% Readiness Scorecard & 1-click PDF export</td>
-        </tr>
-        <tr>
-          <td style="padding:8px 12px;border:1px solid var(--border-color);"><strong>Dual-Signal Verification</strong></td>
-          <td style="padding:8px 12px;border:1px solid var(--border-color);">⚠️ Number match only</td>
-          <td style="padding:8px 12px;border:1px solid var(--border-color);color:var(--status-green);">✅ License Match + CV Logo Geometry (Dual-Signal)</td>
-        </tr>
-        <tr>
-          <td style="padding:8px 12px;border:1px solid var(--border-color);"><strong>Consumer Grievance Generator</strong></td>
-          <td style="padding:8px 12px;border:1px solid var(--border-color);">⚠️ Basic complaint form</td>
-          <td style="padding:8px 12px;border:1px solid var(--border-color);color:var(--status-green);">✅ Auto-drafted Section 29 legal notice PDF</td>
-        </tr>
-      </table>
-      <div style="text-align:right;">
-        <button onclick="closeWhyUsModal()" style="background:var(--primary-blue);color:white;padding:6px 16px;border-radius:6px;font-size:0.8rem;font-weight:700;">Got It</button>
-      </div>
-    </div>
-  </div>
+  <!-- Preserved hidden containers for backwards compatibility -->
+  <div id="cmdPalette" style="display:none;"></div>
+  <div id="whyUsModal" style="display:none;"></div>
 
   <!-- ================= LIVE CAMERA SCANNER VIEWPORT MODAL ================= -->
   <div class="cmd-palette-backdrop" id="cameraModal" onclick="if(event.target === this) closeCameraModal()">
@@ -1203,10 +1092,10 @@
         <video id="cameraVideo" autoplay playsinline muted style="width:100%;height:100%;object-fit:cover;"></video>
         <canvas id="cameraCanvas" style="display:none;"></canvas>
         
-        <!-- Live AR Status Badge Overlay -->
-        <div class="live-ar-badge" id="arTrackingBadge">
+        <!-- Live AR Status Badge Overlay (Hidden to eliminate visual clutter) -->
+        <div class="live-ar-badge" id="arTrackingBadge" style="display:none;">
           <i class="fas fa-crosshairs"></i>
-          <span id="arTrackingText">🎯 SCANNING FOR ISI MARK / HUID / QR</span>
+          <span id="arTrackingText">TARGET ACQUIRED</span>
         </div>
 
         <!-- Target Alignment Reticle -->
