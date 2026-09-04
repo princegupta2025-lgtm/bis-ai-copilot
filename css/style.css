@@ -3719,3 +3719,81 @@ html, body {
   }
 }
 
+/* ==========================================================================
+   FAIL-SAFE ICON & BUTTON SVG RENDERING (Zero Blank Signs / Offline Safe)
+   ========================================================================== */
+.composer-action-btn svg,
+.btn-send-capsule svg,
+.btn-voice-lang-pill svg,
+.btn-sidebar-collapse svg,
+.btn-new-conversation svg,
+.btn-sidebar-search svg,
+.btn-nav-utility svg,
+.brand-icon-shield svg,
+.hero-brand-mark svg {
+  display: inline-block;
+  vertical-align: middle;
+  stroke: currentColor;
+  flex-shrink: 0;
+  pointer-events: none;
+}
+
+.btn-send-capsule {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+}
+
+.composer-action-btn {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+}
+
+/* Universal icon fallback if FontAwesome webfont fails to load */
+.fa-fallback-active i.fas,
+.fa-fallback-active i.far,
+.fa-fallback-active i.fa-solid {
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Apple Color Emoji", "Segoe UI Emoji", sans-serif !important;
+  font-style: normal !important;
+  font-weight: 700 !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  min-width: 1em;
+  text-align: center;
+}
+
+.fa-fallback-active .fa-arrow-up::before { content: "↑" !important; font-size: 1.15em; line-height: 1; }
+.fa-fallback-active .fa-paperclip::before { content: "📎" !important; }
+.fa-fallback-active .fa-camera::before { content: "📷" !important; }
+.fa-fallback-active .fa-microphone::before { content: "🎙️" !important; }
+.fa-fallback-active .fa-language::before { content: "🌐" !important; }
+.fa-fallback-active .fa-plus::before { content: "+" !important; font-size: 1.2em; }
+.fa-fallback-active .fa-magnifying-glass::before, .fa-fallback-active .fa-search::before { content: "🔍" !important; }
+.fa-fallback-active .fa-shield-halved::before, .fa-fallback-active .fa-shield::before { content: "🛡️" !important; }
+.fa-fallback-active .fa-bars-staggered::before, .fa-fallback-active .fa-bars::before { content: "☰" !important; font-size: 1.1em; }
+.fa-fallback-active .fa-xmark::before, .fa-fallback-active .fa-times::before { content: "✕" !important; }
+.fa-fallback-active .fa-check-circle::before, .fa-fallback-active .fa-check::before { content: "✓" !important; }
+.fa-fallback-active .fa-up-right-from-square::before { content: "↗" !important; }
+.fa-fallback-active .fa-circle-half-stroke::before { content: "🌓" !important; }
+.fa-fallback-active .fa-trash-can::before { content: "🗑️" !important; }
+.fa-fallback-active .fa-rotate-right::before { content: "🔄" !important; }
+.fa-fallback-active .fa-gear::before { content: "⚙️" !important; }
+.fa-fallback-active .fa-industry::before { content: "🏭" !important; }
+.fa-fallback-active .fa-flask::before { content: "🧪" !important; }
+.fa-fallback-active .fa-gavel::before { content: "⚖️" !important; }
+.fa-fallback-active .fa-ring::before { content: "💍" !important; }
+.fa-fallback-active .fa-qrcode::before { content: "📱" !important; }
+.fa-fallback-active .fa-copy::before { content: "📋" !important; }
+.fa-fallback-active .fa-book-open::before { content: "📖" !important; }
+.fa-fallback-active .fa-file-lines::before { content: "📄" !important; }
+.fa-fallback-active .fa-triangle-exclamation::before { content: "⚠️" !important; }
+.fa-fallback-active .fa-comment-dots::before { content: "💬" !important; }
+.fa-fallback-active .fa-boxes-stacked::before { content: "📦" !important; }
+.fa-fallback-active .fa-screwdriver-wrench::before { content: "🛠️" !important; }
+.fa-fallback-active .fa-print::before { content: "🖨️" !important; }
+.fa-fallback-active .fa-compass-drafting::before { content: "📐" !important; }
+.fa-fallback-active .fa-file-invoice::before { content: "🧾" !important; }
+
+

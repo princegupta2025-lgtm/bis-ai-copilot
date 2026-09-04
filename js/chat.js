@@ -3526,6 +3526,7 @@ async function callLiveLLMStreaming(userQuery, ragChunks, primaryDoc, aiBubbleId
   for (const endpoint of candidateEndpoints) {
     if (streamSuccess) break;
     for (const mod of models) {
+      try {
         const lastUser = messages.filter(m => m.role === 'user').pop();
         const userText = lastUser ? String(lastUser.content || '') : '';
         const isDevanagari = /[\u0900-\u097F]/.test(userText);
@@ -5703,8 +5704,36 @@ function renderRecommendationResults(data) {
 }
 
 // Automatically initialize animated metrics counter on page load
-if (document.readyState === 'loading') {
-  document.addEventListener('DOMContentLoaded', initAnimatedStats);
-} else {
-  initAnimatedStats();
+if (typeof document !== 'undefined') {
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initAnimatedStats);
+  } else {
+    initAnimatedStats();
+  }
+}
+
+// Explicit global window bindings for robust inline event handler execution
+if (typeof window !== 'undefined') {
+  window.submitUserQuery = submitUserQuery;
+  window.sendPredefinedQuery = sendPredefinedQuery;
+  window.focusComposerInput = focusComposerInput;
+  window.startNewConversation = startNewConversation;
+  window.toggleSidebar = typeof toggleSidebar === 'function' ? toggleSidebar : window.toggleSidebar;
+  window.openCommandPalette = typeof openCommandPalette === 'function' ? openCommandPalette : window.openCommandPalette;
+  window.toggleVoiceLanguage = typeof toggleVoiceLanguage === 'function' ? toggleVoiceLanguage : window.toggleVoiceLanguage;
+  window.toggleVoiceInput = typeof toggleVoiceInput === 'function' ? toggleVoiceInput : window.toggleVoiceInput;
+  window.openSettingsModal = typeof openSettingsModal === 'function' ? openSettingsModal : window.openSettingsModal;
+  window.openToolsModal = typeof openToolsModal === 'function' ? openToolsModal : window.openToolsModal;
+  window.triggerDocumentAnalysis = typeof triggerDocumentAnalysis === 'function' ? triggerDocumentAnalysis : window.triggerDocumentAnalysis;
+  window.triggerCameraScanWizard = typeof triggerCameraScanWizard === 'function' ? triggerCameraScanWizard : window.triggerCameraScanWizard;
+  window.handleFileUpload = typeof handleFileUpload === 'function' ? handleFileUpload : window.handleFileUpload;
+  window.openProductRecommendationModal = typeof openProductRecommendationModal === 'function' ? openProductRecommendationModal : window.openProductRecommendationModal;
+  window.closeProductRecommendationModal = typeof closeProductRecommendationModal === 'function' ? closeProductRecommendationModal : window.closeProductRecommendationModal;
+  window.submitProductRecommendation = typeof submitProductRecommendation === 'function' ? submitProductRecommendation : window.submitProductRecommendation;
+  window.toggleComposerToolsMenu = typeof toggleComposerToolsMenu === 'function' ? toggleComposerToolsMenu : window.toggleComposerToolsMenu;
+  window.executeInStreamTool = typeof executeInStreamTool === 'function' ? executeInStreamTool : window.executeInStreamTool;
+  window.togglePDFPane = typeof togglePDFPane === 'function' ? togglePDFPane : window.togglePDFPane;
+  window.toggleISCodeDisplay = typeof toggleISCodeDisplay === 'function' ? toggleISCodeDisplay : window.toggleISCodeDisplay;
+  window.openStandardInStudio = typeof openStandardInStudio === 'function' ? openStandardInStudio : window.openStandardInStudio;
+  window.copyISCitation = typeof copyISCitation === 'function' ? copyISCitation : window.copyISCitation;
 }
