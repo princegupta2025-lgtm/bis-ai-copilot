@@ -45,7 +45,7 @@ if (fs.existsSync(path.join(__dirname, '.env'))) {
   });
 }
 
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT ? String(process.env.PORT).trim() : 3000;
 const HOST = process.env.HOST || '0.0.0.0'; // Bind to 0.0.0.0 for Cloud / Render deployment
 const GEMINI_API_KEY = process.env.GEMINI_API_KEY;
 
@@ -1966,8 +1966,9 @@ let serverInstance = null;
 
 async function startServer() {
   await initEmbeddingEngine();
-  serverInstance = app.listen(PORT, HOST, () => {
-    console.log(`🚀 MANAK-AI (BIS Trust Copilot) securely running on http://${HOST}:${PORT}/chat.html`);
+  serverInstance = app.listen(PORT, '0.0.0.0', () => {
+    console.log(`BIS Trust Copilot listening on 0.0.0.0:${PORT}`);
+    console.log(`🚀 MANAK-AI (BIS Trust Copilot) securely running on http://0.0.0.0:${PORT}/chat.html`);
     console.log(`🔒 Security Hardened: Phase 1 (Protection), Phase 2 (Server Prompt), Phase 3 (Dynamic IS Injection)`);
   });
   return serverInstance;
