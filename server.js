@@ -27,6 +27,14 @@ const app = express();
 if (compression) app.use(compression());
 app.set('trust proxy', 1);
 
+// Process-level crash prevention guards for cloud stability
+process.on('unhandledRejection', (reason) => {
+  console.warn('⚠️ Process unhandledRejection notice:', (reason && reason.message) || reason);
+});
+process.on('uncaughtException', (err) => {
+  console.error('🔥 Process uncaughtException notice:', err && err.message);
+});
+
 // ============================================================================
 // CONFIGURATION & ENVIRONMENT LOADING
 // ============================================================================
@@ -1965,12 +1973,17 @@ app.use((err, req, res, next) => {
 let serverInstance = null;
 
 async function startServer() {
-  await initEmbeddingEngine();
   serverInstance = app.listen(PORT, '0.0.0.0', () => {
     console.log(`BIS Trust Copilot listening on 0.0.0.0:${PORT}`);
     console.log(`🚀 MANAK-AI (BIS Trust Copilot) securely running on http://0.0.0.0:${PORT}/chat.html`);
     console.log(`🔒 Security Hardened: Phase 1 (Protection), Phase 2 (Server Prompt), Phase 3 (Dynamic IS Injection)`);
   });
+
+  // Background non-blocking initialization of heavy AI embeddings (prevents Render wake-up timeout)
+  initEmbeddingEngine().catch(err => {
+    console.warn('⚠️ Background embedding engine initialization notice:', err.message);
+  });
+
   return serverInstance;
 }
 
