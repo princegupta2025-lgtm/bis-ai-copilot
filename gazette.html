@@ -5,10 +5,12 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>BIS Gazette & Statutory Document Viewer — Official Source</title>
   <link rel="stylesheet" href="css/style.css" />
+  <link rel="stylesheet" href="css/command-palette.css" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;600&family=Merriweather:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet" />
+  <script src="js/theme.js"></script>
   <style>
     body {
       background: var(--bg-app);
@@ -111,6 +113,12 @@
       </div>
     </div>
     <div style="display:flex;align-items:center;gap:8px;">
+      <button class="cmd-palette-trigger" title="Command Palette (Ctrl + K)" style="background:rgba(255,255,255,0.08);color:var(--text-main);border:1px solid var(--border-color);padding:6px 12px;border-radius:6px;font-size:0.82rem;font-weight:600;cursor:pointer;display:flex;align-items:center;gap:6px;">
+        <i class="fas fa-terminal"></i> Ctrl+K
+      </button>
+      <button class="theme-toggle-btn" id="themeToggleBtn" onclick="toggleTheme()" title="Toggle Dark/Light Mode" style="background:rgba(255,255,255,0.08);color:var(--text-main);border:1px solid var(--border-color);padding:6px 12px;border-radius:6px;cursor:pointer;">
+        <i class="fas fa-moon"></i>
+      </button>
       <button onclick="window.print()" style="background:rgba(255,255,255,0.08);color:var(--text-main);border:1px solid var(--border-color);padding:6px 14px;border-radius:6px;font-size:0.82rem;font-weight:600;cursor:pointer;display:flex;align-items:center;gap:6px;">
         <i class="fas fa-print"></i> Print Gazette
       </button>
@@ -213,7 +221,6 @@
     </article>
   </main>
 
-  <script src="js/theme.js"></script>
   <script src="js/database.js"></script>
   <script>
     document.addEventListener('DOMContentLoaded', () => {
@@ -315,6 +322,7 @@
       window.location.search = `?doc=${encodeURIComponent(docSlug)}&page=${newPage}&clause=${newClause}`;
     }
   </script>
+  <script src="js/command-palette.js"></script>
   <script src="js/wizard.js"></script>
 </body>
 </html>

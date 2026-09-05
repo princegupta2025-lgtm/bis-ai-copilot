@@ -24,19 +24,10 @@ function Assert-Audit($condition, $message) {
 Write-Host "`n>>> 1. Checking Live Server & Service Endpoints..." -ForegroundColor Yellow
 
 try {
-    $health = Invoke-RestMethod -Uri "http://localhost:8000/api/health" -Method Get -TimeoutSec 4
-    Assert-Audit ($health.status -eq "ok" -and $health.standards -ge 16) "Server on Port 8000 is LIVE (Status: $($health.status), Standards: $($health.standards), Model: $($health.ragModel))"
+    $health = Invoke-RestMethod -Uri "http://localhost:3000/api/health" -Method Get -TimeoutSec 4
+    Assert-Audit ($health.status -eq "ok") "Server on Port 3000 is LIVE (Status: $($health.status), Service: $($health.service))"
 } catch {
-    Assert-Audit $false "Server on Port 8000 health check failed: $_"
-}
-
-if (-not $health) {
-    try {
-        $health8080 = Invoke-RestMethod -Uri "http://localhost:8080/api/health" -Method Get -TimeoutSec 2
-        Assert-Audit ($health8080.status -eq "ok") "Server on Fallback Port 8080 is LIVE (Status: $($health8080.status))"
-    } catch {
-        Assert-Audit $false "Server health check failed on both Port 8000 and Port 8080: $_"
-    }
+    Assert-Audit $false "Server on Port 3000 health check failed: $_"
 }
 
 # -------------------------------------------------------------
@@ -106,7 +97,7 @@ foreach ($test in $queries) {
     $postBytes = [System.Text.Encoding]::UTF8.GetBytes($payloadJson)
     
     try {
-        $res = Invoke-RestMethod -Uri "http://localhost:8000/api/rag" -Method Post -ContentType "application/json; charset=utf-8" -Body $postBytes -TimeoutSec 5
+        $res = Invoke-RestMethod -Uri "http://localhost:3000/api/rag" -Method Post -ContentType "application/json; charset=utf-8" -Body $postBytes -TimeoutSec 5
         $sw.Stop()
         $latency = $sw.ElapsedMilliseconds
         $totalLatencyMs += $latency
@@ -179,18 +170,18 @@ Assert-Audit ($outOfScopePercent -eq 100.0) "RAG Out-of-Scope rejection is 100%"
 Write-Host "`n>>> 3. Checking Verification Workflows & Demo Data Labels..." -ForegroundColor Yellow
 
 # Genuine CML
-$cml1 = Invoke-RestMethod -Uri "http://localhost:8000/api/verify/cml?number=7308812" -Method Get
-Assert-Audit ($cml1.status -eq "ACTIVE" -and $cml1.manufacturer.Contains("FINOLEX")) "CML 7308812 verified ACTIVE genuine"
+$cml1 = Invoke-RestMethod -Uri "http://localhost:3000/api/verify/cml?number=8178606" -Method Get
+Assert-Audit ($cml1.status -eq "ACTIVE" -and $cml1.manufacturer.Contains("TATA")) "CML 8178606 verified ACTIVE genuine"
 
 # Counterfeit / Flagged CML
-$cml2 = Invoke-RestMethod -Uri "http://localhost:8000/api/verify/cml?number=4091823" -Method Get
-Assert-Audit ($cml2.status -eq "EXPIRED" -or $cml2.status -eq "CANCELLED") "CML 4091823 flagged as EXPIRED/COUNTERFEIT"
+$cml2 = Invoke-RestMethod -Uri "http://localhost:3000/api/verify/cml?number=3409182" -Method Get
+Assert-Audit ($cml2.status -eq "EXPIRED" -or $cml2.status -eq "CANCELLED") "CML 3409182 flagged as CANCELLED"
 
 # Dedicated HUID Verification
-$huid1 = Invoke-RestMethod -Uri "http://localhost:8000/api/verify/huid?code=AB8492" -Method Get
+$huid1 = Invoke-RestMethod -Uri "http://localhost:3000/api/verify/huid?code=AB8492" -Method Get
 Assert-Audit ($huid1.status -eq "VERIFIED" -and $huid1.purity.Contains("916")) "HUID AB8492 verified 22K (916 Fineness)"
 
-$huid2 = Invoke-RestMethod -Uri "http://localhost:8000/api/verify/huid?code=FA9999" -Method Get
+$huid2 = Invoke-RestMethod -Uri "http://localhost:3000/api/verify/huid?code=FA9999" -Method Get
 Assert-Audit ($huid2.status -eq "SUSPICIOUS" -or $huid2.status -eq "FAKE") "HUID FA9999 flagged PURITY MISMATCH / FRAUD"
 
 # -------------------------------------------------------------
@@ -199,7 +190,7 @@ Assert-Audit ($huid2.status -eq "SUSPICIOUS" -or $huid2.status -eq "FAKE") "HUID
 Write-Host "`n>>> 4. Checking Security Protections..." -ForegroundColor Yellow
 
 $chatJsContent = Get-Content -Path "js/chat.js" -Raw -Encoding UTF8
-Assert-Audit (-not $chatJsContent.Contains("gsk_")) "Zero Groq API secrets exposed in client-side chat.js"
+Assert-Audit (-not $chatJsContent.Contains("AIzaSy")) "Zero Google Gemini API secrets exposed in client-side chat.js"
 Assert-Audit ($chatJsContent.Contains("escapeHtml")) "escapeHtml function protects markdown and dynamic injections"
 Assert-Audit ($chatJsContent.Contains("StatutoryClaimEvidenceVerifier")) "StatutoryClaimEvidenceVerifier active for zero-hallucination audits"
 

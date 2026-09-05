@@ -3838,4 +3838,283 @@ html, body {
 .fa-fallback-active .fa-compass-drafting::before { content: "📐" !important; }
 .fa-fallback-active .fa-file-invoice::before { content: "🧾" !important; }
 
+/* ==========================================================================
+   STEP 5: JUDGE-FACING UI/UX POLISH (SIH 2026)
+   High-Contrast Typography, Demo Starters, Skeleton Shimmer & Responsive Layout
+   ========================================================================== */
+
+/* 1. Demo Starter Buttons (Hero Landing & Chat Welcome) */
+.demo-starter-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid var(--border-color);
+  border-radius: 12px;
+  padding: 10px 16px;
+  color: var(--text-main);
+  text-decoration: none;
+  font-size: 0.85rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: var(--transition);
+  box-shadow: var(--shadow-sm);
+  backdrop-filter: blur(8px);
+}
+
+.demo-starter-btn:hover {
+  background: rgba(59, 130, 246, 0.12);
+  border-color: rgba(59, 130, 246, 0.45);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 14px rgba(59, 130, 246, 0.2);
+}
+
+.demo-starter-btn:focus-visible {
+  outline: 2px solid var(--primary-blue);
+  outline-offset: 2px;
+}
+
+.starter-tag {
+  background: rgba(59, 130, 246, 0.15);
+  color: var(--primary-blue);
+  font-size: 0.7rem;
+  font-weight: 700;
+  padding: 2px 7px;
+  border-radius: 6px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.starter-text {
+  flex: 1;
+  color: var(--text-main);
+  text-align: left;
+}
+
+.starter-icon {
+  font-size: 0.75rem;
+  color: var(--text-subtle);
+  transition: transform 0.2s ease;
+}
+
+.demo-starter-btn:hover .starter-icon {
+  color: var(--primary-blue);
+  transform: translateX(3px);
+}
+
+/* Light Mode Overrides for Demo Starters */
+[data-theme="light"] .demo-starter-btn {
+  background: #FFFFFF;
+  border: 1px solid #E2E8F0;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.05);
+}
+
+[data-theme="light"] .demo-starter-btn:hover {
+  background: #F0F7FF;
+  border-color: #93C5FD;
+  box-shadow: 0 4px 12px rgba(37, 99, 235, 0.1);
+}
+
+/* 2. Skeleton Loaders (Theme-adaptive Shimmer) */
+[data-theme="light"] .skeleton-box {
+  background: linear-gradient(90deg, rgba(0, 0, 0, 0.04) 25%, rgba(0, 0, 0, 0.09) 50%, rgba(0, 0, 0, 0.04) 75%);
+  background-size: 200% 100%;
+}
+
+[data-theme="light"] .skeleton-card {
+  background: #FFFFFF;
+  border: 1px solid #E2E8F0;
+  box-shadow: var(--shadow-sm);
+}
+
+.skeleton-stream-placeholder {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 4px 0;
+  min-width: 240px;
+}
+
+/* 3. High-Contrast Chat Markdown Typography (Fixing Light Mode Contrast) */
+.msg-text-bubble h3,
+.msg-text-bubble h4,
+.msg-text-bubble h5 {
+  color: var(--text-main) !important;
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  letter-spacing: -0.01em;
+}
+
+.msg-text-bubble strong {
+  color: var(--text-main) !important;
+  font-weight: 700;
+}
+
+.msg-text-bubble p,
+.msg-text-bubble li {
+  line-height: 1.7;
+  color: var(--text-main);
+  font-size: 0.92rem;
+}
+
+/* Standard Number Visual Highlight Pill */
+.is-std-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  background: rgba(59, 130, 246, 0.12);
+  color: var(--primary-blue);
+  font-weight: 700;
+  font-family: 'Fira Code', monospace;
+  padding: 1px 7px;
+  border-radius: 5px;
+  border: 1px solid rgba(59, 130, 246, 0.3);
+  font-size: 0.88em;
+}
+
+/* 4. Grounding Score Badges */
+.grounding-badge-high {
+  background: rgba(16, 185, 129, 0.12) !important;
+  color: var(--status-green) !important;
+  border: 1px solid rgba(16, 185, 129, 0.35) !important;
+  font-weight: 700;
+}
+
+.grounding-badge-med {
+  background: rgba(245, 158, 11, 0.12) !important;
+  color: var(--status-amber) !important;
+  border: 1px solid rgba(245, 158, 11, 0.35) !important;
+  font-weight: 700;
+}
+
+.grounding-badge-low {
+  background: rgba(239, 68, 68, 0.12) !important;
+  color: var(--status-red) !important;
+  border: 1px solid rgba(239, 68, 68, 0.35) !important;
+  font-weight: 700;
+}
+
+/* 5. Evidence Drawer Side Pane Polish */
+.pdf-evidence-pane {
+  max-width: 480px;
+  width: 100%;
+  box-shadow: -8px 0 28px rgba(0, 0, 0, 0.45);
+  border-left: 1px solid var(--border-color);
+  background: var(--bg-pdf-pane, #0D131F);
+  transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  z-index: 50;
+  overflow-y: auto;
+}
+
+[data-theme="light"] .pdf-evidence-pane {
+  background: #FFFFFF;
+  border-left: 1px solid #E2E8F0;
+  box-shadow: -4px 0 20px rgba(0, 0, 0, 0.08);
+}
+
+.pdf-pane-header {
+  padding: 14px 18px;
+  border-bottom: 1px solid var(--border-color);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  background: rgba(0, 0, 0, 0.15);
+  backdrop-filter: blur(10px);
+}
+
+.btn-drawer-action {
+  padding: 6px 12px;
+  border-radius: 6px;
+  font-size: 0.78rem;
+  font-weight: 700;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  cursor: pointer;
+  border: 1px solid var(--border-color);
+  background: rgba(255, 255, 255, 0.06);
+  color: var(--text-main);
+  text-decoration: none;
+  transition: var(--transition);
+}
+
+.btn-drawer-action:hover {
+  background: rgba(255, 255, 255, 0.12);
+  transform: translateY(-1px);
+}
+
+.btn-drawer-action.primary {
+  background: var(--primary-blue);
+  color: #FFFFFF;
+  border-color: var(--primary-blue);
+}
+
+.btn-drawer-action.primary:hover {
+  background: #2563EB;
+}
+
+/* 6. Responsive Breakpoints & Clean Mobile Viewports */
+@media (max-width: 1024px) {
+  .hero-title {
+    font-size: 2.2rem;
+  }
+  .pdf-evidence-pane {
+    max-width: 400px;
+  }
+}
+
+@media (max-width: 768px) {
+  .hero-title {
+    font-size: 1.85rem;
+    line-height: 1.25;
+  }
+  .hero-desc {
+    font-size: 0.95rem;
+  }
+  .demo-starters-grid {
+    flex-direction: column;
+    align-items: stretch;
+  }
+  .demo-starter-btn {
+    width: 100%;
+  }
+  .pdf-evidence-pane {
+    max-width: 100vw;
+    width: 100vw;
+  }
+  .metrics-container {
+    flex-direction: column;
+    gap: 1rem;
+    align-items: stretch;
+  }
+  .metric-item {
+    justify-content: center;
+  }
+  .main-header .header-inner {
+    padding: 0 1rem;
+  }
+  .nav-menu {
+    display: none;
+  }
+}
+
+@media (max-width: 390px) {
+  .hero-title {
+    font-size: 1.6rem;
+  }
+  .hero-desc {
+    font-size: 0.88rem;
+  }
+  .trust-pills-row {
+    flex-direction: column;
+    align-items: stretch;
+  }
+  .trust-pill {
+    justify-content: center;
+  }
+  .master-search-card {
+    flex-wrap: wrap;
+  }
+}
+
 

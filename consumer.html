@@ -10,6 +10,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
   <link rel="stylesheet" href="css/style.css" />
+  <link rel="stylesheet" href="css/command-palette.css" />
   <script src="js/theme.js"></script>
 </head>
 <body>
@@ -57,6 +58,9 @@
       <div class="nav-actions">
         <button class="theme-toggle-btn" id="themeToggleBtn" onclick="toggleTheme()" title="Toggle Dark/Light Mode">
           <i class="fas fa-moon"></i>
+        </button>
+        <button class="v-tab-btn cmd-palette-trigger" title="Command Palette (Ctrl + K)" style="display:inline-flex;align-items:center;gap:6px;">
+          <i class="fas fa-terminal"></i> <span class="m-hide">Ctrl+K</span>
         </button>
         <a href="chat.html" class="btn-ai-launch">
           <i class="fas fa-comments"></i> Ask AI in Hinglish
@@ -244,7 +248,7 @@
 
     function askConsumerAI(queryText) {
       sessionStorage.setItem('pendingQuery', queryText);
-      window.location.href = 'chat.html';
+      window.location.href = 'chat.html?q=' + encodeURIComponent(queryText);
     }
 
     window.onload = function() {
@@ -252,6 +256,7 @@
     };
   </script>
   <script src="js/database.js"></script>
+  <script src="js/command-palette.js"></script>
   <script src="js/wizard.js"></script>
 </body>
 </html>

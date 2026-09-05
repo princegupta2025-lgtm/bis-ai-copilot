@@ -39,6 +39,8 @@
   
   <!-- CSS -->
   <link rel="stylesheet" href="css/style.css?v=2.5" />
+  <link rel="stylesheet" href="css/command-palette.css" />
+  <script src="js/theme.js"></script>
 
   <!-- PDF.js CDN for Visual Gazette Canvas Rendering -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
@@ -658,19 +660,19 @@
           </div>
 
           <!-- Secondary Quick Topic Chips Row (4 High-Impact SIH Demos) -->
-          <div class="hero-secondary-chips-row">
-            <span class="chips-label">Demo Queries:</span>
-            <button class="hero-chip" onclick="sendPredefinedQuery('List mandatory Quality Control Orders (QCOs) timelines and legal penalties under BIS Act 2016.')">
-              <i class="fas fa-gavel"></i> QCO Lookup
+          <div class="hero-secondary-chips-row" style="margin-top:12px;">
+            <span class="chips-label"><i class="fas fa-bolt" style="color:var(--gold-accent);"></i> Demo Queries:</span>
+            <button class="hero-chip" onclick="sendPredefinedQuery('What standard applies to Sariya?')">
+              <i class="fas fa-cubes-stacked" style="color:var(--primary-blue);"></i> 1. Sariya Standard (IS 1786)
             </button>
-            <button class="hero-chip" onclick="sendPredefinedQuery('How to verify 6-digit laser HUID on gold jewellery and calculate pure gold value?')">
-              <i class="fas fa-ring"></i> Hallmarking & HUID
+            <button class="hero-chip" onclick="sendPredefinedQuery('What are the important clauses in IS 1786?')">
+              <i class="fas fa-file-contract" style="color:var(--status-green);"></i> 2. IS 1786 Important Clauses
             </button>
-            <button class="hero-chip" onclick="sendPredefinedQuery('What are the STI testing and fee concessions for MSME manufacturers under BIS Scheme-I?')">
-              <i class="fas fa-industry"></i> MSME Compliance
+            <button class="hero-chip" onclick="sendPredefinedQuery('How can I verify an ISI licence?')">
+              <i class="fas fa-shield-check" style="color:var(--primary-purple);"></i> 3. Verify ISI Licence
             </button>
-            <button class="hero-chip" onclick="openProductRecommendationModal()">
-              <i class="fas fa-boxes-stacked"></i> Product Recommendation
+            <button class="hero-chip" onclick="sendPredefinedQuery('How can I verify a Gold HUID?')">
+              <i class="fas fa-gem" style="color:var(--gold-accent);"></i> 4. Verify Gold HUID
             </button>
           </div>
         </div>
@@ -850,12 +852,12 @@
           <span class="pdf-doc-title" id="pdfDocTitle">IS 4151:2015 — Official Gazette Preview</span>
           <span class="pdf-doc-clause" id="pdfDocClauseTag">Clause 7.4 (Impact Attenuation Test) • Page 14</span>
         </div>
-        <div style="display:flex;gap:6px;">
-          <button class="toolbar-action-btn" onclick="window.open('https://www.services.bis.gov.in', '_blank')" title="Open on e-BIS Portal">
-            <i class="fas fa-up-right-from-square"></i>
-          </button>
-          <button class="toolbar-action-btn" onclick="togglePDFPane()" title="Close Document Viewer">
-            <i class="fas fa-xmark"></i>
+        <div style="display:flex;gap:8px;align-items:center;">
+          <a class="btn-drawer-action primary" id="pdfDocExternalLink" href="https://standardsbis.bsbedge.com" target="_blank" rel="noopener" title="Open source statutory document in BIS Portal">
+            <i class="fas fa-up-right-from-square"></i> Open Source
+          </a>
+          <button class="btn-drawer-action" onclick="togglePDFPane(false)" title="Close Evidence Drawer">
+            <i class="fas fa-xmark"></i> Close
           </button>
         </div>
       </div>
@@ -1509,6 +1511,25 @@
           }
         });
       }
+
+      // Check for incoming query parameter or sessionStorage from Landing/Home
+      try {
+        const urlParams = new URLSearchParams(window.location.search);
+        const incomingQ = urlParams.get('q') || sessionStorage.getItem('pendingQuery');
+        if (incomingQ && incomingQ.trim()) {
+          sessionStorage.removeItem('pendingQuery');
+          if (input) {
+            input.value = incomingQ.trim();
+            setTimeout(() => {
+              if (typeof window.submitUserQuery === 'function') {
+                window.submitUserQuery();
+              } else if (typeof submitUserQuery === 'function') {
+                submitUserQuery();
+              }
+            }, 350);
+          }
+        }
+      } catch (e) {}
 
       // Mutation Observer on Chat Stream to automatically stop progress and detect IS numbers in AI replies
       const chatContainer = document.getElementById('chatMessages');

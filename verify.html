@@ -12,6 +12,7 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
 
   <link rel="stylesheet" href="css/style.css" />
+  <link rel="stylesheet" href="css/command-palette.css" />
 
   <!-- Theme Script -->
   <script src="js/theme.js"></script>
@@ -489,7 +490,10 @@
         <a href="knowledge-graph.html" class="v2-nav-link"><i class="fas fa-diagram-project"></i> Standards Graph</a>
         <a href="consumer.html" class="v2-nav-link"><i class="fas fa-user-shield"></i> Consumer Rights</a>
         <a href="verify.html" class="v2-nav-link active"><i class="fas fa-qrcode"></i> Scan & Verify</a>
-        <button class="theme-toggle-btn" id="themeToggleBtn" onclick="toggleTheme()" style="background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.15);color:white;padding:8px 12px;border-radius:10px;cursor:pointer;margin-left:8px;" title="Toggle Theme">
+        <button class="v2-nav-link cmd-palette-trigger" title="Command Palette (Ctrl + K)" style="background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.15);color:white;cursor:pointer;">
+          <i class="fas fa-terminal"></i> <span class="m-hide">Ctrl+K</span>
+        </button>
+        <button class="theme-toggle-btn" id="themeToggleBtn" onclick="toggleTheme()" style="background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.15);color:white;padding:8px 12px;border-radius:10px;cursor:pointer;margin-left:4px;" title="Toggle Theme">
           <i class="fas fa-moon"></i>
         </button>
       </div>
@@ -499,22 +503,22 @@
   <!-- Hero Section -->
   <section class="v2-hero">
     <div class="v2-badge">
-      <i class="fas fa-shield-check"></i> Official National Product Registry Sync
+      <i class="fas fa-shield-check"></i> BIS Product & Hallmarking Verification Engine
     </div>
     <h1 class="v2-hero-title">National Product & Hallmarking Verifier</h1>
     <p class="v2-hero-sub">
-      Instantly authenticate 7-digit ISI CM/L licenses, 6-digit Gold HUID codes, CRS Electronics R-Numbers, or scan label photos with AI OCR.
+      Authenticate 7-digit ISI CM/L licenses, 6-digit Gold HUID codes, CRS Electronics R-Numbers, or inspect label photos with AI OCR.
     </p>
 
     <!-- Metrics Bar -->
     <div class="v2-metrics-strip">
       <div class="v2-metric-card">
-        <div class="v2-metric-val">5,420,000+</div>
-        <div class="v2-metric-lbl">Active CM/L & HUID Records</div>
+        <div class="v2-metric-val">National Standards</div>
+        <div class="v2-metric-lbl">CM/L, HUID & CRS Schema Support</div>
       </div>
       <div class="v2-metric-card">
-        <div class="v2-metric-val" style="color:#34D399;">100% Direct</div>
-        <div class="v2-metric-lbl">BIS Registry API Synchronization</div>
+        <div class="v2-metric-val" style="color:#34D399;">Reference DB</div>
+        <div class="v2-metric-lbl">Verified against indexed BIS reference data</div>
       </div>
       <div class="v2-metric-card">
         <div class="v2-metric-val" style="color:#A78BFA;">AI OCR Vision</div>
@@ -562,9 +566,10 @@
         <span class="v2-pill-label">Test Demo Licenses:</span>
         <span class="v2-pill" onclick="testCML('9512345')">⚡ Havells Wires (9512345)</span>
         <span class="v2-pill" onclick="testCML('7641512')">🪖 Studds Helmets (7641512)</span>
-        <span class="v2-pill" onclick="testCML('8419873')">🏗️ SAIL TMT Steel (8419873)</span>
-        <span class="v2-pill" onclick="testCML('6214543')">💧 Bisleri Water (6214543)</span>
-        <span class="v2-pill v2-pill-fake" onclick="testCML('9999999')">⚠️ Cancelled License Demo (9999999)</span>
+        <span class="v2-pill" onclick="testCML('8178606')">🏗️ Tata Steel TMT (8178606)</span>
+        <span class="v2-pill" onclick="testCML('6201948')">💧 Bisleri Water (6201948)</span>
+        <span class="v2-pill v2-pill-fake" onclick="testCML('3409182')">⚠️ Substandard Iron (3409182)</span>
+        <span class="v2-pill v2-pill-fake" onclick="testCML('9999999')">⚠️ Revoked License Demo (9999999)</span>
       </div>
     </div>
 
@@ -574,15 +579,18 @@
         Enter 6-Digit Alphanumeric Hallmark Unique ID (HUID)
       </label>
       <div class="v2-input-group">
-        <input type="text" id="huidInput" class="v2-input" placeholder="e.g. AB12CD or XY98Z1" maxlength="6" style="text-transform:uppercase;" onkeydown="if(event.key==='Enter') verifyHUID()" />
+        <input type="text" id="huidInput" class="v2-input" placeholder="e.g. AB8492, AU9991, FA9999" maxlength="6" style="text-transform:uppercase;" onkeydown="if(event.key==='Enter') verifyHUID()" />
         <button class="v2-submit-btn" onclick="verifyHUID()" style="background:linear-gradient(135deg, #F59E0B 0%, #D97706 100%);">
           <i class="fas fa-gem"></i> Verify Gold Hallmark
         </button>
       </div>
       <div class="v2-sample-pills">
         <span class="v2-pill-label">Sample HUID Codes:</span>
-        <span class="v2-pill" onclick="document.getElementById('huidInput').value='AB12CD'; verifyHUID();">🪙 22K916 Gold Necklace (AB12CD)</span>
-        <span class="v2-pill" onclick="document.getElementById('huidInput').value='XY98Z1'; verifyHUID();">🪙 18K750 Diamond Ring (XY98Z1)</span>
+        <span class="v2-pill" onclick="document.getElementById('huidInput').value='AB8492'; verifyHUID();">🪙 22K Tanishq Ring (AB8492)</span>
+        <span class="v2-pill" onclick="document.getElementById('huidInput').value='AU9991'; verifyHUID();">🪙 24K MMTC Gold Bar (AU9991)</span>
+        <span class="v2-pill" onclick="document.getElementById('huidInput').value='GD7821'; verifyHUID();">🪙 18K Diamond Bangle (GD7821)</span>
+        <span class="v2-pill v2-pill-fake" onclick="document.getElementById('huidInput').value='FA9999'; verifyHUID();">⚠️ Purity Mismatch Fraud (FA9999)</span>
+        <span class="v2-pill v2-pill-fake" onclick="document.getElementById('huidInput').value='XY9901'; verifyHUID();">🚫 Cloned / Counterfeit (XY9901)</span>
       </div>
     </div>
 
@@ -607,14 +615,17 @@
     <!-- OCR Camera Scan Section -->
     <div id="scanSection" style="display:none;">
       <div class="ocr-scanner-box">
+        <div style="font-size:0.75rem;font-weight:700;color:#A78BFA;text-transform:uppercase;margin-bottom:8px;">
+          <i class="fas fa-camera"></i> AI Optical Character Recognition (OCR) Vision — Prototype Demo
+        </div>
         <i class="fas fa-camera" style="font-size:2.5rem;color:#A78BFA;margin-bottom:12px;"></i>
         <h3 style="font-size:1.1rem;font-weight:800;color:white;margin-bottom:6px;">Upload Product Label or Rating Plate Image</h3>
-        <p style="font-size:0.85rem;color:var(--text-muted);margin-bottom:20px;">AI Optical Character Recognition (OCR) extracts CM/L number, IS Standard, and manufacturer details.</p>
+        <p style="font-size:0.85rem;color:var(--text-muted);margin-bottom:20px;">AI Optical Character Recognition (OCR) extracts CM/L number, IS Standard, and queries the backend verification API.</p>
 
         <div style="display:flex;justify-content:center;gap:10px;flex-wrap:wrap;">
           <button onclick="runOCRScan('helmet')" class="v2-pill" style="padding:10px 16px;">📷 Label 1: Studds Helmet (CM/L-7641512)</button>
           <button onclick="runOCRScan('cable')" class="v2-pill" style="padding:10px 16px;">📷 Label 2: Havells Wire (CM/L-9512345)</button>
-          <button onclick="runOCRScan('suspect')" class="v2-pill v2-pill-fake" style="padding:10px 16px;">⚠️ Label 3: Unregistered Water Bottle</button>
+          <button onclick="runOCRScan('suspect')" class="v2-pill v2-pill-fake" style="padding:10px 16px;">⚠️ Label 3: Revoked Aqua Pure (CM/L-9999999)</button>
         </div>
       </div>
     </div>
@@ -625,7 +636,7 @@
   </main>
 
   <!-- Legal Complaint Footer Bar -->
-  <div style="max-width:900px;margin:0 auto 60px;background:rgba(239,68,68,0.08);border:1px solid rgba(239,68,68,0.25);border-radius:20px;padding:24px;display:flex;align-items:center;justify-content:space-between;gap:20px;flex-wrap:wrap;">
+  <div id="legalComplaintBar" style="max-width:900px;margin:0 auto 60px;background:rgba(239,68,68,0.08);border:1px solid rgba(239,68,68,0.25);border-radius:20px;padding:24px;display:flex;align-items:center;justify-content:space-between;gap:20px;flex-wrap:wrap;">
     <div>
       <h4 style="font-size:1.05rem;font-weight:800;color:#FCA5A5;margin-bottom:4px;">
         <i class="fas fa-triangle-exclamation"></i> Suspect Counterfeit ISI Mark or Substandard Goods?
@@ -736,7 +747,7 @@
       verifyLicense();
     }
 
-    function verifyLicense() {
+    async function verifyLicense() {
       const input = document.getElementById('cmlInput').value.trim();
       const container = document.getElementById('verificationResultContainer');
       const btn = document.getElementById('verifyBtn');
@@ -746,172 +757,321 @@
         return;
       }
 
+      const cleanNum = input.replace(/[^0-9]/g, '');
+      if (!cleanNum) {
+        alert('Please enter a valid numeric CM/L license number.');
+        return;
+      }
+
       btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Querying Registry...';
       btn.disabled = true;
+      container.style.display = 'block';
+      container.innerHTML = `
+        <div class="skeleton-card" style="padding:24px;border:1px solid var(--border-color);border-radius:12px;">
+          <div style="display:flex;align-items:center;gap:12px;margin-bottom:16px;">
+            <div class="skeleton-box" style="width:36px;height:36px;border-radius:50%;"></div>
+            <div style="flex:1;">
+              <div class="skeleton-box skeleton-line" style="width:45%;height:14px;margin-bottom:6px;"></div>
+              <div class="skeleton-box skeleton-line" style="width:70%;height:10px;"></div>
+            </div>
+          </div>
+          <div class="skeleton-box skeleton-line long" style="height:12px;margin-bottom:8px;"></div>
+          <div class="skeleton-box skeleton-line medium" style="height:12px;margin-bottom:8px;"></div>
+          <div style="text-align:center;font-size:0.75rem;color:var(--text-subtle);margin-top:12px;">
+            <i class="fas fa-database" style="color:var(--primary-blue);"></i> Authenticating CM/L-${cleanNum} against indexed BIS reference data...
+          </div>
+        </div>
+      `;
 
-      setTimeout(() => {
+      try {
+        const res = await fetch(`/api/verify/cml?cml=${encodeURIComponent(cleanNum)}`);
+        if (!res.ok) throw new Error(`HTTP ${res.status}`);
+        const data = await res.json();
+
         btn.innerHTML = '<i class="fas fa-magnifying-glass"></i> Authenticate License';
         btn.disabled = false;
 
-        const cleanNum = input.replace(/[^0-9]/g, '');
-        let record = VERIFIED_LICENSES_DB[cleanNum];
-
-        // Dynamic fallback generator if user enters any custom 7-digit number
-        if (!record && cleanNum.length === 7) {
-          record = {
-            cml: 'CM/L-' + cleanNum,
-            companyName: 'Verified Industrial Manufacturer #' + cleanNum.slice(0,4),
-            brand: 'Certified National Brand',
-            product: 'Industrial Safety & Consumer Goods',
-            standard: 'IS 269:2015',
-            status: 'ACTIVE VALID LICENSE',
-            statusClass: 'success',
-            validUpto: '31-DEC-2027',
-            factoryLocation: 'Approved Industrial Estate, Sector ' + cleanNum.slice(4) + ', India'
-          };
-        }
-
-        container.style.display = 'block';
-
-        if (record) {
-          if (record.statusClass === 'success') {
-            container.innerHTML = `
-              <div class="v2-cert-card">
-                <div class="v2-cert-header">
-                  <div>
-                    <div class="v2-cert-meta">National Standards Registry Verification Certificate</div>
-                    <div class="v2-cert-title">${record.companyName}</div>
-                  </div>
-                  <div class="v2-cert-badge success">
-                    <i class="fas fa-circle-check"></i> ${record.status}
-                  </div>
+        if (data.verified && (data.status === 'ACTIVE' || data.status === 'OPERATIVE' || data.status === 'VALID')) {
+          // VERIFIED ACTIVE
+          container.innerHTML = `
+            <div class="v2-cert-card">
+              <div class="v2-cert-header">
+                <div>
+                  <div class="v2-cert-meta">National Standards Registry Verification Certificate</div>
+                  <div class="v2-cert-title">${data.manufacturer || data.companyName || 'Verified BIS Licensee'}</div>
                 </div>
-
-                <div class="v2-cert-grid">
-                  <div class="v2-cert-item">
-                    <div class="v2-cert-lbl">License Number (CM/L)</div>
-                    <div class="v2-cert-val" style="color:#60A5FA;">${record.cml}</div>
-                  </div>
-                  <div class="v2-cert-item">
-                    <div class="v2-cert-lbl">Indian Standard Compliance</div>
-                    <div class="v2-cert-val">${record.standard}</div>
-                  </div>
-                  <div class="v2-cert-item">
-                    <div class="v2-cert-lbl">Certified Product & Brand</div>
-                    <div class="v2-cert-val">${record.product} (${record.brand})</div>
-                  </div>
-                  <div class="v2-cert-item">
-                    <div class="v2-cert-lbl">Validity Period</div>
-                    <div class="v2-cert-val" style="color:#34D399;">Valid Up to ${record.validUpto} ✅</div>
-                  </div>
-                  <div class="v2-cert-item" style="grid-column: 1 / -1;">
-                    <div class="v2-cert-lbl">Approved Manufacturing Unit Location</div>
-                    <div class="v2-cert-val">${record.factoryLocation}</div>
-                  </div>
-                </div>
-
-                <div style="display:flex;justify-content:space-between;align-items:center;padding-top:16px;border-top:1px solid rgba(255,255,255,0.08);font-size:0.8rem;color:var(--text-muted);">
-                  <span><i class="fas fa-shield-check" style="color:#34D399;"></i> Cryptographic Registry Signature Verified</span>
-                  <a href="https://www.services.bis.gov.in" target="_blank" style="color:#60A5FA;text-decoration:none;font-weight:700;">View Official Registry Listing →</a>
+                <div class="v2-cert-badge success">
+                  <i class="fas fa-circle-check"></i> VERIFIED: ACTIVE VALID LICENSE
                 </div>
               </div>
-            `;
-          } else {
-            container.innerHTML = `
-              <div class="v2-cert-card alert">
-                <div class="v2-cert-header">
-                  <div>
-                    <div class="v2-cert-meta" style="color:#FCA5A5;">Statutory Enforcement Alert</div>
-                    <div class="v2-cert-title" style="color:#FCA5A5;">${record.companyName}</div>
-                  </div>
-                  <div class="v2-cert-badge danger">
-                    <i class="fas fa-triangle-exclamation"></i> ${record.status}
-                  </div>
-                </div>
 
-                <div class="v2-cert-grid">
-                  <div class="v2-cert-item">
-                    <div class="v2-cert-lbl">License Number</div>
-                    <div class="v2-cert-val">${record.cml}</div>
-                  </div>
-                  <div class="v2-cert-item">
-                    <div class="v2-cert-lbl">Status Details</div>
-                    <div class="v2-cert-val" style="color:#FCA5A5;">${record.validUpto}</div>
-                  </div>
-                  <div class="v2-cert-item" style="grid-column: 1 / -1;">
-                    <div class="v2-cert-lbl">Enforcement Action Record</div>
-                    <div class="v2-cert-val" style="color:#FCA5A5;">${record.enforcementNotice}</div>
-                  </div>
+              <div class="v2-cert-grid">
+                <div class="v2-cert-item">
+                  <div class="v2-cert-lbl">License Number (CM/L)</div>
+                  <div class="v2-cert-val" style="color:#60A5FA;">${data.cml || 'CM/L-' + cleanNum}</div>
                 </div>
+                <div class="v2-cert-item">
+                  <div class="v2-cert-lbl">Indian Standard Compliance</div>
+                  <div class="v2-cert-val">${data.isCode || data.standard || 'Applicable IS Standard'}</div>
+                </div>
+                <div class="v2-cert-item">
+                  <div class="v2-cert-lbl">Certified Product & Scope</div>
+                  <div class="v2-cert-val">${data.product || 'Standard Conformant Article'} ${data.scope ? `(${data.scope})` : ''}</div>
+                </div>
+                <div class="v2-cert-item">
+                  <div class="v2-cert-lbl">Validity Period</div>
+                  <div class="v2-cert-val" style="color:#34D399;">Valid Up to ${data.validTill || data.validUpto || 'Active'} ✅</div>
+                </div>
+                <div class="v2-cert-item" style="grid-column: 1 / -1;">
+                  <div class="v2-cert-lbl">Approved Manufacturing Unit Location</div>
+                  <div class="v2-cert-val">${data.factoryLocation || 'Registered Unit Location'}</div>
+                </div>
+              </div>
 
-                <button onclick="sessionStorage.setItem('pendingQuery', 'Draft formal complaint for illegal sale under cancelled license ${record.cml}'); window.location.href='chat.html'"
-                  style="background:linear-gradient(135deg, #EF4444 0%, #DC2626 100%);color:white;border:none;padding:12px 20px;border-radius:12px;font-size:0.9rem;font-weight:700;cursor:pointer;display:flex;align-items:center;gap:8px;">
+              <div style="display:flex;justify-content:space-between;align-items:center;padding-top:16px;border-top:1px solid rgba(255,255,255,0.08);font-size:0.8rem;color:var(--text-muted);flex-wrap:wrap;gap:10px;">
+                <span><i class="fas fa-shield-check" style="color:#34D399;"></i> Verified against indexed BIS reference data</span>
+                <button onclick="sessionStorage.setItem('pendingQuery', 'Tell me all technical requirements and testing clauses for ${encodeURIComponent(data.isCode || data.standard || 'CM/L-' + cleanNum)}'); window.location.href='chat.html'"
+                  style="background:rgba(59,130,246,0.15);border:1px solid rgba(59,130,246,0.3);color:#60A5FA;padding:6px 14px;border-radius:8px;font-size:0.8rem;font-weight:700;cursor:pointer;">
+                  Consult AI on ${data.isCode || 'this Standard'} →
+                </button>
+              </div>
+            </div>
+          `;
+        } else if (data.status === 'CANCELLED' || data.status === 'EXPIRED' || data.status === 'SUSPICIOUS') {
+          // CANCELLED / EXPIRED / SUSPICIOUS
+          const statusText = data.status === 'CANCELLED' ? 'LICENSE CANCELLED / REVOKED' : (data.status === 'EXPIRED' ? 'LICENSE EXPIRED' : 'SUSPICIOUS LICENSE STATUS');
+          container.innerHTML = `
+            <div class="v2-cert-card alert">
+              <div class="v2-cert-header">
+                <div>
+                  <div class="v2-cert-meta" style="color:#FCA5A5;">Statutory Enforcement Alert</div>
+                  <div class="v2-cert-title" style="color:#FCA5A5;">${data.manufacturer || data.companyName || 'Unapproved Manufacturer'}</div>
+                </div>
+                <div class="v2-cert-badge danger">
+                  <i class="fas fa-triangle-exclamation"></i> ${statusText}
+                </div>
+              </div>
+
+              <div class="v2-cert-grid">
+                <div class="v2-cert-item">
+                  <div class="v2-cert-lbl">License Number</div>
+                  <div class="v2-cert-val">${data.cml || 'CM/L-' + cleanNum}</div>
+                </div>
+                <div class="v2-cert-item">
+                  <div class="v2-cert-lbl">Status Details</div>
+                  <div class="v2-cert-val" style="color:#FCA5A5;">${data.validTill || data.validUpto || 'Not In Force'}</div>
+                </div>
+                <div class="v2-cert-item" style="grid-column: 1 / -1;">
+                  <div class="v2-cert-lbl">Enforcement Action / Inspection Finding</div>
+                  <div class="v2-cert-val" style="color:#FCA5A5;">${data.enforcementNotice || 'License stopped or cancelled under Section 18/29 of BIS Act 2016.'}</div>
+                </div>
+              </div>
+
+              <div style="display:flex;justify-content:space-between;align-items:center;padding-top:16px;border-top:1px solid rgba(239,68,68,0.2);margin-top:16px;flex-wrap:wrap;gap:10px;">
+                <span style="font-size:0.8rem;color:#FCA5A5;"><i class="fas fa-shield-halved"></i> Verified against indexed BIS reference data</span>
+                <button onclick="sessionStorage.setItem('pendingQuery', 'Draft formal complaint for illegal sale or substandard goods under cancelled license CM/L-${cleanNum}'); window.location.href='chat.html'"
+                  style="background:linear-gradient(135deg, #EF4444 0%, #DC2626 100%);color:white;border:none;padding:10px 18px;border-radius:10px;font-size:0.85rem;font-weight:700;cursor:pointer;display:flex;align-items:center;gap:8px;">
                   <i class="fas fa-gavel"></i> Draft BIS Enforcement Complaint with AI →
                 </button>
               </div>
-            `;
-          }
+            </div>
+          `;
         } else {
+          // NOT FOUND
           container.innerHTML = `
             <div class="v2-cert-card alert">
               <div style="display:flex;align-items:center;gap:14px;margin-bottom:12px;">
-                <i class="fas fa-circle-xmark" style="font-size:2rem;color:#EF4444;"></i>
+                <i class="fas fa-circle-question" style="font-size:2rem;color:#F59E0B;"></i>
                 <div>
-                  <h3 style="font-size:1.2rem;font-weight:800;color:white;">CM/L Number Not Found in Active Directory</h3>
-                  <p style="font-size:0.85rem;color:var(--text-muted);margin-top:2px;">The license number <strong>CM/L-${cleanNum || input}</strong> was not located in the official central index.</p>
+                  <h3 style="font-size:1.15rem;font-weight:800;color:white;">CM/L Number Not Found in Indexed Reference Directory</h3>
+                  <p style="font-size:0.85rem;color:var(--text-muted);margin-top:2px;">The license number <strong>CM/L-${cleanNum}</strong> was not located in the indexed BIS reference dataset.</p>
                 </div>
               </div>
-              <button onclick="sessionStorage.setItem('pendingQuery', 'How to check if CM/L-${cleanNum || input} is counterfeit and what are the penalties for sellers?'); window.location.href='chat.html'"
+              <div style="padding:12px 14px;background:rgba(255,255,255,0.04);border-radius:10px;font-size:0.82rem;color:var(--text-muted);margin-bottom:14px;line-height:1.5;">
+                <i class="fas fa-info-circle" style="color:#60A5FA;"></i> <strong>Reference Note:</strong> Verified against indexed BIS reference data. If this product was purchased recently, verify physical packaging against mandatory BIS marking requirements or file an inquiry.
+              </div>
+              <button onclick="sessionStorage.setItem('pendingQuery', 'How to check if CM/L-${cleanNum} is counterfeit and what are the penalties for sellers under BIS Act 2016?'); window.location.href='chat.html'"
                 style="background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.15);color:white;padding:10px 18px;border-radius:10px;font-size:0.85rem;font-weight:700;cursor:pointer;">
                 Consult AI Assistant on this License →
               </button>
             </div>
           `;
         }
-      }, 500);
+      } catch (networkErr) {
+        btn.innerHTML = '<i class="fas fa-magnifying-glass"></i> Authenticate License';
+        btn.disabled = false;
+        container.innerHTML = `
+          <div class="v2-cert-card alert" style="border-color:rgba(245,158,11,0.3);">
+            <div style="display:flex;align-items:center;gap:14px;margin-bottom:12px;">
+              <i class="fas fa-triangle-exclamation" style="font-size:2rem;color:#F59E0B;"></i>
+              <div>
+                <h3 style="font-size:1.15rem;font-weight:800;color:white;">Service Temporarily Unavailable</h3>
+                <p style="font-size:0.85rem;color:var(--text-muted);margin-top:2px;">Could not connect to the verification API endpoint. Please verify server connectivity.</p>
+              </div>
+            </div>
+          </div>
+        `;
+      }
     }
 
-    function verifyHUID() {
-      const code = document.getElementById('huidInput').value.trim().toUpperCase();
+    async function verifyHUID() {
+      const input = document.getElementById('huidInput').value.trim().toUpperCase();
       const container = document.getElementById('verificationResultContainer');
-      if (code.length !== 6) {
-        alert('Please enter a valid 6-digit alphanumeric HUID code.');
+
+      if (input.length !== 6) {
+        alert('Please enter a valid 6-digit alphanumeric HUID code (e.g. AB8492 or AU9991).');
         return;
       }
 
       container.style.display = 'block';
       container.innerHTML = `
-        <div class="v2-cert-card gold">
-          <div class="v2-cert-header">
-            <div>
-              <div class="v2-cert-meta" style="color:#FBBF24;">BIS Hallmarking Registry (HUID Verification)</div>
-              <div class="v2-cert-title">Certified Gold Article (${code})</div>
-            </div>
-            <div class="v2-cert-badge" style="background:rgba(245,158,11,0.15);color:#FBBF24;border:1px solid rgba(245,158,11,0.3);">
-              <i class="fas fa-gem"></i> Verified Authentic Hallmark
+        <div class="skeleton-card" style="padding:24px;border:1px solid rgba(245,158,11,0.25);border-radius:12px;">
+          <div style="display:flex;align-items:center;gap:12px;margin-bottom:16px;">
+            <div class="skeleton-box" style="width:36px;height:36px;border-radius:50%;background:rgba(245,158,11,0.15);"></div>
+            <div style="flex:1;">
+              <div class="skeleton-box skeleton-line" style="width:50%;height:14px;margin-bottom:6px;"></div>
+              <div class="skeleton-box skeleton-line" style="width:75%;height:10px;"></div>
             </div>
           </div>
-
-          <div class="v2-cert-grid">
-            <div class="v2-cert-item">
-              <div class="v2-cert-lbl">HUID Code</div>
-              <div class="v2-cert-val" style="color:#FBBF24;">${code}</div>
-            </div>
-            <div class="v2-cert-item">
-              <div class="v2-cert-lbl">Purity Grade</div>
-              <div class="v2-cert-val">22 Karat (22K916 - 91.6% Pure Gold)</div>
-            </div>
-            <div class="v2-cert-item">
-              <div class="v2-cert-lbl">Assaying & Hallmarking Centre (AHC)</div>
-              <div class="v2-cert-val">BIS Recognized AHC Centre #ND-104 (New Delhi)</div>
-            </div>
-            <div class="v2-cert-item">
-              <div class="v2-cert-lbl">Jeweller Registration</div>
-              <div class="v2-cert-val">Certified Jeweller (Scheme-VI Active)</div>
-            </div>
+          <div class="skeleton-box skeleton-line long" style="height:12px;margin-bottom:8px;"></div>
+          <div class="skeleton-box skeleton-line medium" style="height:12px;margin-bottom:8px;"></div>
+          <div style="text-align:center;font-size:0.75rem;color:var(--text-subtle);margin-top:12px;">
+            <i class="fas fa-gem" style="color:var(--gold-accent);"></i> Authenticating HUID ${input} against indexed BIS Hallmarking registry...
           </div>
         </div>
       `;
+
+      try {
+        const res = await fetch(`/api/verify/huid?huid=${encodeURIComponent(input)}`);
+        if (!res.ok) throw new Error(`HTTP ${res.status}`);
+        const data = await res.json();
+
+        if (data.verified && data.status === 'VERIFIED') {
+          // VERIFIED HUID
+          container.innerHTML = `
+            <div class="v2-cert-card gold">
+              <div class="v2-cert-header">
+                <div>
+                  <div class="v2-cert-meta" style="color:#FBBF24;">BIS Hallmarking Registry (HUID Verification)</div>
+                  <div class="v2-cert-title">${data.article || 'Certified Gold Article'} (${data.huid || input})</div>
+                </div>
+                <div class="v2-cert-badge" style="background:rgba(245,158,11,0.15);color:#FBBF24;border:1px solid rgba(245,158,11,0.3);">
+                  <i class="fas fa-gem"></i> VERIFIED AUTHENTIC HALLMARK
+                </div>
+              </div>
+
+              <div class="v2-cert-grid">
+                <div class="v2-cert-item">
+                  <div class="v2-cert-lbl">HUID Code</div>
+                  <div class="v2-cert-val" style="color:#FBBF24;">${data.huid || input}</div>
+                </div>
+                <div class="v2-cert-item">
+                  <div class="v2-cert-lbl">Purity Grade</div>
+                  <div class="v2-cert-val">${data.karatLabel || (data.purity ? data.purity + ' Fineness' : '22K (91.6% Pure)')}</div>
+                </div>
+                <div class="v2-cert-item">
+                  <div class="v2-cert-lbl">Assaying & Hallmarking Centre (AHC)</div>
+                  <div class="v2-cert-val">${data.assayingCentre || 'BIS Recognized AHC Centre'}</div>
+                </div>
+                <div class="v2-cert-item">
+                  <div class="v2-cert-lbl">Registered Jeweller</div>
+                  <div class="v2-cert-val">${data.jeweller || 'Certified Jeweller (Scheme-VI Active)'}</div>
+                </div>
+                <div class="v2-cert-item" style="grid-column: 1 / -1;">
+                  <div class="v2-cert-lbl">Mandatory BIS Marks & Verification Details</div>
+                  <div class="v2-cert-val" style="font-size:0.85rem;color:var(--text-muted);">${data.bisMarks || 'BIS Triangular Logo | Purity Stamp | 6-Digit HUID'} — ${data.note || 'Verified Scheme-VI hallmark.'}</div>
+                </div>
+              </div>
+
+              <div style="display:flex;justify-content:space-between;align-items:center;padding-top:16px;border-top:1px solid rgba(245,158,11,0.2);margin-top:16px;font-size:0.8rem;color:var(--text-muted);flex-wrap:wrap;gap:10px;">
+                <span><i class="fas fa-shield-check" style="color:#FBBF24;"></i> Verified against indexed BIS reference data</span>
+                <button onclick="sessionStorage.setItem('pendingQuery', 'Explain how to verify 3 mandatory marks on hallmarked gold jewellery and how HUID prevents cheating.'); window.location.href='chat.html'"
+                  style="background:rgba(245,158,11,0.15);border:1px solid rgba(245,158,11,0.3);color:#FBBF24;padding:6px 14px;border-radius:8px;font-size:0.8rem;font-weight:700;cursor:pointer;">
+                  Hallmarking Rules Guide →
+                </button>
+              </div>
+            </div>
+          `;
+        } else if (data.status === 'SUSPICIOUS' || data.status === 'FAKE') {
+          // SUSPICIOUS / FAKE
+          container.innerHTML = `
+            <div class="v2-cert-card alert">
+              <div class="v2-cert-header">
+                <div>
+                  <div class="v2-cert-meta" style="color:#FCA5A5;">Statutory Hallmarking Alert: Fraud / Counterfeit Suspect</div>
+                  <div class="v2-cert-title" style="color:#FCA5A5;">${data.article || 'Disputed Gold Article'} (${input})</div>
+                </div>
+                <div class="v2-cert-badge danger">
+                  <i class="fas fa-triangle-exclamation"></i> ${data.status}: ${data.karatLabel || 'FALSIFIED HALLMARK'}
+                </div>
+              </div>
+
+              <div class="v2-cert-grid">
+                <div class="v2-cert-item">
+                  <div class="v2-cert-lbl">HUID Code</div>
+                  <div class="v2-cert-val" style="color:#FCA5A5;">${input}</div>
+                </div>
+                <div class="v2-cert-item">
+                  <div class="v2-cert-lbl">Purity Discrepancy</div>
+                  <div class="v2-cert-val" style="color:#FCA5A5;">${data.karatLabel || 'Purity Mismatch Detected'}</div>
+                </div>
+                <div class="v2-cert-item">
+                  <div class="v2-cert-lbl">Assaying Centre Record</div>
+                  <div class="v2-cert-val" style="color:#FCA5A5;">${data.assayingCentre || 'Unverified AHC'}</div>
+                </div>
+                <div class="v2-cert-item">
+                  <div class="v2-cert-lbl">Risk Assessment</div>
+                  <div class="v2-cert-val" style="color:#FCA5A5;">${data.risk || 'HIGH RISK'}</div>
+                </div>
+                <div class="v2-cert-item" style="grid-column: 1 / -1;">
+                  <div class="v2-cert-lbl">Violation Details</div>
+                  <div class="v2-cert-val" style="color:#FCA5A5;">${data.note || 'Purity misrepresentation or counterfeit HUID laser engraving.'}</div>
+                </div>
+              </div>
+
+              <div style="display:flex;justify-content:space-between;align-items:center;padding-top:16px;border-top:1px solid rgba(239,68,68,0.2);margin-top:16px;flex-wrap:wrap;gap:10px;">
+                <span style="font-size:0.8rem;color:#FCA5A5;"><i class="fas fa-shield-halved"></i> Verified against indexed BIS reference data</span>
+                <button onclick="sessionStorage.setItem('pendingQuery', 'Draft formal consumer complaint for hallmarking fraud against jeweller under Section 29 BIS Act 2016 for HUID ${input}'); window.location.href='chat.html'"
+                  style="background:linear-gradient(135deg, #EF4444 0%, #DC2626 100%);color:white;border:none;padding:10px 18px;border-radius:10px;font-size:0.85rem;font-weight:700;cursor:pointer;display:flex;align-items:center;gap:8px;">
+                  <i class="fas fa-gavel"></i> Draft Hallmarking Complaint with AI →
+                </button>
+              </div>
+            </div>
+          `;
+        } else {
+          // NOT FOUND
+          container.innerHTML = `
+            <div class="v2-cert-card alert">
+              <div style="display:flex;align-items:center;gap:14px;margin-bottom:12px;">
+                <i class="fas fa-circle-question" style="font-size:2rem;color:#F59E0B;"></i>
+                <div>
+                  <h3 style="font-size:1.15rem;font-weight:800;color:white;">HUID Code Not Found in Indexed Hallmarking Registry</h3>
+                  <p style="font-size:0.85rem;color:var(--text-muted);margin-top:2px;">The HUID <strong>${input}</strong> was not located in the indexed BIS hallmarking dataset.</p>
+                </div>
+              </div>
+              <div style="padding:12px 14px;background:rgba(255,255,255,0.04);border-radius:10px;font-size:0.82rem;color:var(--text-muted);margin-bottom:14px;line-height:1.5;">
+                <i class="fas fa-info-circle" style="color:#60A5FA;"></i> <strong>Statutory Notice:</strong> Verified against indexed BIS reference data. Selling unhallmarked gold jewellery in mandatory districts is prohibited under the Hallmarking Order 2020.
+              </div>
+              <button onclick="sessionStorage.setItem('pendingQuery', 'Is selling unhallmarked gold jewellery illegal in India and what are buyer rights under BIS Act 2016?'); window.location.href='chat.html'"
+                style="background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.15);color:white;padding:10px 18px;border-radius:10px;font-size:0.85rem;font-weight:700;cursor:pointer;">
+                Ask AI About Hallmarking Protection →
+              </button>
+            </div>
+          `;
+        }
+      } catch (err) {
+        container.innerHTML = `
+          <div class="v2-cert-card alert" style="border-color:rgba(245,158,11,0.3);">
+            <div style="display:flex;align-items:center;gap:14px;">
+              <i class="fas fa-triangle-exclamation" style="font-size:2rem;color:#F59E0B;"></i>
+              <div>
+                <h3 style="font-size:1.15rem;font-weight:800;color:white;">Service Temporarily Unavailable</h3>
+                <p style="font-size:0.85rem;color:var(--text-muted);margin-top:2px;">Could not connect to the HUID verification service. Please try again later.</p>
+              </div>
+            </div>
+          </div>
+        `;
+      }
     }
 
     function verifyCRS() {
@@ -944,6 +1104,22 @@
               <div class="v2-cert-lbl">Product Category</div>
               <div class="v2-cert-val">Cellular Mobile Phones & Battery Packs</div>
             </div>
+            <div class="v2-cert-item">
+              <div class="v2-cert-lbl">Registration Scope</div>
+              <div class="v2-cert-val">MeitY Electronics & Information Technology Goods Order</div>
+            </div>
+            <div class="v2-cert-item">
+              <div class="v2-cert-lbl">Compliance Status</div>
+              <div class="v2-cert-val" style="color:#34D399;">Active CRS Grant ✅</div>
+            </div>
+          </div>
+
+          <div style="display:flex;justify-content:space-between;align-items:center;padding-top:16px;border-top:1px solid rgba(99,102,241,0.2);margin-top:16px;font-size:0.8rem;color:var(--text-muted);flex-wrap:wrap;gap:10px;">
+            <span><i class="fas fa-shield-check" style="color:#818CF8;"></i> Verified against indexed BIS reference data</span>
+            <button onclick="sessionStorage.setItem('pendingQuery', 'Explain CRS registration process for IT and electronics goods under MeitY and BIS'); window.location.href='chat.html'"
+              style="background:rgba(99,102,241,0.15);border:1px solid rgba(99,102,241,0.3);color:#818CF8;padding:6px 14px;border-radius:8px;font-size:0.8rem;font-weight:700;cursor:pointer;">
+              CRS Scheme Guidelines →
+            </button>
           </div>
         </div>
       `;
@@ -952,55 +1128,117 @@
     function runOCRScan(type) {
       const container = document.getElementById('verificationResultContainer');
       container.style.display = 'block';
-      container.innerHTML = `<div style="padding:2rem;text-align:center;color:var(--text-muted);"><i class="fas fa-spinner fa-spin" style="font-size:1.5rem;color:#8B5CF6;"></i><br/><br/>Running AI Optical Character Recognition (OCR) vision processing & querying registry...</div>`;
+      container.innerHTML = `
+        <div style="padding:2.5rem;text-align:center;color:var(--text-muted);">
+          <i class="fas fa-spinner fa-spin" style="font-size:1.8rem;color:#8B5CF6;margin-bottom:12px;"></i>
+          <p>Running Optical Character Recognition (OCR) vision processing & querying backend verification API...</p>
+        </div>
+      `;
 
       setTimeout(() => {
+        let extractedText = '';
+        let targetCml = '';
         if (type === 'helmet') {
-          container.innerHTML = `
-            <div class="v2-cert-card">
-              <div style="font-size:0.75rem;font-weight:700;color:#A78BFA;text-transform:uppercase;margin-bottom:8px;">
-                <i class="fas fa-camera"></i> AI OCR Text Extraction Result
-              </div>
-              <div style="background:rgba(0,0,0,0.4);border:1px solid rgba(255,255,255,0.1);border-radius:10px;padding:12px;font-family:'Fira Code',monospace;font-size:0.85rem;color:#A78BFA;margin-bottom:16px;">
-                EXTRACTED OCR TEXT: "STUDDS NINJA ELITE • IS 4151:2015 • CM/L-7641512 • BATCH W32-2024"
-              </div>
-              <div class="v2-cert-badge success" style="margin-bottom:12px;">
-                <i class="fas fa-check"></i> Verified Active License Match (Studds Accessories Ltd - CM/L-7641512)
-              </div>
-            </div>
-          `;
+          extractedText = 'STUDDS NINJA ELITE • IS 4151:2015 • CM/L-7641512 • BATCH W32-2024';
+          targetCml = '7641512';
         } else if (type === 'cable') {
-          container.innerHTML = `
-            <div class="v2-cert-card">
-              <div style="font-size:0.75rem;font-weight:700;color:#A78BFA;text-transform:uppercase;margin-bottom:8px;">
-                <i class="fas fa-camera"></i> AI OCR Text Extraction Result
-              </div>
-              <div style="background:rgba(0,0,0,0.4);border:1px solid rgba(255,255,255,0.1);border-radius:10px;padding:12px;font-family:'Fira Code',monospace;font-size:0.85rem;color:#A78BFA;margin-bottom:16px;">
-                EXTRACTED OCR TEXT: "HAVELLS LIFE LINE FRLS 1.5 SQ MM • IS 694 • CM/L-9512345"
-              </div>
-              <div class="v2-cert-badge success" style="margin-bottom:12px;">
-                <i class="fas fa-check"></i> Verified Active License Match (Havells India Ltd - CM/L-9512345)
-              </div>
-            </div>
-          `;
+          extractedText = 'HAVELLS LIFE LINE FRLS 1.5 SQ MM • IS 694:2010 • CM/L-9512345';
+          targetCml = '9512345';
         } else {
-          container.innerHTML = `
-            <div class="v2-cert-card alert">
-              <div style="font-size:0.75rem;font-weight:700;color:#FCA5A5;text-transform:uppercase;margin-bottom:8px;">
-                <i class="fas fa-camera"></i> AI OCR Text Extraction Result
-              </div>
-              <div style="background:rgba(239,68,68,0.1);border:1px solid rgba(239,68,68,0.3);border-radius:10px;padding:12px;font-family:'Fira Code',monospace;font-size:0.85rem;color:#FCA5A5;margin-bottom:16px;">
-                EXTRACTED OCR TEXT: "AQUA PURE WATER • IS 14543 • CM/L-9999999"
-              </div>
-              <div class="v2-cert-badge danger" style="margin-bottom:12px;">
-                <i class="fas fa-triangle-exclamation"></i> Suspended / Cancelled License Warning (CM/L-9999999)
-              </div>
-            </div>
-          `;
+          extractedText = 'AQUA PURE WATER • IS 14543:2016 • CM/L-9999999';
+          targetCml = '9999999';
         }
-      }, 600);
+
+        // Call real backend verification for extracted CML
+        fetch(`/api/verify/cml?cml=${targetCml}`)
+          .then(r => r.json())
+          .then(data => {
+            const isAlert = !data.verified || data.status === 'CANCELLED';
+            container.innerHTML = `
+              <div class="v2-cert-card ${isAlert ? 'alert' : ''}">
+                <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;flex-wrap:wrap;gap:8px;">
+                  <div style="font-size:0.75rem;font-weight:700;color:${isAlert ? '#FCA5A5' : '#A78BFA'};text-transform:uppercase;">
+                    <i class="fas fa-camera"></i> AI OCR Vision Analysis — Prototype Demo
+                  </div>
+                  <span class="demo-badge-tag" style="background:rgba(139,92,246,0.15);color:#A78BFA;font-size:0.72rem;padding:2px 8px;border-radius:4px;font-weight:700;">Simulated OCR Extraction</span>
+                </div>
+                <div style="background:rgba(0,0,0,0.4);border:1px solid rgba(255,255,255,0.1);border-radius:10px;padding:12px;font-family:'Fira Code',monospace;font-size:0.85rem;color:${isAlert ? '#FCA5A5' : '#A78BFA'};margin-bottom:16px;">
+                  EXTRACTED OCR TEXT: "${extractedText}"
+                </div>
+                <div class="v2-cert-badge ${isAlert ? 'danger' : 'success'}" style="margin-bottom:14px;">
+                  <i class="fas ${isAlert ? 'fa-triangle-exclamation' : 'fa-check'}"></i> ${data.status}: ${data.manufacturer || 'License Status'} (${data.cml || 'CM/L-' + targetCml})
+                </div>
+                <div style="font-size:0.82rem;color:var(--text-muted);line-height:1.5;margin-bottom:14px;">
+                  ${data.enforcementNotice || (data.product ? data.product + ' — ' : '') + (data.validTill ? 'Valid up to ' + data.validTill : 'Indexed Reference Record')}
+                </div>
+                <div style="display:flex;justify-content:space-between;align-items:center;padding-top:12px;border-top:1px solid rgba(255,255,255,0.08);font-size:0.78rem;color:var(--text-muted);flex-wrap:wrap;gap:8px;">
+                  <span><i class="fas fa-shield-check" style="color:#34D399;"></i> Verified against indexed BIS reference data</span>
+                  <button onclick="testCML('${targetCml}')" style="background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.15);color:white;padding:6px 12px;border-radius:8px;font-size:0.78rem;font-weight:600;cursor:pointer;">
+                    View Full Certificate Details →
+                  </button>
+                </div>
+              </div>
+            `;
+          })
+          .catch(() => {
+            container.innerHTML = `
+              <div class="v2-cert-card">
+                <div style="font-size:0.75rem;font-weight:700;color:#A78BFA;margin-bottom:8px;">AI OCR Prototype Demo</div>
+                <div style="background:rgba(0,0,0,0.4);padding:12px;border-radius:10px;font-family:'Fira Code',monospace;font-size:0.85rem;color:#A78BFA;">"${extractedText}"</div>
+              </div>
+            `;
+          });
+      }, 500);
     }
+
+    // URL Routing & Query Parameter Support (?type=cml&sample=7308812, ?type=huid&sample=AB8492)
+    function handleRouting() {
+      // 1. Check Search Parameters
+      try {
+        const urlParams = new URLSearchParams(window.location.search);
+        const reqType = urlParams.get('type');
+        const reqSample = urlParams.get('sample');
+
+        if (reqType === 'cml') {
+          switchTab('isi');
+          if (reqSample) {
+            const inEl = document.getElementById('cmlInput');
+            if (inEl) inEl.value = reqSample;
+            setTimeout(() => verifyCML(), 150);
+            return;
+          }
+        } else if (reqType === 'huid') {
+          switchTab('huid');
+          if (reqSample) {
+            const inEl = document.getElementById('huidInput');
+            if (inEl) inEl.value = reqSample;
+            setTimeout(() => verifyHUID(), 150);
+            return;
+          }
+        }
+      } catch (e) {}
+
+      // 2. Check Hash Routing
+      const hash = (window.location.hash || '').toLowerCase();
+      if (hash === '#scanner' || hash === '#scan') {
+        switchTab('scan');
+      } else if (hash === '#huid') {
+        switchTab('huid');
+      } else if (hash === '#crs') {
+        switchTab('crs');
+      } else if (hash === '#report-fake' || hash === '#complaint') {
+        switchTab('isi');
+        const complaintEl = document.getElementById('legalComplaintBar');
+        if (complaintEl) {
+          setTimeout(() => complaintEl.scrollIntoView({ behavior: 'smooth' }), 100);
+        }
+      }
+    }
+
+    window.addEventListener('hashchange', handleRouting);
+    window.addEventListener('DOMContentLoaded', handleRouting);
   </script>
+  <script src="js/command-palette.js"></script>
   <script src="js/wizard.js"></script>
 </body>
 </html>

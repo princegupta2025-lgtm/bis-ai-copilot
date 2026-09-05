@@ -10,6 +10,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
   <link rel="stylesheet" href="css/style.css" />
+  <link rel="stylesheet" href="css/command-palette.css" />
   <script src="js/theme.js"></script>
 
   <style>
@@ -24,10 +25,88 @@
       min-height: 480px;
     }
 
+    .kg-filter-bar {
+      display: flex;
+      gap: 12px;
+      align-items: center;
+      flex-wrap: wrap;
+      margin-bottom: 1.25rem;
+      padding-bottom: 1.25rem;
+      border-bottom: 1px solid var(--border-color);
+    }
+
+    .kg-search-box {
+      flex: 1;
+      min-width: 260px;
+      position: relative;
+      display: flex;
+      align-items: center;
+    }
+
+    .kg-search-box input {
+      width: 100%;
+      background: var(--slate-50);
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius-md);
+      padding: 10px 14px 10px 38px;
+      color: var(--gov-navy);
+      font-size: 0.88rem;
+      font-weight: 600;
+      outline: none;
+      transition: var(--transition);
+    }
+
+    .kg-search-box input:focus {
+      border-color: #3B82F6;
+      box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.15);
+    }
+
+    .kg-search-box i {
+      position: absolute;
+      left: 14px;
+      color: var(--slate-400);
+      font-size: 0.88rem;
+      pointer-events: none;
+    }
+
+    .kg-chips {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      align-items: center;
+    }
+
+    .kg-chip {
+      background: var(--slate-100);
+      border: 1px solid var(--border-color);
+      color: var(--gov-navy);
+      padding: 6px 12px;
+      border-radius: 999px;
+      font-size: 0.78rem;
+      font-weight: 700;
+      cursor: pointer;
+      transition: var(--transition);
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+    }
+
+    .kg-chip:hover {
+      border-color: #3B82F6;
+      background: rgba(59, 130, 246, 0.1);
+      color: #2563EB;
+    }
+
+    .kg-chip.active {
+      background: #2563EB;
+      color: white;
+      border-color: #2563EB;
+    }
+
     .kg-nodes-grid {
       display: flex;
       justify-content: space-between;
-      align-items: center;
+      align-items: flex-start;
       gap: 1rem;
       position: relative;
       z-index: 2;
@@ -37,9 +116,21 @@
     .kg-column {
       display: flex;
       flex-direction: column;
-      gap: 1rem;
+      gap: 0.85rem;
       flex: 1;
       min-width: 180px;
+    }
+
+    .kg-col-title {
+      font-size: 0.75rem;
+      font-weight: 800;
+      color: var(--slate-500);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      margin-bottom: 2px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
     }
 
     .kg-node-card {
@@ -73,12 +164,12 @@
       margin-bottom: 4px;
     }
 
-    .kg-type-product { color: #3B82F6; }
     .kg-type-standard { color: #818CF8; }
-    .kg-type-requirement { color: #F59E0B; }
-    .kg-type-test { color: #10B981; }
-    .kg-type-document { color: #EC4899; }
-    .kg-type-path { color: #A855F7; }
+    .kg-type-division { color: #3B82F6; }
+    .kg-type-qco { color: #EF4444; }
+    .kg-type-scheme { color: #10B981; }
+    .kg-type-amendment { color: #F59E0B; }
+    .kg-type-authority { color: #A855F7; }
 
     /* Side by Side Comparison Table */
     .compare-table {
@@ -102,6 +193,13 @@
       border-bottom: 1px solid var(--border-color);
       vertical-align: top;
     }
+
+    .kg-empty-state {
+      padding: 3rem 1.5rem;
+      text-align: center;
+      color: var(--slate-500);
+      width: 100%;
+    }
   </style>
 </head>
 <body>
@@ -115,7 +213,7 @@
       </div>
       <div class="gov-right">
         <span>SIH Project ID: SIH26107</span>
-        <span class="demo-badge-tag"><i class="fas fa-diagram-project"></i> Standards Graph</span>
+        <span class="demo-badge-tag" id="kgHeaderBadge"><i class="fas fa-diagram-project"></i> Standards Graph</span>
       </div>
     </div>
   </div>
@@ -150,6 +248,9 @@
         <button class="theme-toggle-btn" id="themeToggleBtn" onclick="toggleTheme()" title="Toggle Dark/Light Mode">
           <i class="fas fa-moon"></i>
         </button>
+        <button class="v-tab-btn cmd-palette-trigger" title="Command Palette (Ctrl + K)" style="display:inline-flex;align-items:center;gap:6px;">
+          <i class="fas fa-terminal"></i> <span class="m-hide">Ctrl+K</span>
+        </button>
         <a href="copilot.html" class="btn-ai-launch">
           <i class="fas fa-sparkles"></i> Open Copilot
         </a>
@@ -163,95 +264,57 @@
     <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:1.5rem;flex-wrap:wrap;gap:10px;">
       <div>
         <h1 style="font-size:1.8rem;font-weight:800;color:var(--gov-navy);"><i class="fas fa-diagram-project" style="color:var(--bis-blue);"></i> Interactive BIS Standards Knowledge Graph</h1>
-        <p style="font-size:0.88rem;color:var(--slate-500);">Explore real relationships between products, applicable IS standards, clauses, testing protocols, required documents, and licensing paths.</p>
+        <p style="font-size:0.88rem;color:var(--slate-500);">Explore real statutory relationships between standards, technical divisions, quality control orders (QCOs), licensing schemes, and amendments from the BIS catalog.</p>
       </div>
-      <span class="demo-badge-tag" style="background:rgba(59,130,246,0.15);color:var(--bis-blue);padding:4px 10px;border-radius:4px;font-size:0.75rem;font-weight:700;">Click Nodes to Inspect Details</span>
+      <div style="display:flex;align-items:center;gap:10px;">
+        <span class="demo-badge-tag" id="kgLiveStatusBadge" style="background:rgba(59,130,246,0.15);color:var(--bis-blue);padding:6px 12px;border-radius:6px;font-size:0.8rem;font-weight:700;">
+          <i class="fas fa-spinner fa-spin"></i> Connecting to /api/knowledge/graph...
+        </span>
+      </div>
     </div>
 
     <!-- Knowledge Graph Canvas Container -->
     <div class="kg-workspace">
       
-      <!-- Graph Node Columns -->
-      <div class="kg-nodes-grid">
-        
-        <!-- Col 1: Product -->
-        <div class="kg-column">
-          <div style="font-size:0.75rem;font-weight:800;color:var(--slate-500);text-transform:uppercase;">1. Product Node</div>
-          <div class="kg-node-card active-node" onclick="inspectNode('p1')">
-            <div class="kg-node-type kg-type-product">Product</div>
-            <div style="font-weight:800;color:var(--gov-navy);">Electric Kettle</div>
-            <div style="font-size:0.75rem;color:var(--slate-500);">Electrical Appliances</div>
-          </div>
-          <div class="kg-node-card" onclick="inspectNode('p2')">
-            <div class="kg-node-type kg-type-product">Product</div>
-            <div style="font-weight:800;color:var(--gov-navy);">Protective Helmet</div>
-            <div style="font-size:0.75rem;color:var(--slate-500);">Automotive Safety</div>
-          </div>
+      <!-- Filter Bar: Search & Quick Chips -->
+      <div class="kg-filter-bar">
+        <div class="kg-search-box">
+          <i class="fas fa-search"></i>
+          <input type="text" id="kgSearchInput" placeholder="Search standard or keyword (e.g. IS 4151, IS 1786, IS 694, Helmet, Steel)..." onkeydown="if(event.key==='Enter') searchGraph()" />
         </div>
-
-        <!-- Col 2: Applicable Standard -->
-        <div class="kg-column">
-          <div style="font-size:0.75rem;font-weight:800;color:var(--slate-500);text-transform:uppercase;">2. Standard</div>
-          <div class="kg-node-card" onclick="inspectNode('s1')">
-            <div class="kg-node-type kg-type-standard">Indian Standard</div>
-            <div style="font-weight:800;color:var(--gov-navy);">IS 302 (Part 2/Sec 15)</div>
-            <div style="font-size:0.75rem;color:var(--slate-500);">2024 Revision</div>
-          </div>
-          <div class="kg-node-card" onclick="inspectNode('s2')">
-            <div class="kg-node-type kg-type-standard">Indian Standard</div>
-            <div style="font-weight:800;color:var(--gov-navy);">IS 4151:2015</div>
-            <div style="font-size:0.75rem;color:var(--slate-500);">Helmet Mandate</div>
-          </div>
+        <div class="kg-chips">
+          <span style="font-size:0.75rem;font-weight:700;color:var(--slate-400);text-transform:uppercase;">Quick Presets:</span>
+          <button class="kg-chip active" onclick="selectStandard('std:IS 4151:2015')"><i class="fas fa-helmet-safety"></i> IS 4151 (Helmets)</button>
+          <button class="kg-chip" onclick="selectStandard('std:IS 1786:2008')"><i class="fas fa-building"></i> IS 1786 (Steel TMT)</button>
+          <button class="kg-chip" onclick="selectStandard('std:IS 694:2010')"><i class="fas fa-bolt"></i> IS 694 (Cables/Wires)</button>
+          <button class="kg-chip" onclick="selectStandard('std:IS 302 (Part 1):2024')"><i class="fas fa-plug"></i> IS 302 (Appliances)</button>
+          <button class="kg-chip" onclick="selectStandard('std:IS 2553 (Part 2):2019')"><i class="fas fa-shield"></i> IS 2553 (Safety Glass)</button>
+          <button class="kg-chip" onclick="selectStandard('std:IS 14543:2016')"><i class="fas fa-bottle-water"></i> IS 14543 (Drinking Water)</button>
         </div>
+      </div>
 
-        <!-- Col 3: Key Requirement Clause -->
-        <div class="kg-column">
-          <div style="font-size:0.75rem;font-weight:800;color:var(--slate-500);text-transform:uppercase;">3. Clause Rule</div>
-          <div class="kg-node-card" onclick="inspectNode('r1')">
-            <div class="kg-node-type kg-type-requirement">Clause 19.4</div>
-            <div style="font-weight:800;color:var(--gov-navy);">Dry-Boil Cutout</div>
-            <div style="font-size:0.75rem;color:var(--slate-500);">Abnormal Protection</div>
-          </div>
-          <div class="kg-node-card" onclick="inspectNode('r2')">
-            <div class="kg-node-type kg-type-requirement">Clause 13.2</div>
-            <div style="font-weight:800;color:var(--gov-navy);">Leakage <0.75mA</div>
-            <div style="font-size:0.75rem;color:var(--slate-500);">Electric Strength</div>
-          </div>
+      <!-- Graph Node Columns Container -->
+      <div class="kg-nodes-grid" id="kgNodesGrid">
+        <!-- Rendered dynamically -->
+        <div style="width:100%;text-align:center;padding:3rem;color:var(--slate-500);">
+          <i class="fas fa-circle-notch fa-spin" style="font-size:2rem;color:var(--bis-blue);margin-bottom:12px;"></i>
+          <p>Loading authoritative BIS Standards Knowledge Graph...</p>
         </div>
-
-        <!-- Col 4: Testing & Documents -->
-        <div class="kg-column">
-          <div style="font-size:0.75rem;font-weight:800;color:var(--slate-500);text-transform:uppercase;">4. Testing & Docs</div>
-          <div class="kg-node-card" onclick="inspectNode('t1')">
-            <div class="kg-node-type kg-type-test">Lab Test</div>
-            <div style="font-weight:800;color:var(--gov-navy);">1250V HV Breakdown</div>
-            <div style="font-size:0.75rem;color:var(--slate-500);">Dielectric Test</div>
-          </div>
-          <div class="kg-node-card" onclick="inspectNode('d1')">
-            <div class="kg-node-type kg-type-document">Document</div>
-            <div style="font-weight:800;color:var(--gov-navy);">SS 304 Food Cert</div>
-            <div style="font-size:0.75rem;color:var(--slate-500);">Material Spec</div>
-          </div>
-        </div>
-
-        <!-- Col 5: Licensing Path -->
-        <div class="kg-column">
-          <div style="font-size:0.75rem;font-weight:800;color:var(--slate-500);text-transform:uppercase;">5. Certification Path</div>
-          <div class="kg-node-card" onclick="inspectNode('c1')">
-            <div class="kg-node-type kg-type-path">Scheme-I</div>
-            <div style="font-weight:800;color:var(--gov-navy);">Compulsory ISI Mark</div>
-            <div style="font-size:0.75rem;color:var(--slate-500);">CM/L License</div>
-          </div>
-        </div>
-
       </div>
 
       <!-- Node Details Inspector Panel -->
-      <div id="kgInspectorPanel" style="margin-top:1.5rem;padding:1rem 1.25rem;background:var(--slate-50);border:1px solid var(--border-color);border-radius:var(--radius-md);">
-        <div style="font-size:0.75rem;font-weight:700;color:var(--bis-blue);text-transform:uppercase;margin-bottom:4px;" id="inspType">PRODUCT NODE INSPECTOR</div>
-        <h4 style="font-size:1.1rem;font-weight:800;color:var(--gov-navy);margin-bottom:6px;" id="inspTitle">Electric Kettle (Heating Appliances)</h4>
-        <p style="font-size:0.85rem;color:var(--slate-500);line-height:1.5;" id="inspDesc">Domestic electric kettles require mandatory Scheme-I ISI certification. Key compliance links connect to IS 302 (Part 2/Sec 15):2024, dual dry-boil thermal protection (Clause 19.4), and NABL dielectric strength lab testing.</p>
-        <div style="margin-top:8px;font-size:0.75rem;color:var(--slate-400);" id="inspRef">Authoritative Reference: Quality Control Order (QCO) for Household Electrical Goods</div>
+      <div id="kgInspectorPanel" style="margin-top:1.5rem;padding:1.25rem 1.5rem;background:var(--slate-50);border:1px solid var(--border-color);border-radius:var(--radius-md);display:flex;justify-content:space-between;align-items:flex-start;gap:20px;flex-wrap:wrap;">
+        <div style="flex:1;min-width:280px;">
+          <div style="font-size:0.75rem;font-weight:700;color:var(--bis-blue);text-transform:uppercase;margin-bottom:4px;" id="inspType">PRODUCT / STANDARD NODE INSPECTOR</div>
+          <h4 style="font-size:1.15rem;font-weight:800;color:var(--gov-navy);margin-bottom:6px;" id="inspTitle">Loading standard details...</h4>
+          <p style="font-size:0.88rem;color:var(--slate-500);line-height:1.5;" id="inspDesc">Select any node in the graph columns above to inspect its metadata, statutory relations, and regulatory scope.</p>
+          <div style="margin-top:10px;font-size:0.78rem;color:var(--slate-400);" id="inspRef">Authoritative Reference: Bureau of Indian Standards Central Catalog</div>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:8px;" id="inspActions">
+          <a href="chat.html" id="inspAskBtn" class="btn-ai-launch" style="font-size:0.85rem;padding:8px 16px;">
+            <i class="fas fa-comments"></i> Ask AI Copilot About This Node
+          </a>
+        </div>
       </div>
 
     </div>
@@ -324,6 +387,7 @@
           <li><a href="copilot.html">Industry Copilot</a></li>
           <li><a href="knowledge-graph.html">Knowledge Graph</a></li>
           <li><a href="consumer.html">Consumer Mode</a></li>
+          <li><a href="verify.html">Scan & Verify</a></li>
         </ul>
       </div>
     </div>
@@ -332,39 +396,347 @@
     </div>
   </footer>
 
-  <!-- ================= SCRIPT ================= -->
+  <!-- ================= SCRIPTS ================= -->
   <script src="js/database.js"></script>
+  <script src="js/command-palette.js"></script>
   <script>
-    const nodeDetails = {
-      p1: { type: "Product Node", title: "Electric Kettle (Heating Appliances)", desc: "Domestic electric kettles require mandatory Scheme-I ISI certification under Household Electrical Goods QCO.", ref: "QCO Notification 2024" },
-      p2: { type: "Product Node", title: "Two-Wheeler Protective Helmet", desc: "Mandatory safety gear under Section 129 Motor Vehicles Act. Must carry CM/L license stamp.", ref: "IS 4151:2015 Mandate" },
-      s1: { type: "Standard Node", title: "IS 302 (Part 2/Sec 15):2024", desc: "Prescribes safety requirements for appliances for heating liquids. Includes dual thermal cutout rules.", ref: "BIS Electrical Standards Committee" },
-      s2: { type: "Standard Node", title: "IS 4151:2015", desc: "Protective helmets specification. Caps maximum weight under 1.2 kg.", ref: "Ministry of Road Transport & Highways" },
-      r1: { type: "Requirement Node", title: "Clause 19.4: Dry-Boil Auto Cutout", desc: "Mandates automatic disconnection of heating element before body temperature causes melting or fire hazard.", ref: "IS 302 Clause 19.4" },
-      r2: { type: "Requirement Node", title: "Clause 13.2: Leakage Current <0.75mA", desc: "Operating leakage current to earth must not exceed 0.75 mA at rated voltage.", ref: "IS 302 Clause 13.2" },
-      t1: { type: "Lab Test Node", title: "1250V HV Breakdown Dielectric Test", desc: "High voltage applied for 60 seconds without flashover or insulation breakdown.", ref: "IS 302 High Voltage Test" },
-      d1: { type: "Document Node", title: "SS 304 Food Grade Material Certificate", desc: "Supplier declaration & lab report confirming interior stainless steel leaching safety.", ref: "IS 302 Clause 22.11" },
-      c1: { type: "Licensing Path Node", title: "Scheme-I Compulsory ISI Stamping", desc: "Factory audit, in-house lab setup, independent sample testing, and CM/L grant.", ref: "Manakonline e-BIS Portal" }
+    // Global Knowledge Graph State
+    let KG_STATE = {
+      loaded: false,
+      nodes: {},
+      edges: [],
+      totalNodes: 0,
+      totalEdges: 0,
+      selectedStandardId: 'std:IS 4151:2015'
     };
 
-    function inspectNode(nodeId) {
-      document.querySelectorAll('.kg-node-card').forEach(c => c.classList.remove('active-node'));
-      event.currentTarget.classList.add('active-node');
+    // Offline / Fallback Seed Dataset
+    const FALLBACK_GRAPH = {
+      totalNodes: 14,
+      totalEdges: 12,
+      nodes: {
+        'std:IS 4151:2015': { id: 'std:IS 4151:2015', type: 'IndianStandard', code: 'IS 4151:2015', title: 'Protective Helmets for Two-Wheeler Riders — Specification', edition: 'Fourth Revision', year: 2015, division: 'TED', status: 'CURRENT', isMandatory: true, qco: 'Two-Wheeler Helmets (Quality Control) Mandatory Order' },
+        'std:IS 4151:1993': { id: 'std:IS 4151:1993', type: 'IndianStandard', code: 'IS 4151:1993', title: 'Specification for Protective Helmets for Motorcycle Riders', year: 1993, division: 'TED', status: 'WITHDRAWN', isMandatory: false },
+        'div:TED': { id: 'div:TED', type: 'TechnicalDivision', code: 'TED', name: 'Transport Engineering Division' },
+        'qco:IS 4151:2015': { id: 'qco:IS 4151:2015', type: 'QualityControlOrder', title: 'Protective Helmets (Quality Control) Order', authority: 'Ministry of Road Transport and Highways (MoRTH)' },
+        'scheme:Scheme-I': { id: 'scheme:Scheme-I', type: 'CertificationScheme', name: 'Scheme-I (ISI Mark)', description: 'Product Certification Scheme with factory testing and audit' },
+        'am:IS 4151:2015:Amendment No. 1 (2018)': { id: 'am:IS 4151:2015:Amendment No. 1 (2018)', type: 'Amendment', title: 'Amendment No. 1 (2018) to IS 4151:2015', standard: 'IS 4151:2015', year: 2018 }
+      },
+      edges: [
+        { source: 'std:IS 4151:2015', target: 'div:TED', relation: 'BELONGS_TO_DIVISION' },
+        { source: 'std:IS 4151:2015', target: 'scheme:Scheme-I', relation: 'GOVERNED_BY_SCHEME' },
+        { source: 'std:IS 4151:2015', target: 'qco:IS 4151:2015', relation: 'MANDATED_BY_QCO' },
+        { source: 'std:IS 4151:1993', target: 'std:IS 4151:2015', relation: 'SUPERSEDED_BY' },
+        { source: 'am:IS 4151:2015:Amendment No. 1 (2018)', target: 'std:IS 4151:2015', relation: 'AMENDMENT_TO' }
+      ]
+    };
 
-      const data = nodeDetails[nodeId] || nodeDetails.p1;
-      document.getElementById('inspType').textContent = data.type.toUpperCase() + ' INSPECTOR';
-      document.getElementById('inspTitle').textContent = data.title;
-      document.getElementById('inspDesc').textContent = data.desc;
-      document.getElementById('inspRef').textContent = 'Authoritative Reference: ' + data.ref;
+    // Load Knowledge Graph from Backend API
+    async function loadKnowledgeGraph() {
+      const badge = document.getElementById('kgLiveStatusBadge');
+      const grid = document.getElementById('kgNodesGrid');
+      if (grid && !KG_STATE.loaded) {
+        grid.innerHTML = `
+          <div style="grid-column:1/-1;padding:24px;">
+            <div class="skeleton-card" style="margin-bottom:12px;">
+              <div class="skeleton-box skeleton-line long" style="height:16px;"></div>
+              <div class="skeleton-box skeleton-line medium" style="height:12px;"></div>
+              <div class="skeleton-box skeleton-line short" style="height:10px;"></div>
+            </div>
+            <div style="text-align:center;font-size:0.8rem;color:var(--text-subtle);">
+              <i class="fas fa-diagram-project" style="color:var(--primary-blue);"></i> Loading Knowledge Graph entities from backend...
+            </div>
+          </div>
+        `;
+      }
+
+      try {
+        const response = await fetch('/api/knowledge/graph');
+        if (!response.ok) throw new Error('HTTP ' + response.status);
+        const data = await response.json();
+        
+        KG_STATE.nodes = data.nodes || {};
+        KG_STATE.edges = data.edges || [];
+        KG_STATE.totalNodes = data.totalNodes || Object.keys(KG_STATE.nodes).length;
+        KG_STATE.totalEdges = data.totalEdges || KG_STATE.edges.length;
+        KG_STATE.loaded = true;
+
+        if (badge) {
+          badge.style.background = 'rgba(16, 185, 129, 0.15)';
+          badge.style.color = '#10B981';
+          badge.innerHTML = `<i class="fas fa-circle-check"></i> Live Graph: ${KG_STATE.totalNodes.toLocaleString()} Nodes • ${KG_STATE.totalEdges.toLocaleString()} Edges`;
+        }
+      } catch (err) {
+        console.warn('Knowledge Graph API fallback activated:', err.message);
+        KG_STATE.nodes = FALLBACK_GRAPH.nodes;
+        KG_STATE.edges = FALLBACK_GRAPH.edges;
+        KG_STATE.totalNodes = FALLBACK_GRAPH.totalNodes;
+        KG_STATE.totalEdges = FALLBACK_GRAPH.totalEdges;
+        KG_STATE.loaded = true;
+
+        if (badge) {
+          badge.style.background = 'rgba(245, 158, 11, 0.15)';
+          badge.style.color = '#F59E0B';
+          badge.innerHTML = `<i class="fas fa-circle-exclamation"></i> Local Reference Graph (Offline Mode)`;
+        }
+      }
+
+      renderStandardGraph(KG_STATE.selectedStandardId);
     }
 
+    // Select standard from Quick Presets
+    function selectStandard(stdId) {
+      document.querySelectorAll('.kg-chip').forEach(btn => {
+        btn.classList.toggle('active', btn.getAttribute('onclick') && btn.getAttribute('onclick').includes(stdId));
+      });
+      KG_STATE.selectedStandardId = stdId;
+      renderStandardGraph(stdId);
+    }
+
+    // Search Graph Input
+    function searchGraph() {
+      const input = document.getElementById('kgSearchInput');
+      const query = (input ? input.value : '').trim().toLowerCase();
+      if (!query) return;
+
+      // Find best match in graph nodes
+      const allKeys = Object.keys(KG_STATE.nodes);
+      let matchedKey = allKeys.find(k => k.toLowerCase() === query || k.toLowerCase() === 'std:' + query);
+      if (!matchedKey) {
+        matchedKey = allKeys.find(k => k.startsWith('std:') && k.toLowerCase().includes(query));
+      }
+      if (!matchedKey) {
+        matchedKey = allKeys.find(k => {
+          const n = KG_STATE.nodes[k];
+          return n && ((n.title && n.title.toLowerCase().includes(query)) || (n.code && n.code.toLowerCase().includes(query)));
+        });
+      }
+
+      if (matchedKey) {
+        KG_STATE.selectedStandardId = matchedKey;
+        renderStandardGraph(matchedKey);
+      } else {
+        const grid = document.getElementById('kgNodesGrid');
+        grid.innerHTML = `
+          <div class="kg-empty-state">
+            <i class="fas fa-magnifying-glass-chart" style="font-size:2.5rem;color:var(--slate-400);margin-bottom:14px;display:block;"></i>
+            <h3 style="font-size:1.15rem;font-weight:800;color:var(--gov-navy);margin-bottom:6px;">No Direct Graph Match for "${query}"</h3>
+            <p style="font-size:0.85rem;max-width:520px;margin:0 auto 16px;">The requested entity is not indexed in the active knowledge graph dataset. Try searching <strong>IS 4151</strong>, <strong>IS 1786</strong>, <strong>IS 694</strong>, or select one of the quick chips above.</p>
+            <button class="kg-chip active" onclick="selectStandard('std:IS 4151:2015')"><i class="fas fa-rotate-left"></i> Reset to IS 4151 (Helmets)</button>
+          </div>
+        `;
+      }
+    }
+
+    // Render Graph for Selected Standard
+    function renderStandardGraph(stdId) {
+      const grid = document.getElementById('kgNodesGrid');
+      if (!grid) return;
+
+      const stdNode = KG_STATE.nodes[stdId] || Object.values(KG_STATE.nodes).find(n => n.id === stdId || n.code === stdId);
+
+      if (!stdNode) {
+        grid.innerHTML = `
+          <div class="kg-empty-state">
+            <i class="fas fa-circle-info" style="font-size:2rem;color:var(--slate-400);margin-bottom:12px;display:block;"></i>
+            <p>Select a valid Indian Standard from the presets or search bar above.</p>
+          </div>
+        `;
+        return;
+      }
+
+      const activeStdId = stdNode.id || stdId;
+
+      // Find Connected Edges
+      const outEdges = KG_STATE.edges.filter(e => e.source === activeStdId);
+      const inEdges = KG_STATE.edges.filter(e => e.target === activeStdId);
+
+      // Division Nodes
+      const divEdges = outEdges.filter(e => e.relation === 'BELONGS_TO_DIVISION');
+      const divNodes = divEdges.map(e => KG_STATE.nodes[e.target]).filter(Boolean);
+
+      // QCO & Statutory Authorities
+      const qcoEdges = outEdges.filter(e => e.relation === 'MANDATED_BY_QCO');
+      const qcoNodes = qcoEdges.map(e => KG_STATE.nodes[e.target]).filter(Boolean);
+
+      // Schemes & Labs
+      const schemeEdges = outEdges.filter(e => e.relation === 'GOVERNED_BY_SCHEME');
+      const schemeNodes = schemeEdges.map(e => KG_STATE.nodes[e.target]).filter(Boolean);
+
+      // Amendments & Predecessors
+      const amendEdges = inEdges.filter(e => e.relation === 'AMENDMENT_TO');
+      const amendNodes = amendEdges.map(e => KG_STATE.nodes[e.source]).filter(Boolean);
+
+      const superEdges = inEdges.filter(e => e.relation === 'SUPERSEDED_BY');
+      const superNodes = superEdges.map(e => KG_STATE.nodes[e.source]).filter(Boolean);
+
+      grid.innerHTML = `
+        <!-- Col 1: Standard Node -->
+        <div class="kg-column">
+          <div class="kg-col-title"><i class="fas fa-file-shield" style="color:#818CF8;"></i> 1. Standard Node</div>
+          <div class="kg-node-card active-node" onclick="inspectNodeObj('${activeStdId}')">
+            <div class="kg-node-type kg-type-standard">Indian Standard</div>
+            <div style="font-weight:800;color:var(--gov-navy);font-size:0.95rem;">${stdNode.code || stdNode.title || activeStdId}</div>
+            <div style="font-size:0.75rem;color:var(--slate-500);margin-top:4px;line-height:1.4;">${(stdNode.title || '').slice(0, 75)}${(stdNode.title || '').length > 75 ? '...' : ''}</div>
+            <div style="margin-top:8px;display:flex;gap:6px;flex-wrap:wrap;">
+              <span class="demo-badge-tag" style="font-size:0.68rem;padding:2px 6px;background:${stdNode.status === 'CURRENT' ? 'rgba(16,185,129,0.15);color:#10B981;' : 'rgba(239,68,68,0.15);color:#EF4444;'}">${stdNode.status || 'CURRENT'}</span>
+              ${stdNode.isMandatory ? '<span class="demo-badge-tag" style="font-size:0.68rem;padding:2px 6px;background:rgba(245,158,11,0.15);color:#F59E0B;">Mandatory QCO</span>' : ''}
+            </div>
+          </div>
+        </div>
+
+        <!-- Col 2: Technical Division -->
+        <div class="kg-column">
+          <div class="kg-col-title"><i class="fas fa-sitemap" style="color:#3B82F6;"></i> 2. Technical Division</div>
+          ${divNodes.length > 0 ? divNodes.map(d => `
+            <div class="kg-node-card" onclick="inspectNodeObj('${d.id}')">
+              <div class="kg-node-type kg-type-division">Technical Division</div>
+              <div style="font-weight:800;color:var(--gov-navy);">${d.code || d.id.replace('div:', '')}</div>
+              <div style="font-size:0.75rem;color:var(--slate-500);margin-top:2px;">${d.name || 'Standards Formulation Committee'}</div>
+            </div>
+          `).join('') : `
+            <div class="kg-node-card" style="opacity:0.8;">
+              <div class="kg-node-type kg-type-division">Division</div>
+              <div style="font-weight:700;color:var(--gov-navy);">${stdNode.division || 'Central Standards Formulation'}</div>
+              <div style="font-size:0.72rem;color:var(--slate-500);">Statutory Division</div>
+            </div>
+          `}
+        </div>
+
+        <!-- Col 3: Quality Control Order (QCO) -->
+        <div class="kg-column">
+          <div class="kg-col-title"><i class="fas fa-gavel" style="color:#EF4444;"></i> 3. Statutory QCO</div>
+          ${qcoNodes.length > 0 ? qcoNodes.map(q => `
+            <div class="kg-node-card" onclick="inspectNodeObj('${q.id}')">
+              <div class="kg-node-type kg-type-qco">Quality Control Order</div>
+              <div style="font-weight:800;color:var(--gov-navy);font-size:0.85rem;">${q.title || 'Mandatory QCO Order'}</div>
+              <div style="font-size:0.72rem;color:var(--slate-500);margin-top:3px;">${q.authority || 'Ministry Order — BIS Act 2016'}</div>
+            </div>
+          `).join('') : `
+            <div class="kg-node-card" onclick="inspectCustomQCO('${stdNode.code}')">
+              <div class="kg-node-type kg-type-qco">${stdNode.isMandatory ? 'Mandatory QCO' : 'Voluntary Standard'}</div>
+              <div style="font-weight:700;color:var(--gov-navy);font-size:0.85rem;">${stdNode.qco || 'Quality Control Order'}</div>
+              <div style="font-size:0.72rem;color:var(--slate-500);margin-top:3px;">Section 16, BIS Act 2016</div>
+            </div>
+          `}
+        </div>
+
+        <!-- Col 4: Certification Scheme & Labs -->
+        <div class="kg-column">
+          <div class="kg-col-title"><i class="fas fa-certificate" style="color:#10B981;"></i> 4. Certification Scheme</div>
+          ${schemeNodes.length > 0 ? schemeNodes.map(s => `
+            <div class="kg-node-card" onclick="inspectNodeObj('${s.id}')">
+              <div class="kg-node-type kg-type-scheme">Licensing Path</div>
+              <div style="font-weight:800;color:var(--gov-navy);">${s.name || s.id.replace('scheme:', '')}</div>
+              <div style="font-size:0.72rem;color:var(--slate-500);margin-top:2px;">${s.description || 'Compulsory Standard Mark License'}</div>
+            </div>
+          `).join('') : `
+            <div class="kg-node-card">
+              <div class="kg-node-type kg-type-scheme">Licensing Path</div>
+              <div style="font-weight:800;color:var(--gov-navy);">Scheme-I (ISI Mark)</div>
+              <div style="font-size:0.72rem;color:var(--slate-500);margin-top:2px;">Product Certification Scheme</div>
+            </div>
+          `}
+        </div>
+
+        <!-- Col 5: Amendments & Superseded Editions -->
+        <div class="kg-column">
+          <div class="kg-col-title"><i class="fas fa-code-fork" style="color:#F59E0B;"></i> 5. Amendments & Evolution</div>
+          ${amendNodes.length > 0 ? amendNodes.map(a => `
+            <div class="kg-node-card" onclick="inspectNodeObj('${a.id}')">
+              <div class="kg-node-type kg-type-amendment">Gazette Amendment</div>
+              <div style="font-weight:800;color:var(--gov-navy);font-size:0.85rem;">${a.title || a.id.split(':').pop()}</div>
+              <div style="font-size:0.72rem;color:var(--slate-500);margin-top:2px;">Year: ${a.year || 'Gazette Notification'}</div>
+            </div>
+          `).join('') : ''}
+          ${superNodes.length > 0 ? superNodes.map(s => `
+            <div class="kg-node-card" onclick="inspectNodeObj('${s.id}')" style="opacity:0.85;">
+              <div class="kg-node-type" style="color:#EF4444;">Superseded Edition</div>
+              <div style="font-weight:700;color:var(--gov-navy);font-size:0.85rem;">${s.code || s.title}</div>
+              <div style="font-size:0.72rem;color:var(--slate-500);">Year: ${s.year || 'Legacy'} • WITHDRAWN</div>
+            </div>
+          `).join('') : ''}
+          ${amendNodes.length === 0 && superNodes.length === 0 ? `
+            <div class="kg-node-card" style="opacity:0.75;">
+              <div class="kg-node-type kg-type-amendment">Evolution Status</div>
+              <div style="font-weight:700;color:var(--gov-navy);font-size:0.85rem;">Base Gazette Edition</div>
+              <div style="font-size:0.72rem;color:var(--slate-500);">No separate amendments indexed</div>
+            </div>
+          ` : ''}
+        </div>
+      `;
+
+      // Trigger inspector for this standard
+      inspectNodeObj(activeStdId);
+    }
+
+    // Inspect Node Details
+    function inspectNodeObj(nodeId) {
+      document.querySelectorAll('.kg-node-card').forEach(c => c.classList.remove('active-node'));
+      if (window.event && window.event.currentTarget) {
+        window.event.currentTarget.classList.add('active-node');
+      }
+
+      const node = KG_STATE.nodes[nodeId];
+      const titleEl = document.getElementById('inspTitle');
+      const descEl = document.getElementById('inspDesc');
+      const typeEl = document.getElementById('inspType');
+      const refEl = document.getElementById('inspRef');
+      const askBtn = document.getElementById('inspAskBtn');
+
+      if (!node) {
+        titleEl.textContent = nodeId;
+        descEl.textContent = 'Entity active in standards relationships graph.';
+        typeEl.textContent = 'GRAPH ENTITY INSPECTOR';
+        refEl.textContent = 'Authoritative Reference: Bureau of Indian Standards';
+        return;
+      }
+
+      typeEl.textContent = (node.type || 'GRAPH ENTITY').toUpperCase() + ' INSPECTOR';
+      titleEl.textContent = node.title || node.name || node.code || nodeId;
+
+      let desc = '';
+      if (node.type === 'IndianStandard') {
+        desc = `Standard ${node.code}: "${node.title}". Division: ${node.division || 'National'}. Edition: ${node.edition || 'Current'}. Status: ${node.status || 'Active'}. ${node.isMandatory ? 'Mandatory enforcement under statutory Quality Control Order.' : 'Voluntary consensus standard.'}`;
+      } else if (node.type === 'TechnicalDivision') {
+        desc = `${node.name} (${node.code}) is responsible for the preparation, periodic review, and modernization of Indian Standards in this sector.`;
+      } else if (node.type === 'QualityControlOrder') {
+        desc = `${node.title}. Issued by ${node.authority || 'Competent Ministry'} under Section 16 of the BIS Act 2016. Prohibits manufacture, import, or sale without valid ISI certification.`;
+      } else if (node.type === 'CertificationScheme') {
+        desc = `${node.name}: ${node.description || 'Statutory conformity assessment scheme governed by BIS (Conformity Assessment) Regulations 2018.'}`;
+      } else if (node.type === 'Amendment') {
+        desc = `${node.title}. Formally gazetted amendment updating specific testing clauses or material parameters.`;
+      } else {
+        desc = JSON.stringify(node, null, 2);
+      }
+
+      descEl.textContent = desc;
+      refEl.textContent = `Authoritative Reference: ${node.authority || node.qco || 'Bureau of Indian Standards Central Repository'}`;
+
+      if (askBtn) {
+        const queryTerm = node.code || node.name || node.title || nodeId;
+        askBtn.href = `chat.html?q=${encodeURIComponent('Tell me all regulatory details and compliance requirements for ' + queryTerm)}`;
+      }
+    }
+
+    function inspectCustomQCO(stdCode) {
+      document.getElementById('inspType').textContent = 'QUALITY CONTROL ORDER INSPECTOR';
+      document.getElementById('inspTitle').textContent = `Quality Control Order for ${stdCode}`;
+      document.getElementById('inspDesc').textContent = `Under the BIS Act 2016, products conforming to ${stdCode} are regulated to ensure public safety, health, and consumer protection. Unauthorized manufacturing or sale is punishable with penalties and license revocation.`;
+      document.getElementById('inspRef').textContent = 'Authoritative Reference: Official Gazette of India • BIS Enforcement Cell';
+    }
+
+    // Side-by-Side Comparison Tool Logic
     function loadComparison(type) {
-      document.querySelectorAll('.v-tab-btn').forEach(b => b.classList.remove('active'));
+      document.querySelectorAll('.v-tab-btn').forEach(b => {
+        if (b.id === 'cmpKettle' || b.id === 'cmpHelmet') b.classList.remove('active');
+      });
       const body = document.getElementById('compareTableBody');
       const title = document.getElementById('cmpTitle');
 
       if (type === 'kettle') {
-        document.getElementById('cmpKettle').classList.add('active');
+        const btn = document.getElementById('cmpKettle');
+        if (btn) btn.classList.add('active');
         title.textContent = 'Electric Kettle: IS 302 (2009 Edition) vs IS 302 (2024 Revision)';
         body.innerHTML = `
           <tr>
@@ -389,7 +761,8 @@
           </tr>
         `;
       } else {
-        document.getElementById('cmpHelmet').classList.add('active');
+        const btn = document.getElementById('cmpHelmet');
+        if (btn) btn.classList.add('active');
         title.textContent = 'Rider Helmets: IS 4151 (1993 Edition) vs IS 4151 (2015 Current)';
         body.innerHTML = `
           <tr>
@@ -411,9 +784,10 @@
       }
     }
 
-    window.onload = function() {
+    window.addEventListener('DOMContentLoaded', () => {
+      loadKnowledgeGraph();
       loadComparison('kettle');
-    };
+    });
   </script>
   <script src="js/wizard.js"></script>
 </body>

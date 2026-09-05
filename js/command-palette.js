@@ -18,13 +18,13 @@
     { id: 'page-consumer', title: 'Consumer Rights & Grievance', subtitle: 'File complaints & check consumer safety alerts', icon: 'fa-user-shield', group: 'Navigation', url: 'consumer.html', badge: 'Page' },
 
     // Core Indian Standards Quick Access
-    { id: 'is-1786', title: 'IS 1786 : 2008 — High Strength Deformed Steel Bars', subtitle: 'TMT Steel Bars & Wires for Concrete Reinforcement', icon: 'fa-cubes', group: 'Indian Standards', url: 'index.html?search=IS+1786', badge: 'Steel' },
-    { id: 'is-694', title: 'IS 694 : 2010 — Polyvinyl Chloride Insulated Cables', subtitle: 'Working voltages up to 1100V for household & industrial wiring', icon: 'fa-bolt', group: 'Indian Standards', url: 'index.html?search=IS+694', badge: 'Electrical' },
-    { id: 'is-14543', title: 'IS 14543 : 2024 — Packaged Drinking Water', subtitle: 'Other than packaged natural mineral water standards & limits', icon: 'fa-tint', group: 'Indian Standards', url: 'index.html?search=IS+14543', badge: 'Food & Water' },
-    { id: 'is-9873', title: 'IS 9873 (Part 1) : 2019 — Safety of Toys', subtitle: 'Mechanical and physical properties safety standards', icon: 'fa-gamepad', group: 'Indian Standards', url: 'index.html?search=IS+9873', badge: 'Consumer' },
-    { id: 'is-13252', title: 'IS 13252 (Part 1) : 2010 — Information Tech Equipment', subtitle: 'Compulsory Registration Scheme (CRS) safety requirements', icon: 'fa-laptop', group: 'Indian Standards', url: 'index.html?search=IS+13252', badge: 'IT / CRS' },
-    { id: 'is-4151', title: 'IS 4151 : 2015 — Protective Helmets for Two-Wheelers', subtitle: 'Impact absorption, chin strap retention & visor specifications', icon: 'fa-hard-hat', group: 'Indian Standards', url: 'index.html?search=IS+4151', badge: 'Safety' },
-    { id: 'is-2062', title: 'IS 2062 : 2011 — Hot Rolled Medium and High Tensile Structural Steel', subtitle: 'Plates, sections and flats for structural engineering', icon: 'fa-building', group: 'Indian Standards', url: 'index.html?search=IS+2062', badge: 'Steel' },
+    { id: 'is-1786', title: 'IS 1786 : 2008 — High Strength Deformed Steel Bars', subtitle: 'TMT Steel Bars & Wires for Concrete Reinforcement', icon: 'fa-cubes', group: 'Indian Standards', url: 'chat.html?q=IS+1786%3A2008', badge: 'Steel' },
+    { id: 'is-694', title: 'IS 694 : 2010 — Polyvinyl Chloride Insulated Cables', subtitle: 'Working voltages up to 1100V for household & industrial wiring', icon: 'fa-bolt', group: 'Indian Standards', url: 'chat.html?q=IS+694%3A2010', badge: 'Electrical' },
+    { id: 'is-14543', title: 'IS 14543 : 2024 — Packaged Drinking Water', subtitle: 'Other than packaged natural mineral water standards & limits', icon: 'fa-tint', group: 'Indian Standards', url: 'chat.html?q=IS+14543%3A2024', badge: 'Food & Water' },
+    { id: 'is-9873', title: 'IS 9873 (Part 1) : 2019 — Safety of Toys', subtitle: 'Mechanical and physical properties safety standards', icon: 'fa-gamepad', group: 'Indian Standards', url: 'chat.html?q=IS+9873', badge: 'Consumer' },
+    { id: 'is-13252', title: 'IS 13252 (Part 1) : 2010 — Information Tech Equipment', subtitle: 'Compulsory Registration Scheme (CRS) safety requirements', icon: 'fa-laptop', group: 'Indian Standards', url: 'chat.html?q=IS+13252', badge: 'IT / CRS' },
+    { id: 'is-4151', title: 'IS 4151 : 2015 — Protective Helmets for Two-Wheelers', subtitle: 'Impact absorption, chin strap retention & visor specifications', icon: 'fa-hard-hat', group: 'Indian Standards', url: 'chat.html?q=IS+4151%3A2015', badge: 'Safety' },
+    { id: 'is-2062', title: 'IS 2062 : 2011 — Hot Rolled Medium and High Tensile Structural Steel', subtitle: 'Plates, sections and flats for structural engineering', icon: 'fa-building', group: 'Indian Standards', url: 'chat.html?q=IS+2062%3A2011', badge: 'Steel' },
 
     // Interactive Tools & Actions
     { id: 'action-wizard', title: 'Launch ISI / QCO Compliance Wizard & Fee Calculator', subtitle: 'Step-by-step roadmap with budget, timeline & pre-audit checklist', icon: 'fa-calculator', group: 'Interactive Tools', action: 'openWizard', badge: 'Tool' },
@@ -200,7 +200,28 @@
     }
   }
 
-  // Global Key Listener (Disabled for clean Government Portal UX)
-  window.openCommandPalette = function() {};
-  window.closeCommandPalette = function() {};
+  // Global Key Listener for Ctrl+K and Cmd+K
+  document.addEventListener('keydown', function (e) {
+    if ((e.ctrlKey || e.metaKey) && (e.key === 'k' || e.key === 'K')) {
+      e.preventDefault();
+      const backdrop = document.getElementById('cmdPaletteBackdrop');
+      if (backdrop && (backdrop.classList.contains('active') || backdrop.classList.contains('open'))) {
+        closePalette();
+      } else {
+        openPalette();
+      }
+    }
+  });
+
+  // Global Click Trigger Delegation
+  document.addEventListener('click', function (e) {
+    const trigger = e.target.closest && e.target.closest('.cmd-palette-trigger, [data-action="cmd-palette"], .btn-sidebar-search');
+    if (trigger) {
+      e.preventDefault();
+      openPalette();
+    }
+  });
+
+  window.openCommandPalette = openPalette;
+  window.closeCommandPalette = closePalette;
 })();

@@ -10,6 +10,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
   <link rel="stylesheet" href="css/style.css" />
+  <link rel="stylesheet" href="css/command-palette.css" />
   <script src="js/theme.js"></script>
 </head>
 <body>
@@ -83,22 +84,22 @@
           <h2 style="font-size:1.3rem;font-weight:800;color:var(--gov-navy);"><i class="fas fa-sliders" style="color:var(--bis-blue);"></i> Step 1: Define Product & Manufacturing Context</h2>
           <p style="font-size:0.85rem;color:var(--slate-500);">Enter your product details to generate a structured BIS compliance checklist and readiness score.</p>
         </div>
-        <span class="demo-badge-tag" style="background:rgba(59,130,246,0.15);color:var(--bis-blue);padding:4px 10px;border-radius:4px;font-size:0.75rem;font-weight:700;">Demo Data Active</span>
+        <span class="demo-badge-tag" style="background:rgba(59,130,246,0.15);color:var(--bis-blue);padding:4px 10px;border-radius:4px;font-size:0.75rem;font-weight:700;">Demo / Reference Benchmark</span>
       </div>
 
       <div style="display:grid;grid-template-columns:repeat(auto-fit, minmax(240px, 1fr));gap:1rem;">
         <div>
-          <label style="display:block;font-size:0.8rem;font-weight:700;color:var(--gov-navy);margin-bottom:6px;">Product Name</label>
-          <input type="text" id="copilotProduct" value="Electric Kettle" placeholder="e.g. Electric Kettle, Helmet, Wire..." class="verify-input-field" style="width:100%;" />
+          <label style="display:block;font-size:0.8rem;font-weight:700;color:var(--gov-navy);margin-bottom:6px;">Product / Category</label>
+          <input type="text" id="copilotProduct" value="Protective Motorcycle Helmet" placeholder="e.g. Protective Motorcycle Helmet, TMT Steel Bar..." class="verify-input-field" style="width:100%;" />
         </div>
         <div>
           <label style="display:block;font-size:0.8rem;font-weight:700;color:var(--gov-navy);margin-bottom:6px;">Industry Sector</label>
           <select id="copilotSector" class="verify-input-field" style="width:100%;">
-            <option value="electrical">Electrical & Electronics</option>
-            <option value="automotive">Automotive & Road Safety</option>
-            <option value="civil">Civil & Structural Steel</option>
-            <option value="toys">Toys & Child Safety</option>
-            <option value="food">Food & Bottled Water</option>
+            <option value="automotive" selected>Automotive &amp; Road Safety</option>
+            <option value="electrical">Electrical &amp; Electronics</option>
+            <option value="civil">Civil &amp; Structural Steel</option>
+            <option value="toys">Toys &amp; Child Safety</option>
+            <option value="food">Food &amp; Bottled Water</option>
           </select>
         </div>
         <div>
@@ -115,11 +116,11 @@
         <button onclick="generateWorkspace()" class="btn-ai-launch" style="background:linear-gradient(135deg, #2563EB 0%, #1D4ED8 100%);padding:10px 22px;font-size:0.9rem;border:none;">
           <i class="fas fa-diagram-project"></i> Generate Compliance Workspace
         </button>
-        <button onclick="loadSampleKettle()" style="background:var(--slate-100);color:var(--gov-navy);padding:10px 18px;border-radius:var(--radius-full);font-weight:600;font-size:0.85rem;border:1px solid var(--border-color);">
-          ⚡ Demo Sample: Electric Kettle (IS 302)
-        </button>
         <button onclick="loadSampleHelmet()" style="background:var(--slate-100);color:var(--gov-navy);padding:10px 18px;border-radius:var(--radius-full);font-weight:600;font-size:0.85rem;border:1px solid var(--border-color);">
-          🪖 Demo Sample: Two-Wheeler Helmet (IS 4151)
+          🪖 Demo Benchmark: Two-Wheeler Helmet (IS 4151)
+        </button>
+        <button onclick="loadSampleKettle()" style="background:var(--slate-100);color:var(--gov-navy);padding:10px 18px;border-radius:var(--radius-full);font-weight:600;font-size:0.85rem;border:1px solid var(--border-color);">
+          ⚡ Demo Benchmark: Electric Kettle (IS 302)
         </button>
       </div>
     </div>
@@ -135,17 +136,17 @@
           
           <div style="position:relative;width:140px;height:140px;margin:0 auto 1.25rem;display:flex;align-items:center;justify-content:center;background:radial-gradient(circle, var(--slate-100) 60%, transparent 60%);border-radius:50%;border:8px solid #2563EB;">
             <div style="text-align:center;">
-              <span id="readinessScoreVal" style="font-size:2.2rem;font-weight:800;color:var(--gov-navy);line-height:1;">72%</span>
+              <span id="readinessScoreVal" style="font-size:2.2rem;font-weight:800;color:var(--gov-navy);line-height:1;">82%</span>
               <div style="font-size:0.68rem;color:var(--slate-500);font-weight:700;margin-top:2px;">READY TO AUDIT</div>
             </div>
           </div>
 
           <div style="font-size:0.8rem;text-align:left;background:var(--slate-50);border:1px solid var(--border-color);border-radius:var(--radius-md);padding:12px;">
             <div style="font-weight:700;color:var(--gov-navy);margin-bottom:6px;"><i class="fas fa-calculator" style="color:var(--bis-blue);"></i> Transparent Score Breakdown:</div>
-            <div style="display:flex;justify-content:space-between;margin-bottom:4px;color:#10B981;"><span>✓ Product Info & Standard</span> <span>+40%</span></div>
-            <div style="display:flex;justify-content:space-between;margin-bottom:4px;color:#10B981;"><span>✓ 4/5 Clauses Addressed</span> <span>+32%</span></div>
-            <div style="display:flex;justify-content:space-between;margin-bottom:4px;color:#EF4444;"><span>⚠ 1 Document Missing</span> <span>-12%</span></div>
-            <div style="display:flex;justify-content:space-between;color:#F59E0B;"><span>⚠ Lab Testing Pending</span> <span>-16%</span></div>
+            <div style="display:flex;justify-content:space-between;margin-bottom:4px;color:#10B981;"><span>✓ Product Info &amp; Standard</span> <span>+40%</span></div>
+            <div style="display:flex;justify-content:space-between;margin-bottom:4px;color:#10B981;"><span>✓ 4/5 Clauses Addressed</span> <span>+34%</span></div>
+            <div style="display:flex;justify-content:space-between;margin-bottom:4px;color:#10B981;"><span>✓ In-House Test Log</span> <span>+8%</span></div>
+            <div style="display:flex;justify-content:space-between;color:#F59E0B;"><span>⚠ STI Lab Rig Pending</span> <span>-18%</span></div>
           </div>
 
           <div style="margin-top:1.25rem;padding-top:1rem;border-top:1px solid var(--border-color);font-size:0.78rem;color:var(--slate-500);text-align:left;">
@@ -157,10 +158,10 @@
         <!-- Applicable Standard Card -->
         <div class="g-card">
           <div style="font-size:0.75rem;font-weight:700;color:var(--bis-blue);text-transform:uppercase;margin-bottom:4px;">Identified Applicable Standard</div>
-          <h4 id="activeStdCode" style="font-size:1.1rem;font-weight:800;color:var(--gov-navy);margin-bottom:6px;">IS 302 (Part 2/Sec 15):2024</h4>
-          <p id="activeStdTitle" style="font-size:0.82rem;color:var(--slate-500);line-height:1.4;margin-bottom:12px;">Safety of Household Electrical Appliances - Particular Requirements for Heating Liquids</p>
+          <h4 id="activeStdCode" style="font-size:1.1rem;font-weight:800;color:var(--gov-navy);margin-bottom:6px;">IS 4151:2015</h4>
+          <p id="activeStdTitle" style="font-size:0.82rem;color:var(--slate-500);line-height:1.4;margin-bottom:12px;">Protective Helmets for Riders of Two-Wheeled Motor Vehicles — Specification</p>
           <div style="display:flex;gap:6px;flex-wrap:wrap;font-size:0.72rem;">
-            <span style="background:rgba(239,68,68,0.15);color:#EF4444;padding:2px 8px;border-radius:4px;font-weight:700;">Mandatory QCO Active</span>
+            <span style="background:rgba(239,68,68,0.15);color:#EF4444;padding:2px 8px;border-radius:4px;font-weight:700;">Mandatory MoRTH QCO</span>
             <span style="background:rgba(59,130,246,0.15);color:var(--bis-blue);padding:2px 8px;border-radius:4px;font-weight:700;">Scheme-I ISI Mark</span>
           </div>
         </div>
@@ -198,23 +199,31 @@
               <h3 style="font-size:1.15rem;font-weight:800;color:var(--gov-navy);"><i class="fas fa-file-shield" style="color:var(--bis-blue);"></i> Technical Document Gap Analyzer</h3>
               <p style="font-size:0.8rem;color:var(--slate-500);">Upload or select a test report / spec sheet to extract clause compliance and missing requirements.</p>
             </div>
-            <span class="demo-badge-tag" style="background:rgba(245,158,11,0.15);color:#D97706;padding:2px 8px;border-radius:4px;font-size:0.72rem;font-weight:700;">AI Gap Analysis</span>
+            <span class="demo-badge-tag" style="background:rgba(245,158,11,0.15);color:#D97706;padding:2px 8px;border-radius:4px;font-size:0.72rem;font-weight:700;">Document Compliance Analysis — Prototype</span>
           </div>
 
-          <div style="border:2px dashed var(--border-color);border-radius:var(--radius-lg);padding:1.5rem;text-align:center;background:var(--slate-50);margin-bottom:1rem;">
+          <div style="border:2px dashed var(--border-color);border-radius:var(--radius-lg);padding:1.5rem;text-align:center;background:var(--slate-50);margin-bottom:1rem;cursor:pointer;" onclick="document.getElementById('docFileInput').click()">
+            <input type="file" id="docFileInput" accept=".pdf,.doc,.docx,.png,.jpg,.jpeg" onchange="handleDocFileSelect(event)" style="display:none;" />
             <i class="fas fa-cloud-arrow-up" style="font-size:2rem;color:var(--bis-blue);margin-bottom:8px;"></i>
-            <div style="font-size:0.9rem;font-weight:700;color:var(--gov-navy);">Drag & Drop Compliance Document or Test Report</div>
-            <div style="font-size:0.78rem;color:var(--slate-500);margin-bottom:12px;">Supports PDF, DOCX, or scanned test certificate images</div>
+            <div style="font-size:0.9rem;font-weight:700;color:var(--gov-navy);" id="docUploadPrompt">Click or Drag & Drop Compliance Document / Test Report</div>
+            <div style="font-size:0.78rem;color:var(--slate-500);margin-bottom:10px;" id="docUploadSub">Supports PDF, DOCX, or scanned test certificate images</div>
             
-            <div style="display:flex;justify-content:center;gap:8px;flex-wrap:wrap;">
-              <button onclick="analyzeSampleDoc('spec')" style="background:var(--slate-100);color:var(--gov-navy);padding:6px 12px;border-radius:var(--radius-sm);font-size:0.78rem;font-weight:600;border:1px solid var(--border-color);">
-                📄 Sample 1: Kettle Spec Sheet (SS 304)
+            <div id="docFileSelectedWrap" style="display:none;margin:10px auto;padding:8px 14px;background:rgba(59,130,246,0.12);border:1px solid rgba(59,130,246,0.3);border-radius:8px;max-width:380px;">
+              <span id="docFileSelectedName" style="font-size:0.84rem;font-weight:700;color:var(--bis-blue);"></span>
+              <button onclick="event.stopPropagation(); runUploadedDocAnalysis()" style="display:block;margin:8px auto 0;background:var(--bis-blue);color:white;border:none;padding:6px 14px;border-radius:6px;font-size:0.78rem;font-weight:700;cursor:pointer;">
+                <i class="fas fa-magnifying-glass"></i> Analyze Document — Prototype
               </button>
-              <button onclick="analyzeSampleDoc('test')" style="background:var(--slate-100);color:var(--gov-navy);padding:6px 12px;border-radius:var(--radius-sm);font-size:0.78rem;font-weight:600;border:1px solid var(--border-color);">
-                📄 Sample 2: Dielectric Test Report
+            </div>
+            
+            <div style="display:flex;justify-content:center;gap:8px;flex-wrap:wrap;margin-top:10px;" onclick="event.stopPropagation()">
+              <button onclick="analyzeSampleDoc('spec')" style="background:var(--slate-100);color:var(--gov-navy);padding:6px 12px;border-radius:var(--radius-sm);font-size:0.78rem;font-weight:600;border:1px solid var(--border-color);cursor:pointer;">
+                📄 Demo Spec Sheet
               </button>
-              <button onclick="analyzeSampleDoc('incomplete')" style="background:var(--slate-100);color:var(--gov-navy);padding:6px 12px;border-radius:var(--radius-sm);font-size:0.78rem;font-weight:600;border:1px solid var(--border-color);">
-                📄 Sample 3: Incomplete Declaration
+              <button onclick="analyzeSampleDoc('test')" style="background:var(--slate-100);color:var(--gov-navy);padding:6px 12px;border-radius:var(--radius-sm);font-size:0.78rem;font-weight:600;border:1px solid var(--border-color);cursor:pointer;">
+                📄 Demo Lab Test Report
+              </button>
+              <button onclick="analyzeSampleDoc('incomplete')" style="background:var(--slate-100);color:var(--gov-navy);padding:6px 12px;border-radius:var(--radius-sm);font-size:0.78rem;font-weight:600;border:1px solid var(--border-color);cursor:pointer;">
+                📄 Demo Incomplete Filing
               </button>
             </div>
           </div>
@@ -272,11 +281,11 @@
   <script src="js/database.js"></script>
   <script>
     let currentChecklistData = [
-      { id: 1, clause: "Clause 19.4", title: "Dual Dry-Boil Auto-Cut Switch", status: "completed", mandatory: true },
-      { id: 2, clause: "Clause 13.2", title: "Leakage Current Below 0.75 mA", status: "completed", mandatory: true },
-      { id: 3, clause: "Clause 22.11", title: "Food Grade SS 304 Inner Liner Certificate", status: "completed", mandatory: true },
-      { id: 4, clause: "Clause 7.1", title: "Laser-Engraved Rating Plate Marking", status: "completed", mandatory: true },
-      { id: 5, clause: "Lab Testing", title: "NABL Independent Test Report under IS 302", status: "attention", mandatory: true }
+      { id: 1, clause: "Clause 6.1", title: "Drop Tower Impact Attenuation (<275g Peak Acceleration)", status: "completed", mandatory: true },
+      { id: 2, clause: "Clause 6.2", title: "3kg Conical Striker Penetration Resistance Test", status: "completed", mandatory: true },
+      { id: 3, clause: "Clause 6.3", title: "Dynamic Chin Strap Retention System Displacement", status: "completed", mandatory: true },
+      { id: 4, clause: "Clause 7.4", title: "Total Helmet Mass Compliance (≤ 1.2 kg Cap)", status: "completed", mandatory: true },
+      { id: 5, clause: "STI Scheme", title: "BIS In-House Anvil Calibration & STI Scheme Testing", status: "attention", mandatory: true }
     ];
 
     function renderChecklist() {
@@ -351,47 +360,279 @@
       renderChecklist();
     }
 
-    function generateWorkspace() {
+    async function generateWorkspace() {
       const prod = document.getElementById('copilotProduct').value.trim();
-      if (!prod) return;
-      loadSampleKettle();
+      const sector = document.getElementById('copilotSector').value;
+      const scale = document.getElementById('copilotScale').value;
+      if (!prod) {
+        alert('Please enter a product name (e.g. Helmet, Steel bars, Electric Kettle, Wire, Jewellery, Toys).');
+        return;
+      }
+
+      const btn = document.querySelector('button[onclick="generateWorkspace()"]');
+      const originalBtnHTML = btn ? btn.innerHTML : '';
+      if (btn) {
+        btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Querying Standards...';
+        btn.disabled = true;
+      }
+
+      let matchedStandard = null;
+
+      // 1. Try querying backend /api/rag endpoint for grounded standard identification
+      try {
+        const res = await fetch('/api/rag', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ query: `${prod} ${sector} specification requirements` })
+        });
+        if (res.ok) {
+          const data = await res.json();
+          if (data && data.results && data.results.length > 0) {
+            const top = data.results[0];
+            matchedStandard = {
+              code: top.standardCode || top.title,
+              title: top.title || top.standardTitle || top.text,
+              clauseNumber: top.clauseNumber || "Clause Requirements",
+              summary: top.summary || top.text || ""
+            };
+          }
+        }
+      } catch (err) {
+        console.warn('Backend /api/rag notice, using knowledge base resolver:', err);
+      }
+
+      // 2. Fallback to local verified knowledge base (database.js)
+      if (!matchedStandard && typeof BIS_STANDARDS_EXPANDED_DB !== 'undefined') {
+        const pLower = prod.toLowerCase();
+        const localMatch = BIS_STANDARDS_EXPANDED_DB.find(s => {
+          const titleL = (s.title || '').toLowerCase();
+          const codeL = (s.code || '').toLowerCase();
+          const catL = (s.category || '').toLowerCase();
+          const summL = (s.summary || '').toLowerCase();
+          return pLower.includes(s.code.toLowerCase()) ||
+                 titleL.includes(pLower) ||
+                 catL.includes(pLower) ||
+                 summL.includes(pLower) ||
+                 (pLower.includes('helmet') && codeL.includes('4151')) ||
+                 (pLower.includes('steel') && codeL.includes('1786')) ||
+                 (pLower.includes('bar') && codeL.includes('1786')) ||
+                 (pLower.includes('tmt') && codeL.includes('1786')) ||
+                 (pLower.includes('kettle') && codeL.includes('302')) ||
+                 (pLower.includes('wire') && codeL.includes('694')) ||
+                 (pLower.includes('cable') && codeL.includes('694')) ||
+                 (pLower.includes('gold') && codeL.includes('1417')) ||
+                 (pLower.includes('jewel') && codeL.includes('1417')) ||
+                 (pLower.includes('huid') && codeL.includes('1417')) ||
+                 (pLower.includes('toy') && codeL.includes('9873')) ||
+                 (pLower.includes('water') && codeL.includes('14543'));
+        });
+        if (localMatch) {
+          matchedStandard = {
+            code: localMatch.code,
+            title: localMatch.title,
+            clauseNumber: localMatch.clauseNumber || "Clause Mandates",
+            summary: localMatch.summary
+          };
+        }
+      }
+
+      if (btn) {
+        btn.innerHTML = originalBtnHTML;
+        btn.disabled = false;
+      }
+
+      // If no relevant standard found
+      if (!matchedStandard) {
+        document.getElementById('activeStdCode').textContent = 'Standard Unindexed';
+        document.getElementById('activeStdTitle').textContent = `No direct statutory standard located for "${prod}". Search by standard code (e.g. IS 1786) or consult BIS inquiry directory.`;
+        document.getElementById('checklistItemsContainer').innerHTML = `
+          <div style="padding:16px;background:rgba(239,68,68,0.1);border:1px solid rgba(239,68,68,0.3);border-radius:8px;color:var(--text-main);">
+            <strong style="color:#EF4444;"><i class="fas fa-circle-exclamation"></i> No Verified Standard Located</strong>
+            <p style="font-size:0.84rem;margin-top:6px;line-height:1.5;">
+              The product <strong>"${escapeHtml(prod)}"</strong> was not matched to a mandatory standard in the current indexed knowledge base.
+              Try standard categories such as <em>Helmet</em>, <em>Steel bars</em>, <em>Electrical wire</em>, <em>Electric kettle</em>, <em>Toys</em>, or <em>Packaged drinking water</em>.
+            </p>
+          </div>
+        `;
+        document.getElementById('readinessScoreVal').textContent = '0%';
+        document.getElementById('checklistCountStr').textContent = '0 Tasks Identified';
+        document.getElementById('chkProgressBar').style.width = '0%';
+        return;
+      }
+
+      // Update active standard display
+      document.getElementById('activeStdCode').textContent = matchedStandard.code;
+      document.getElementById('activeStdTitle').textContent = matchedStandard.title;
+
+      // Build checklist tailored to standard
+      buildDynamicChecklist(matchedStandard.code, prod);
+
+      // Update scale notice
+      updateScaleNotice(scale);
+    }
+
+    function buildDynamicChecklist(stdCode, prod) {
+      const code = stdCode.toUpperCase();
+      if (code.includes('4151') || /helmet/i.test(prod)) {
+        currentChecklistData = [
+          { id: 1, clause: "Clause 6.1", title: "Drop Tower Impact Attenuation (<275g)", status: "completed", mandatory: true },
+          { id: 2, clause: "Clause 6.2", title: "3kg Conical Striker Penetration Test", status: "completed", mandatory: true },
+          { id: 3, clause: "Clause 6.3", title: "Dynamic Chin Strap Retention Test", status: "completed", mandatory: true },
+          { id: 4, clause: "Weight Limit", title: "Total Weight Under 1.2 kg Cap", status: "completed", mandatory: true },
+          { id: 5, clause: "Visor Safety", title: "Optical Clarity & Scratch Resistance (IS 9944)", status: "started", mandatory: true }
+        ];
+      } else if (code.includes('1786') || /steel|tmt/i.test(prod)) {
+        currentChecklistData = [
+          { id: 1, clause: "Clause 4.2", title: "Fe 500D / 550D Chemical Composition (C, S, P Limits)", status: "completed", mandatory: true },
+          { id: 2, clause: "Clause 8.1", title: "0.2% Proof Stress & Tensile Strength (TS/YS Ratio)", status: "completed", mandatory: true },
+          { id: 3, clause: "Clause 8.3", title: "Total Elongation at Maximum Force (Agt ≥ 5%)", status: "completed", mandatory: true },
+          { id: 4, clause: "Clause 9.1", title: "Mandrel 180° Bend & Rebend Test Without Cracks", status: "completed", mandatory: true },
+          { id: 5, clause: "STI Factory Lab", title: "In-House UTM & Spectrometer Calibration Report", status: "attention", mandatory: true }
+        ];
+      } else if (code.includes('694') || /wire|cable/i.test(prod)) {
+        currentChecklistData = [
+          { id: 1, clause: "Clause 6.1", title: "Electrolytic Copper Conductor Resistance at 20°C", status: "completed", mandatory: true },
+          { id: 2, clause: "Clause 14.1", title: "High Voltage Water Immersion Test (3000V AC / 15 min)", status: "completed", mandatory: true },
+          { id: 3, clause: "Clause 15.2", title: "Spark Testing of Insulation During Extrusion", status: "completed", mandatory: true },
+          { id: 4, clause: "Flammability", title: "Flame Retardant (FR) Oxygen Index ≥ 29%", status: "completed", mandatory: true },
+          { id: 5, clause: "In-House Rig", title: "Kelvin Double Bridge & Tensile Test Calibration", status: "attention", mandatory: true }
+        ];
+      } else if (code.includes('1417') || /jewel|gold/i.test(prod)) {
+        currentChecklistData = [
+          { id: 1, clause: "Fineness", title: "22K (916) / 18K (750) Purity Chemical Fire Assay", status: "completed", mandatory: true },
+          { id: 2, clause: "Laser HUID", title: "6-Digit Alphanumeric Laser Inscription Verification", status: "completed", mandatory: true },
+          { id: 3, clause: "AHC Portal", title: "Mandatory Assaying & Hallmarking Centre Registry Upload", status: "completed", mandatory: true },
+          { id: 4, clause: "Identification", title: "Jeweller Identification Mark Stamping", status: "completed", mandatory: true },
+          { id: 5, clause: "Scheme-VI", title: "Annual Hallmarking License Compliance Return", status: "attention", mandatory: true }
+        ];
+      } else if (code.includes('14543') || /water/i.test(prod)) {
+        currentChecklistData = [
+          { id: 1, clause: "Clause 4.1", title: "Microbiological Zero Count (E. Coli, Coliforms, Viruses)", status: "completed", mandatory: true },
+          { id: 2, clause: "Clause 5.2", title: "Total Dissolved Solids (TDS) & Heavy Metal Limits", status: "completed", mandatory: true },
+          { id: 3, clause: "Clause 6.1", title: "Ozone Residual Concentration (0.05 to 0.2 mg/L)", status: "completed", mandatory: true },
+          { id: 4, clause: "Packaging", title: "Food Grade PET/Glass Container Standards (IS 12252)", status: "completed", mandatory: true },
+          { id: 5, clause: "Daily Testing", title: "In-House Bacteriological Testing Rig & Incubation Records", status: "attention", mandatory: true }
+        ];
+      } else if (code.includes('9873') || /toy/i.test(prod)) {
+        currentChecklistData = [
+          { id: 1, clause: "Part 1", title: "Physical & Mechanical Properties (No Sharp Edges or Points)", status: "completed", mandatory: true },
+          { id: 2, clause: "Part 2", title: "Flammability Testing of Textiles & Polymer Shells", status: "completed", mandatory: true },
+          { id: 3, clause: "Part 3", title: "Migration of 8 Toxic Elements (Lead, Cadmium, Mercury)", status: "completed", mandatory: true },
+          { id: 4, clause: "Small Parts", title: "Small Parts Choking Cylinder Drop Test (Age < 36 mo)", status: "completed", mandatory: true },
+          { id: 5, clause: "Scheme-I", title: "Compulsory ISI Stamping under Toys (QCO) 2020", status: "attention", mandatory: true }
+        ];
+      } else {
+        currentChecklistData = [
+          { id: 1, clause: "Clause 1", title: "Scope & Raw Material Conformance under " + stdCode, status: "completed", mandatory: true },
+          { id: 2, clause: "Clause 2", title: "Mandatory Dimension & Physical Property Verification", status: "completed", mandatory: true },
+          { id: 3, clause: "Safety Limit", title: "Critical Operating Tolerance & Stress Performance", status: "completed", mandatory: true },
+          { id: 4, clause: "Marking", title: "Standard Mark (ISI) & Batch Traceability Rating Plate", status: "completed", mandatory: true },
+          { id: 5, clause: "STI Scheme", title: "Scheme of Testing and Inspection (STI) In-House Lab Readiness", status: "attention", mandatory: true }
+        ];
+      }
+      renderChecklist();
+    }
+
+    function updateScaleNotice(scale) {
+      const msmeNoticeEl = document.querySelector('#workspaceResults .g-card div[style*="border-top"]');
+      if (msmeNoticeEl) {
+        if (scale === 'micro') {
+          msmeNoticeEl.innerHTML = `<strong>MSME Concession Status:</strong><br /><span style="color:#10B981;font-weight:700;">✓ Eligible for 50% Marking Fee Concession</span> under Micro Enterprise scheme (Udyam).`;
+        } else if (scale === 'small') {
+          msmeNoticeEl.innerHTML = `<strong>MSME Concession Status:</strong><br /><span style="color:#60A5FA;font-weight:700;">✓ Eligible for 20% Marking Fee Concession</span> under Small Enterprise scheme (Udyam).`;
+        } else {
+          msmeNoticeEl.innerHTML = `<strong>Enterprise Status:</strong><br /><span style="color:var(--slate-500);font-weight:600;">Standard Fee Schedule</span> under Scheme-I General Scale.`;
+        }
+      }
+    }
+
+    let selectedDocFileName = '';
+    function handleDocFileSelect(event) {
+      const file = event.target.files && event.target.files[0];
+      if (!file) return;
+      selectedDocFileName = file.name;
+      const sizeKB = Math.round(file.size / 1024);
+      const wrap = document.getElementById('docFileSelectedWrap');
+      const nameEl = document.getElementById('docFileSelectedName');
+      if (wrap && nameEl) {
+        nameEl.textContent = `Selected: ${file.name} (${sizeKB} KB)`;
+        wrap.style.display = 'block';
+      }
+    }
+
+    function runUploadedDocAnalysis() {
+      if (!selectedDocFileName) return;
+      const currentStd = document.getElementById('activeStdCode').textContent || 'Active Standard';
+      const res = document.getElementById('docAnalysisResults');
+      res.style.display = 'block';
+      res.innerHTML = `<div style="text-align:center;padding:1rem;color:var(--slate-500);"><i class="fas fa-spinner fa-spin"></i> Parsing "${escapeHtml(selectedDocFileName)}" against ${escapeHtml(currentStd)} clauses...</div>`;
+
+      setTimeout(() => {
+        res.innerHTML = `
+          <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;border-bottom:1px solid var(--border-color);padding-bottom:8px;">
+            <div style="font-weight:800;color:var(--gov-navy);font-size:0.95rem;">📄 Document Analysis Finding: ${escapeHtml(selectedDocFileName)}</div>
+            <span class="demo-badge-tag" style="background:rgba(245,158,11,0.15);color:#D97706;padding:2px 8px;border-radius:4px;font-size:0.72rem;font-weight:700;">Prototype Evaluation</span>
+          </div>
+          <div style="display:flex;flex-direction:column;gap:6px;font-size:0.82rem;">
+            <div style="color:#10B981;">✓ <strong>Format & Schema Validated:</strong> Test structure aligns with NABL ISO/IEC 17025 reporting guidelines.</div>
+            <div style="color:#10B981;">✓ <strong>Key Parameters Found:</strong> Mechanical tolerance and critical safety values recorded within permissible limits of ${escapeHtml(currentStd)}.</div>
+            <div style="color:#F59E0B;">⚠ <strong>Calibration Notice:</strong> Instrument calibration valid date requires confirmation against lab records.</div>
+            <div style="color:#60A5FA;">ℹ️ <strong>Prototype Finding:</strong> Simulated extraction complete. Upload to Manakonline for official statutory approval.</div>
+          </div>
+        `;
+      }, 700);
     }
 
     function analyzeSampleDoc(type) {
+      const currentStd = document.getElementById('activeStdCode').textContent || 'IS 302:2024';
       const res = document.getElementById('docAnalysisResults');
       res.style.display = 'block';
-      res.innerHTML = `<div style="text-align:center;padding:1rem;color:var(--slate-500);"><i class="fas fa-spinner fa-spin"></i> Analyzing document against IS 302 clauses...</div>`;
+      res.innerHTML = `<div style="text-align:center;padding:1rem;color:var(--slate-500);"><i class="fas fa-spinner fa-spin"></i> Analyzing document against ${escapeHtml(currentStd)} clauses...</div>`;
 
       setTimeout(() => {
         if (type === 'spec') {
           res.innerHTML = `
-            <div style="font-weight:800;color:var(--gov-navy);font-size:0.95rem;margin-bottom:8px;">📄 Document Finding: Product Spec Sheet (SS 304 Kettle)</div>
+            <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;border-bottom:1px solid var(--border-color);padding-bottom:8px;">
+              <div style="font-weight:800;color:var(--gov-navy);font-size:0.95rem;">📄 Document Finding: Product Technical Specification Sheet</div>
+              <span class="demo-badge-tag" style="background:rgba(245,158,11,0.15);color:#D97706;padding:2px 8px;border-radius:4px;font-size:0.72rem;font-weight:700;">Prototype Evaluation</span>
+            </div>
             <div style="display:flex;flex-direction:column;gap:6px;font-size:0.82rem;">
-              <div style="color:#10B981;">✓ <strong>Clause 22.11 Satisfied:</strong> Interior body certified food-grade SS 304 stainless steel.</div>
-              <div style="color:#10B981;">✓ <strong>Clause 7.1 Satisfied:</strong> Rated voltage specified 230V AC 50Hz, 1500W.</div>
-              <div style="color:#F59E0B;">⚠ <strong>Clause 19.4 Warning:</strong> Primary steam sensor specified, but secondary thermal fuse model missing.</div>
-              <div style="color:#EF4444;">❌ <strong>Missing Requirement:</strong> Ground earthing wire gauge specification not mentioned.</div>
+              <div style="color:#10B981;">✓ <strong>Material Specification Satisfied:</strong> Raw material grades certified food-grade and non-hazardous.</div>
+              <div style="color:#10B981;">✓ <strong>Electrical / Mechanical Rating:</strong> Nominal voltage and rated power capacity explicitly specified.</div>
+              <div style="color:#F59E0B;">⚠ <strong>Clause Notice:</strong> Secondary safety thermal fuse specification requires model part identification.</div>
+              <div style="color:#EF4444;">❌ <strong>Missing Requirement:</strong> Ground earthing wire cross-sectional gauge not explicitly mentioned.</div>
             </div>
           `;
         } else if (type === 'test') {
           res.innerHTML = `
-            <div style="font-weight:800;color:var(--gov-navy);font-size:0.95rem;margin-bottom:8px;">📄 Document Finding: NABL Dielectric Test Report</div>
+            <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;border-bottom:1px solid var(--border-color);padding-bottom:8px;">
+              <div style="font-weight:800;color:var(--gov-navy);font-size:0.95rem;">📄 Document Finding: NABL Dielectric & Safety Test Report</div>
+              <span class="demo-badge-tag" style="background:rgba(245,158,11,0.15);color:#D97706;padding:2px 8px;border-radius:4px;font-size:0.72rem;font-weight:700;">Prototype Evaluation</span>
+            </div>
             <div style="display:flex;flex-direction:column;gap:6px;font-size:0.82rem;">
-              <div style="color:#10B981;">✓ <strong>Clause 13.2 Satisfied:</strong> High Voltage breakdown test passed at 1250V AC for 60 seconds.</div>
-              <div style="color:#10B981;">✓ <strong>Earth Bonding Satisfied:</strong> Resistance recorded 0.04 Ω (limit <0.1 Ω).</div>
-              <div style="color:#F59E0B;">🔍 <strong>Requires Verification:</strong> Leakage current recorded 0.68 mA (within 0.75 mA limit, close to threshold).</div>
+              <div style="color:#10B981;">✓ <strong>High Voltage Test Satisfied:</strong> Breakdown test passed at specified test voltage for 60 seconds without flashover.</div>
+              <div style="color:#10B981;">✓ <strong>Bonding Resistance Satisfied:</strong> Resistance recorded 0.04 Ω (well below 0.1 Ω threshold).</div>
+              <div style="color:#F59E0B;">🔍 <strong>Requires Verification:</strong> Leakage current recorded 0.68 mA (within 0.75 mA ceiling, close to limit).</div>
             </div>
           `;
         } else {
           res.innerHTML = `
-            <div style="font-weight:800;color:#DC2626;font-size:0.95rem;margin-bottom:8px;">📄 Document Finding: Incomplete Declaration Form</div>
+            <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;border-bottom:1px solid var(--border-color);padding-bottom:8px;">
+              <div style="font-weight:800;color:#DC2626;font-size:0.95rem;">📄 Document Finding: Incomplete Declaration Form</div>
+              <span class="demo-badge-tag" style="background:rgba(239,68,68,0.15);color:#EF4444;padding:2px 8px;border-radius:4px;font-size:0.72rem;font-weight:700;">Deficiency Alert</span>
+            </div>
             <div style="display:flex;flex-direction:column;gap:6px;font-size:0.82rem;">
-              <div style="color:#EF4444;">❌ <strong>Clause Mismatch:</strong> Reference cited IS 302:2009 (outdated edition). Needs IS 302:2024 update.</div>
-              <div style="color:#EF4444;">❌ <strong>Missing Info:</strong> Factory quality control manager signature and stamp missing.</div>
+              <div style="color:#EF4444;">❌ <strong>Clause Mismatch:</strong> Reference cited superseded prior edition. Standard must be updated to current gazette revision.</div>
+              <div style="color:#EF4444;">❌ <strong>Missing Info:</strong> Factory Quality Control In-Charge digital signature or official stamp missing.</div>
             </div>
           `;
         }
       }, 600);
+    }
+
+    function escapeHtml(str) {
+      if (!str) return '';
+      return String(str).replace(/[&<>"']/g, m => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' })[m]);
     }
 
     window.onload = function() {
@@ -406,5 +647,6 @@
     };
   </script>
   <script src="js/wizard.js"></script>
+  <script src="js/command-palette.js"></script>
 </body>
 </html>

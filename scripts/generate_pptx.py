@@ -229,7 +229,7 @@ def create_presentation():
         ("Central Knowledge Store", "20 structured subdirectories in data/bis_knowledge/ (documents, clauses, tables, STI, QCOs, labs)."),
         ("Dual Vector & Lexical Core", "BAAI/bge-small-en-v1.5 (384-D dense embeddings) + Okapi BM25 + Reciprocal Rank Fusion (k=60)."),
         ("Knowledge Graph Engine", "10,733 nodes & 16,623 relational edges tracking supersessions (IS 4151:1993 → IS 4151:2015)."),
-        ("Dual-Model LLM Gateway", "Google Gemini 3.6 Flash + Groq Qwen with strict XML grounding and anti-injection guards."),
+        ("Enterprise LLM Gateway", "Google Gemini 3.5 / 3.6 Flash with strict evidence grounding and anti-injection guards."),
         ("Multimodal & Edge Modules", "Tesseract.js OCR with digit disambiguation + Web Speech API (Hindi/English) + html2pdf report exporter.")
     ]
     for h, b in arch_tech:
