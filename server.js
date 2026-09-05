@@ -53,7 +53,7 @@ if (fs.existsSync(path.join(__dirname, '.env'))) {
   });
 }
 
-const PORT = process.env.PORT ? String(process.env.PORT).trim() : 3000;
+const PORT = parseInt(process.env.PORT, 10) || 3000;
 const HOST = process.env.HOST || '0.0.0.0'; // Bind to 0.0.0.0 for Cloud / Render deployment
 const GEMINI_API_KEY = process.env.GEMINI_API_KEY;
 
