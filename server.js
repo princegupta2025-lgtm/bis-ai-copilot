@@ -273,6 +273,14 @@ app.get('/', (req, res) => {
   res.sendFile(path.join(__dirname, 'index.html'));
 });
 
+// GET /api/health - Server Health Check (Ultra-fast immediate readiness probe)
+app.get('/api/health', (req, res) => {
+  res.json({
+    status: "ok",
+    service: "BIS Trust Copilot"
+  });
+});
+
 // ============================================================================
 // PHASE 1 FIX: DISABLED DYNAMIC INGESTION ENDPOINTS (DATA POISONING MITIGATION)
 // ============================================================================
@@ -397,13 +405,18 @@ if (fs.existsSync(authStandardsDir) && bisVectorStore) {
   } catch (e) {}
 }
 
+let embeddingReady = false;
+
 // Initialize Pretrained Semantic Transformer Model (BAAI/bge-small-en-v1.5)
 async function initEmbeddingEngine() {
   try {
+    console.log('BGE INITIALIZATION STARTED');
     const { pipeline } = require('@xenova/transformers');
     console.log('Loading genuine pretrained transformer: BAAI/bge-small-en-v1.5 (384-D)...');
     embedder = await pipeline('feature-extraction', 'Xenova/bge-small-en-v1.5');
+    embeddingReady = true;
     console.log('✅ BAAI/bge-small-en-v1.5 Neural Embedding Engine Ready!');
+    console.log('BGE INITIALIZATION COMPLETE');
 
     // Generate 384-D dense embeddings for augmented authorized clauses
     if (bisVectorStore) {
@@ -424,6 +437,7 @@ async function initEmbeddingEngine() {
       }
     }
   } catch (err) {
+    embeddingReady = false;
     console.warn('⚠️ Xenova Transformer initialization notice (falling back to pre-indexed vectors):', err.message);
   }
 }
@@ -1113,7 +1127,7 @@ async function performHybridRAG(query, { topK = 8, role = 'consumer' } = {}) {
   let denseCandidates = [];
   let queryVector = null;
 
-  if (embedder) {
+  if (embeddingReady && embedder) {
     try {
       const out = await embedder(query, { pooling: 'mean', normalize: true });
       queryVector = out.data;
@@ -1921,10 +1935,7 @@ app.get('/api/documents/coverage', (req, res) => {
   res.json({ error: "Coverage report not found" });
 });
 
-// GET /api/health - Server Health Check
-app.get('/api/health', (req, res) => {
-  res.json({ status: "ok", service: "BIS Trust Copilot" });
-});
+
 
 // GET /api/stats - Live Knowledge System Metrics
 app.get('/api/stats', (req, res) => {
@@ -1973,7 +1984,12 @@ app.use((err, req, res, next) => {
 let serverInstance = null;
 
 async function startServer() {
+  console.log('STARTING BIS TRUST COPILOT');
+  console.log(`PORT=${PORT}`);
+  console.log('HOST=0.0.0.0');
+
   serverInstance = app.listen(PORT, '0.0.0.0', () => {
+    console.log('HTTP SERVER READY');
     console.log(`BIS Trust Copilot listening on 0.0.0.0:${PORT}`);
     console.log(`🚀 MANAK-AI (BIS Trust Copilot) securely running on http://0.0.0.0:${PORT}/chat.html`);
     console.log(`🔒 Security Hardened: Phase 1 (Protection), Phase 2 (Server Prompt), Phase 3 (Dynamic IS Injection)`);
