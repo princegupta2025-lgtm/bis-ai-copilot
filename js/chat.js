@@ -3567,13 +3567,20 @@ async function callLiveLLMStreaming(userQuery, ragChunks, primaryDoc, aiBubbleId
 
   const models = ['gemini-3.5-flash-lite', 'gemini-3.5-flash', 'gemini-3.6-flash'];
   
-  // Resilient multi-endpoint candidate list (handles local server on 3000, 8000, 8080, file:// protocol, and public tunnel)
+  // Resilient multi-endpoint candidate list (same-origin /api/chat in production; localhost fallback ONLY for local dev or file://)
   const candidateEndpoints = [];
   if (window.location.protocol.startsWith('http')) {
     candidateEndpoints.push('/api/chat');
   }
-  candidateEndpoints.push('http://localhost:3000/api/chat');
-  candidateEndpoints.push('http://127.0.0.1:3000/api/chat');
+  const isLocalDev = !window.location.hostname || 
+    window.location.hostname === 'localhost' || 
+    window.location.hostname === '127.0.0.1' || 
+    window.location.hostname === '0.0.0.0' || 
+    window.location.protocol === 'file:';
+  if (isLocalDev) {
+    candidateEndpoints.push('http://localhost:3000/api/chat');
+    candidateEndpoints.push('http://127.0.0.1:3000/api/chat');
+  }
 
   for (const endpoint of candidateEndpoints) {
     if (streamSuccess) break;

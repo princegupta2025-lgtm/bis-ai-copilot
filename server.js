@@ -46,7 +46,7 @@ if (fs.existsSync(path.join(__dirname, '.env'))) {
 }
 
 const PORT = process.env.PORT || 3000;
-const HOST = process.env.NODE_ENV === 'production' ? '0.0.0.0' : '127.0.0.1'; // Cloud-friendly binding
+const HOST = process.env.HOST || '0.0.0.0'; // Bind to 0.0.0.0 for Cloud / Render deployment
 const GEMINI_API_KEY = process.env.GEMINI_API_KEY;
 
 // ============================================================================
@@ -113,7 +113,8 @@ app.use(cors({
     
     // Allow localhost and local LAN IP ranges (192.168.x.x, 10.x.x.x, 172.16-31.x.x)
     const isLocalOrLan = /^http:\/\/(localhost|127\.0\.0\.1|192\.168\.\d+\.\d+|10\.\d+\.\d+\.\d+|172\.(1[6-9]|2\d|3[0-1])\.\d+\.\d+)(:\d+)?$/.test(origin);
-    if (ALLOWED_ORIGINS.includes(origin) || isLocalOrLan || envAllowedOrigins.includes(origin)) {
+    const isRenderApp = /^https:\/\/[a-zA-Z0-9-]+\.onrender\.com$/.test(origin);
+    if (ALLOWED_ORIGINS.includes(origin) || isLocalOrLan || isRenderApp || envAllowedOrigins.includes(origin)) {
       return callback(null, true);
     }
 
@@ -255,9 +256,14 @@ app.use(express.json({ limit: '2mb' }));
 // 5. Restrict Static Files (Serve only approved frontend assets, dotfiles denied)
 app.use(express.static(path.join(__dirname), {
   dotfiles: 'deny',
-  index: ['chat.html', 'index.html'],
+  index: ['index.html', 'chat.html'],
   maxAge: '1h'
 }));
+
+// Root Route explicitly serving Hero Landing Page
+app.get('/', (req, res) => {
+  res.sendFile(path.join(__dirname, 'index.html'));
+});
 
 // ============================================================================
 // PHASE 1 FIX: DISABLED DYNAMIC INGESTION ENDPOINTS (DATA POISONING MITIGATION)
@@ -1909,7 +1915,7 @@ app.get('/api/documents/coverage', (req, res) => {
 
 // GET /api/health - Server Health Check
 app.get('/api/health', (req, res) => {
-  res.json({ status: "ok", service: "MANAK-AI", timestamp: Date.now() });
+  res.json({ status: "ok", service: "BIS Trust Copilot" });
 });
 
 // GET /api/stats - Live Knowledge System Metrics
