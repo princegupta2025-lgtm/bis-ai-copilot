@@ -4473,72 +4473,70 @@ function renderDynamicHistory() {
     const timeDisplay = formatRelativeTime(item.updatedAt || item.createdAt);
 
     return `
-      <div class="conv-row-item ${isActive ? 'active' : ''}" onclick="loadHistorySession('${item.id}')" title="${escapedTitle}">
+      <div class="conv-row-item ${isActive ? 'active' : ''}" id="conv-row-${item.id}" onclick="loadHistorySession('${item.id}')" title="${escapedTitle}">
         <div class="conv-item-main">
-          <i class="fas fa-message"></i>
-          <span class="conv-title">${escapedTitle}</span>
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink:0;"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path></svg>
+          <span class="conv-title" id="conv-title-${item.id}">${escapedTitle}</span>
         </div>
         <div class="conv-meta">
           <span class="conv-time">${timeDisplay}</span>
-          <button class="conv-actions-btn" onclick="openConversationItemMenu(event, '${item.id}')" title="Conversation Options" aria-label="Conversation Options">
-            <i class="fas fa-ellipsis"></i>
-          </button>
+          <div class="conv-actions-group">
+            <button class="conv-action-btn edit-btn" onclick="startInlineRename(event, '${item.id}')" title="Rename" aria-label="Rename conversation">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"></path><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"></path></svg>
+            </button>
+            <button class="conv-action-btn delete-btn" onclick="promptDeleteSession(event, '${item.id}')" title="Delete" aria-label="Delete conversation">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path></svg>
+            </button>
+          </div>
         </div>
       </div>
     `;
   }).join('');
 }
 
-function loadHistorySession(sessionId) {
-  if (window.innerWidth <= 820) toggleSidebar(false);
-  const sessions = getSavedSessions();
-  const session = sessions.find(s => s.id === sessionId);
-  if (!session) return;
+function startInlineRename(event, sessionId) {
+  if (event) event.stopPropagation();
+  const row = document.getElementById(`conv-row-${sessionId}`);
+  const titleEl = document.getElementById(`conv-title-${sessionId}`);
+  if (!titleEl) return;
 
-  APP_STATE.currentSessionId = session.id;
-  APP_STATE.currentSessionTitle = session.title;
-  APP_STATE.currentSessionMessages = session.messages ? [...session.messages] : [];
-  APP_STATE.conversationHistory = [];
+  const currentTitle = titleEl.textContent || '';
+  if (row) row.classList.add('editing');
 
-  const titleEl = document.getElementById('currentSessionDisplayTitle');
-  if (titleEl) titleEl.innerText = session.title;
+  titleEl.innerHTML = `
+    <input type="text" class="conv-rename-input" id="rename-input-${sessionId}" value="${escapeHtml(currentTitle)}" maxlength="40" onclick="event.stopPropagation();" onblur="saveInlineRename('${sessionId}', this.value)" onkeydown="if(event.key==='Enter'){event.preventDefault(); this.blur();} else if(event.key==='Escape'){event.preventDefault(); renderDynamicHistory();}" />
+  `;
 
-  const container = document.getElementById('chatMessages');
-  if (!container) return;
-  container.innerHTML = '';
+  const inputEl = document.getElementById(`rename-input-${sessionId}`);
+  if (inputEl) {
+    inputEl.focus();
+    inputEl.select();
+  }
+}
 
-  if (session.messages && session.messages.length > 0) {
-    session.messages.forEach(msg => {
-      if (msg.rowId && msg.text) {
-        MESSAGE_REGISTRY[msg.rowId] = msg.text;
-        if (msg.originalQuery) MESSAGE_REGISTRY[`${msg.rowId}-query`] = msg.originalQuery;
-      }
-      appendMessageDirect(msg.text, msg.role, msg.docCitation, msg.rowId, msg.originalQuery, !!msg.isHTML);
-      APP_STATE.conversationHistory.push({ role: msg.role === 'user' ? 'user' : 'assistant', content: msg.text });
-    });
-  } else {
-    startNewConversation();
+function saveInlineRename(sessionId, newTitle) {
+  if (!newTitle || !newTitle.trim()) {
+    renderDynamicHistory();
     return;
   }
-
-  renderDynamicHistory();
+  renameHistorySession(sessionId, newTitle.trim());
 }
 
-function openConversationItemMenu(event, sessionId) {
-  event.stopPropagation();
+function promptDeleteSession(event, sessionId) {
+  if (event) event.stopPropagation();
   const sessions = getSavedSessions();
-  const session = sessions.find(s => s.id === sessionId);
-  const currentTitle = session ? session.title : '';
+  const target = sessions.find(s => s.id === sessionId);
+  const title = target ? target.title : 'this conversation';
 
-  const choice = prompt(`Conversation: "${currentTitle}"\n\nOptions:\n• Enter a new title to Rename\n• Type "delete" to Delete`, currentTitle);
-  if (!choice) return;
-
-  if (choice.trim().toLowerCase() === 'delete') {
+  if (confirm(`Delete conversation "${title}"?`)) {
     deleteHistorySession(sessionId);
-  } else if (choice.trim().length > 0 && choice.trim() !== currentTitle) {
-    renameHistorySession(sessionId, choice.trim());
   }
 }
+
+window.startInlineRename = startInlineRename;
+window.saveInlineRename = saveInlineRename;
+window.promptDeleteSession = promptDeleteSession;
+window.openConversationItemMenu = promptDeleteSession;
 
 function renameHistorySession(sessionId, newTitle) {
   if (!newTitle || !newTitle.trim()) return;

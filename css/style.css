@@ -531,7 +531,7 @@ a { color: inherit; text-decoration: none; }
 .conv-meta {
   display: flex;
   align-items: center;
-  gap: 6px;
+  gap: 4px;
   flex-shrink: 0;
 }
 
@@ -539,30 +539,64 @@ a { color: inherit; text-decoration: none; }
   font-size: 0.7rem;
   color: #64748B;
   font-family: inherit;
+  transition: opacity 0.15s ease;
 }
 
-.conv-actions-btn {
+.conv-actions-group {
   display: none;
-  background: transparent;
-  border: none;
-  color: #94A3B8;
-  font-size: 0.75rem;
-  padding: 4px;
-  border-radius: 4px;
-  cursor: pointer;
-}
-
-.conv-actions-btn:hover {
-  color: #FFFFFF;
-  background: rgba(255, 255, 255, 0.08);
+  align-items: center;
+  gap: 2px;
 }
 
 .conv-row-item:hover .conv-time {
   display: none;
 }
 
-.conv-row-item:hover .conv-actions-btn {
+.conv-row-item:hover .conv-actions-group,
+.conv-row-item.editing .conv-actions-group {
   display: inline-flex;
+}
+
+.conv-action-btn {
+  background: transparent;
+  border: none;
+  color: #94A3B8;
+  font-size: 0.75rem;
+  padding: 3px 5px;
+  border-radius: 4px;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.15s ease;
+}
+
+.conv-action-btn:hover {
+  color: #FFFFFF;
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.conv-action-btn.edit-btn:hover {
+  color: #60A5FA;
+  background: rgba(59, 130, 246, 0.2);
+}
+
+.conv-action-btn.delete-btn:hover {
+  color: #EF4444;
+  background: rgba(239, 68, 68, 0.2);
+}
+
+.conv-rename-input {
+  background: #090E17;
+  border: 1px solid var(--primary-blue, #3B82F6);
+  color: #F8FAFC;
+  font-size: 0.8rem;
+  padding: 2px 6px;
+  border-radius: 4px;
+  outline: none;
+  width: 100%;
+  box-sizing: border-box;
+  font-family: inherit;
 }
 
 /* Empty State */
