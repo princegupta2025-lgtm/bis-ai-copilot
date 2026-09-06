@@ -1034,11 +1034,11 @@
     </div>
   </div>
 
-  <!-- Scripts -->
-  <script src="js/database.js?v=3.7"></script>
-  <script src="js/chat.js?v=3.9"></script>
-  <script src="js/command-palette.js?v=3.7"></script>
-  <script src="js/wizard.js?v=3.7"></script>
+  <!-- Scripts (Deferred so DOM and CSS render instantly without blocking) -->
+  <script src="js/database.js?v=3.7" defer></script>
+  <script src="js/chat.js?v=3.9" defer></script>
+  <script src="js/command-palette.js?v=3.7" defer></script>
+  <script src="js/wizard.js?v=3.7" defer></script>
 
   <!-- ================= PHASE 4: CLIENT-SIDE UI ENHANCEMENT ENGINE ================= -->
   <script id="phase4-ui-engine">
@@ -1259,10 +1259,12 @@
       }
     });
 
-    // Register PWA Service Worker if available
-    if ('serviceWorker' in navigator && window.location.protocol.startsWith('http')) {
-      window.addEventListener('load', function() {
-        navigator.serviceWorker.register('/sw.js').catch(function() {});
+    // Ensure no legacy cache-wiping service worker intercepts network fetches
+    if ('serviceWorker' in navigator) {
+      navigator.serviceWorker.getRegistrations().then(function(registrations) {
+        for (let registration of registrations) {
+          registration.unregister();
+        }
       });
     }
   </script>
