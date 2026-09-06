@@ -932,8 +932,8 @@ app.post('/api/chat', chatApiLimiter, async (req, res) => {
     const modelCandidates = [
       targetModel,
       'gemini-3.5-flash-lite',
-      'gemini-3.5-flash',
-      'gemini-3.6-flash'
+      'gemini-3.6-flash',
+      'gemini-3.5-flash'
     ].filter((m, idx, arr) => arr.indexOf(m) === idx);
 
     let response = null;
@@ -976,8 +976,12 @@ app.post('/api/chat', chatApiLimiter, async (req, res) => {
 
     if (stream) {
       res.setHeader('Content-Type', 'text/event-stream; charset=utf-8');
-      res.setHeader('Cache-Control', 'no-cache');
+      res.setHeader('Cache-Control', 'no-cache, no-transform');
       res.setHeader('Connection', 'keep-alive');
+      res.setHeader('X-Accel-Buffering', 'no');
+      if (typeof res.flushHeaders === 'function') {
+        res.flushHeaders();
+      }
 
       const reader = response.body.getReader();
       const decoder = new TextDecoder();
@@ -1009,6 +1013,9 @@ app.post('/api/chat', chatApiLimiter, async (req, res) => {
                   choices: [{ delta: { content: textChunk }, index: 0, finish_reason: null }]
                 };
                 res.write(`data: ${JSON.stringify(sseMsg)}\n\n`);
+                if (typeof res.flush === 'function') {
+                  res.flush();
+                }
               }
             } catch (e) {}
           }

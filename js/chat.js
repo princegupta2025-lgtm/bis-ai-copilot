@@ -2686,7 +2686,11 @@ async function submitUserQuery() {
 
   // 2.7 E-Commerce links flow directly to genuine RAG and Gemini reasoning
 
-  // 3. Intent Classification & Multi-Tier Standards Discovery (Local -> National Catalog -> Ingestion)
+  // 3. Create AI Bubble Container IMMEDIATELY for Instant Visual Feedback (0ms perceived latency)
+  const aiMsgId = 'ai-' + Date.now();
+  createStreamingAIBubble(aiMsgId);
+
+  // 3.1 Intent Classification & Multi-Tier Standards Discovery (Local-First -> National Catalog)
   const userIntent = classifyUserIntent(query);
   const versionConflict = typeof detectVersionConflict === 'function' ? detectVersionConflict(query) : null;
   const standardResolution = (typeof CanonicalStandardResolver !== 'undefined') ? CanonicalStandardResolver.resolveMetadata(query) : null;
@@ -2697,33 +2701,39 @@ async function submitUserQuery() {
   const isCasualChitchat = /^(hi|hello|hey|namaste|pranam|greetings|hola|good\s+(morning|afternoon|evening)|mera\s+naam|mera\s+name|my\s+name|who\s+are\s+you|what\s+can\s+you\s+do|kaise\s+ho|how\s+are\s+you|kya\s+haal|help|shukriya|dhanyawad|thanks|thank\s+you|ok|okay|bye|alvida|kya\s+kar\s+sakte\s+ho)[\s!.,?a-zA-Z0-9]*$/i.test(query.trim());
 
   if (!isCasualChitchat) {
-    // A. Local-First: Query RAG API / in-memory chunk retriever
-    try {
-      const ragRes = await fetch('/api/rag', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ query: query, topK: 4, role: APP_STATE.userRole })
-      });
-      if (ragRes.ok) {
-        const ragData = await ragRes.json();
-        if (ragData.results && ragData.results.length > 0) {
-          ragChunks = ragData.results.map(r => r.chunk);
+    // A. Ultra-Fast Synchronous Local Retrieval First (0ms roundtrip)
+    if (typeof retrieveHybridRAG === 'function') {
+      try {
+        ragChunks = retrieveHybridRAG(query, 4);
+        if (ragChunks && ragChunks.length > 0) {
           discoveryState = 'LOCAL_INDEXED';
         }
-      }
-    } catch (e) {
-      // Offline browser fallback
+      } catch (e) {}
     }
 
-    // B. Fallback to client-side chunk-level RRF retriever
-    if (ragChunks.length === 0) {
-      ragChunks = retrieveHybridRAG(query, 4);
-      if (ragChunks.length > 0) discoveryState = 'LOCAL_INDEXED';
+    // B. Fallback to /api/rag only if local chunk index returned 0 results
+    if (!ragChunks || ragChunks.length === 0) {
+      try {
+        const ragRes = await fetch('/api/rag', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ query: query, topK: 4, role: APP_STATE.userRole })
+        });
+        if (ragRes.ok) {
+          const ragData = await ragRes.json();
+          if (ragData.results && ragData.results.length > 0) {
+            ragChunks = ragData.results.map(r => r.chunk);
+            discoveryState = 'LOCAL_INDEXED';
+          }
+        }
+      } catch (e) {
+        // Offline browser fallback
+      }
     }
   }
 
   // C. On-Demand Discovery & Ingestion: If not local, search National Catalog and attempt permitted ingestion
-  if (ragChunks.length === 0 && standardResolution && standardResolution.catalogEntry) {
+  if ((!ragChunks || ragChunks.length === 0) && standardResolution && standardResolution.catalogEntry) {
     const cat = standardResolution.catalogEntry;
     if (cat.documentAvailable) {
       try {
@@ -2745,7 +2755,7 @@ async function submitUserQuery() {
     }
 
     // If still empty, construct an authentic, non-hallucinated catalog grounding chunk
-    if (ragChunks.length === 0) {
+    if (!ragChunks || ragChunks.length === 0) {
       discoveryState = cat.documentAvailable ? 'REMOTE_FOUND' : 'SOURCE_UNAVAILABLE';
       ragChunks = [{
         id: `${cat.code}-catalog-metadata`,
@@ -2763,21 +2773,17 @@ async function submitUserQuery() {
     }
   }
 
-  const primaryDoc = ragChunks.length > 0 ? (typeof BIS_STANDARDS_EXPANDED_DB !== 'undefined' ? BIS_STANDARDS_EXPANDED_DB.find(d => d.code === ragChunks[0].standardCode) : null) : null;
-
-  // 3. Create AI Bubble Container for Real-time Streaming
-  const aiMsgId = 'ai-' + Date.now();
-  createStreamingAIBubble(aiMsgId);
+  const primaryDoc = (ragChunks && ragChunks.length > 0) ? (typeof BIS_STANDARDS_EXPANDED_DB !== 'undefined' ? BIS_STANDARDS_EXPANDED_DB.find(d => d.code === ragChunks[0].standardCode) : null) : null;
 
   // If version conflict detected (e.g. asking about superseded IS 4151:1993), render conflict alert banner
   if (versionConflict) {
     const bubble = document.getElementById(`bubble-${aiMsgId}`);
     if (bubble) {
-      bubble.innerHTML = `
+      bubble.insertAdjacentHTML('afterbegin', `
         <div style="background:rgba(245,158,11,0.12);border-left:4px solid var(--status-amber);padding:10px 14px;border-radius:0 6px 6px 0;margin-bottom:12px;font-size:0.84rem;color:var(--text-main);">
           <strong><i class="fas fa-triangle-exclamation" style="color:var(--status-amber);"></i> Version Control Notice:</strong> You referenced <code>${escapeHtml(versionConflict.historical)}</code>. This was officially WITHDRAWN and superseded by <strong>${escapeHtml(versionConflict.current)}</strong> (${escapeHtml(versionConflict.ministry)}).
         </div>
-      `;
+      `);
     }
   }
 
@@ -3541,7 +3547,7 @@ async function callLiveLLMStreaming(userQuery, ragChunks, primaryDoc, aiBubbleId
   const bubbleEl = document.getElementById(`bubble-${aiBubbleId}`);
   const container = document.getElementById('chatMessages');
 
-  // Token buffer for natural reading cadence (~24ms per word)
+  // High-throughput smooth streaming buffer (adaptive cadence)
   const tokenQueue = [];
   let isReceivingStream = true;
 
@@ -3549,7 +3555,8 @@ async function callLiveLLMStreaming(userQuery, ragChunks, primaryDoc, aiBubbleId
   const renderTickerPromise = new Promise((resolve) => {
     const ticker = setInterval(() => {
       if (tokenQueue.length > 0) {
-        const batch = tokenQueue.length > 25 ? 3 : tokenQueue.length > 10 ? 2 : 1;
+        const qLen = tokenQueue.length;
+        const batch = qLen > 50 ? 12 : (qLen > 25 ? 6 : (qLen > 10 ? 3 : (qLen > 4 ? 2 : 1)));
         for (let b = 0; b < batch && tokenQueue.length > 0; b++) {
           renderedText += tokenQueue.shift();
         }
@@ -3558,13 +3565,21 @@ async function callLiveLLMStreaming(userQuery, ragChunks, primaryDoc, aiBubbleId
           if (container) container.scrollTop = container.scrollHeight;
         }
       } else if (!isReceivingStream) {
+        // Stream completed from server: flush all remaining queued tokens immediately
+        while (tokenQueue.length > 0) {
+          renderedText += tokenQueue.shift();
+        }
+        if (bubbleEl) {
+          bubbleEl.innerHTML = renderMarkdown(renderedText);
+          if (container) container.scrollTop = container.scrollHeight;
+        }
         clearInterval(ticker);
         resolve();
       }
-    }, 24);
+    }, 10);
   });
 
-  const models = ['gemini-3.5-flash-lite', 'gemini-3.5-flash', 'gemini-3.6-flash'];
+  const models = ['gemini-3.5-flash-lite', 'gemini-3.6-flash', 'gemini-3.5-flash'];
   
   // Resilient multi-endpoint candidate list (same-origin /api/chat in production; localhost fallback ONLY for local dev or file://)
   const candidateEndpoints = [];
@@ -3691,19 +3706,20 @@ async function callLiveLLMStreaming(userQuery, ragChunks, primaryDoc, aiBubbleId
   return accumulatedText;
 }
 
-// Fallback Typewriter Effect
+// Fallback Typewriter Effect (Accelerated)
 async function typewriterFallback(bubbleEl, text) {
   if (!bubbleEl) return;
   const words = text.split(/(\s+)/);
   let curr = '';
   const container = document.getElementById('chatMessages');
 
-  for (let i = 0; i < words.length; i++) {
-    curr += words[i];
+  for (let i = 0; i < words.length; i += 4) {
+    curr += words.slice(i, i + 4).join('');
     bubbleEl.innerHTML = renderMarkdown(curr) + '<span class="streaming-cursor"></span>';
     if (container) container.scrollTop = container.scrollHeight;
-    await new Promise(r => setTimeout(r, 22));
+    await new Promise(r => setTimeout(r, 10));
   }
+  bubbleEl.innerHTML = renderMarkdown(text);
 }
 
 // Finalize Streamed Bubble with Machine-Validated Citations & Accordion
