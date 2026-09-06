@@ -1,31 +1,33 @@
 /* ==========================================================================
-   BIS MANAK-AI — Centralized Global Theme System (Light / Dark Mode)
+   BIS MANAK-AI — Centralized Global Theme System (Default Dark SaaS Mode)
    ========================================================================== */
 
 (function () {
-  const STORAGE_KEY = 'theme';
+  const STORAGE_KEY = 'bis_manak_theme';
 
   function getPreferredTheme() {
     const savedTheme = localStorage.getItem(STORAGE_KEY);
     if (savedTheme === 'dark' || savedTheme === 'light') {
       return savedTheme;
     }
-    return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+    // Default theme for BIS MANAK-AI is always dark
+    return 'dark';
   }
 
   function applyTheme(theme) {
+    const targetTheme = (theme === 'light') ? 'light' : 'dark';
     if (document.documentElement) {
-      document.documentElement.setAttribute('data-theme', theme);
+      document.documentElement.setAttribute('data-theme', targetTheme);
     }
     if (document.body) {
-      document.body.setAttribute('data-theme', theme);
+      document.body.setAttribute('data-theme', targetTheme);
     }
-    updateToggleIcons(theme);
+    updateToggleIcons(targetTheme);
     
     // Sync checkbox in settings modal if present
     const settingsToggle = document.getElementById('darkModeCheckbox');
     if (settingsToggle) {
-      settingsToggle.checked = (theme === 'dark');
+      settingsToggle.checked = (targetTheme === 'dark');
     }
   }
 
@@ -48,23 +50,17 @@
   }
 
   window.toggleTheme = function () {
-    const currentTheme = (document.documentElement.getAttribute('data-theme') === 'dark') ? 'dark' : 'light';
+    const currentTheme = (document.documentElement.getAttribute('data-theme') === 'light') ? 'light' : 'dark';
     const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
     localStorage.setItem(STORAGE_KEY, newTheme);
     applyTheme(newTheme);
   };
 
-  // Execute immediately to prevent flash of light theme
+  // Execute immediately to enforce consistent dark theme
   const initialTheme = getPreferredTheme();
   applyTheme(initialTheme);
 
   document.addEventListener('DOMContentLoaded', () => {
     applyTheme(getPreferredTheme());
-
-    window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', (e) => {
-      if (!localStorage.getItem(STORAGE_KEY)) {
-        applyTheme(e.matches ? 'dark' : 'light');
-      }
-    });
   });
 })();

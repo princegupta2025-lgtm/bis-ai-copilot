@@ -109,7 +109,7 @@ a { color: inherit; text-decoration: none; }
    Top Gov Banner (Minimal & Authoritative)
    ========================================================================== */
 .gov-top-bar {
-  background: #06090E;
+  background: var(--bg-sidebar);
   color: var(--text-subtle);
   font-size: 0.73rem;
   padding: 5px 1.5rem;
@@ -155,8 +155,8 @@ a { color: inherit; text-decoration: none; }
   width: 260px;
   min-width: 260px;
   max-width: 260px;
-  background: #0B0F17;
-  border-right: 1px solid rgba(255, 255, 255, 0.08);
+  background: var(--bg-sidebar);
+  border-right: 1px solid var(--border-color);
   display: flex;
   flex-direction: column;
   flex-shrink: 0;
@@ -213,7 +213,7 @@ a { color: inherit; text-decoration: none; }
   display: flex;
   align-items: center;
   justify-content: space-between;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+  border-bottom: 1px solid var(--border-color);
 }
 
 .sidebar-brand-box {
@@ -249,7 +249,7 @@ a { color: inherit; text-decoration: none; }
   font-weight: 700;
   font-size: 0.95rem;
   letter-spacing: -0.2px;
-  color: #F8FAFC;
+  color: var(--text-main);
 }
 
 .brand-badge-ai {
@@ -269,7 +269,7 @@ a { color: inherit; text-decoration: none; }
   display: flex;
   align-items: center;
   justify-content: center;
-  color: #94A3B8;
+  color: var(--text-muted);
   background: transparent;
   border: none;
   border-radius: 6px;
@@ -278,8 +278,8 @@ a { color: inherit; text-decoration: none; }
 }
 
 .btn-sidebar-collapse:hover {
-  background: rgba(255, 255, 255, 0.06);
-  color: #F8FAFC;
+  background: var(--bg-sidebar-hover);
+  color: var(--text-main);
 }
 
 /* 2. Primary Actions */
@@ -293,9 +293,9 @@ a { color: inherit; text-decoration: none; }
 .btn-new-conversation {
   width: 100%;
   height: 38px;
-  background: rgba(255, 255, 255, 0.05);
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  color: #F8FAFC;
+  background: var(--bg-card);
+  border: 1px solid var(--border-color);
+  color: var(--text-main);
   padding: 0 12px;
   border-radius: 8px;
   font-size: 0.85rem;
@@ -308,14 +308,14 @@ a { color: inherit; text-decoration: none; }
 }
 
 .btn-new-conversation:hover {
-  background: rgba(255, 255, 255, 0.09);
-  border-color: rgba(255, 255, 255, 0.18);
-  color: #FFFFFF;
+  background: var(--bg-card-hover);
+  border-color: var(--border-focus);
+  color: var(--text-main);
 }
 
 .btn-new-conversation i {
   font-size: 0.85rem;
-  color: #38BDF8;
+  color: var(--primary-blue);
 }
 
 .btn-sidebar-search {
@@ -323,7 +323,7 @@ a { color: inherit; text-decoration: none; }
   height: 36px;
   background: transparent;
   border: 1px solid transparent;
-  color: #94A3B8;
+  color: var(--text-muted);
   padding: 0 10px;
   border-radius: 8px;
   font-size: 0.82rem;
@@ -336,8 +336,8 @@ a { color: inherit; text-decoration: none; }
 }
 
 .btn-sidebar-search:hover {
-  background: rgba(255, 255, 255, 0.04);
-  color: #E2E8F0;
+  background: var(--bg-sidebar-hover);
+  color: var(--text-main);
 }
 
 .search-left {
@@ -353,9 +353,9 @@ a { color: inherit; text-decoration: none; }
 .shortcut-badge {
   font-size: 0.68rem;
   font-family: inherit;
-  background: rgba(255, 255, 255, 0.06);
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  color: #64748B;
+  background: var(--bg-sidebar-hover);
+  border: 1px solid var(--border-color);
+  color: var(--text-subtle);
   padding: 2px 5px;
   border-radius: 4px;
   font-weight: 600;
@@ -367,7 +367,7 @@ a { color: inherit; text-decoration: none; }
   display: flex;
   flex-direction: column;
   gap: 2px;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+  border-bottom: 1px solid var(--border-color);
 }
 
 .sidebar-nav-item {
@@ -377,7 +377,7 @@ a { color: inherit; text-decoration: none; }
   border-radius: 8px;
   font-size: 0.84rem;
   font-weight: 500;
-  color: #94A3B8;
+  color: var(--text-muted);
   background: transparent;
   border: none;
   display: flex;
@@ -392,27 +392,27 @@ a { color: inherit; text-decoration: none; }
   font-size: 0.85rem;
   width: 18px;
   text-align: center;
-  color: #64748B;
+  color: var(--text-subtle);
   transition: color 0.15s ease;
 }
 
 .sidebar-nav-item:hover {
-  background: rgba(255, 255, 255, 0.04);
-  color: #F1F5F9;
+  background: var(--bg-sidebar-hover);
+  color: var(--text-main);
 }
 
 .sidebar-nav-item:hover i {
-  color: #94A3B8;
+  color: var(--text-muted);
 }
 
 .sidebar-nav-item.active {
-  background: rgba(255, 255, 255, 0.08);
-  color: #FFFFFF;
+  background: var(--bg-sidebar-hover);
+  color: var(--primary-blue);
   font-weight: 600;
 }
 
 .sidebar-nav-item.active i {
-  color: #38BDF8;
+  color: var(--primary-blue);
 }
 
 /* 4. Conversations Section (Main Scroll Region) */
@@ -435,13 +435,13 @@ a { color: inherit; text-decoration: none; }
   font-size: 0.7rem;
   font-weight: 700;
   letter-spacing: 0.6px;
-  color: #64748B;
+  color: var(--text-subtle);
 }
 
 .btn-see-all {
   font-size: 0.72rem;
   font-weight: 600;
-  color: #94A3B8;
+  color: var(--text-muted);
   background: transparent;
   border: none;
   cursor: pointer;
@@ -451,7 +451,7 @@ a { color: inherit; text-decoration: none; }
 }
 
 .btn-see-all:hover {
-  color: #38BDF8;
+  color: var(--primary-blue);
 }
 
 .sidebar-conversations-scroll {
@@ -463,14 +463,14 @@ a { color: inherit; text-decoration: none; }
   flex-direction: column;
   gap: 2px;
   scrollbar-width: thin;
-  scrollbar-color: rgba(255, 255, 255, 0.1) transparent;
+  scrollbar-color: var(--border-color) transparent;
 }
 
 .sidebar-conversations-scroll::-webkit-scrollbar {
   width: 4px;
 }
 .sidebar-conversations-scroll::-webkit-scrollbar-thumb {
-  background: rgba(255, 255, 255, 0.1);
+  background: var(--border-color);
   border-radius: 4px;
 }
 
@@ -482,7 +482,7 @@ a { color: inherit; text-decoration: none; }
   padding: 0 8px 0 10px;
   border-radius: 8px;
   font-size: 0.82rem;
-  color: #94A3B8;
+  color: var(--text-muted);
   background: transparent;
   border: 1px solid transparent;
   display: flex;
@@ -494,14 +494,14 @@ a { color: inherit; text-decoration: none; }
 }
 
 .conv-row-item:hover {
-  background: rgba(255, 255, 255, 0.04);
-  color: #E2E8F0;
+  background: var(--bg-sidebar-hover);
+  color: var(--text-main);
 }
 
 .conv-row-item.active {
-  background: rgba(255, 255, 255, 0.08);
-  border-color: rgba(255, 255, 255, 0.08);
-  color: #FFFFFF;
+  background: var(--bg-sidebar-hover);
+  border-color: var(--border-color);
+  color: var(--text-main);
   font-weight: 500;
 }
 
@@ -518,7 +518,7 @@ a { color: inherit; text-decoration: none; }
 
 .conv-item-main i {
   font-size: 0.75rem;
-  color: #64748B;
+  color: var(--text-subtle);
   flex-shrink: 0;
 }
 
@@ -537,7 +537,7 @@ a { color: inherit; text-decoration: none; }
 
 .conv-time {
   font-size: 0.7rem;
-  color: #64748B;
+  color: var(--text-subtle);
   font-family: inherit;
   transition: opacity 0.15s ease;
 }
@@ -560,7 +560,7 @@ a { color: inherit; text-decoration: none; }
 .conv-action-btn {
   background: transparent;
   border: none;
-  color: #94A3B8;
+  color: var(--text-muted);
   font-size: 0.75rem;
   padding: 3px 5px;
   border-radius: 4px;
@@ -572,8 +572,8 @@ a { color: inherit; text-decoration: none; }
 }
 
 .conv-action-btn:hover {
-  color: #FFFFFF;
-  background: rgba(255, 255, 255, 0.1);
+  color: var(--text-main);
+  background: var(--bg-sidebar-hover);
 }
 
 .conv-action-btn.edit-btn:hover {
@@ -587,9 +587,9 @@ a { color: inherit; text-decoration: none; }
 }
 
 .conv-rename-input {
-  background: #090E17;
-  border: 1px solid var(--primary-blue, #3B82F6);
-  color: #F8FAFC;
+  background: var(--bg-card);
+  border: 1px solid var(--primary-blue);
+  color: var(--text-main);
   font-size: 0.8rem;
   padding: 2px 6px;
   border-radius: 4px;
@@ -645,7 +645,7 @@ a { color: inherit; text-decoration: none; }
 /* 5. Bottom User Area */
 .sidebar-bottom-area {
   padding: 10px 12px;
-  border-top: 1px solid rgba(255, 255, 255, 0.06);
+  border-top: 1px solid var(--border-color);
   position: relative;
 }
 
@@ -663,7 +663,7 @@ a { color: inherit; text-decoration: none; }
 }
 
 .sidebar-user-card:hover {
-  background: rgba(255, 255, 255, 0.05);
+  background: var(--bg-sidebar-hover);
 }
 
 .user-avatar-circle {
@@ -694,7 +694,7 @@ a { color: inherit; text-decoration: none; }
 .user-display-name {
   font-size: 0.82rem;
   font-weight: 600;
-  color: #F1F5F9;
+  color: var(--text-main);
   overflow: hidden;
   white-space: nowrap;
   text-overflow: ellipsis;
@@ -702,7 +702,7 @@ a { color: inherit; text-decoration: none; }
 
 .user-display-role {
   font-size: 0.7rem;
-  color: #64748B;
+  color: var(--text-subtle);
   overflow: hidden;
   white-space: nowrap;
   text-overflow: ellipsis;
@@ -711,7 +711,7 @@ a { color: inherit; text-decoration: none; }
 .btn-user-more {
   background: transparent;
   border: none;
-  color: #64748B;
+  color: var(--text-subtle);
   font-size: 0.85rem;
   padding: 4px;
   border-radius: 4px;
@@ -724,10 +724,10 @@ a { color: inherit; text-decoration: none; }
   bottom: calc(100% + 6px);
   left: 10px;
   right: 10px;
-  background: #111827;
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  background: var(--bg-card);
+  border: 1px solid var(--border-color);
   border-radius: 10px;
-  box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.5), 0 8px 10px -6px rgba(0, 0, 0, 0.5);
+  box-shadow: var(--shadow-lg);
   padding: 6px;
   display: none;
   flex-direction: column;
@@ -749,7 +749,7 @@ a { color: inherit; text-decoration: none; }
   padding: 6px 8px 4px;
   font-size: 0.68rem;
   font-weight: 700;
-  color: #64748B;
+  color: var(--text-subtle);
   letter-spacing: 0.5px;
   text-transform: uppercase;
 }
@@ -760,7 +760,7 @@ a { color: inherit; text-decoration: none; }
   border-radius: 6px;
   font-size: 0.8rem;
   font-weight: 500;
-  color: #CBD5E1;
+  color: var(--text-main);
   background: transparent;
   border: none;
   display: flex;
@@ -774,30 +774,30 @@ a { color: inherit; text-decoration: none; }
 .popup-menu-item i {
   font-size: 0.85rem;
   width: 16px;
-  color: #94A3B8;
+  color: var(--text-muted);
 }
 
 .popup-menu-item:hover {
-  background: rgba(255, 255, 255, 0.06);
-  color: #FFFFFF;
+  background: var(--bg-sidebar-hover);
+  color: var(--text-main);
 }
 
 .popup-menu-item:hover i {
-  color: #38BDF8;
+  color: var(--primary-blue);
 }
 
 .popup-menu-item.danger {
-  color: #F87171;
+  color: var(--status-red);
 }
 
 .popup-menu-item.danger:hover {
   background: rgba(239, 68, 68, 0.12);
-  color: #EF4444;
+  color: var(--status-red);
 }
 
 .popup-menu-divider {
   height: 1px;
-  background: rgba(255, 255, 255, 0.06);
+  background: var(--border-color);
   margin: 4px 0;
 }
 
@@ -886,7 +886,7 @@ a { color: inherit; text-decoration: none; }
 
 .context-brand-title {
   font-weight: 700;
-  color: #F8FAFC;
+  color: var(--text-main);
   letter-spacing: -0.2px;
 }
 
@@ -923,13 +923,13 @@ a { color: inherit; text-decoration: none; }
 }
 .gov-emblem-text {
   font-weight: 800;
-  color: #F8FAFC;
+  color: var(--text-main);
   letter-spacing: 0.4px;
 }
 .gov-sub-text {
   color: #60A5FA;
   font-weight: 600;
-  border-left: 1px solid rgba(255, 255, 255, 0.16);
+  border-left: 1px solid var(--border-color);
   padding-left: 8px;
 }
 
@@ -939,13 +939,13 @@ a { color: inherit; text-decoration: none; }
 }
 
 .btn-role-trigger {
-  background: rgba(255, 255, 255, 0.05);
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  background: var(--bg-card);
+  border: 1px solid var(--border-color);
   padding: 5px 12px;
   border-radius: 20px;
   font-size: 0.8rem;
   font-weight: 600;
-  color: #F1F5F9;
+  color: var(--text-main);
   display: flex;
   align-items: center;
   gap: 6px;
@@ -954,8 +954,8 @@ a { color: inherit; text-decoration: none; }
 }
 
 .btn-role-trigger:hover {
-  background: rgba(255, 255, 255, 0.08);
-  border-color: rgba(255, 255, 255, 0.2);
+  background: var(--bg-card-hover);
+  border-color: var(--border-focus);
 }
 
 .system-status-pill {
@@ -1099,12 +1099,12 @@ a { color: inherit; text-decoration: none; }
   font-size: 1.75rem;
   font-weight: 700;
   letter-spacing: -0.4px;
-  color: #F8FAFC;
+  color: var(--text-main);
   margin-bottom: 4px;
 }
 
 .empty-hero-sub {
-  color: #94A3B8;
+  color: var(--text-muted);
   font-size: 0.92rem;
   margin-bottom: 1rem;
 }
@@ -2212,7 +2212,7 @@ a { color: inherit; text-decoration: none; }
    ========================================================================== */
 .chat-composer-outer {
   padding: 0.8rem 2rem 1.2rem;
-  background: linear-gradient(180deg, rgba(11, 15, 23, 0) 0%, var(--bg-app) 30%);
+  background: linear-gradient(180deg, transparent 0%, var(--bg-app) 30%);
   position: relative;
   z-index: 50;
   pointer-events: auto;
