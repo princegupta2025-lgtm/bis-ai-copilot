@@ -27,21 +27,8 @@
   <link rel="dns-prefetch" href="https://cdn.jsdelivr.net">
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Fira+Code:wght@400;500;600&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer" />
-  <script>
-    // Fail-safe FontAwesome detector: if font fails or is blocked on file://, activate unicode fallback signs immediately
-    (function() {
-      function testFA() {
-        if (!document.fonts || !document.fonts.check('16px "Font Awesome 6 Free"')) {
-          document.documentElement.classList.add('fa-fallback-active');
-        }
-      }
-      if (document.readyState === 'loading') {
-        document.addEventListener('DOMContentLoaded', function() { setTimeout(testFA, 250); });
-      } else {
-        setTimeout(testFA, 250);
-      }
-    })();
-  </script>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.5.1/css/all.min.css" crossorigin="anonymous" />
+
   
   <!-- CSS -->
   <link rel="stylesheet" href="css/style.css?v=3.9" />
@@ -319,7 +306,7 @@
           </div>
         </a>
         <button class="btn-sidebar-collapse" id="btnSidebarCollapse" onclick="toggleSidebar()" title="Collapse Sidebar (Ctrl + \)" aria-label="Toggle Sidebar">
-          <i class="fas fa-bars-staggered"></i>
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="4" y1="6" x2="20" y2="6"></line><line x1="4" y1="12" x2="14" y2="12"></line><line x1="4" y1="18" x2="18" y2="18"></line></svg>
         </button>
       </div>
 
@@ -374,7 +361,7 @@
             <span class="user-display-role" id="sidebarUserRole">Consumer Mode</span>
           </div>
           <button class="btn-user-more" aria-label="User Options" onclick="event.stopPropagation(); toggleUserMenu(event);">
-            <i class="fas fa-ellipsis-vertical"></i>
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="1.5"></circle><circle cx="12" cy="5" r="1.5"></circle><circle cx="12" cy="19" r="1.5"></circle></svg>
           </button>
         </div>
 
@@ -411,7 +398,7 @@
       <div class="workspace-top-nav">
         <div class="nav-left-controls">
           <button class="btn-sidebar-toggle-mobile" onclick="toggleSidebar()" title="Toggle Sidebar">
-            <i class="fas fa-bars"></i>
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg>
           </button>
           <div class="nav-active-context" id="navActiveContext">
             <span class="context-brand-title">MANAK-AI</span>
@@ -439,7 +426,7 @@
 
           <!-- Settings Modal Button -->
           <button class="btn-nav-utility icon-only" onclick="openSettingsModal()" title="Settings & Preferences">
-            <i class="fas fa-gear"></i>
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path></svg>
           </button>
         </div>
       </div>

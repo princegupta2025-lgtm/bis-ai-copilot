@@ -1591,41 +1591,54 @@ a { color: inherit; text-decoration: none; }
 .toast-pill.error { border-left: 3px solid #EF4444; }
 
 /* ==========================================================================
-   Message Hover Action Strip
+   Message Hover Action Strip (Modern ChatGPT / Perplexity Style)
    ========================================================================== */
 .msg-action-strip {
   display: flex;
   align-items: center;
   gap: 6px;
-  margin-top: 8px;
-  opacity: 0;
+  margin-top: 6px;
+  opacity: 0.85;
   transition: opacity 0.15s ease;
 }
 
-.msg-stream-row:hover .msg-action-strip {
+.msg-stream-row:hover .msg-action-strip,
+.msg-action-strip:hover {
   opacity: 1;
 }
 
 .btn-msg-action {
-  background: transparent;
-  border: 1px solid transparent;
-  color: #64748B;
-  padding: 4px 8px;
-  border-radius: 4px;
-  font-size: 0.72rem;
-  font-weight: 600;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  color: #94A3B8;
+  padding: 4px 9px;
+  border-radius: 6px;
+  font-size: 0.74rem;
+  font-weight: 500;
   display: inline-flex;
   align-items: center;
   gap: 5px;
   cursor: pointer;
-  transition: all 0.12s ease;
+  transition: all 0.15s ease;
 }
 
 .btn-msg-action:hover {
-  background: rgba(255, 255, 255, 0.06);
-  border-color: rgba(255, 255, 255, 0.1);
-  color: #E2E8F0;
+  background: rgba(255, 255, 255, 0.1);
+  border-color: rgba(255, 255, 255, 0.18);
+  color: #F8FAFC;
 }
+
+.btn-msg-action.copied {
+  color: #10B981 !important;
+  border-color: rgba(16, 185, 129, 0.3) !important;
+  background: rgba(16, 185, 129, 0.1) !important;
+}
+
+.btn-msg-action svg {
+  flex-shrink: 0;
+  stroke: currentColor;
+}
+
 
 /* ==========================================================================
    Message Formatting (Compact User Pill & Document AI Stream)
@@ -3792,51 +3805,13 @@ html, body {
   justify-content: center !important;
 }
 
-/* Universal icon fallback if FontAwesome webfont fails to load */
-.fa-fallback-active i.fas,
-.fa-fallback-active i.far,
-.fa-fallback-active i.fa-solid {
-  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Apple Color Emoji", "Segoe UI Emoji", sans-serif !important;
-  font-style: normal !important;
-  font-weight: 700 !important;
-  display: inline-flex !important;
-  align-items: center !important;
-  justify-content: center !important;
-  min-width: 1em;
-  text-align: center;
+/* FontAwesome & Icon Helper Utilities */
+.icon-align-center {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
 }
 
-.fa-fallback-active .fa-arrow-up::before { content: "↑" !important; font-size: 1.15em; line-height: 1; }
-.fa-fallback-active .fa-paperclip::before { content: "📎" !important; }
-.fa-fallback-active .fa-camera::before { content: "📷" !important; }
-.fa-fallback-active .fa-microphone::before { content: "🎙️" !important; }
-.fa-fallback-active .fa-language::before { content: "🌐" !important; }
-.fa-fallback-active .fa-plus::before { content: "+" !important; font-size: 1.2em; }
-.fa-fallback-active .fa-magnifying-glass::before, .fa-fallback-active .fa-search::before { content: "🔍" !important; }
-.fa-fallback-active .fa-shield-halved::before, .fa-fallback-active .fa-shield::before { content: "🛡️" !important; }
-.fa-fallback-active .fa-bars-staggered::before, .fa-fallback-active .fa-bars::before { content: "☰" !important; font-size: 1.1em; }
-.fa-fallback-active .fa-xmark::before, .fa-fallback-active .fa-times::before { content: "✕" !important; }
-.fa-fallback-active .fa-check-circle::before, .fa-fallback-active .fa-check::before { content: "✓" !important; }
-.fa-fallback-active .fa-up-right-from-square::before { content: "↗" !important; }
-.fa-fallback-active .fa-circle-half-stroke::before { content: "🌓" !important; }
-.fa-fallback-active .fa-trash-can::before { content: "🗑️" !important; }
-.fa-fallback-active .fa-rotate-right::before { content: "🔄" !important; }
-.fa-fallback-active .fa-gear::before { content: "⚙️" !important; }
-.fa-fallback-active .fa-industry::before { content: "🏭" !important; }
-.fa-fallback-active .fa-flask::before { content: "🧪" !important; }
-.fa-fallback-active .fa-gavel::before { content: "⚖️" !important; }
-.fa-fallback-active .fa-ring::before { content: "💍" !important; }
-.fa-fallback-active .fa-qrcode::before { content: "📱" !important; }
-.fa-fallback-active .fa-copy::before { content: "📋" !important; }
-.fa-fallback-active .fa-book-open::before { content: "📖" !important; }
-.fa-fallback-active .fa-file-lines::before { content: "📄" !important; }
-.fa-fallback-active .fa-triangle-exclamation::before { content: "⚠️" !important; }
-.fa-fallback-active .fa-comment-dots::before { content: "💬" !important; }
-.fa-fallback-active .fa-boxes-stacked::before { content: "📦" !important; }
-.fa-fallback-active .fa-screwdriver-wrench::before { content: "🛠️" !important; }
-.fa-fallback-active .fa-print::before { content: "🖨️" !important; }
-.fa-fallback-active .fa-compass-drafting::before { content: "📐" !important; }
-.fa-fallback-active .fa-file-invoice::before { content: "🧾" !important; }
 
 /* ==========================================================================
    STEP 5: JUDGE-FACING UI/UX POLISH (SIH 2026)

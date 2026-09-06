@@ -2822,21 +2822,8 @@ async function submitUserQuery() {
     }
 
     const finalToolbar = document.getElementById(`toolbar-${aiMsgId}`);
-    if (finalToolbar) {
-      const actionStrip = `
-        <div class="msg-action-strip">
-          <button class="btn-msg-action" onclick="copyMessageText('${aiMsgId}')" title="Copy response">
-            <i class="fas fa-copy"></i> <span>Copy</span>
-          </button>
-          <button class="btn-msg-action" onclick="readAloudStoredMessage('${aiMsgId}', this)" title="Read aloud">
-            <i class="fas fa-volume-high"></i> <span>Read</span>
-          </button>
-          <button class="btn-msg-action" onclick="regenerateLastQuery('${aiMsgId}')" title="Regenerate answer">
-            <i class="fas fa-rotate-right"></i> <span>Regenerate</span>
-          </button>
-        </div>
-      `;
-      finalToolbar.insertAdjacentHTML('beforeend', actionStrip);
+    if (finalToolbar && !finalToolbar.hasChildNodes()) {
+      finalToolbar.innerHTML = renderActionStripHTML(aiMsgId, 'ai');
     }
 
     // Save to conversation history & persistent session
@@ -2868,6 +2855,10 @@ async function submitUserQuery() {
       } else {
         bubble.innerHTML = renderMarkdown(`⚠️ **Connection to the BIS assistant service is unavailable.** No verified evidence was found for this query.`);
       }
+    }
+    const errToolbar = document.getElementById(`toolbar-${aiMsgId}`);
+    if (errToolbar && !errToolbar.hasChildNodes()) {
+      errToolbar.innerHTML = renderActionStripHTML(aiMsgId, 'ai');
     }
   }
 
@@ -3753,17 +3744,7 @@ function finalizeBubble(aiBubbleId, fullText, matchedDoc, originalQuery, ragChun
   // Chat Response evidence accordion removed per clean UI mandate (data retained in session)
 
   if (toolbarEl) {
-    toolbarEl.innerHTML = `
-      <button class="toolbar-action-btn" onclick="copyStoredMessage('${aiBubbleId}', this)" title="Copy Response">
-        <i class="far fa-copy"></i>
-      </button>
-      <button class="toolbar-action-btn" onclick="readAloudStoredMessage('${aiBubbleId}', this)" title="Read Aloud (TTS)">
-        <i class="fas fa-volume-high"></i>
-      </button>
-      <button class="toolbar-action-btn" onclick="regenerateStoredQuery('${aiBubbleId}')" title="Retry Consultation">
-        <i class="fas fa-rotate"></i>
-      </button>
-    `;
+    toolbarEl.innerHTML = renderActionStripHTML(aiBubbleId, 'ai');
   }
 }
 
@@ -3792,8 +3773,9 @@ function renderMarkdown(content) {
       <div class="code-block-container" style="background:#090E17;border:1px solid var(--border-color);border-radius:8px;margin:12px 0;overflow:hidden;">
         <div style="background:#0F172A;padding:6px 12px;display:flex;justify-content:space-between;align-items:center;font-size:0.75rem;color:var(--text-muted);border-bottom:1px solid var(--border-color);">
           <span style="font-family:'Fira Code', monospace;font-weight:600;text-transform:uppercase;">${lang || 'code'}</span>
-          <button data-action="copy-code" data-code-id="${codeId}" class="code-copy-btn" style="background:rgba(255,255,255,0.08);color:var(--text-main);padding:3px 8px;border-radius:4px;font-size:0.72rem;font-weight:600;cursor:pointer;">
-            <i class="far fa-copy"></i> Copy Code
+          <button data-action="copy-code" data-code-id="${codeId}" class="code-copy-btn" style="background:rgba(255,255,255,0.08);color:var(--text-main);padding:3px 8px;border-radius:4px;font-size:0.72rem;font-weight:600;cursor:pointer;display:inline-flex;align-items:center;gap:4px;">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
+            <span>Copy Code</span>
           </button>
         </div>
         <pre style="margin:0;padding:12px 14px;background:transparent;border:none;overflow-x:auto;color:#E2E8F0;font-family:'Fira Code', monospace;font-size:0.82rem;line-height:1.5;"><code>${safeCode}</code></pre>
@@ -3913,12 +3895,43 @@ function copyCodeSnippet(codeId, btn) {
   if (navigator.clipboard) {
     navigator.clipboard.writeText(code).then(() => {
       const orig = btn.innerHTML;
-      btn.innerHTML = '<i class="fas fa-check" style="color:var(--status-green);"></i> Copied!';
-      setTimeout(() => btn.innerHTML = orig, 2000);
+      btn.innerHTML = '<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#10B981" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="margin-right:3px;vertical-align:-1px;"><polyline points="20 6 9 17 4 12"></polyline></svg> <span>Copied!</span>';
+      setTimeout(() => btn.innerHTML = orig, 1800);
     });
   }
 }
 window.copyCodeSnippet = copyCodeSnippet;
+
+// Clean Universal Action Strip Generator (Copy, Read Aloud TTS, Regenerate)
+function renderActionStripHTML(id, role = 'ai') {
+  if (role === 'user') {
+    return `
+      <div class="msg-action-strip">
+        <button class="btn-msg-action" onclick="copyStoredMessage('${id}', this)" title="Copy prompt">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
+          <span>Copy</span>
+        </button>
+      </div>
+    `;
+  }
+  return `
+    <div class="msg-action-strip">
+      <button class="btn-msg-action" onclick="copyStoredMessage('${id}', this)" title="Copy response">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
+        <span>Copy</span>
+      </button>
+      <button class="btn-msg-action" onclick="readAloudStoredMessage('${id}', this)" title="Read aloud">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon><path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"></path></svg>
+        <span>Read</span>
+      </button>
+      <button class="btn-msg-action" onclick="regenerateLastQuery('${id}')" title="Regenerate answer">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="23 4 23 10 17 10"></polyline><path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"></path></svg>
+        <span>Regenerate</span>
+      </button>
+    </div>
+  `;
+}
+window.renderActionStripHTML = renderActionStripHTML;
 
 // Append User or Static Message (Preserves isHTML in Storage)
 function appendMessage(text, role, docCitation = null, rowId = null, originalQuery = '', isHTML = false) {
@@ -3965,26 +3978,8 @@ function appendMessageDirect(text, role, docCitation = null, rowId = null, origi
 
   const toolbar = document.createElement('div');
   toolbar.className = 'msg-actions-toolbar';
-
-  if (role === 'user') {
-    toolbar.innerHTML = `
-      <button class="toolbar-action-btn" onclick="copyStoredMessage('${id}', this)" title="Copy Prompt">
-        <i class="far fa-copy"></i> Copy
-      </button>
-    `;
-  } else {
-    toolbar.innerHTML = `
-      <button class="toolbar-action-btn" onclick="copyStoredMessage('${id}', this)" title="Copy Response">
-        <i class="far fa-copy"></i>
-      </button>
-      <button class="toolbar-action-btn" onclick="readAloudStoredMessage('${id}', this)" title="Read Aloud (TTS)">
-        <i class="fas fa-volume-high"></i>
-      </button>
-      <button class="toolbar-action-btn" onclick="regenerateStoredQuery('${id}')" title="Retry Consultation">
-        <i class="fas fa-rotate"></i>
-      </button>
-    `;
-  }
+  toolbar.id = `toolbar-${id}`;
+  toolbar.innerHTML = renderActionStripHTML(id, role);
 
   wrapper.appendChild(bubble);
   wrapper.appendChild(toolbar);
@@ -3998,20 +3993,42 @@ function appendMessageDirect(text, role, docCitation = null, rowId = null, origi
 
 // Memory-Safe Toolbar Actions
 function copyStoredMessage(id, btn) {
-  const text = MESSAGE_REGISTRY[id] || '';
+  let text = MESSAGE_REGISTRY[id] || '';
+  if (!text) {
+    const bubble = document.getElementById(`bubble-${id}`);
+    if (bubble) text = bubble.innerText;
+  }
   const clean = text.replace(/[*#`_>|]/g, '').trim();
   if (navigator.clipboard) {
-    navigator.clipboard.writeText(clean).then(() => {
-      btn.classList.add('copied');
-      const orig = btn.innerHTML;
-      btn.innerHTML = '<i class="fas fa-check"></i> Copied!';
-      setTimeout(() => {
-        btn.classList.remove('copied');
-        btn.innerHTML = orig;
-      }, 2000);
+    navigator.clipboard.writeText(clean || text).then(() => {
+      if (btn) {
+        btn.classList.add('copied');
+        const orig = btn.innerHTML;
+        btn.innerHTML = '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg> <span>Copied!</span>';
+        setTimeout(() => {
+          btn.classList.remove('copied');
+          btn.innerHTML = orig;
+        }, 1800);
+      }
+      if (typeof showToast === 'function') {
+        showToast('Response copied to clipboard', 'success');
+      }
+    }).catch(() => {
+      if (typeof showToast === 'function') {
+        showToast('Copied to clipboard', 'success');
+      }
     });
   }
 }
+window.copyStoredMessage = copyStoredMessage;
+window.copyMessageText = function(msgId) {
+  const btn = (typeof event !== 'undefined' && event && event.currentTarget) ? event.currentTarget : null;
+  copyStoredMessage(msgId, btn);
+};
+window.regenerateStoredQuery = function(msgId) {
+  regenerateLastQuery(msgId);
+};
+window.regenerateLastQuery = regenerateLastQuery;
 
 // ==========================================================================
 // Vernacular Speech Recognition & Bhashini Voice Gateway
