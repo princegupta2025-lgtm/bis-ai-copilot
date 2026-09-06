@@ -2995,10 +2995,11 @@ Citing standards is ONLY permitted when the product matches the verified scope b
 * Food-Contact Polyethylene: IS 10146:1982 / Food-Contact Polypropylene: IS 10910:1984 (Overall migration limit <= 60 mg/kg, IS 9833 pigments).
 * Industrial Safety Footwear: IS 15844 (Part 1):2023 (Mandatory DPIIT QCO — 200J toe impact).
 * Ordinary Portland Cement: IS 269:2015 (Mandatory DPIIT QCO).
-* Potable Tap Water: IS 10500:2012 (National Jal Jeevan Mission benchmark).
-
-=== MULTILINGUAL & CONVERSATIONAL GROUNDING ===
-Fluently understand and respond in English, Hindi (हिन्दी), and Hinglish (e.g. "sariya ka IS code", "paani ki bottle ka niyam", "sona hallmark HUID kaise check kare"). Explain technical test parameters simply before showing structured tables.`;
+=== STRICT LANGUAGE MATCHING DIRECTIVE (MANDATORY) ===
+- If the user's latest query is in English: You MUST respond 100% in English. Do NOT write in Hindi or Devanagari script.
+- If the user's latest query is in Hindi (Devanagari script): You MUST respond in fluent Hindi (Devanagari script), preserving IS codes, clause numbers, and technical terms in Latin English alphabet.
+- If the user's latest query is in Hinglish (Roman script Hindi): You MUST respond in natural Hinglish (Roman alphabet).
+Explain technical test parameters simply before showing structured tables.`;
 }
 
 // ==========================================================================
@@ -3589,7 +3590,7 @@ async function callLiveLLMStreaming(userQuery, ragChunks, primaryDoc, aiBubbleId
         const lastUser = messages.filter(m => m.role === 'user').pop();
         const userText = lastUser ? String(lastUser.content || '') : '';
         const isDevanagari = /[\u0900-\u097F]/.test(userText);
-        const isHinglish = /\b(kya|hai|hain|kaise|batao|bataiye|chahiye|kitna|kitni|kitne|hoga|hogi|hoge|kare|karein|kaun|hota|hoti|hote|nahi|nahin|sakte|sakti|sakta|karo|kijiye|wali|wala|wale|mujhe|mera|meri|mere|karna|kisi|kab|kyun|kyu|dekhna|milega|milta|pehen|pehanna|khareed|khareedna|shikayat|nakli|asli|jaanch|sariya|sona|taar|paani|bartan)\b/i.test(userText);
+        const isHinglish = /\b(kya|hai|hain|kaise|batao|bataiye|chahiye|kitna|kitni|kitne|hoga|hogi|hoge|kare|karein|kaun|hota|hoti|hote|nahi|nahin|sakte|sakti|sakta|karo|kijiye|wali|wala|wale|mujhe|mera|meri|mere|karna|kisi|kab|kyun|kyu|dekhna|milega|milta|pehen|pehanna|khareed|khareedna|shikayat|nakli|asli|jaanch)\b/i.test(userText);
         const resolvedLang = isDevanagari ? 'hi' : (isHinglish ? 'hinglish' : 'en');
 
         const response = await fetch(endpoint, {
@@ -3658,9 +3659,17 @@ async function callLiveLLMStreaming(userQuery, ragChunks, primaryDoc, aiBubbleId
   // Grounded fallback if network was unavailable
   if (!streamSuccess) {
     const isGreeting = /^(hi|hello|hey|namaste|pranam|greetings|hola|good\s+(morning|afternoon|evening)|who\s+are\s+you|help|what\s+can\s+you\s+do)[\s!.,?]*$/i.test(userQuery.trim());
+    const queryDevanagari = /[\u0900-\u097F]/.test(userQuery);
+    const queryHinglish = /\b(kya|hai|hain|kaise|batao|bataiye|chahiye|kitna|kitni|kitne|hoga|hogi|hoge|kare|karein|kaun|hota|hoti|hote|nahi|nahin|sakte|sakti|sakta|karo|kijiye|wali|wala|wale|mujhe|mera|meri|mere|karna|kisi|kab|kyun|kyu|dekhna|milega|milta|pehen|pehanna|khareed|khareedna|shikayat|nakli|asli|jaanch)\b/i.test(userQuery);
 
     if (isGreeting) {
-      accumulatedText = `### 🙏 Namaste! Welcome to BIS MANAK-AI Copilot\n\nI am your intelligent compliance and quality standards copilot for the **Bureau of Indian Standards (Govt. of India)**.\n\nHere are some things you can ask me:\n* 🔍 **Standards & Testing:** *"What are the mandatory testing requirements for IS 4151 helmets?"* or *"Explain IS 14543 for packaged drinking water."*\n* 🛡️ **Verify Authenticity:** Enter any **7-digit CM/L license number** (e.g. \`7308812\`) or **6-digit gold HUID** (e.g. \`AB8492\`) to check validity against indexed BIS data.\n* 🏭 **MSME Copilot:** *"Generate Scheme of Testing & Inspection (STI) readiness for plastic toys."*\n* ⚖️ **Consumer Protection:** *"How do I calculate 3X compensation for fake 22K gold hallmarking under Section 19?"*\n\nHow can I assist you today?`;
+      if (queryDevanagari) {
+        accumulatedText = `### 🙏 नमस्ते! BIS MANAK-AI Copilot में आपका स्वागत है\n\nमैं **भारतीय मानक ब्यूरो (BIS), भारत सरकार** के लिए आपका आधिकारिक अनुपालन और गुणवत्ता मानक सहायक हूँ।\n\nआप मुझसे भारतीय मानकों (IS), ISI मार्क (CM/L), सोने की हॉलमार्किंग (HUID), और उपभोक्ता अधिकारों के बारे में पूछ सकते हैं।\n\nआज मैं आपकी क्या सहायता कर सकता हूँ?`;
+      } else if (queryHinglish) {
+        accumulatedText = `### 🙏 Namaste! Welcome to BIS MANAK-AI Copilot\n\nMain **Bureau of Indian Standards (Govt. of India)** ke liye aapka compliance aur quality copilot hoon.\n\nAap mujhse Indian Standards (IS), ISI mark (CM/L number), Gold Hallmarking (HUID), laboratory testing aur consumer rights ke baare mein pooch sakte hain.\n\nAaj main aapki kya madad kar sakta hoon?`;
+      } else {
+        accumulatedText = `### 🇮🇳 Hello! Welcome to BIS MANAK-AI Copilot\n\nI am your intelligent compliance and quality standards copilot for the **Bureau of Indian Standards (Govt. of India)**.\n\nHere are some things you can ask me:\n* 🔍 **Standards & Testing:** *"What are the mandatory testing requirements for IS 4151 helmets?"* or *"Explain IS 14543 for packaged drinking water."*\n* 🛡️ **Verify Authenticity:** Enter any **7-digit CM/L license number** (e.g. \`7308812\`) or **6-digit gold HUID** (e.g. \`AB8492\`) to check validity against indexed BIS data.\n* 🏭 **MSME Copilot:** *"Generate Scheme of Testing & Inspection (STI) readiness for plastic toys."*\n* ⚖️ **Consumer Protection:** *"How do I calculate 3X compensation for fake 22K gold hallmarking under Section 19?"*\n\nHow can I assist you today?`;
+      }
     } else if (primaryDoc || (ragChunks && ragChunks.length > 0)) {
       const topChunk = (ragChunks && ragChunks.length > 0) ? ragChunks[0] : null;
       const code = primaryDoc ? primaryDoc.code : (topChunk ? topChunk.standardCode : 'BIS Standard');
@@ -4108,7 +4117,6 @@ function copyStoredMessage(id, btn) {
 
 function toggleVoiceLanguage() {
   currentVoiceLang = currentVoiceLang === 'hi-IN' ? 'en-IN' : 'hi-IN';
-  APP_STATE.responseLanguage = currentVoiceLang.startsWith('hi') ? 'hi' : 'en';
   const btn = document.getElementById('btnVoiceLang');
   if (btn) {
     btn.innerHTML = currentVoiceLang === 'hi-IN' ? '<i class="fas fa-language"></i> <span>HI</span>' : '<i class="fas fa-language"></i> <span>EN</span>';

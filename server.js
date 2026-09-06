@@ -261,17 +261,24 @@ app.use('/api/', apiGeneralLimiter);
 // 4. Request Body Parser with Strict 2MB Limit
 app.use(express.json({ limit: '2mb' }));
 
-// 5. Restrict Static Files (Serve only approved frontend assets, dotfiles denied)
+// 5. Restrict Static Files (Serve only approved frontend assets, dotfiles denied, no-cache for js/html)
 app.use(express.static(path.join(__dirname), {
   dotfiles: 'deny',
   index: ['index.html', 'chat.html'],
-  maxAge: '1h'
+  setHeaders: (res, filePath) => {
+    if (filePath.endsWith('.html') || filePath.endsWith('.js') || filePath.endsWith('.css')) {
+      res.setHeader('Cache-Control', 'no-cache, no-store, must-revalidate');
+      res.setHeader('Pragma', 'no-cache');
+      res.setHeader('Expires', '0');
+    }
+  }
 }));
 
 // Root Route explicitly serving Hero Landing Page
 app.get('/', (req, res) => {
-  res.sendFile(path.join(__dirname, 'index.html'));
+  res.sendFile(path.join(__dirname), 'index.html');
 });
+
 
 // GET /api/health - Server Health Check (Ultra-fast immediate readiness probe)
 app.get('/api/health', (req, res) => {
@@ -727,8 +734,9 @@ function buildServerSystemPrompt({ role = 'consumer', dynamicISBlock = '', ragCo
 
   let languageDirective = '';
   if (responseLanguage === 'hi') {
-    languageDirective = `4. LANGUAGE SPECIFICATION (CRITICAL DIRECTIVE — HINDI / हिन्दी MODE):
-   - The user asked in Hindi (Devanagari script). You MUST generate your response in clear, fluent, natural, and authoritative Hindi (Devanagari script).
+    languageDirective = `4. STRICT LANGUAGE DIRECTIVE — HINDI / हिन्दी (MANDATORY):
+   - The user asked in Hindi (Devanagari script). You MUST generate your response in clear, fluent, natural, and authoritative Hindi in Devanagari script.
+   - Greet politely in Hindi (e.g., "नमस्ते! मैं MANAK-AI (BIS Trust Copilot) हूँ...").
    - MANDATORY TECHNICAL EXCLUSION: You MUST strictly preserve all of the following in LATIN ALPHABET (English text) without translating or transliterating into Devanagari:
      * Indian Standard Codes (e.g., "IS 4151:2015", "IS 1786", "IS 14543")
      * Clause Numbers (e.g., "Clause 7.4", "Clause 8.1")
@@ -739,15 +747,19 @@ function buildServerSystemPrompt({ role = 'consumer', dynamicISBlock = '', ragCo
      * Technical units & abbreviations (e.g., "Fe 500D", "20L", "MPa", "pH", "mg/L")
    - Formulate sentences naturally in Hindi (e.g., "IS 4151:2015 के Clause 7.4 के अनुसार, हेलमेट के लिए drop test अनिवार्य है...") ensuring authoritative Hindi with pristine regulatory references.`;
   } else if (responseLanguage === 'hinglish') {
-    languageDirective = `4. LANGUAGE SPECIFICATION (CRITICAL DIRECTIVE — HINGLISH MODE):
-   - The user asked in Hinglish (Hindi language written in Roman/English alphabet, e.g., "Helmet ka standard kya hai?").
-   - You MUST generate your entire response in natural, fluent, conversational Hinglish (Roman script Hindi).
+    languageDirective = `4. STRICT LANGUAGE DIRECTIVE — HINGLISH (MANDATORY):
+   - The user asked in Hinglish (Hindi written in Roman/English alphabet, e.g., "Helmet ka standard kya hai?").
+   - You MUST generate your ENTIRE response in natural, fluent, conversational Hinglish (Roman script Hindi).
+   - Do NOT use Devanagari script. Use Roman alphabet.
    - Style example: "Two-wheeler helmets ke liye IS 4151:2015 ke mutabik BIS ISI mark mandatory hai. Clause 7.4 ke anusar peak acceleration 300g se kam hona chahiye..."
    - Always keep official IS codes, clause numbers, QCOs, CM/L, and HUID exactly as written in standard notation.`;
   } else {
-    languageDirective = `4. LANGUAGE SPECIFICATION (CRITICAL DIRECTIVE — STRICT ENGLISH MODE):
-   - The user asked in English. You MUST generate your response entirely in clear, formal, professional English.
-   - Do NOT respond in Hindi or Devanagari script.
+    languageDirective = `4. STRICT LANGUAGE DIRECTIVE — 100% ENGLISH ONLY (MANDATORY):
+   - The user asked in English.
+   - You MUST generate your ENTIRE response STRICTLY in English.
+   - ABSOLUTELY ZERO HINDI OR DEVANAGARI: Do NOT write any Hindi sentences, words, or Devanagari script.
+   - Greet politely in English (e.g., "Hello! I am MANAK-AI (BIS Trust Copilot)..."). Do NOT use "Namaste" or Hindi phrases.
+   - Even if earlier messages in the chat history were in Hindi or Hinglish, the user is now asking in English, so your reply MUST BE 100% IN ENGLISH.
    - Always preserve official IS codes, clause numbers, QCOs, CM/L, and HUID exactly.`;
   }
 
@@ -757,7 +769,7 @@ ${roleGuidance}
 
 Instructions:
 1. NATURAL & HELPFUL CONVERSATION:
-   - If the user sends a greeting (e.g. "hi", "hello", "hey", "namaste"), greet them warmly and politely! Introduce yourself as BIS Trust Copilot and briefly ask how you can help them with Indian Standards, ISI marks, or gold hallmarking.
+   - If the user sends a greeting (e.g. "hi", "hello", "hey"), greet them warmly in the requested response language. Introduce yourself as MANAK-AI (BIS Trust Copilot) and briefly ask how you can help them with Indian Standards, ISI marks, or gold hallmarking.
    - Speak naturally, clearly, and concisely, like a top-tier modern AI assistant (ChatGPT / Claude).
 2. EVIDENCE-GROUNDED ACCURACY:
    - When the user asks about products, standards, clauses, or certification, provide accurate, verified details using the BIS Standards and Gazette context provided below.
@@ -794,10 +806,6 @@ app.post('/api/chat', chatApiLimiter, async (req, res) => {
       ragChunks = [],
       responseLanguage = 'en'
     } = req.body;
-
-    let targetLang = 'en';
-    if (responseLanguage === 'hi') targetLang = 'hi';
-    else if (responseLanguage === 'hinglish') targetLang = 'hinglish';
 
     // INPUT VALIDATION: Length limits
     if (!Array.isArray(ragChunks) || ragChunks.length > 25) {
@@ -838,6 +846,22 @@ app.post('/api/chat', chatApiLimiter, async (req, res) => {
     // Extract latest user query for dynamic IS extraction & RAG grounding
     const lastUserMsg = sanitizedMessages.filter(m => m.role === 'user').pop();
     const userQuery = lastUserMsg ? String(lastUserMsg.content || '') : '';
+
+    // Phase 4: Server-Authoritative 3-Way Language Resolution
+    // 1. If userQuery contains Devanagari script -> strictly Hindi ('hi')
+    // 2. If userQuery contains Hinglish grammar words -> strictly Hinglish ('hinglish')
+    // 3. Otherwise (pure English or non-Hindi) -> strictly English ('en')
+    const hasDevanagari = /[\u0900-\u097F]/.test(userQuery);
+    const hasHinglish = /\b(kya|hai|hain|kaise|batao|bataiye|chahiye|kitna|kitni|kitne|hoga|hogi|hoge|kare|karein|kaun|hota|hoti|hote|nahi|nahin|sakte|sakti|sakta|karo|kijiye|wali|wala|wale|mujhe|mera|meri|mere|karna|kisi|kab|kyun|kyu|dekhna|milega|milta|pehen|pehanna|khareed|khareedna|shikayat|nakli|asli|jaanch)\b/i.test(userQuery);
+
+    let targetLang = 'en';
+    if (hasDevanagari) {
+      targetLang = 'hi';
+    } else if (hasHinglish) {
+      targetLang = 'hinglish';
+    } else {
+      targetLang = 'en';
+    }
 
     // Phase 3 Fix 1 & 2: IS Code Extraction & Dynamic IS Code Block
     const extractedCodes = extractISCodes(userQuery);
