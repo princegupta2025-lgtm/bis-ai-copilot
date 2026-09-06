@@ -39,7 +39,6 @@ function initApplication() {
   initSpeech();
   renderDynamicHistory();
   checkPendingQueries();
-  initGazetteDeepLink();
   window.addEventListener('popstate', handleGazettePopState);
   
   // Event delegation for gazette nav and code copy buttons (XSS-safe)
@@ -275,6 +274,19 @@ function togglePDFPane(forceState) {
     }
     const btn = document.getElementById('btnSplitPDF');
     if (btn) btn.classList.toggle('active', APP_STATE.isPDFPaneOpen);
+
+    // If closed, sanitize the browser URL so it never auto-reopens on refresh
+    if (!APP_STATE.isPDFPaneOpen && typeof history !== 'undefined' && history.replaceState) {
+      try {
+        const url = new URL(window.location.href);
+        if (url.searchParams.has('doc') || url.searchParams.has('clause') || url.searchParams.has('page')) {
+          url.searchParams.delete('doc');
+          url.searchParams.delete('clause');
+          url.searchParams.delete('page');
+          history.replaceState({}, '', url.pathname + (url.search ? url.search : ''));
+        }
+      } catch (e) {}
+    }
   }
 }
 
@@ -288,7 +300,7 @@ function escapeForJs(str) {
     .replace(/\r/g, '');
 }
 
-function openClauseInPDF(standardCode, clauseTitle, pageNo, snippetText, updateUrl = true) {
+function openClauseInPDF(standardCode, clauseTitle, pageNo, snippetText, updateUrl = false) {
   const pane = document.getElementById('pdfEvidencePane');
   if (pane && !pane.classList.contains('open')) {
     togglePDFPane(true);
@@ -327,7 +339,7 @@ function openClauseInPDF(standardCode, clauseTitle, pageNo, snippetText, updateU
 
   const hashVal = "fp-" + Array.from(cleanCode + activeClause + activePage).reduce((s, c) => (s << 5) - s + c.charCodeAt(0) | 0, 0).toString(16).slice(0, 8);
 
-  // 2. URL & Browser History Deep Link Persistence (?doc=IS-694-2010&page=8&clause=6.2)
+  // 2. URL & Browser History Deep Link Persistence (only when explicitly requested)
   if (updateUrl && typeof history !== 'undefined' && history.pushState) {
     const slug = cleanCode.replace(/[\s:]+/g, '-');
     const newSearch = `?doc=${encodeURIComponent(slug)}&page=${activePage}&clause=${encodeURIComponent(activeClause)}`;
@@ -431,19 +443,10 @@ function handleGazettePopState(event) {
   }
 }
 
-// Automatic URL Deep-Link Resolver (?doc=IS-694-2010&page=8&clause=6.2)
+// URL Deep-Link Resolver — only loads state without force-opening the drawer
 function initGazetteDeepLink() {
-  try {
-    const urlParams = new URLSearchParams(window.location.search);
-    const docParam = urlParams.get('doc');
-    const pageParam = urlParams.get('page');
-    const clauseParam = urlParams.get('clause');
-
-    if (docParam) {
-      const cleanStd = docParam.replace(/-/g, ' ');
-      openClauseInPDF(cleanStd, clauseParam || 'Statutory Clause', pageParam || 1, '', false);
-    }
-  } catch (e) {}
+  // Never automatically open the drawer on initial page load.
+  // The drawer is ONLY opened when the user explicitly clicks 'Evidence' or an evidence button.
 }
 
 // Native PDF.js / HTML5 Visual Gazette Canvas Renderer
