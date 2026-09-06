@@ -4,6 +4,34 @@
 
 ---
 
+## ⚡ Judge Quick-Start (Get Running in 60 Seconds)
+
+```bash
+# 1. Install dependencies
+npm install
+
+# 2. Set your Gemini API key (get one at https://aistudio.google.com/app/apikey)
+# Open .env and replace 'your_gemini_api_key_here' with your actual key
+
+# 3. Start the server
+node server.js
+
+# 4. Open in browser
+start http://127.0.0.1:3000/chat.html
+
+# 5. (Optional) Run the automated judge test suite (in a second terminal)
+node scripts/test_judge_demo.js
+```
+
+> **Demo Codes to Try:**
+> - HUID: `AB8492` (genuine 22K gold) | `XY9901` (fake/cloned HUID)
+> - CM/L: `7641512` (STUDDS helmets, ACTIVE) | `3409182` (CANCELLED — counterfeit)
+> - IS query: *"What are mandatory testing requirements for IS 4151 helmets?"*
+> - Hindi: *"सरिया (TMT स्टील) के लिए BIS मानक क्या है?"*
+> - Off-topic guardrail: *"Who won the cricket match?"* → politely refused without calling Gemini
+
+---
+
 ## 📌 Executive Summary & Purpose
 
 Indian Micro, Small, and Medium Enterprises (MSMEs), industrial manufacturers, startups, and consumers face significant friction in navigating over **23,400+ Indian Standards (IS)**, **760+ mandatory Quality Control Orders (QCOs)**, and complex conformity assessment schemes (Scheme-I ISI Mark, Scheme-II CRS, Scheme-IV Hallmarking).
@@ -131,6 +159,38 @@ To avoid ambiguity across different demo and deployment targets, this repository
 
 ---
 
+## 🧪 Testing & Validation (scripts/test_judge_demo.js)
+
+A 15-query automated test suite verifies all system capabilities before demos:
+
+```bash
+# Server must be running first (in terminal 1)
+node server.js
+
+# Run tests (in terminal 2)
+node scripts/test_judge_demo.js
+```
+
+| Test | Capability | Needs API Key? |
+|---|---|---|
+| T01 | Server health `/api/health` | No |
+| T02 | IS 4151 helmet standards | Yes |
+| T03 | IS 14543 packaged water | Yes |
+| T04 | Gold HUID hallmarking query | Yes |
+| T05 | 3X compensation / Section 19 | Yes |
+| T06 | Hinglish query | Yes |
+| T07 | Hindi Devanagari query | Yes |
+| T08 | HUID verify — AB8492 (genuine 22K) | No |
+| T09 | HUID verify — XY9901 (fake/cloned) | No |
+| T10 | CML verify — 7641512 STUDDS (ACTIVE) | No |
+| T11 | CML verify — 3409182 (CANCELLED) | No |
+| T12 | RAG `/api/rag` returns chunks | No |
+| T13 | Scope guardrail — cricket rejected | Yes |
+| T14 | MSME role — plastic toys STI | Yes |
+| T15 | Honest refusal — unindexed product | Yes |
+
+---
+
 ## ⚖️ Disclaimer & Demonstration Notice
 
-*MANAK-AI is a prototype developed for Smart India Hackathon (SIH 2026) under Problem Statement SIH26107. It is designed to demonstrate advanced AI compliance reasoning, document grounding, and dual-signal verification. Pre-indexed license lookups (CM/L and HUID) utilize a verified demonstration dataset. For statutory certification filings and binding legal notices, consult the official Bureau of Indian Standards portals at [bis.gov.in](https://www.bis.gov.in) and [standardsbis.bsbedge.com](https://standardsbis.bsbedge.com).*
+*MANAK-AI is a prototype developed for Smart India Hackathon (SIH 2026) under Problem Statement SIH26107. It is designed to demonstrate advanced AI compliance reasoning, document grounding, and dual-signal verification. Pre-indexed license lookups (CM/L and HUID) utilize a verified demonstration dataset clearly labeled "DEMONSTRATION DATA" in the UI. For statutory certification filings and binding legal notices, consult the official Bureau of Indian Standards portals at [bis.gov.in](https://www.bis.gov.in) and [standardsbis.bsbedge.com](https://standardsbis.bsbedge.com).*
