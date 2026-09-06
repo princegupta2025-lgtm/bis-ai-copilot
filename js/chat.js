@@ -2811,14 +2811,7 @@ async function submitUserQuery() {
           badgeColor = 'var(--status-amber, #F59E0B)';
         }
 
-        const tooltipText = "Grounding Score: Indicates how strongly the response is supported by retrieved evidence.";
-        const badgeHtml = `
-          <div class="${badgeClass}" style="display:inline-flex;align-items:center;gap:6px;padding:4px 10px;border-radius:12px;font-size:0.75rem;margin-right:8px;cursor:help;" title="${tooltipText}" aria-label="${tooltipText}">
-            <i class="fas fa-shield-check" style="color:${badgeColor};"></i>
-            <span>Grounding Score: <strong>${score}% Grounded • ${tierText}</strong></span>
-          </div>
-        `;
-        toolbar.insertAdjacentHTML('afterbegin', badgeHtml);
+        // Statutory grounding score calculated for audit/telemetry (visual badge suppressed from chat UI)
       }
     }
 
@@ -2831,9 +2824,6 @@ async function submitUserQuery() {
           </button>
           <button class="btn-msg-action" onclick="readAloudStoredMessage('${aiMsgId}', this)" title="Read aloud">
             <i class="fas fa-volume-high"></i> <span>Read</span>
-          </button>
-          <button class="btn-msg-action" onclick="togglePDFPane()" title="Open Split-Screen Gazette Evidence">
-            <i class="fas fa-book-open"></i> <span>Evidence</span>
           </button>
           <button class="btn-msg-action" onclick="regenerateLastQuery('${aiMsgId}')" title="Regenerate answer">
             <i class="fas fa-rotate-right"></i> <span>Regenerate</span>
@@ -3744,114 +3734,7 @@ function finalizeBubble(aiBubbleId, fullText, matchedDoc, originalQuery, ragChun
 
   bubbleEl.innerHTML = renderMarkdown(validatedText);
 
-  // Render Collapsible Multi-Source Citation Accordion (ChatGPT / Perplexity Style)
-  if (Array.isArray(ragChunks) && ragChunks.length > 0) {
-    const validChunks = [];
-    const seenIds = new Set();
-    ragChunks.slice(0, 3).forEach(chunk => {
-      if (chunk && chunk.standardCode && !seenIds.has(chunk.id || `${chunk.standardCode}-${chunk.clauseTitle}`)) {
-        seenIds.add(chunk.id || `${chunk.standardCode}-${chunk.clauseTitle}`);
-        validChunks.push(chunk);
-      }
-    });
-
-    if (validChunks.length > 0) {
-      const details = document.createElement('details');
-      details.className = 'sources-accordion';
-      details.innerHTML = `
-        <summary>
-          <i class="fas fa-book-bookmark" style="color:var(--gold-accent);"></i>
-          <span>Verified BIS Sources (${validChunks.length})</span>
-          <span style="font-size:0.7rem;color:var(--text-muted);font-weight:400;margin-left:auto;">Inspect Clauses ▾</span>
-        </summary>
-        <div class="sources-accordion-content"></div>
-      `;
-
-      const contentEl = details.querySelector('.sources-accordion-content');
-      validChunks.forEach(chunk => {
-        const docSlug = chunk.standardCode.replace(/[\s:]+/g, '-');
-        const targetPage = chunk.pageNumber || 8;
-        const targetClause = chunk.clauseTitle || 'Mandatory Requirements';
-        const gazetteUrl = `gazette.html?doc=${encodeURIComponent(docSlug)}&page=${targetPage}&clause=${encodeURIComponent(targetClause)}`;
-
-        // Determine 4-tier evidence level badge
-        let evBadgeBg = 'rgba(59,130,246,0.15)';
-        let evBadgeColor = '#60A5FA';
-        let evBadgeText = '🔵 LEVEL 2: VERIFIED CLAUSE EVIDENCE';
-
-        const txt = (chunk.text || '').toLowerCase();
-        const src = (chunk.source || '').toLowerCase();
-        if (txt.includes('clause') || txt.includes('table') || src.includes('level 1') || src.includes('gazette')) {
-          evBadgeBg = 'rgba(16,185,129,0.15)';
-          evBadgeColor = '#34D399';
-          evBadgeText = '🟢 LEVEL 1: VERIFIED FULL TEXT';
-        } else if (src.includes('level 3') || txt.includes('catalogue')) {
-          evBadgeBg = 'rgba(245,158,11,0.15)';
-          evBadgeColor = '#FBBF24';
-          evBadgeText = '🟡 LEVEL 3: CATALOGUE METADATA ONLY';
-        } else if (src.includes('level 4') || txt.includes('guidelines') || txt.includes('handbook')) {
-          evBadgeBg = 'rgba(156,163,175,0.15)';
-          evBadgeColor = '#E5E7EB';
-          evBadgeText = '⚪ LEVEL 4: REGULATORY CONTEXT';
-        }
-
-        const chip = document.createElement('div');
-        chip.className = 'citation-card-row';
-        chip.style.cssText = 'background:var(--bg-app);border:1px solid var(--border-color);border-radius:8px;padding:10px 14px;margin-bottom:8px;font-size:0.8rem;';
-        chip.innerHTML = `
-          <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:6px;">
-            <strong style="color:var(--text-main);font-size:0.86rem;"><i class="fas fa-file-contract" style="color:var(--gold-accent);"></i> ${escapeHtml(chunk.standardCode)}</strong>
-            <span style="font-size:0.68rem;background:${evBadgeBg};color:${evBadgeColor};padding:3px 8px;border-radius:4px;font-weight:700;letter-spacing:0.3px;">${evBadgeText}</span>
-          </div>
-          <div style="color:var(--text-subtle);font-size:0.76rem;margin-bottom:6px;font-weight:600;">
-            <span style="color:var(--gold-accent);">${escapeHtml(chunk.standardCode)}</span> → <span style="color:var(--primary-blue);">${escapeHtml(targetClause)}</span> → <span>Page ${parseInt(targetPage, 10) || 1}</span> → <span style="color:#10B981;">Verified Evidence</span>
-          </div>
-          <div style="font-size:0.78rem;color:var(--text-muted);line-height:1.4;margin-bottom:8px;background:var(--bg-card);padding:6px 8px;border-radius:4px;border-left:3px solid var(--gold-accent);">
-            ${escapeHtml(chunk.text ? chunk.text.slice(0, 180) + '...' : '')}
-          </div>
-          <div style="display:flex;justify-content:space-between;align-items:center;">
-            <span style="font-size:0.7rem;color:var(--text-muted);">Status: ${escapeHtml(chunk.status || 'Active Standard')}</span>
-            <a href="${sanitizeUrl(chunk.sourceUrl || gazetteUrl)}" target="_blank" rel="noopener noreferrer" style="color:var(--primary-blue);font-size:0.74rem;font-weight:700;text-decoration:none;display:inline-flex;align-items:center;gap:4px;">
-              Official Source: ${chunk.verificationStatus === 'official_verified' ? 'Verified Official Link' : 'Gazette Preview'} <i class="fas fa-arrow-up-right-from-square" style="font-size:0.68rem;"></i>
-            </a>
-          </div>
-        `;
-        if (contentEl) contentEl.appendChild(chip);
-      });
-
-      bubbleEl.appendChild(details);
-    }
-  } else if (matchedDoc) {
-    const docSlug = (matchedDoc.code || '').replace(/[\s:]+/g, '-');
-    const targetPage = matchedDoc.pageNumber || 8;
-    const targetClause = matchedDoc.clauseNumber || matchedDoc.title || 'Clause';
-    const gazetteUrl = `gazette.html?doc=${encodeURIComponent(docSlug)}&page=${targetPage}&clause=${encodeURIComponent(targetClause)}`;
-
-    const details = document.createElement('details');
-    details.className = 'sources-accordion';
-    details.innerHTML = `
-      <summary>
-        <i class="fas fa-book-bookmark" style="color:var(--gold-accent);"></i>
-        <span>Verified BIS Source (1)</span>
-        <span style="font-size:0.7rem;color:var(--text-muted);font-weight:400;margin-left:auto;">Why this answer? ▾</span>
-      </summary>
-      <div class="sources-accordion-content" style="padding:10px;">
-        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:4px;">
-          <strong style="color:var(--text-main);"><i class="fas fa-file-contract" style="color:var(--gold-accent);"></i> ${escapeHtml(matchedDoc.code)}</strong>
-          <span style="font-size:0.68rem;background:rgba(59,130,246,0.15);color:#60A5FA;padding:3px 8px;border-radius:4px;font-weight:700;">🔵 LEVEL 2: VERIFIED CLAUSE EVIDENCE</span>
-        </div>
-        <div style="color:var(--text-subtle);font-size:0.76rem;margin-bottom:6px;font-weight:600;">
-          <span style="color:var(--gold-accent);">${escapeHtml(matchedDoc.code)}</span> → <span style="color:var(--primary-blue);">${escapeHtml(targetClause)}</span> → <span>Page ${parseInt(targetPage, 10) || 1}</span> → <span style="color:#10B981;">Verified Evidence</span>
-        </div>
-        <div style="display:flex;justify-content:flex-end;">
-          <a href="${sanitizeUrl(gazetteUrl)}" target="_blank" rel="noopener noreferrer" style="color:var(--primary-blue);font-size:0.74rem;font-weight:700;text-decoration:none;display:inline-flex;align-items:center;gap:4px;">
-            Open Gazette Viewer →
-          </a>
-        </div>
-      </div>
-    `;
-    bubbleEl.appendChild(details);
-  }
+  // Chat Response evidence accordion removed per clean UI mandate (data retained in session)
 
   if (toolbarEl) {
     toolbarEl.innerHTML = `
@@ -4062,13 +3945,7 @@ function appendMessageDirect(text, role, docCitation = null, rowId = null, origi
   bubble.className = 'msg-text-bubble';
   bubble.innerHTML = isHTML ? safeSanitizeHtml(text) : renderMarkdown(text);
 
-  if (role === 'ai' && docCitation) {
-    const chip = document.createElement('span');
-    chip.className = 'citation-chip-badge';
-    chip.innerHTML = `<i class="fas fa-book-bookmark"></i> BIS • ${docCitationFormat(docCitation)}`;
-    chip.onclick = () => openClauseInPDF(docCitation.code, docCitation.title, docCitation.pageNumber, docCitation.clauseEvidence);
-    bubble.appendChild(chip);
-  }
+  // Citation chip badge suppressed from chat bubble per clean UI mandate
 
   const toolbar = document.createElement('div');
   toolbar.className = 'msg-actions-toolbar';

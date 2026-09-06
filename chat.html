@@ -44,7 +44,7 @@
   </script>
   
   <!-- CSS -->
-  <link rel="stylesheet" href="css/style.css?v=3.7" />
+  <link rel="stylesheet" href="css/style.css?v=3.9" />
   <link rel="stylesheet" href="css/command-palette.css" />
   <script src="js/theme.js"></script>
 
@@ -121,160 +121,6 @@
       color: var(--text-subtle);
     }
 
-    /* 2. IS Code Display Box (Positioned directly above composer input) */
-    .is-code-display-card {
-      background: linear-gradient(135deg, rgba(17, 24, 39, 0.95), rgba(15, 23, 42, 0.98));
-      border: 1px solid rgba(59, 130, 246, 0.35);
-      border-radius: var(--radius-md, 10px);
-      padding: 12px 16px;
-      margin-bottom: 10px;
-      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.45), 0 0 16px rgba(59, 130, 246, 0.15);
-      backdrop-filter: blur(14px);
-      animation: phase4SlideUp 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-      position: relative;
-      overflow: hidden;
-    }
-    .is-code-display-card::before {
-      content: '';
-      position: absolute;
-      top: 0; left: 0; width: 4px; height: 100%;
-      background: linear-gradient(180deg, var(--primary-blue), var(--primary-purple));
-    }
-    .is-code-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 6px;
-    }
-    .is-code-badge-group {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      flex-wrap: wrap;
-    }
-    .is-code-badge-pill {
-      background: rgba(59, 130, 246, 0.18);
-      border: 1px solid rgba(59, 130, 246, 0.45);
-      color: #60A5FA;
-      padding: 3px 10px;
-      border-radius: 9999px;
-      font-size: 0.8rem;
-      display: flex;
-      align-items: center;
-      gap: 6px;
-    }
-    .is-code-status-tag {
-      font-size: 0.68rem;
-      font-weight: 700;
-      padding: 2px 8px;
-      border-radius: 4px;
-      text-transform: uppercase;
-      letter-spacing: 0.5px;
-    }
-    .is-code-status-tag.mandatory {
-      background: rgba(239, 68, 68, 0.18);
-      color: #F87171;
-      border: 1px solid rgba(239, 68, 68, 0.35);
-    }
-    .is-code-status-tag.voluntary {
-      background: rgba(16, 185, 129, 0.18);
-      color: #34D399;
-      border: 1px solid rgba(16, 185, 129, 0.35);
-    }
-    .is-code-division-tag {
-      font-size: 0.7rem;
-      color: var(--text-subtle);
-      background: rgba(255, 255, 255, 0.06);
-      padding: 2px 7px;
-      border-radius: 4px;
-    }
-    .is-code-close-btn {
-      background: transparent;
-      border: none;
-      color: var(--text-subtle);
-      cursor: pointer;
-      padding: 4px 6px;
-      font-size: 0.85rem;
-      border-radius: 4px;
-      transition: all 0.15s;
-    }
-    .is-code-close-btn:hover {
-      color: var(--text-main);
-      background: rgba(255, 255, 255, 0.08);
-    }
-    .is-code-title {
-      margin: 0 0 4px 0;
-      font-size: 0.88rem;
-      font-weight: 600;
-      color: var(--text-main);
-    }
-    .is-code-description {
-      margin: 0 0 8px 0;
-      font-size: 0.78rem;
-      color: var(--text-muted);
-      line-height: 1.4;
-    }
-    .is-code-meta-chips {
-      display: flex;
-      gap: 6px;
-      flex-wrap: wrap;
-      margin-bottom: 10px;
-    }
-    .is-code-meta-chips .meta-chip {
-      background: rgba(255, 255, 255, 0.05);
-      border: 1px solid var(--border-color);
-      padding: 2px 8px;
-      border-radius: 4px;
-      font-size: 0.7rem;
-      color: var(--text-muted);
-      display: flex;
-      align-items: center;
-      gap: 5px;
-    }
-    .is-code-actions {
-      display: flex;
-      gap: 8px;
-      flex-wrap: wrap;
-    }
-    .btn-is-action {
-      font-size: 0.74rem;
-      font-weight: 600;
-      padding: 5px 12px;
-      border-radius: 6px;
-      cursor: pointer;
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-      text-decoration: none;
-      transition: all 0.15s;
-    }
-    .btn-is-action.primary {
-      background: var(--primary-blue);
-      color: #fff;
-      border: none;
-    }
-    .btn-is-action.primary:hover {
-      background: #2563EB;
-      transform: translateY(-1px);
-    }
-    .btn-is-action.secondary {
-      background: rgba(255, 255, 255, 0.08);
-      color: var(--text-main);
-      border: 1px solid var(--border-color);
-    }
-    .btn-is-action.secondary:hover {
-      background: rgba(255, 255, 255, 0.14);
-      transform: translateY(-1px);
-    }
-    .btn-is-action.copy {
-      background: transparent;
-      color: var(--text-muted);
-      border: 1px dashed var(--border-color);
-    }
-    .btn-is-action.copy:hover {
-      color: var(--text-main);
-      border-color: var(--text-subtle);
-    }
 
     /* 3. Real-Time Typing Indicator & Streaming Cursor */
     .streaming-cursor {
@@ -723,47 +569,6 @@
       <!-- ================= FLOATING COMPOSER ($100M SAAS INPUT) ================= -->
       <div class="chat-composer-outer">
         <div class="chat-composer-container">
-
-          <!-- ================= PHASE 4: IS CODE DISPLAY BOX (CHAT KE NICHE) ================= -->
-          <div class="is-code-display-card" id="isCodeDisplayCard" style="display:none;">
-            <div class="is-code-header">
-              <div class="is-code-badge-group">
-                <span class="is-code-badge-pill">
-                  <i class="fas fa-shield-halved"></i> <strong id="isCodeDisplayNumber">IS 4151:2015</strong>
-                </span>
-                <span class="is-code-status-tag mandatory" id="isCodeStatusTag">MANDATORY QCO</span>
-                <span class="is-code-division-tag" id="isCodeDivisionTag">TED • Transport Engineering</span>
-              </div>
-              <button class="is-code-close-btn" onclick="toggleISCodeDisplay(false)" title="Minimize Standards Card">
-                <i class="fas fa-xmark"></i>
-              </button>
-            </div>
-            
-            <div class="is-code-body">
-              <h4 class="is-code-title" id="isCodeDisplayTitle">Two-Wheeler Protective Helmets — Specification</h4>
-              <p class="is-code-description" id="isCodeDisplayDesc">
-                Mandatory Quality Control Order enforced by MoRTH. Peak acceleration ≤ 300g, retention drop height 3.0m on steel anvil.
-              </p>
-              <div class="is-code-meta-chips" id="isCodeMetaChips">
-                <span class="meta-chip"><i class="fas fa-gavel"></i> MoRTH Statutory Order</span>
-                <span class="meta-chip"><i class="fas fa-certificate"></i> Scheme-I (ISI Mark)</span>
-                <span class="meta-chip"><i class="fas fa-flask"></i> Drop Anvil Test (Cl. 7.4)</span>
-              </div>
-            </div>
-
-            <div class="is-code-actions">
-              <a class="btn-is-action primary" id="isCodePortalLink" href="https://standardsbis.bsbedge.com" target="_blank" rel="noopener">
-                <i class="fas fa-arrow-up-right-from-square"></i> Open on BIS Standards Portal
-              </a>
-              <button class="btn-is-action secondary" id="isCodeStudioBtn" onclick="openStandardInStudio()">
-                <i class="fas fa-book-open"></i> Open in Gazette Studio
-              </button>
-              <button class="btn-is-action copy" onclick="copyISCitation()" title="Copy Standard Citation">
-                <i class="fas fa-copy"></i> Copy Citation
-              </button>
-            </div>
-          </div>
-          
           <!-- Compact Quick Action Strip Above Input -->
           <div class="composer-quick-actions-strip">
             <button class="composer-chip-btn" onclick="openToolsModal('verify')">
@@ -1265,7 +1070,7 @@
 
   <!-- Scripts -->
   <script src="js/database.js?v=3.7"></script>
-  <script src="js/chat.js?v=3.7"></script>
+  <script src="js/chat.js?v=3.9"></script>
   <script src="js/command-palette.js?v=3.7"></script>
   <script src="js/wizard.js?v=3.7"></script>
 
@@ -1373,68 +1178,9 @@
     window.showTypingIndicator = function() {};
     window.hideTypingIndicator = function() {};
 
-    // ================= 3. IS CODE DISPLAY CARD CONTROLLER =================
-    window.updateISCodeDisplay = function(codeKey) {
-      const card = document.getElementById('isCodeDisplayCard');
-      if (!card) return;
-
-      const standard = PHASE4_STANDARDS_REGISTRY[codeKey];
-      if (!standard) return;
-
-      const numEl = document.getElementById('isCodeDisplayNumber');
-      const statusEl = document.getElementById('isCodeStatusTag');
-      const divEl = document.getElementById('isCodeDivisionTag');
-      const titleEl = document.getElementById('isCodeDisplayTitle');
-      const descEl = document.getElementById('isCodeDisplayDesc');
-      const chipsEl = document.getElementById('isCodeMetaChips');
-      const linkEl = document.getElementById('isCodePortalLink');
-
-      if (numEl) numEl.textContent = standard.code;
-      if (statusEl) {
-        statusEl.textContent = standard.qco ? 'MANDATORY QCO' : 'VOLUNTARY STANDARD';
-        statusEl.className = 'is-code-status-tag ' + (standard.qco ? 'mandatory' : 'voluntary');
-      }
-      if (divEl) divEl.textContent = standard.div;
-      if (titleEl) titleEl.textContent = standard.title;
-      if (descEl) descEl.textContent = standard.desc;
-
-      if (chipsEl && standard.chips) {
-        const safeMapChip = function(txt) {
-          return String(txt).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;').replace(/'/g, '&#039;');
-        };
-        chipsEl.innerHTML = standard.chips.map(c => `<span class="meta-chip"><i class="fas fa-check-circle" style="color:var(--status-green);"></i> ${safeMapChip(c)}</span>`).join('');
-      }
-
-      if (linkEl) linkEl.href = standard.url || 'https://standardsbis.bsbedge.com';
-
-      card.style.display = 'block';
-    };
-
-    window.toggleISCodeDisplay = function(show) {
-      const card = document.getElementById('isCodeDisplayCard');
-      if (card) {
-        card.style.display = (show === false) ? 'none' : 'block';
-      }
-    };
-
-    window.openStandardInStudio = function() {
-      if (typeof togglePDFPane === 'function') {
-        togglePDFPane();
-      }
-    };
-
-    window.copyISCitation = function() {
-      const numEl = document.getElementById('isCodeDisplayNumber');
-      const titleEl = document.getElementById('isCodeDisplayTitle');
-      const text = `[BIS • ${numEl ? numEl.textContent : 'Indian Standard'} — ${titleEl ? titleEl.textContent : 'Specification'}]`;
-      navigator.clipboard.writeText(text).then(() => {
-        if (typeof showToast === 'function') {
-          showToast('Citation copied: ' + text, 'success');
-        } else {
-          alert('Citation copied to clipboard!');
-        }
-      });
-    };
+    // ================= 3. IS CODE DISPLAY CARD CONTROLLER (Clean UI - Card Removed) =================
+    window.updateISCodeDisplay = function() {};
+    window.toggleISCodeDisplay = function() {};
 
     // ================= 4. ENHANCED ERROR BANNER CONTROLLER =================
     window.showChatError = function(title, description, statusBadge) {
@@ -1474,25 +1220,9 @@
       const input = document.getElementById('userInput');
       const sendBtn = document.getElementById('sendBtn');
 
-      // Detect IS standards in query as user types or submits
+      // Standards detection for response cards disabled per clean UI mandate
       function checkQueryForStandards(text) {
-        if (!text) return;
-        const lower = text.toLowerCase();
-        for (const [codeKey, std] of Object.entries(PHASE4_STANDARDS_REGISTRY)) {
-          if (lower.includes(codeKey) || lower.includes(std.code.toLowerCase()) || 
-             (codeKey === '4151' && (lower.includes('helmet') || lower.includes('helmets'))) ||
-             (codeKey === '1786' && (lower.includes('sariya') || lower.includes('tmt') || lower.includes('steel bar'))) ||
-             (codeKey === '1417' && (lower.includes('gold') || lower.includes('huid') || lower.includes('hallmark') || lower.includes('sona'))) ||
-             (codeKey === '14543' && (lower.includes('water bottle') || lower.includes('drinking water') || lower.includes('packaged water'))) ||
-             (codeKey === '694' && (lower.includes('wire') || lower.includes('cable') || lower.includes('taar'))) ||
-             (codeKey === '2347' && (lower.includes('pressure cooker') || lower.includes('cooker'))) ||
-             (codeKey === '2082' && (lower.includes('geyser') || lower.includes('water heater'))) ||
-             (codeKey === '269' && (lower.includes('cement') || lower.includes('opc'))) ||
-             (codeKey === '9873' && (lower.includes('toy') || lower.includes('toys')))) {
-            window.updateISCodeDisplay(codeKey);
-            break;
-          }
-        }
+        // Intentionally no-op: no evidence cards attached to chat responses
       }
 
       if (sendBtn) {
@@ -1538,7 +1268,7 @@
         }
       } catch (e) {}
 
-      // Mutation Observer on Chat Stream to automatically stop progress and detect IS numbers in AI replies
+      // Mutation Observer on Chat Stream to automatically stop progress
       const chatContainer = document.getElementById('chatMessages');
       if (chatContainer) {
         const observer = new MutationObserver(function(mutations) {
@@ -1551,7 +1281,6 @@
             if (textContent.length > 25) {
               window.hideChatProgress();
               window.hideTypingIndicator();
-              checkQueryForStandards(textContent);
             }
 
             // If error text detected in bubble, show error card
