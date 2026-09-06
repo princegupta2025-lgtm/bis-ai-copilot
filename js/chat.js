@@ -1822,10 +1822,10 @@ async function renderHUIDTrustCard(huidCode) {
 
   const sourceBadge = apiSource === 'live_huid_portal'
     ? `<div style="background:rgba(16,185,129,0.15);border:1px solid rgba(16,185,129,0.35);padding:4px 8px;border-radius:4px;font-size:0.72rem;color:var(--status-green);margin-bottom:8px;font-weight:700;display:inline-flex;align-items:center;gap:6px;">
-         <i class="fas fa-check-circle"></i> Verified against indexed BIS reference data
+         <i class="fas fa-check-circle"></i> Live BIS HUID Portal — Real-Time Query
        </div>`
-    : `<div style="background:rgba(234,179,8,0.12);border:1px solid rgba(234,179,8,0.3);padding:4px 8px;border-radius:4px;font-size:0.72rem;color:var(--gold-accent);margin-bottom:8px;font-weight:700;display:inline-flex;align-items:center;gap:6px;">
-         <i class="fas fa-database"></i> Reference Data — Indexed Evaluation Record
+    : `<div class="demo-data-banner">
+         <i class="fas fa-database"></i> 📦 DEMONSTRATION DATA — Indexed Sample Dataset (Not a live BIS portal query)
        </div>`;
 
   const cardHTML = `
@@ -2163,10 +2163,10 @@ async function renderBISTrustCard(cmlNumber, detectedISCode = null) {
 
   const sourceBadge = apiSource === 'live_manakonline'
     ? `<div style="background:rgba(16,185,129,0.15);border:1px solid rgba(16,185,129,0.35);padding:4px 8px;border-radius:4px;font-size:0.72rem;color:var(--status-green);margin-bottom:8px;font-weight:700;display:inline-flex;align-items:center;gap:6px;">
-         <i class="fas fa-check-circle"></i> Verified against indexed BIS reference data
+         <i class="fas fa-check-circle"></i> Live Manakonline Portal — Real-Time Verified
        </div>`
-    : `<div style="background:rgba(59,130,246,0.12);border:1px solid rgba(59,130,246,0.3);padding:4px 8px;border-radius:4px;font-size:0.72rem;color:var(--primary-blue);margin-bottom:8px;font-weight:700;display:inline-flex;align-items:center;gap:6px;">
-         <i class="fas fa-database"></i> Reference Data — Indexed Evaluation Record
+    : `<div class="demo-data-banner">
+         <i class="fas fa-database"></i> 📦 DEMONSTRATION DATA — Indexed Sample Dataset (Not a live BIS portal query)
        </div>`;
 
   const cardHTML = `
@@ -3707,6 +3707,17 @@ async function callLiveLLMStreaming(userQuery, ragChunks, primaryDoc, aiBubbleId
       }
     }
     await typewriterFallback(bubbleEl, accumulatedText);
+  }
+
+  // Attach live/offline response source badge to the toolbar area
+  const sourcePill = document.createElement('div');
+  sourcePill.className = streamSuccess ? 'response-source-pill live' : 'response-source-pill offline';
+  sourcePill.innerHTML = streamSuccess
+    ? '<i class="fas fa-circle-check"></i> Live Gemini Response'
+    : '<i class="fas fa-triangle-exclamation"></i> Offline Grounded Fallback';
+  const bubbleWrap = document.getElementById(`bubble-${aiBubbleId}`);
+  if (bubbleWrap && bubbleWrap.parentElement) {
+    bubbleWrap.parentElement.insertBefore(sourcePill, bubbleWrap.nextSibling);
   }
 
   finalizeBubble(aiBubbleId, accumulatedText, primaryDoc, originalQuery, ragChunks);

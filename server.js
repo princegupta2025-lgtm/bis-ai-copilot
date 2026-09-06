@@ -853,6 +853,50 @@ app.post('/api/chat', chatApiLimiter, async (req, res) => {
       return res.status(400).json({ error: "Invalid payload: 'messages' must be a non-empty array." });
     }
 
+    // =========================================================================
+    // SCOPE GUARDRAIL: Reject clearly off-topic queries before calling Gemini
+    // This saves API tokens and gives deterministic refusals for non-BIS topics
+    // =========================================================================
+    const latestUserText = Array.isArray(messages)
+      ? (messages.filter(m => m.role === 'user').pop()?.content || '')
+      : '';
+    const lowerQuery = latestUserText.toLowerCase().trim();
+    const OFF_TOPIC_PATTERNS = [
+      /\b(cricket|ipl|football|soccer|tennis|kabaddi|chess|olympics|world\s*cup|match\s*score|live\s*score)\b/i,
+      /\b(bollywood|movie|film|actor|actress|song|album|web\s*series|netflix|hotstar|ott)\b/i,
+      /\b(stock\s*market|share\s*price|nifty|sensex|mutual\s*fund|crypto|bitcoin|forex)\b/i,
+      /\b(recipe|cook|food\s*recipe|restaurant|biryani\s*recipe|cake\s*recipe)\b/i,
+      /\b(write\s*code|debug\s*my\s*code|javascript\s*help|python\s*tutorial|react\s*js|node\s*js\s*tutorial)\b/i,
+      /\b(horoscope|astrology|zodiac|kundali|numerology)\b/i,
+      /\b(dating|relationship|love\s*advice|marriage\s*advice)\b/i,
+      /\b(weather|temperature|rain|humidity|forecast)\b/i
+    ];
+    // Only reject if query is not also mentioning BIS / IS / QCO keywords (to avoid false positives)
+    const BIS_SAFE_KEYWORDS = /\b(bis|is\s*\d|standard|qco|certification|hallmark|isi\s*mark|consumer|product\s*safety|quality|compliance)\b/i;
+    const isOffTopic = OFF_TOPIC_PATTERNS.some(p => p.test(lowerQuery)) && !BIS_SAFE_KEYWORDS.test(lowerQuery);
+    if (isOffTopic) {
+      const hasDevanagariCheck = /[\u0900-\u097F]/.test(latestUserText);
+      const hasHinglishCheck = /\b(kya|hai|hain|kaise|batao)\b/i.test(latestUserText);
+      let refusalMsg = 'I am MANAK-AI (BIS Trust Copilot), specialized exclusively in Indian Standards (IS codes), BIS certification, ISI mark verification, Gold Hallmarking (HUID), and consumer protection under the BIS Act 2016. I am not able to assist with this topic. Please ask me about product quality standards, QCOs, or BIS certification processes.';
+      if (hasDevanagariCheck) {
+        refusalMsg = 'मैं MANAK-AI (BIS Trust Copilot) हूँ, और मैं केवल भारतीय मानकों (IS codes), BIS प्रमाणीकरण, ISI मार्क, Gold Hallmarking (HUID), और BIS Act 2016 के अंतर्गत उपभोक्ता संरक्षण में सहायता करता हूँ। इस विषय में मैं सहायता करने में असमर्थ हूँ।';
+      } else if (hasHinglishCheck) {
+        refusalMsg = 'Main MANAK-AI (BIS Trust Copilot) hoon — main sirf Indian Standards (IS codes), BIS certification, ISI mark, Gold Hallmarking (HUID), aur consumer protection ke baare mein help karta hoon. Is topic ke baare mein main assist nahi kar sakta.';
+      }
+      console.log(`[SCOPE GUARDRAIL] Off-topic query rejected (not sent to Gemini): "${lowerQuery.slice(0, 80)}"`);
+      // Stream-compatible refusal response
+      if (stream) {
+        res.setHeader('Content-Type', 'text/event-stream; charset=utf-8');
+        res.setHeader('Cache-Control', 'no-cache');
+        res.setHeader('Connection', 'keep-alive');
+        res.write(`data: ${JSON.stringify({ choices: [{ delta: { content: refusalMsg } }] })}\n\n`);
+        res.write('data: [DONE]\n\n');
+        return res.end();
+      } else {
+        return res.json({ choices: [{ message: { role: 'assistant', content: refusalMsg }, finish_reason: 'stop', index: 0 }] });
+      }
+    }
+
     // Phase 2 Fix 1: Client system prompt reject & Role Extraction
     // Users or clients cannot supply, modify, or override the system prompt
     let detectedRole = role;
@@ -910,6 +954,11 @@ app.post('/api/chat', chatApiLimiter, async (req, res) => {
       ragContextBlock: ragContextBlock,
       responseLanguage: targetLang
     });
+
+    // Fix 5: Grounding gap log — warn if no RAG context was retrieved for non-trivial queries
+    if (!ragContextBlock && userQuery.length > 30 && !(/^(hi|hello|hey|namaste|ok|okay|thanks|theek|haan)\b/i.test(userQuery))) {
+      console.warn(`[GROUNDING GAP] No RAG context retrieved for query: "${userQuery.slice(0, 100)}" (extractedCodes: [${extractedCodes.join(', ')}])`);
+    }
 
     // Model name sanitization & candidate fallback setup (Valid Gemini models only)
     const VALID_GEMINI_MODELS = ['gemini-3.5-flash-lite', 'gemini-3.5-flash', 'gemini-3.6-flash'];
