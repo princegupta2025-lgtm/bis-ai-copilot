@@ -3993,22 +3993,33 @@ html, body {
   font-weight: 700;
 }
 
-/* 5. Evidence Drawer Side Pane Polish */
+/* 5. Evidence Drawer Side Pane Polish (Hidden by default, opens ONLY when .open is present) */
 .pdf-evidence-pane {
-  max-width: 480px;
-  width: 100%;
-  box-shadow: -8px 0 28px rgba(0, 0, 0, 0.45);
-  border-left: 1px solid var(--border-color);
-  background: var(--bg-pdf-pane, #0D131F);
-  transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-  z-index: 50;
-  overflow-y: auto;
+  display: none !important;
+  width: 0 !important;
+  max-width: 0 !important;
+  overflow: hidden !important;
+  border-left: none !important;
+  box-shadow: none !important;
 }
 
-[data-theme="light"] .pdf-evidence-pane {
+.pdf-evidence-pane.open {
+  display: flex !important;
+  width: 46% !important;
+  max-width: 500px !important;
+  min-width: 340px !important;
+  box-shadow: -8px 0 28px rgba(0, 0, 0, 0.45) !important;
+  border-left: 1px solid var(--border-color) !important;
+  background: var(--bg-pdf-pane, #0D131F);
+  transition: width 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  z-index: 50;
+  overflow-y: auto !important;
+}
+
+[data-theme="light"] .pdf-evidence-pane.open {
   background: #FFFFFF;
-  border-left: 1px solid #E2E8F0;
-  box-shadow: -4px 0 20px rgba(0, 0, 0, 0.08);
+  border-left: 1px solid #E2E8F0 !important;
+  box-shadow: -4px 0 20px rgba(0, 0, 0, 0.08) !important;
 }
 
 .pdf-pane-header {
@@ -4058,8 +4069,8 @@ html, body {
   .hero-title {
     font-size: 2.2rem;
   }
-  .pdf-evidence-pane {
-    max-width: 400px;
+  .pdf-evidence-pane.open {
+    max-width: 420px !important;
   }
 }
 
@@ -4078,9 +4089,14 @@ html, body {
   .demo-starter-btn {
     width: 100%;
   }
-  .pdf-evidence-pane {
-    max-width: 100vw;
-    width: 100vw;
+  .pdf-evidence-pane.open {
+    position: fixed !important;
+    top: 0 !important;
+    right: 0 !important;
+    max-width: 100vw !important;
+    width: 100vw !important;
+    height: 100vh !important;
+    z-index: 9999 !important;
   }
   .metrics-container {
     flex-direction: column;

@@ -272,6 +272,7 @@ function togglePDFPane(forceState) {
       pane.classList.toggle('open');
       APP_STATE.isPDFPaneOpen = pane.classList.contains('open');
     }
+    pane.style.display = APP_STATE.isPDFPaneOpen ? 'flex' : 'none';
     const btn = document.getElementById('btnSplitPDF');
     if (btn) btn.classList.toggle('active', APP_STATE.isPDFPaneOpen);
 
