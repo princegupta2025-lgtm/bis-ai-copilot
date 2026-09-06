@@ -276,7 +276,16 @@ app.use(express.static(path.join(__dirname), {
 
 // Root Route explicitly serving Hero Landing Page
 app.get('/', (req, res) => {
-  res.sendFile(path.join(__dirname), 'index.html');
+  res.sendFile(path.join(__dirname, 'index.html'));
+});
+
+// Explicit routes for chat application
+app.get('/chat', (req, res) => {
+  res.sendFile(path.join(__dirname, 'chat.html'));
+});
+
+app.get('/chat.html', (req, res) => {
+  res.sendFile(path.join(__dirname, 'chat.html'));
 });
 
 
