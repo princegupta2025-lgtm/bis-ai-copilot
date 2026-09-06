@@ -2690,28 +2690,32 @@ async function submitUserQuery() {
   let ragChunks = [];
   let discoveryState = standardResolution ? standardResolution.status : 'UNKNOWN';
 
-  // A. Local-First: Query RAG API / in-memory chunk retriever
-  try {
-    const ragRes = await fetch('/api/rag', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ query: query, topK: 4, role: APP_STATE.userRole })
-    });
-    if (ragRes.ok) {
-      const ragData = await ragRes.json();
-      if (ragData.results && ragData.results.length > 0) {
-        ragChunks = ragData.results.map(r => r.chunk);
-        discoveryState = 'LOCAL_INDEXED';
-      }
-    }
-  } catch (e) {
-    // Offline browser fallback
-  }
+  const isCasualChitchat = /^(hi|hello|hey|namaste|pranam|greetings|hola|good\s+(morning|afternoon|evening)|mera\s+naam|mera\s+name|my\s+name|who\s+are\s+you|what\s+can\s+you\s+do|kaise\s+ho|how\s+are\s+you|kya\s+haal|help|shukriya|dhanyawad|thanks|thank\s+you|ok|okay|bye|alvida|kya\s+kar\s+sakte\s+ho)[\s!.,?a-zA-Z0-9]*$/i.test(query.trim());
 
-  // B. Fallback to client-side chunk-level RRF retriever
-  if (ragChunks.length === 0) {
-    ragChunks = retrieveHybridRAG(query, 4);
-    if (ragChunks.length > 0) discoveryState = 'LOCAL_INDEXED';
+  if (!isCasualChitchat) {
+    // A. Local-First: Query RAG API / in-memory chunk retriever
+    try {
+      const ragRes = await fetch('/api/rag', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ query: query, topK: 4, role: APP_STATE.userRole })
+      });
+      if (ragRes.ok) {
+        const ragData = await ragRes.json();
+        if (ragData.results && ragData.results.length > 0) {
+          ragChunks = ragData.results.map(r => r.chunk);
+          discoveryState = 'LOCAL_INDEXED';
+        }
+      }
+    } catch (e) {
+      // Offline browser fallback
+    }
+
+    // B. Fallback to client-side chunk-level RRF retriever
+    if (ragChunks.length === 0) {
+      ragChunks = retrieveHybridRAG(query, 4);
+      if (ragChunks.length > 0) discoveryState = 'LOCAL_INDEXED';
+    }
   }
 
   // C. On-Demand Discovery & Ingestion: If not local, search National Catalog and attempt permitted ingestion
@@ -3658,17 +3662,19 @@ async function callLiveLLMStreaming(userQuery, ragChunks, primaryDoc, aiBubbleId
 
   // Grounded fallback if network was unavailable
   if (!streamSuccess) {
-    const isGreeting = /^(hi|hello|hey|namaste|pranam|greetings|hola|good\s+(morning|afternoon|evening)|who\s+are\s+you|help|what\s+can\s+you\s+do)[\s!.,?]*$/i.test(userQuery.trim());
+    const isGreeting = /^(hi|hello|hey|namaste|pranam|greetings|hola|good\s+(morning|afternoon|evening)|mera\s+naam|mera\s+name|my\s+name|who\s+are\s+you|what\s+can\s+you\s+do|kaise\s+ho|how\s+are\s+you|kya\s+haal|help|shukriya|dhanyawad|thanks|thank\s+you)[\s!.,?a-zA-Z0-9]*$/i.test(userQuery.trim());
     const queryDevanagari = /[\u0900-\u097F]/.test(userQuery);
     const queryHinglish = /\b(kya|hai|hain|kaise|batao|bataiye|chahiye|kitna|kitni|kitne|hoga|hogi|hoge|kare|karein|kaun|hota|hoti|hote|nahi|nahin|sakte|sakti|sakta|karo|kijiye|wali|wala|wale|mujhe|mera|meri|mere|karna|kisi|kab|kyun|kyu|dekhna|milega|milta|pehen|pehanna|khareed|khareedna|shikayat|nakli|asli|jaanch)\b/i.test(userQuery);
 
     if (isGreeting) {
+      const nameMatch = userQuery.match(/(?:mera\s+name|mera\s+naam|my\s+name\s+is)\s+([a-zA-Z\u0900-\u097F]+)/i);
+      const userName = nameMatch ? nameMatch[1] : '';
       if (queryDevanagari) {
-        accumulatedText = `### 🙏 नमस्ते! BIS MANAK-AI Copilot में आपका स्वागत है\n\nमैं **भारतीय मानक ब्यूरो (BIS), भारत सरकार** के लिए आपका आधिकारिक अनुपालन और गुणवत्ता मानक सहायक हूँ।\n\nआप मुझसे भारतीय मानकों (IS), ISI मार्क (CM/L), सोने की हॉलमार्किंग (HUID), और उपभोक्ता अधिकारों के बारे में पूछ सकते हैं।\n\nआज मैं आपकी क्या सहायता कर सकता हूँ?`;
+        accumulatedText = `### 🙏 नमस्ते${userName ? ' ' + userName : ''}! BIS MANAK-AI Copilot में आपका स्वागत है\n\nमैं **भारतीय मानक ब्यूरो (BIS), भारत सरकार** के लिए आपका आधिकारिक अनुपालन और गुणवत्ता मानक सहायक हूँ।\n\nआप मुझसे भारतीय मानकों (IS), ISI मार्क (CM/L), सोने की हॉलमार्किंग (HUID), और उपभोक्ता अधिकारों के बारे में पूछ सकते हैं।\n\nआज मैं आपकी क्या सहायता कर सकता हूँ?`;
       } else if (queryHinglish) {
-        accumulatedText = `### 🙏 Namaste! Welcome to BIS MANAK-AI Copilot\n\nMain **Bureau of Indian Standards (Govt. of India)** ke liye aapka compliance aur quality copilot hoon.\n\nAap mujhse Indian Standards (IS), ISI mark (CM/L number), Gold Hallmarking (HUID), laboratory testing aur consumer rights ke baare mein pooch sakte hain.\n\nAaj main aapki kya madad kar sakta hoon?`;
+        accumulatedText = `### 🙏 Namaste${userName ? ' ' + userName : ''}! Welcome to BIS MANAK-AI Copilot\n\nMain **Bureau of Indian Standards (Govt. of India)** ke liye aapka compliance aur quality copilot hoon.\n\nAap mujhse Indian Standards (IS), ISI mark (CM/L number), Gold Hallmarking (HUID), laboratory testing aur consumer rights ke baare mein pooch sakte hain.\n\nAaj main aapki kya madad kar sakta hoon?`;
       } else {
-        accumulatedText = `### 🇮🇳 Hello! Welcome to BIS MANAK-AI Copilot\n\nI am your intelligent compliance and quality standards copilot for the **Bureau of Indian Standards (Govt. of India)**.\n\nHere are some things you can ask me:\n* 🔍 **Standards & Testing:** *"What are the mandatory testing requirements for IS 4151 helmets?"* or *"Explain IS 14543 for packaged drinking water."*\n* 🛡️ **Verify Authenticity:** Enter any **7-digit CM/L license number** (e.g. \`7308812\`) or **6-digit gold HUID** (e.g. \`AB8492\`) to check validity against indexed BIS data.\n* 🏭 **MSME Copilot:** *"Generate Scheme of Testing & Inspection (STI) readiness for plastic toys."*\n* ⚖️ **Consumer Protection:** *"How do I calculate 3X compensation for fake 22K gold hallmarking under Section 19?"*\n\nHow can I assist you today?`;
+        accumulatedText = `### 🇮🇳 Hello${userName ? ' ' + userName : ''}! Welcome to BIS MANAK-AI Copilot\n\nI am your intelligent compliance and quality standards copilot for the **Bureau of Indian Standards (Govt. of India)**.\n\nHere are some things you can ask me:\n* 🔍 **Standards & Testing:** *"What are the mandatory testing requirements for IS 4151 helmets?"* or *"Explain IS 14543 for packaged drinking water."*\n* 🛡️ **Verify Authenticity:** Enter any **7-digit CM/L license number** (e.g. \`7308812\`) or **6-digit gold HUID** (e.g. \`AB8492\`) to check validity against indexed BIS data.\n* 🏭 **MSME Copilot:** *"Generate Scheme of Testing & Inspection (STI) readiness for plastic toys."*\n* ⚖️ **Consumer Protection:** *"How do I calculate 3X compensation for fake 22K gold hallmarking under Section 19?"*\n\nHow can I assist you today?`;
       }
     } else if (primaryDoc || (ragChunks && ragChunks.length > 0)) {
       const topChunk = (ragChunks && ragChunks.length > 0) ? ragChunks[0] : null;
