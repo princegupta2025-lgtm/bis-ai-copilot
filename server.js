@@ -725,10 +725,10 @@ function buildServerSystemPrompt({ role = 'consumer', dynamicISBlock = '', ragCo
     roleGuidance = 'Active Mode: Consumer & Citizen. Help with product quality, verifying ISI marks (CM/L numbers), Gold Hallmarking (HUID), 3X compensation, and consumer rights.';
   }
 
-  const isHindi = responseLanguage === 'hi';
-  const languageDirective = isHindi
-    ? `4. LANGUAGE SPECIFICATION (CRITICAL DIRECTIVE — HINDI / हिन्दी MODE):
-   - You MUST generate your entire response in clear, fluent, formal, and authoritative Hindi (Devanagari script).
+  let languageDirective = '';
+  if (responseLanguage === 'hi') {
+    languageDirective = `4. LANGUAGE SPECIFICATION (CRITICAL DIRECTIVE — HINDI / हिन्दी MODE):
+   - The user asked in Hindi (Devanagari script). You MUST generate your response in clear, fluent, natural, and authoritative Hindi (Devanagari script).
    - MANDATORY TECHNICAL EXCLUSION: You MUST strictly preserve all of the following in LATIN ALPHABET (English text) without translating or transliterating into Devanagari:
      * Indian Standard Codes (e.g., "IS 4151:2015", "IS 1786", "IS 14543")
      * Clause Numbers (e.g., "Clause 7.4", "Clause 8.1")
@@ -737,9 +737,19 @@ function buildServerSystemPrompt({ role = 'consumer', dynamicISBlock = '', ragCo
      * Hallmark Identifiers (e.g., "HUID", "6-digit alphanumeric HUID")
      * Certification Scheme Identifiers (e.g., "Scheme-I", "Scheme-II (CRS)", "Scheme-IV")
      * Technical units & abbreviations (e.g., "Fe 500D", "20L", "MPa", "pH", "mg/L")
-   - Formulate sentences naturally in Hindi (e.g., "IS 4151:2015 के Clause 7.4 के अनुसार, हेलमेट के लिए drop test अनिवार्य है...") ensuring authoritative Hindi with pristine regulatory references.`
-    : `4. LANGUAGE SPECIFICATION:
-   - Generate your response in clear, formal, professional English. If the user explicitly asks in Hindi or Hinglish, adapt naturally. Always preserve official IS codes, clause numbers, QCOs, CM/L, and HUID exactly.`;
+   - Formulate sentences naturally in Hindi (e.g., "IS 4151:2015 के Clause 7.4 के अनुसार, हेलमेट के लिए drop test अनिवार्य है...") ensuring authoritative Hindi with pristine regulatory references.`;
+  } else if (responseLanguage === 'hinglish') {
+    languageDirective = `4. LANGUAGE SPECIFICATION (CRITICAL DIRECTIVE — HINGLISH MODE):
+   - The user asked in Hinglish (Hindi language written in Roman/English alphabet, e.g., "Helmet ka standard kya hai?").
+   - You MUST generate your entire response in natural, fluent, conversational Hinglish (Roman script Hindi).
+   - Style example: "Two-wheeler helmets ke liye IS 4151:2015 ke mutabik BIS ISI mark mandatory hai. Clause 7.4 ke anusar peak acceleration 300g se kam hona chahiye..."
+   - Always keep official IS codes, clause numbers, QCOs, CM/L, and HUID exactly as written in standard notation.`;
+  } else {
+    languageDirective = `4. LANGUAGE SPECIFICATION (CRITICAL DIRECTIVE — STRICT ENGLISH MODE):
+   - The user asked in English. You MUST generate your response entirely in clear, formal, professional English.
+   - Do NOT respond in Hindi or Devanagari script.
+   - Always preserve official IS codes, clause numbers, QCOs, CM/L, and HUID exactly.`;
+  }
 
   return `You are MANAK-AI (BIS Trust Copilot), a friendly, intelligent, and authoritative AI assistant for the Bureau of Indian Standards (BIS), Ministry of Consumer Affairs, Food & Public Distribution, Government of India.
 
@@ -785,7 +795,9 @@ app.post('/api/chat', chatApiLimiter, async (req, res) => {
       responseLanguage = 'en'
     } = req.body;
 
-    const targetLang = (responseLanguage === 'hi') ? 'hi' : 'en';
+    let targetLang = 'en';
+    if (responseLanguage === 'hi') targetLang = 'hi';
+    else if (responseLanguage === 'hinglish') targetLang = 'hinglish';
 
     // INPUT VALIDATION: Length limits
     if (!Array.isArray(ragChunks) || ragChunks.length > 25) {

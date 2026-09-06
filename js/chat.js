@@ -31,7 +31,7 @@ const APP_STATE = {
 };
 
 let speechRecognizer = null;
-let currentVoiceLang = 'hi-IN'; // 'hi-IN' or 'en-IN'
+let currentVoiceLang = 'en-IN'; // 'en-IN' or 'hi-IN'
 
 function initApplication() {
   initUI();
@@ -3589,7 +3589,8 @@ async function callLiveLLMStreaming(userQuery, ragChunks, primaryDoc, aiBubbleId
         const lastUser = messages.filter(m => m.role === 'user').pop();
         const userText = lastUser ? String(lastUser.content || '') : '';
         const isDevanagari = /[\u0900-\u097F]/.test(userText);
-        const resolvedLang = APP_STATE.responseLanguage || (isDevanagari ? 'hi' : (currentVoiceLang && currentVoiceLang.startsWith('hi') ? 'hi' : 'en'));
+        const isHinglish = /\b(kya|hai|hain|kaise|batao|bataiye|chahiye|kitna|kitni|kitne|hoga|hogi|hoge|kare|karein|kaun|hota|hoti|hote|nahi|nahin|sakte|sakti|sakta|karo|kijiye|wali|wala|wale|mujhe|mera|meri|mere|karna|kisi|kab|kyun|kyu|dekhna|milega|milta|pehen|pehanna|khareed|khareedna|shikayat|nakli|asli|jaanch|sariya|sona|taar|paani|bartan)\b/i.test(userText);
+        const resolvedLang = isDevanagari ? 'hi' : (isHinglish ? 'hinglish' : 'en');
 
         const response = await fetch(endpoint, {
           method: 'POST',
