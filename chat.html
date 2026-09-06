@@ -5,53 +5,32 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
   <title>BIS Trust Copilot — Verified AI for Indian Standards, Compliance & Certification</title>
   
-  <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
-  <meta http-equiv="Pragma" content="no-cache" />
-  <meta http-equiv="Expires" content="0" />
-  
   <!-- PWA Web App Manifest for Offline Mobile Installation -->
   <link rel="manifest" href="manifest.json" />
   <meta name="theme-color" content="#0B0F17" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
 
-  <!-- Fonts & FontAwesome 6 -->
   <!-- Fonts & FontAwesome 6 (Preconnected for ultra-fast TLS handshake) -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin>
-  <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
   <link rel="dns-prefetch" href="https://fonts.googleapis.com">
   <link rel="dns-prefetch" href="https://fonts.gstatic.com">
   <link rel="dns-prefetch" href="https://cdnjs.cloudflare.com">
-  <link rel="dns-prefetch" href="https://cdn.jsdelivr.net">
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Fira+Code:wght@400;500;600&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer" />
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.5.1/css/all.min.css" crossorigin="anonymous" />
 
-  
   <!-- CSS -->
   <link rel="stylesheet" href="css/style.css?v=3.9" />
   <link rel="stylesheet" href="css/command-palette.css" />
   <script src="js/theme.js"></script>
 
-  <!-- Heavy Client-Side Engines (Deferred to avoid blocking DOM parse & First Contentful Paint) -->
-  <!-- PDF.js CDN for Visual Gazette Canvas Rendering -->
+  <!-- Client-side Security & Heavy Engines (Deferred for Instant First Contentful Paint) -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/dompurify/3.0.9/purify.min.js" defer></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js" defer></script>
-  
-  <!-- Tesseract.js (Client-side Neural OCR Engine) -->
   <script src="https://cdn.jsdelivr.net/npm/tesseract.js@5/dist/tesseract.min.js" defer></script>
-
-  <!-- HTML2PDF CDN for Instant Grievance & MSME PDF Generation -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js" defer></script>
-
-  <!-- DOMPurify (Client-side XSS Protection for Markdown & Dynamic DOM) -->
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/dompurify/3.0.9/purify.min.js"></script>
-  <script>
-    if (typeof DOMPurify === 'undefined') {
-      document.write('<script src="https://cdn.jsdelivr.net/npm/dompurify@3.0.9/dist/purify.min.js"><\/script>');
-    }
-  </script>
 
   <!-- ================= PHASE 4: UI STYLES (IS DISPLAY, STREAMING CURSOR, PROGRESS, ERROR UI) ================= -->
   <style id="phase4-custom-styles">
