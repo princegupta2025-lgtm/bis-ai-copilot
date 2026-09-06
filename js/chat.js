@@ -3662,19 +3662,29 @@ async function callLiveLLMStreaming(userQuery, ragChunks, primaryDoc, aiBubbleId
 
   // Grounded fallback if network was unavailable
   if (!streamSuccess) {
-    const isGreeting = /^(hi|hello|hey|namaste|pranam|greetings|hola|good\s+(morning|afternoon|evening)|mera\s+naam|mera\s+name|my\s+name|who\s+are\s+you|what\s+can\s+you\s+do|kaise\s+ho|how\s+are\s+you|kya\s+haal|help|shukriya|dhanyawad|thanks|thank\s+you)[\s!.,?a-zA-Z0-9]*$/i.test(userQuery.trim());
+    const isGreeting = /^(hi|hello|hey|namaste|pranam|greetings|hola|good\s+(morning|afternoon|evening)|mera\s+naam|mera\s+name|my\s+name|who\s+are\s+you|what\s+can\s+you\s+do|kaise\s+ho|how\s+are\s+you|kya\s+haal|help|shukriya|dhanyawad|thanks|thank\s+you|ok|okay|theek\s+hai|acha|accha|haan|yes)[\s!.,?a-zA-Z0-9]*$/i.test(userQuery.trim());
     const queryDevanagari = /[\u0900-\u097F]/.test(userQuery);
-    const queryHinglish = /\b(kya|hai|hain|kaise|batao|bataiye|chahiye|kitna|kitni|kitne|hoga|hogi|hoge|kare|karein|kaun|hota|hoti|hote|nahi|nahin|sakte|sakti|sakta|karo|kijiye|wali|wala|wale|mujhe|mera|meri|mere|karna|kisi|kab|kyun|kyu|dekhna|milega|milta|pehen|pehanna|khareed|khareedna|shikayat|nakli|asli|jaanch)\b/i.test(userQuery);
+    const queryHinglish = /\b(kya|hai|hain|kaise|batao|bataiye|chahiye|kitna|kitni|kitne|hoga|hogi|hoge|kare|karein|kaun|hota|hoti|hote|nahi|nahin|sakte|sakti|sakta|karo|kijiye|wali|wala|wale|mujhe|mera|meri|mere|karna|kisi|kab|kyun|kyu|dekhna|milega|milta|pehen|pehanna|khareed|khareedna|shikayat|nakli|asli|jaanch|theek|accha|acha)\b/i.test(userQuery);
 
     if (isGreeting) {
       const nameMatch = userQuery.match(/(?:mera\s+name|mera\s+naam|my\s+name\s+is)\s+([a-zA-Z\u0900-\u097F]+)/i);
       const userName = nameMatch ? nameMatch[1] : '';
-      if (queryDevanagari) {
-        accumulatedText = `### 🙏 नमस्ते${userName ? ' ' + userName : ''}! BIS MANAK-AI Copilot में आपका स्वागत है\n\nमैं **भारतीय मानक ब्यूरो (BIS), भारत सरकार** के लिए आपका आधिकारिक अनुपालन और गुणवत्ता मानक सहायक हूँ।\n\nआप मुझसे भारतीय मानकों (IS), ISI मार्क (CM/L), सोने की हॉलमार्किंग (HUID), और उपभोक्ता अधिकारों के बारे में पूछ सकते हैं।\n\nआज मैं आपकी क्या सहायता कर सकता हूँ?`;
+      const isConversational = /^(ok|okay|theek\s+hai|accha|acha|haan|yes)[\s!.,?a-zA-Z0-9]*$/i.test(userQuery.trim());
+
+      if (isConversational) {
+        if (queryDevanagari) {
+          accumulatedText = `हाँ बताइए! आप भारतीय मानकों (IS), ISI मार्क या हॉलमार्किंग के बारे में क्या जानना चाहते हैं?`;
+        } else if (queryHinglish) {
+          accumulatedText = `Haan bataiye! Aap Indian Standards (IS), ISI mark ya Gold Hallmarking ke baare me kya jaanna chahte hain?`;
+        } else {
+          accumulatedText = `Yes, go ahead! How can I assist you with Indian Standards, ISI certification, or gold hallmarking today?`;
+        }
+      } else if (queryDevanagari) {
+        accumulatedText = `**नमस्ते${userName ? ' ' + userName : ''}!** मैं MANAK-AI (BIS Trust Copilot) हूँ। मैं भारतीय मानक ब्यूरो (BIS) के मानकों, ISI मार्क (CM/L), और हॉलमार्किंग (HUID) में आपकी सहायता कर सकता हूँ। आज आप क्या जानना चाहते हैं?`;
       } else if (queryHinglish) {
-        accumulatedText = `### 🙏 Namaste${userName ? ' ' + userName : ''}! Welcome to BIS MANAK-AI Copilot\n\nMain **Bureau of Indian Standards (Govt. of India)** ke liye aapka compliance aur quality copilot hoon.\n\nAap mujhse Indian Standards (IS), ISI mark (CM/L number), Gold Hallmarking (HUID), laboratory testing aur consumer rights ke baare mein pooch sakte hain.\n\nAaj main aapki kya madad kar sakta hoon?`;
+        accumulatedText = `**Namaste${userName ? ' ' + userName : ''}!** Main MANAK-AI (BIS Trust Copilot) hoon. Main Indian Standards (IS), ISI mark (CM/L), aur Gold Hallmarking (HUID) ke baare me aapki madad kar sakta hoon. Aaj aap kya jaanna chahte hain?`;
       } else {
-        accumulatedText = `### 🇮🇳 Hello${userName ? ' ' + userName : ''}! Welcome to BIS MANAK-AI Copilot\n\nI am your intelligent compliance and quality standards copilot for the **Bureau of Indian Standards (Govt. of India)**.\n\nHere are some things you can ask me:\n* 🔍 **Standards & Testing:** *"What are the mandatory testing requirements for IS 4151 helmets?"* or *"Explain IS 14543 for packaged drinking water."*\n* 🛡️ **Verify Authenticity:** Enter any **7-digit CM/L license number** (e.g. \`7308812\`) or **6-digit gold HUID** (e.g. \`AB8492\`) to check validity against indexed BIS data.\n* 🏭 **MSME Copilot:** *"Generate Scheme of Testing & Inspection (STI) readiness for plastic toys."*\n* ⚖️ **Consumer Protection:** *"How do I calculate 3X compensation for fake 22K gold hallmarking under Section 19?"*\n\nHow can I assist you today?`;
+        accumulatedText = `**Hello${userName ? ' ' + userName : ''}!** I am MANAK-AI (BIS Trust Copilot). I can assist you with Indian Standards (IS), ISI mark verification (CM/L), and Gold Hallmarking (HUID). How can I assist you today?`;
       }
     } else if (primaryDoc || (ragChunks && ragChunks.length > 0)) {
       const topChunk = (ragChunks && ragChunks.length > 0) ? ragChunks[0] : null;
@@ -3688,7 +3698,13 @@ async function callLiveLLMStreaming(userQuery, ragChunks, primaryDoc, aiBubbleId
         accumulatedText = offlineNotice + `### 🇮🇳 Verified BIS Reference: ${code}\n\n**${title}**\n\n${topChunk.text}`;
       }
     } else {
-      accumulatedText = `Connection to the BIS assistant service is unavailable. No verified evidence was found for this query.`;
+      if (queryDevanagari) {
+        accumulatedText = `मेरे पास इस विषय के लिए प्रमाणित BIS मानक या QCO डेटा अभी उपलब्ध नहीं है। कृपया आधिकारिक BIS पोर्टल **[standardsbis.bsbedge.com](https://standardsbis.bsbedge.com)** पर जाँच करें या **ird@bis.gov.in** पर संपर्क करें।`;
+      } else if (queryHinglish) {
+        accumulatedText = `Mere paas is product ke liye verified BIS standard ya QCO data abhi indexed nahi hai. Aap official BIS portal **[standardsbis.bsbedge.com](https://standardsbis.bsbedge.com)** par verify kar sakte hain ya **ird@bis.gov.in** par enquiry bhej sakte hain.`;
+      } else {
+        accumulatedText = `I do not have verified BIS standard data for this query in my indexed database. Please verify through the official BIS portal at **[standardsbis.bsbedge.com](https://standardsbis.bsbedge.com)** or email **ird@bis.gov.in**.`;
+      }
     }
     await typewriterFallback(bubbleEl, accumulatedText);
   }
