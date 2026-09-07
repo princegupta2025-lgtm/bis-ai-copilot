@@ -2607,9 +2607,26 @@ function recalcCompensation(uid) {
   }
 }
 
+// Robust Conversational & Chitchat Classifier (handles typos, Hinglish slang, friendly openers)
+function isCasualUserMessage(query) {
+  if (!query || typeof query !== 'string') return false;
+  const t = query.toLowerCase().trim().replace(/[^\w\s]/g, ' ');
+  return (
+    /\b(hi|hello|hey|heyy|heya|namaste|pranam|namaskar|greetings|hola)\b/i.test(t) ||
+    /\b(kaise|kese|kaisa|kaisi|kaso)\s+(ho|hai|h|hain|hn)\b/i.test(t) ||
+    /\b(kya|kay|kyaa|kye|kya\s*h)\s+(kr|kar|chal|chll|hora|ho\s*raha|kr\s*rhe|kar\s*rhe)\s*(rha|raha|rhe|rahe|re)?\s*(hai|h|ho|hn)?\b/i.test(t) ||
+    /\b(or|aur|aar)\s+(btao|batao|bata|bta|bol|bolo)\b/i.test(t) ||
+    /\b(kya\s+haal|haal\s+chaal|sab\s+badhiya|sab\s+theek|sab\s+mast|sab\s+shanti)\b/i.test(t) ||
+    /\b(who\s+are\s+you|what\s+can\s+you\s+do|what\s+are\s+you\s+doing|what\s*s\s+up|wassup|sup\b|waddup)\b/i.test(t) ||
+    /\b(bore\s+ho|chai|coffee|nashta|khana|suno\s+na|suno\b|bhai\s+sun|bro\s+sun|bhaiya|dost)\b/i.test(t) ||
+    /\b(mera\s+naam|my\s+name|shukriya|dhanyawad|thanks|thank\s+you|ok|okay|theek\s+hai|accha|acha|haan|yes|bye|alvida|good\s*(morning|afternoon|evening|night))\b/i.test(t)
+  );
+}
+
 // Intent Classification Router (Multi-Stage Intent Pipeline)
 function classifyUserIntent(query) {
   if (!query || typeof query !== 'string') return 'GENERAL_PROCEDURAL';
+  if (isCasualUserMessage(query)) return 'CASUAL_CONVERSATION';
   const q = query.toLowerCase();
 
   if (/(\b\d{7}\b|cml|licence|license|isi mark|counterfeit|fake isi|logo geometry)/i.test(q)) {
@@ -2702,7 +2719,7 @@ async function submitUserQuery() {
   let ragChunks = [];
   let discoveryState = standardResolution ? standardResolution.status : 'UNKNOWN';
 
-  const isCasualChitchat = /^(hi|hello|hey|namaste|pranam|greetings|hola|good\s+(morning|afternoon|evening)|mera\s+naam|mera\s+name|my\s+name|who\s+are\s+you|what\s+can\s+you\s+do|kaise\s+ho|how\s+are\s+you|kya\s+haal|help|shukriya|dhanyawad|thanks|thank\s+you|ok|okay|bye|alvida|kya\s+kar\s+sakte\s+ho|or\s+btao|aur\s+btao|aur\s+batao|or\s+batao|kya\s+kr\s+rhe\s+ho|kya\s+kar\s+rahe\s+ho|what\s+are\s+you\s+doing|wassup|whats\s+up|sab\s+badhiya)[\s!.,?a-zA-Z0-9]*$/i.test(query.trim());
+  const isCasualChitchat = isCasualUserMessage(query);
 
   if (!isCasualChitchat) {
     // A. Ultra-Fast Synchronous Local Retrieval First (0ms roundtrip)
@@ -2736,18 +2753,35 @@ async function submitUserQuery() {
       }
     }
 
-    // Sanitize retrieved chunks: Remove spurious cross-domain keyword hits (e.g. "factory" in geysers when asking about plastic factory)
+    // Sanitize retrieved chunks: Discard chunks if query has no topical or standard overlap
     if (ragChunks && ragChunks.length > 0) {
-      const qLower = query.toLowerCase();
+      const qClean = query.toLowerCase().replace(/[^a-z0-9\s]/g, ' ');
+      const qWords = qClean.split(/\s+/).filter(w => w.length >= 3);
+      const qNumbers = (query.match(/\b\d{3,5}\b/g) || []);
+
       ragChunks = ragChunks.filter(chunk => {
-        const cNum = (chunk.standardCode || '').replace(/\D/g, '');
-        if (cNum && qLower.includes(cNum)) return true;
-        const titleL = (chunk.standardTitle || '').toLowerCase();
-        // Disqualify water heaters/geysers/cookers/helmets when user specifically asks about plastics or polymers
-        if (/\b(plastic|polyethylene|polypropylene|polymer)\b/i.test(qLower)) {
-          if (/water heater|geyser|cooker|helmet|rebar|tmt|diesel|cement/i.test(titleL)) return false;
+        const codeNumbers = (chunk.standardCode || '').match(/\b\d{3,5}\b/g) || [];
+        // 1. If query mentions the standard number (e.g. 4151, 1786, 2347), it's verified!
+        const hasNumberMatch = qNumbers.some(qn => codeNumbers.includes(qn));
+        if (hasNumberMatch) return true;
+
+        // 2. Check title / keyword relevance
+        const titleLower = (chunk.standardTitle || '').toLowerCase();
+        const clauseLower = (chunk.clauseTitle || '').toLowerCase();
+        const fullTextLower = `${titleLower} ${clauseLower}`;
+
+        // Exclude common query stop-words
+        const hasTitleWordMatch = qWords.some(w => {
+          if (/^(kya|kay|kyaa|kr|kar|rha|raha|rhe|rahe|hai|hain|kese|kaise|batao|bataiye|chahiye|kitna|kitni|open|kholna|khole|start|setup|factory|bhai|bro|yaar|suno|karo|kijiye|theek|good|best|kaun|wali|wala|wale|mujhe|mera|meri|mere|karna|kisi|standard|bis|isi|mark)$/i.test(w)) return false;
+          return fullTextLower.includes(w);
+        });
+
+        // Specific cross-domain disqualification
+        if (/\b(plastic|polyethylene|polypropylene|polymer)\b/i.test(qClean)) {
+          if (/water heater|geyser|cooker|helmet|rebar|tmt|diesel|cement/i.test(titleLower)) return false;
         }
-        return true;
+
+        return hasTitleWordMatch;
       });
     }
 
@@ -2823,7 +2857,14 @@ async function submitUserQuery() {
     }
   }
 
-  const primaryDoc = (ragChunks && ragChunks.length > 0) ? (typeof BIS_STANDARDS_EXPANDED_DB !== 'undefined' ? BIS_STANDARDS_EXPANDED_DB.find(d => d.code === ragChunks[0].standardCode) : null) : null;
+  const primaryDoc = (!isCasualChitchat && ragChunks && ragChunks.length > 0) ? (typeof BIS_STANDARDS_EXPANDED_DB !== 'undefined' ? BIS_STANDARDS_EXPANDED_DB.find(d => {
+    if (d.code !== ragChunks[0].standardCode) return false;
+    const qClean = query.toLowerCase();
+    const codeNum = (d.code || '').replace(/\D/g, '');
+    if (codeNum && qClean.includes(codeNum)) return true;
+    const titleWords = (d.title || '').toLowerCase().split(/\s+/).filter(w => w.length > 3 && !/^(specification|standard|indian|requirements|methods|test|general|part)\b/i.test(w));
+    return titleWords.some(w => qClean.includes(w));
+  }) : null) : null;
 
   // If version conflict detected (e.g. asking about superseded IS 4151:1993), render conflict alert banner
   if (versionConflict) {
@@ -2841,7 +2882,7 @@ async function submitUserQuery() {
     const fullText = await callLiveLLMStreaming(query, ragChunks, primaryDoc, aiMsgId, query, userIntent);
     
     // Post-generation Statutory Claim-to-Evidence Verification & Grounding Badge
-    const isCasualQuery = /^(hi|hello|hey|namaste|pranam|greetings|good\s+|who\s+are\s+you|what\s+can\s+you\s+do|thanks|thank\s+you|ok|okay|or\s+btao|aur\s+btao|aur\s+batao|or\s+batao|kya\s+kr\s+rhe\s+ho|kya\s+kar\s+rahe\s+ho|what\s+are\s+you\s+doing|wassup|whats\s+up|sab\s+badhiya)[\s!.,?a-zA-Z0-9]*$/i.test(query.trim());
+    const isCasualQuery = isCasualUserMessage(query);
     if (!isCasualQuery && fullText && typeof fullText === 'string') {
       let score = 92; // Default high grounding benchmark for verified retrieval
       let claimAudit = null;
@@ -2963,7 +3004,13 @@ function buildMasterSystemPrompt(ragChunks, primaryDoc, userIntent) {
 
   // RAG context block assembly
   let ragContextBlock = "";
-  if (ragChunks && ragChunks.length > 0) {
+  if (userIntent === 'CASUAL_CONVERSATION') {
+    ragContextBlock = `\n[CASUAL CONVERSATIONAL INTERACTION]:
+The user is having a casual conversation, greeting, friendly banter, or chitchat.
+Respond warmly, naturally, and engagingly like a friendly, intelligent Indian companion in matching Hindi/Hinglish/English.
+Keep your identity as MANAK-AI (India's BIS Trust & Quality Copilot), ready to guide them on standards, testing, ISI, and consumer safety whenever they need.
+DO NOT dump statutory tables, product specifications, or disclaimer refusal notices for casual banter.`;
+  } else if (ragChunks && ragChunks.length > 0) {
     ragContextBlock = `\n[VERIFIED SOURCE-OF-TRUTH GAZETTE RAG CONTEXT (Top-${ragChunks.length} Grounded Chunks)]:\n` +
       ragChunks.map((c, i) => `--- CHUNK ${i+1} [${c.standardCode} — ${c.standardTitle} | ${c.clauseTitle}, Page ${c.pageNumber} | URL: ${c.sourceUrl || 'https://www.bis.gov.in'}] ---\n${c.text}`).join('\n\n');
   } else {
@@ -2988,9 +3035,10 @@ ${ragContextBlock}
 2. CITATION FORMAT:
    For every factual claim (standard number, QCO status, date, fee, lab eligibility, scheme rule, clause requirement), cite the source as:
    [Source: standardCode - title | clause/page | URL | retrieved date] or [BIS • IS CODE:YEAR • Clause X.Y • Page Z]
-3. INSUFFICIENT EVIDENCE / REFUSAL LINE:
-   If evidence is missing, conflicting, older than its freshness limit, or not sufficiently specific, you MUST state:
+3. INSUFFICIENT EVIDENCE / REFUSAL LINE (TECHNICAL PRODUCT QUERIES ONLY):
+   If evidence for a specific technical product inquiry is missing, conflicting, older than its freshness limit, or not sufficiently specific, you MUST state:
    "I do not have enough verified BIS data to confirm this. Please verify through official BIS sources: standardsbis.bsbedge.com or ird@bis.gov.in."
+   (Never output this refusal line for casual greetings, friendly banter, or conversational messages).
 4. ZERO INVENTION:
    Do NOT guess or invent:
    - Standard numbers or titles
@@ -3610,16 +3658,10 @@ async function callLiveLLMStreaming(userQuery, ragChunks, primaryDoc, aiBubbleId
 
   const systemPrompt = buildMasterSystemPrompt(ragChunks, primaryDoc, userIntent);
 
-  const isCasualTalk = /^(hi|hello|hey|namaste|pranam|greetings|hola|good\s+(morning|afternoon|evening)|mera\s+naam|mera\s+name|my\s+name|who\s+are\s+you|what\s+can\s+you\s+do|kaise\s+ho|how\s+are\s+you|kya\s+haal|help|shukriya|dhanyawad|thanks|thank\s+you|ok|okay|theek\s+hai|acha|accha|haan|yes|or\s+btao|aur\s+btao|aur\s+batao|or\s+batao|kya\s+kr\s+rhe\s+ho|kya\s+kar\s+rahe\s+ho|what\s+are\s+you\s+doing|wassup|whats\s+up|sab\s+badhiya|bore\s+ho|chai\s+piyo|suno\b)/i.test((userQuery || '').trim());
+  const isCasualTalk = isCasualUserMessage(userQuery);
 
+  // Keep user content strictly clean so server BM25 is never contaminated by directive tokens
   let formattedUserContent = userQuery;
-  if (isCasualTalk) {
-    formattedUserContent = `[Casual conversational message from user]: "${userQuery}".
-(Directive: Chat back warmly, casually, and like a friendly Indian companion in natural Hinglish/Hindi/English. Directly answer what the user said with personality, humor, and friendliness, while smoothly anchoring your identity as MANAK-AI (India's BIS Trust & Quality Copilot). Never output a cold or robotic template).`;
-  } else {
-    formattedUserContent = `User Inquiry: "${userQuery}".
-(Directive: Provide an authoritative, 100% correct, detailed, yet crystal clear and easy-to-understand response in natural matching language. Include: 1) Quick 1-2 line direct answer, 2) Official Indian Standard (IS Code) & QCO mandate status, 3) Key Technical/Testing limits with numbers & clauses if available, 4) Practical checklist of what to verify (e.g. ISI mark, CM/L, HUID, lab setup), 5) Official verification link. Keep it engaging, clear, and well-structured with bullet points).`;
-  }
 
   const messages = [
     { role: 'system', content: systemPrompt },
@@ -3649,7 +3691,7 @@ async function callLiveLLMStreaming(userQuery, ragChunks, primaryDoc, aiBubbleId
     }
   }
 
-  const models = ['gemini-3.5-flash-lite', 'gemini-3.6-flash'];
+  const models = ['gemini-3.5-flash-lite', 'gemini-3.5-flash', 'gemini-3.6-flash'];
   
   // Resilient multi-endpoint candidate list (clean prioritized endpoints without redundant loops)
   const candidateEndpoints = [];
@@ -3686,7 +3728,7 @@ async function callLiveLLMStreaming(userQuery, ragChunks, primaryDoc, aiBubbleId
             role: APP_STATE.userRole,
             responseLanguage: resolvedLang
           }),
-          signal: AbortSignal.timeout(10000)
+          signal: AbortSignal.timeout(30000)
         });
 
         if (response.ok && response.body) {
@@ -3774,21 +3816,21 @@ async function callLiveLLMStreaming(userQuery, ragChunks, primaryDoc, aiBubbleId
 
   // Grounded authoritative fallback if network was unavailable
   if (!streamSuccess) {
-    const isGreeting = /^(hi|hello|hey|namaste|pranam|greetings|hola|good\s+(morning|afternoon|evening)|mera\s+naam|mera\s+name|my\s+name|who\s+are\s+you|what\s+can\s+you\s+do|kaise\s+ho|how\s+are\s+you|kya\s+haal|help|shukriya|dhanyawad|thanks|thank\s+you|ok|okay|theek\s+hai|acha|accha|haan|yes|or\s+btao|aur\s+btao|aur\s+batao|or\s+batao|kya\s+kr\s+rhe\s+ho|kya\s+kar\s+rahe\s+ho|what\s+are\s+you\s+doing|wassup|whats\s+up|sab\s+badhiya)[\s!.,?a-zA-Z0-9]*$/i.test(userQuery.trim());
+    const isChitchat = isCasualUserMessage(userQuery);
     const queryDevanagari = /[\u0900-\u097F]/.test(userQuery);
     const queryHinglish = /\b(kya|hai|hain|kaise|batao|bataiye|chahiye|kitna|kitni|kitne|hoga|hogi|hoge|kare|karein|kaun|hota|hoti|hote|nahi|nahin|sakte|sakti|sakta|karo|kijiye|wali|wala|wale|mujhe|mera|meri|mere|karna|kisi|kab|kyun|kyu|dekhna|milega|milta|pehen|pehanna|khareed|khareedna|shikayat|nakli|asli|jaanch|theek|accha|acha)\b/i.test(userQuery);
 
-    if (isGreeting) {
+    if (isChitchat) {
       const nameMatch = userQuery.match(/(?:mera\s+name|mera\s+naam|my\s+name\s+is)\s+([a-zA-Z\u0900-\u097F]+)/i);
       const userName = nameMatch ? nameMatch[1] : '';
       const isConversational = /^(ok|okay|theek\s+hai|accha|acha|haan|yes)[\s!.,?a-zA-Z0-9]*$/i.test(userQuery.trim());
-      const isChitchatFriendly = /\b(or\s+btao|aur\s+btao|aur\s+batao|or\s+batao|kya\s+kr\s+rhe\s+ho|kya\s+kar\s+rahe\s+ho|what\s+are\s+you\s+doing|wassup|whats\s+up|sab\s+badhiya|kaise\s+ho|kya\s+haal)\b/i.test(userQuery);
+      const isChitchatFriendly = /\b(or\s+btao|aur\s+btao|aur\s+batao|or\s+batao|kya\s+kr\s+rhe\s+ho|kya\s+kar\s+rahe\s+ho|kay\s+kr\s+rha|what\s+are\s+you\s+doing|wassup|whats\s+up|sab\s+badhiya|kaise\s+ho|kya\s+haal)\b/i.test(userQuery);
 
       if (isChitchatFriendly) {
         if (queryDevanagari) {
           accumulatedText = `बस सब बढ़िया! मैं MANAK-AI (BIS Trust Copilot) हूँ और भारतीय मानकों (IS), ISI मार्क (CM/L), और फैक्ट्री सर्टिफिकेशन में मदद करता हूँ। आप बताइए, आज किस उत्पाद या मानक के बारे में जानना चाहते हैं?`;
         } else if (queryHinglish) {
-          accumulatedText = `Bas sab badhiya! Main MANAK-AI (BIS Trust Copilot) hoon. Main Indian Standards (IS), ISI mark verification (CM/L), Gold Hallmarking (HUID) aur factory licensing me help karta hoon. Aap bataiye, aaj kis product ya standard ke baare me discuss karein?`;
+          accumulatedText = `Bas sab badhiya bro! Main MANAK-AI (BIS Trust Copilot) hoon. Indian Standards (IS), ISI mark verification (CM/L), Gold Hallmarking (HUID) aur factory licensing me help karta hoon. Aap bataiye, aaj kis product ya standard ke baare me discuss karein?`;
         } else {
           accumulatedText = `All good here! I am MANAK-AI (BIS Trust Copilot). I can assist you with Indian Standards (IS), ISI mark licensing, and Hallmarking verification. How can I assist you today?`;
         }
@@ -3858,14 +3900,30 @@ To establish a **Plastic Manufacturing Unit** compliant with BIS statutory regul
       }
     } else if (primaryDoc || (ragChunks && ragChunks.length > 0)) {
       const topChunk = (ragChunks && ragChunks.length > 0) ? ragChunks[0] : null;
-      const code = primaryDoc ? primaryDoc.code : (topChunk ? topChunk.standardCode : 'BIS Standard');
-      const title = primaryDoc ? primaryDoc.title : (topChunk ? topChunk.standardTitle : 'Indian Standard Specification');
-      const offlineNotice = "";
+      const code = primaryDoc ? primaryDoc.code : (topChunk ? topChunk.standardCode : '');
+      const title = primaryDoc ? primaryDoc.title : (topChunk ? topChunk.standardTitle : '');
 
-      if (primaryDoc) {
-        accumulatedText = offlineNotice + `### 🇮🇳 Statutory BIS Assessment • ${primaryDoc.code}\n\n**${primaryDoc.title}** is currently in effect under **${primaryDoc.status}** (${primaryDoc.scheme}).\n\n| Parameter | Statutory Clause | Standard Requirement |\n|---|---|---|\n| **Primary Standard** | \`${primaryDoc.code}\` | ${primaryDoc.title} |\n| **Effective Scheme** | \`${primaryDoc.scheme}\` | Mandatory Gazette QCO Enforcement |\n| **Key Clause Scope** | \`${primaryDoc.clauseNumber || 'Clauses'}\` | ${primaryDoc.summary || 'Mandatory Quality Testing'} |\n\n#### 🔍 Mandatory Testing Requirements & Limits:\n${primaryDoc.keyPoints.map(p => `* **${p.split('(')[0].trim()}**: ${p.includes('(') ? '(' + p.split('(').slice(1).join('(') : ''}`).join('\n')}\n\n> 💡 **Practical Compliance Guidance:** ${primaryDoc.advice || 'Ensure all in-house test rigs are calibrated by NABL accredited laboratories.'}`;
+      const qClean = userQuery.toLowerCase().replace(/[^a-z0-9\s]/g, ' ');
+      const qNumbers = (userQuery.match(/\b\d{3,5}\b/g) || []);
+      const codeNumbers = (code.match(/\b\d{3,5}\b/g) || []);
+      const hasNumberMatch = qNumbers.some(qn => codeNumbers.includes(qn));
+      const titleWords = title.toLowerCase().split(/\s+/).filter(w => w.length > 3 && !/^(specification|standard|indian|requirements|methods|test|general|part)\b/i.test(w));
+      const hasTitleMatch = titleWords.some(w => qClean.includes(w));
+
+      if (hasNumberMatch || hasTitleMatch) {
+        if (primaryDoc) {
+          accumulatedText = `### 🇮🇳 Statutory BIS Assessment • ${primaryDoc.code}\n\n**${primaryDoc.title}** is currently in effect under **${primaryDoc.status}** (${primaryDoc.scheme}).\n\n| Parameter | Statutory Clause | Standard Requirement |\n|---|---|---|\n| **Primary Standard** | \`${primaryDoc.code}\` | ${primaryDoc.title} |\n| **Effective Scheme** | \`${primaryDoc.scheme}\` | Mandatory Gazette QCO Enforcement |\n| **Key Clause Scope** | \`${primaryDoc.clauseNumber || 'Clauses'}\` | ${primaryDoc.summary || 'Mandatory Quality Testing'} |\n\n#### 🔍 Mandatory Testing Requirements & Limits:\n${primaryDoc.keyPoints.map(p => `* **${p.split('(')[0].trim()}**: ${p.includes('(') ? '(' + p.split('(').slice(1).join('(') : ''}`).join('\n')}\n\n> 💡 **Practical Compliance Guidance:** ${primaryDoc.advice || 'Ensure all in-house test rigs are calibrated by NABL accredited laboratories.'}`;
+        } else if (topChunk) {
+          accumulatedText = `### 🇮🇳 Verified BIS Reference: ${code}\n\n**${title}**\n\n${topChunk.text}`;
+        }
       } else {
-        accumulatedText = offlineNotice + `### 🇮🇳 Verified BIS Reference: ${code}\n\n**${title}**\n\n${topChunk.text}`;
+        if (queryDevanagari) {
+          accumulatedText = `मेरे पास इस विषय के लिए प्रमाणित BIS मानक या QCO डेटा अभी उपलब्ध नहीं है। कृपया आधिकारिक BIS पोर्टल **[standardsbis.bsbedge.com](https://standardsbis.bsbedge.com)** पर जाँच करें या **ird@bis.gov.in** पर संपर्क करें।`;
+        } else if (queryHinglish) {
+          accumulatedText = `Mere paas is product ke liye verified BIS standard ya QCO data abhi indexed nahi hai. Aap official BIS portal **[standardsbis.bsbedge.com](https://standardsbis.bsbedge.com)** par verify kar sakte hain ya **ird@bis.gov.in** par enquiry bhej sakte hain.`;
+        } else {
+          accumulatedText = `I do not have verified BIS standard data for this query in my indexed database. Please verify through the official BIS portal at **[standardsbis.bsbedge.com](https://standardsbis.bsbedge.com)** or email **ird@bis.gov.in**.`;
+        }
       }
     } else {
       if (queryDevanagari) {
