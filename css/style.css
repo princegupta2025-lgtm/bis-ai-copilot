@@ -4210,6 +4210,7 @@ html, body {
 }
 
 /* ================= CLEAN MINIMAL HERO UI ================= */
+.hero-guidance-box,
 .hero-primary-actions-row,
 .hero-secondary-chips-row {
   display: none !important;

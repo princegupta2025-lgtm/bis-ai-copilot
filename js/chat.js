@@ -4399,21 +4399,6 @@ function startNewConversation() {
         <h1 class="empty-hero-title">MANAK-AI</h1>
         <p class="empty-hero-sub">Your BIS & Indian Standards Assistant</p>
       </div>
-
-      <!-- Central Interactive Hero Prompt Input -->
-      <form class="hero-guidance-box" onsubmit="event.preventDefault(); const val=document.getElementById('heroPromptInput').value.trim(); if(val){ if(window.sendPredefinedQuery) window.sendPredefinedQuery(val); else if(typeof sendPredefinedQuery==='function') sendPredefinedQuery(val); }">
-        <i class="fas fa-magnifying-glass" style="color:var(--primary-blue);font-size:1rem;margin-left:4px;"></i>
-        <input 
-          type="text" 
-          id="heroPromptInput" 
-          class="hero-prompt-input" 
-          placeholder="Ask anything about BIS, Indian Standards, certification or compliance..." 
-          autocomplete="off"
-        />
-        <button type="submit" class="hero-prompt-submit-btn" title="Send Prompt" aria-label="Send Prompt">
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="19" x2="12" y2="5"></line><polyline points="5 12 12 5 19 12"></polyline></svg>
-        </button>
-      </form>
     </div>
   `;
 
