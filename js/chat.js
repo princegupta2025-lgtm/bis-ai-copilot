@@ -2607,17 +2607,22 @@ function recalcCompensation(uid) {
   }
 }
 
-// Robust Conversational & Chitchat Classifier (handles typos, Hinglish slang, friendly openers)
+// Robust Conversational & Chitchat Classifier (handles typos, Hinglish slang, informal English & friendly openers)
 function isCasualUserMessage(query) {
   if (!query || typeof query !== 'string') return false;
   const t = query.toLowerCase().trim().replace(/[^\w\s]/g, ' ');
   return (
-    /\b(hi|hello|hey|heyy|heya|namaste|pranam|namaskar|greetings|hola)\b/i.test(t) ||
+    /\b(hi|hello|hey|heyy|heya|namaste|pranam|namaskar|greetings|hola|yo)\b/i.test(t) ||
+    /\b(wyd|wya|wru|hru|wbu|hbu|sup|waddup|wassup|whatsup)\b/i.test(t) ||
+    /\b(wat|what|wht|wot)\s*(r|are)?\s*(u|you)?\s*(doin|doing|up\s*to)\b/i.test(t) ||
+    /\b(how|hw)\s*(r|are)?\s*(u|you)\s*(doin|doing)?\b/i.test(t) ||
+    /\b(how\s*s|whats|wats)\s+(it\s+going|everything|life|good|up|new)\b/i.test(t) ||
+    /\b(who|hu)\s+(are\s+you|r\s+u|u)\b/i.test(t) ||
+    /\b(what|wat|wht)\s+can\s+(u|you)\s+do\b/i.test(t) ||
     /\b(kaise|kese|kaisa|kaisi|kaso)\s+(ho|hai|h|hain|hn)\b/i.test(t) ||
     /\b(kya|kay|kyaa|kye|kya\s*h)\s+(kr|kar|chal|chll|hora|ho\s*raha|kr\s*rhe|kar\s*rhe)\s*(rha|raha|rhe|rahe|re)?\s*(hai|h|ho|hn)?\b/i.test(t) ||
     /\b(or|aur|aar)\s+(btao|batao|bata|bta|bol|bolo)\b/i.test(t) ||
     /\b(kya\s+haal|haal\s+chaal|sab\s+badhiya|sab\s+theek|sab\s+mast|sab\s+shanti)\b/i.test(t) ||
-    /\b(who\s+are\s+you|what\s+can\s+you\s+do|what\s+are\s+you\s+doing|what\s*s\s+up|wassup|sup\b|waddup)\b/i.test(t) ||
     /\b(bore\s+ho|chai|coffee|nashta|khana|suno\s+na|suno\b|bhai\s+sun|bro\s+sun|bhaiya|dost)\b/i.test(t) ||
     /\b(mera\s+naam|my\s+name|shukriya|dhanyawad|thanks|thank\s+you|ok|okay|theek\s+hai|accha|acha|haan|yes|bye|alvida|good\s*(morning|afternoon|evening|night))\b/i.test(t)
   );
@@ -3824,7 +3829,7 @@ async function callLiveLLMStreaming(userQuery, ragChunks, primaryDoc, aiBubbleId
       const nameMatch = userQuery.match(/(?:mera\s+name|mera\s+naam|my\s+name\s+is)\s+([a-zA-Z\u0900-\u097F]+)/i);
       const userName = nameMatch ? nameMatch[1] : '';
       const isConversational = /^(ok|okay|theek\s+hai|accha|acha|haan|yes)[\s!.,?a-zA-Z0-9]*$/i.test(userQuery.trim());
-      const isChitchatFriendly = /\b(or\s+btao|aur\s+btao|aur\s+batao|or\s+batao|kya\s+kr\s+rhe\s+ho|kya\s+kar\s+rahe\s+ho|kay\s+kr\s+rha|what\s+are\s+you\s+doing|wassup|whats\s+up|sab\s+badhiya|kaise\s+ho|kya\s+haal)\b/i.test(userQuery);
+      const isChitchatFriendly = /\b(or\s+btao|aur\s+btao|aur\s+batao|or\s+batao|kya\s+kr|kay\s+kr|kya\s+chal|what\s+are\s+you\s+doing|wat\s+u\s+doin|wat\s+r\s+u|wyd|wassup|whats\s+up|wats\s+up|sup\b|sab\s+badhiya|kaise\s+ho|kya\s+haal|how\s+are\s+you|hru)\b/i.test(userQuery);
 
       if (isChitchatFriendly) {
         if (queryDevanagari) {
@@ -3832,7 +3837,7 @@ async function callLiveLLMStreaming(userQuery, ragChunks, primaryDoc, aiBubbleId
         } else if (queryHinglish) {
           accumulatedText = `Bas sab badhiya bro! Main MANAK-AI (BIS Trust Copilot) hoon. Indian Standards (IS), ISI mark verification (CM/L), Gold Hallmarking (HUID) aur factory licensing me help karta hoon. Aap bataiye, aaj kis product ya standard ke baare me discuss karein?`;
         } else {
-          accumulatedText = `All good here! I am MANAK-AI (BIS Trust Copilot). I can assist you with Indian Standards (IS), ISI mark licensing, and Hallmarking verification. How can I assist you today?`;
+          accumulatedText = `All good here! Just keeping an eye on Indian Standards and consumer quality compliance. I am MANAK-AI (BIS Trust Copilot). What would you like to check today — ISI mark, Gold Hallmarking, or product standards?`;
         }
       } else if (isConversational) {
         if (queryDevanagari) {
