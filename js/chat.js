@@ -4396,13 +4396,50 @@ function startNewConversation() {
         <div class="brand-icon-shield large">
           <i class="fas fa-shield-halved"></i>
         </div>
-        <h1 class="empty-hero-title">MANAK-AI</h1>
-        <p class="empty-hero-sub">Your BIS & Indian Standards Assistant</p>
+        <h1 class="empty-hero-title">How can I assist your <span class="hero-compliance-highlight">compliance today?</span></h1>
+        <p class="empty-hero-sub">Ask anything about Indian Standards, BIS services, certification, or compliance.</p>
+      </div>
+
+      <!-- Live Animated Stats Strip (SIH 2026 Core Metrics) -->
+      <div class="hero-stats-strip" id="heroStatsStrip">
+        <div class="stat-item">
+          <div class="stat-icon-wrap">
+            <i class="fas fa-book-open stat-glow-icon"></i>
+          </div>
+          <div class="stat-text-col">
+            <span class="stat-number" id="statStandardsCount" data-target="23401">23,401</span>
+            <span class="stat-label">Indian Standards</span>
+            <span class="stat-subdesc">Empowering Quality & Safety</span>
+          </div>
+        </div>
+        <div class="stat-divider"></div>
+        <div class="stat-item">
+          <div class="stat-icon-wrap">
+            <i class="fas fa-shield-halved stat-glow-icon"></i>
+          </div>
+          <div class="stat-text-col">
+            <span class="stat-number" id="statQcoCount" data-target="769">769</span>
+            <span class="stat-label">Enforced QCOs</span>
+            <span class="stat-subdesc">Ensuring Compliance</span>
+          </div>
+        </div>
+        <div class="stat-divider"></div>
+        <div class="stat-item">
+          <div class="stat-icon-wrap">
+            <i class="fas fa-flask stat-glow-icon"></i>
+          </div>
+          <div class="stat-text-col">
+            <span class="stat-number" id="statLabsCount" data-target="431">431</span>
+            <span class="stat-label">Approved Labs</span>
+            <span class="stat-subdesc">Building Testing Excellence</span>
+          </div>
+        </div>
       </div>
     </div>
   `;
 
   renderDynamicHistory();
+  if (typeof initAnimatedStats === 'function') initAnimatedStats();
   focusComposerInput();
 }
 
