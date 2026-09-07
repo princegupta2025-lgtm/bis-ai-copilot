@@ -2615,7 +2615,19 @@ function isCasualUserMessage(query) {
   // 1. If query contains an explicit Indian Standard number (e.g. IS 2347, IS 4151, IS1786) or 7-digit CM/L, it's NOT casual
   if (/\b(is\s*\d{3,5}|cml\s*\d{7}|huid)\b/i.test(query)) return false;
 
-  // 2. Specific Conversational & Chit-Chat Patterns (Greetings, well-being, feelings, humor, bot identity)
+  // 2. If query mentions any physical product, material, or statutory term, it is NEVER casual chitchat
+  const hasStatutoryKeywords = /\b(standard|specification|clause|qco|isi|mark|cml|huid|hallmark|sti|nabl|test|testing|scheme|license|licence|certif|factory|audit|msme|penalty|fine|fir|complaint|seizure|court|daakhil|consumer\s+rights|purity|carat|karat)\b/i.test(t);
+  const hasProductKeywords = /\b(helmet|cooker|geyser|heater|steel|rebar|tmt|cement|wire|cable|pipe|water|bottle|toy|battery|solar|cylinder|gold|silver|jewel|plastic|polymer|polyethylene|polypropylene|footwear|shoe|iron|gas\s*stove|chulha|sariya|balti|baltiya|baltiyo|bucket|container|dabba|preform|packaging)\b/i.test(t);
+
+  if (hasStatutoryKeywords || hasProductKeywords) {
+    return false;
+  }
+
+  // 3. Standalone greetings, acknowledgements & small closures (ONLY if query is standalone, not followed by questions)
+  const isStandaloneAck = /^(ok|okay|theek\s+hai|accha|acha|haan|yes|thanks|thank\s+you|shukriya|dhanyawad|welcome|bye|alvida|good\s*(morning|afternoon|evening|night))[\s!.,?]*$/i.test(query.trim());
+  if (isStandaloneAck) return true;
+
+  // 4. Specific Conversational & Chit-Chat Patterns (Greetings, well-being, feelings, humor, bot identity)
   const isDirectChitchat = (
     /\b(hi|hello|hey|heyy|heya|namaste|pranam|namaskar|greetings|hola|yo|salaam|adaab)\b/i.test(t) ||
     /\b(wyd|wya|wru|hru|wbu|hbu|sup|waddup|wassup|whatsup)\b/i.test(t) ||
@@ -2634,16 +2646,13 @@ function isCasualUserMessage(query) {
     /\b(chai|coffee|nashta|khana|suno\s+na|suno\b|bhai\s+sun|bro\s+sun|bhaiya|dost|yaar)\b/i.test(t) ||
     /\b(robot|human|ai\s+ho|insaan|real\s+or|girl\s+or\s+boy|ladka|ladki)\b/i.test(t) ||
     /\b(love\s+you|like\s+you|hate\s+you|miss\s+you|pyaar)\b/i.test(t) ||
-    /\b(mera\s+naam|my\s+name|shukriya|dhanyawad|thanks|thank\s+you|welcome|ok|okay|theek\s+hai|accha|acha|haan|yes|bye|alvida|good\s*(morning|afternoon|evening|night))\b/i.test(t)
+    /\b(mera\s+naam|my\s+name)\b/i.test(t)
   );
   if (isDirectChitchat) return true;
 
-  // 3. Structural Conversational Test:
+  // 5. Structural Conversational Test:
   // If query does NOT contain any standards/statutory keywords and does NOT contain any physical catalog commodity names,
   // and is short (< 8 words), it's natural conversation!
-  const hasStatutoryKeywords = /\b(standard|specification|clause|qco|isi|mark|cml|huid|hallmark|sti|nabl|test|testing|scheme|license|licence|certif|factory|audit|msme|penalty|fine|fir|complaint|seizure|court|daakhil|consumer\s+rights|purity|carat|karat)\b/i.test(t);
-  const hasProductKeywords = /\b(helmet|cooker|geyser|heater|steel|rebar|tmt|cement|wire|cable|pipe|water|bottle|toy|battery|solar|cylinder|gold|silver|jewel|plastic|polymer|polyethylene|polypropylene|footwear|shoe|iron|gas\s*stove|chulha|sariya)\b/i.test(t);
-
   const wordCount = t.split(/\s+/).filter(Boolean).length;
   if (!hasStatutoryKeywords && !hasProductKeywords && wordCount <= 7) {
     return true;
@@ -2814,30 +2823,30 @@ async function submitUserQuery() {
       });
     }
 
-    // Authentic Domain Injection for Plastic & Polymer queries if no specific standard was caught
-    if ((!ragChunks || ragChunks.length === 0) && /\b(plastic|polyethylene|polypropylene|packaging container)\b/i.test(query.toLowerCase())) {
+    // Authentic Domain Injection for Plastic, Buckets & Polymer queries if no specific standard was caught
+    if ((!ragChunks || ragChunks.length === 0) && /\b(plastic|polyethylene|polypropylene|packaging container|balti|baltiya|baltiyo|bucket)\b/i.test(query.toLowerCase())) {
       ragChunks = [
-        {
-          id: "auth:IS10146:scope",
-          standardCode: "IS 10146:1982",
-          standardTitle: "Polyethylene for its Safe Use in Contact with Foodstuffs, Pharmaceuticals and Drinking Water",
-          clauseTitle: "Clause 3 & 4 — Raw Material Specification & Migration Limits",
-          pageNumber: 1,
-          source: "Level 1: National Standard Specification",
-          sourceUrl: "https://standardsbis.bsbedge.com",
-          isVerified: true,
-          text: "IS 10146 specifies requirements for polyethylene plastic materials (LDPE, LLDPE, HDPE) intended for safe contact with foodstuffs, pharmaceuticals, and drinking water. Mandatory testing includes Overall Migration Limit (<= 60 mg/kg or 10 mg/dm2) and use of non-toxic pigments conforming to IS 9833."
-        },
         {
           id: "auth:IS2798:scope",
           standardCode: "IS 2798:2020",
           standardTitle: "Methods of Test for Plastics Containers and Receptacles",
           clauseTitle: "Clause 4 & 5 — Drop Impact, Stack Load & Leakage Testing",
+          pageNumber: 1,
+          source: "Level 1: National Standard Specification",
+          sourceUrl: "https://standardsbis.bsbedge.com",
+          isVerified: true,
+          text: "IS 2798:2020 prescribes methods of test for plastic containers, buckets (balti), and receptacles including drop impact test (1.2m drop height onto rigid steel plate), handle pull strength, stacking load test, and environmental stress crack resistance (ESCR). Regulatory Status: General household plastic buckets currently DO NOT have a mandatory standalone Quality Control Order (QCO) for retail sale in India. Voluntary BIS Scheme-I (ISI Mark) certification can be obtained."
+        },
+        {
+          id: "auth:IS10146:scope",
+          standardCode: "IS 10146:1982",
+          standardTitle: "Polyethylene for its Safe Use in Contact with Foodstuffs, Pharmaceuticals and Drinking Water",
+          clauseTitle: "Clause 3 & 4 — Raw Material Specification & Migration Limits",
           pageNumber: 2,
           source: "Level 1: National Standard Specification",
           sourceUrl: "https://standardsbis.bsbedge.com",
           isVerified: true,
-          text: "IS 2798:2020 prescribes methods of test for plastic containers and receptacles including drop impact test (1.2m drop height onto rigid steel plate), handle pull strength, stacking load test, and environmental stress crack resistance (ESCR)."
+          text: "IS 10146 specifies requirements for polyethylene plastic materials (LDPE, LLDPE, HDPE) intended for safe contact with foodstuffs, pharmaceuticals, and drinking water. Mandatory testing includes Overall Migration Limit (<= 60 mg/kg or 10 mg/dm2) and use of non-toxic pigments conforming to IS 9833."
         }
       ];
       discoveryState = 'LOCAL_INDEXED';
@@ -3741,15 +3750,24 @@ async function callLiveLLMStreaming(userQuery, ragChunks, primaryDoc, aiBubbleId
         const lastUser = messages.filter(m => m.role === 'user').pop();
         const userText = lastUser ? String(lastUser.content || '') : '';
         const isDevanagari = /[\u0900-\u097F]/.test(userText);
-        const isHinglish = /\b(kya|hai|hain|kaise|batao|bataiye|chahiye|kitna|kitni|kitne|hoga|hogi|hoge|kare|karein|kaun|hota|hoti|hote|nahi|nahin|sakte|sakti|sakta|karo|kijiye|wali|wala|wale|mujhe|mera|meri|mere|karna|kisi|kab|kyun|kyu|dekhna|milega|milta|pehen|pehanna|khareed|khareedna|shikayat|nakli|asli|jaanch)\b/i.test(userText);
-        const resolvedLang = isDevanagari ? 'hi' : (isHinglish ? 'hinglish' : 'en');
+        const isExpandedHinglish = /\b(kya|hai|hain|kaise|batao|bataiye|chahiye|kitna|kitni|kitne|hoga|hogi|hoge|kare|karein|kaun|hota|hoti|hote|nahi|nahin|sakte|sakti|sakta|karo|kijiye|wali|wala|wale|mujhe|mera|meri|mere|karna|kisi|kab|kyun|kyu|dekhna|milega|milta|pehen|pehanna|khareed|khareedna|shikayat|nakli|asli|jaanch|ke|ki|ka|ko|se|me|mein|par|pe|toh|to|bhi|aur|ya|balti|baltiyo|sariya|dukaan|accha|acha|theek|kholni|bana)\b/i.test(userText);
+        const serverHasHinglish = /\b(kya|hai|hain|kaise|batao|bataiye|chahiye|kitna|kitni|kitne|hoga|hogi|hoge|kare|karein|kaun|hota|hoti|hote|nahi|nahin|sakte|sakti|sakta|karo|kijiye|wali|wala|wale|mujhe|mera|meri|mere|karna|kisi|kab|kyun|kyu|dekhna|milega|milta|pehen|pehanna|khareed|khareedna|shikayat|nakli|asli|jaanch)\b/i.test(userText);
+        const resolvedLang = isDevanagari ? 'hi' : (isExpandedHinglish ? 'hinglish' : 'en');
+
+        // If client detects Hinglish grammar, ensure the server detects it as Hinglish too
+        const outboundMessages = messages.map(m => {
+          if (m.role === 'user' && isExpandedHinglish && !serverHasHinglish) {
+            return { ...m, content: `${m.content} (jaankari bataiye)` };
+          }
+          return m;
+        });
 
         const response = await fetch(endpoint, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({
             model: mod,
-            messages: messages,
+            messages: outboundMessages,
             temperature: 0.12,
             max_tokens: 1200,
             stream: true,
@@ -3847,12 +3865,12 @@ async function callLiveLLMStreaming(userQuery, ragChunks, primaryDoc, aiBubbleId
   if (!streamSuccess) {
     const isChitchat = isCasualUserMessage(userQuery);
     const queryDevanagari = /[\u0900-\u097F]/.test(userQuery);
-    const queryHinglish = /\b(kya|hai|hain|kaise|batao|bataiye|chahiye|kitna|kitni|kitne|hoga|hogi|hoge|kare|karein|kaun|hota|hoti|hote|nahi|nahin|sakte|sakti|sakta|karo|kijiye|wali|wala|wale|mujhe|mera|meri|mere|karna|kisi|kab|kyun|kyu|dekhna|milega|milta|pehen|pehanna|khareed|khareedna|shikayat|nakli|asli|jaanch|theek|accha|acha)\b/i.test(userQuery);
+    const queryHinglish = /\b(kya|hai|hain|kaise|batao|bataiye|chahiye|kitna|kitni|kitne|hoga|hogi|hoge|kare|karein|kaun|hota|hoti|hote|nahi|nahin|sakte|sakti|sakta|karo|kijiye|wali|wala|wale|mujhe|mera|meri|mere|karna|kisi|kab|kyun|kyu|dekhna|milega|milta|pehen|pehanna|khareed|khareedna|shikayat|nakli|asli|jaanch|theek|accha|acha|ke|ki|ka|ko|se|me|mein|par|pe|toh|to|bhi|aur|ya|balti|baltiyo|sariya|dukaan)\b/i.test(userQuery);
 
     if (isChitchat) {
       const nameMatch = userQuery.match(/(?:mera\s+name|mera\s+naam|my\s+name\s+is)\s+([a-zA-Z\u0900-\u097F]+)/i);
       const userName = nameMatch ? nameMatch[1] : '';
-      const isConversational = /^(ok|okay|theek\s+hai|accha|acha|haan|yes)[\s!.,?a-zA-Z0-9]*$/i.test(userQuery.trim());
+      const isConversational = /^(ok|okay|theek\s+hai|accha|acha|haan|yes)[\s!.,?]*$/i.test(userQuery.trim());
       const isChitchatFriendly = /\b(or\s+btao|aur\s+btao|aur\s+batao|or\s+batao|kya\s+kr|kay\s+kr|kya\s+chal|what\s+are\s+you\s+doing|wat\s+u\s+doin|wat\s+r\s+u|wyd|wassup|whats\s+up|wats\s+up|sup\b|sab\s+badhiya|kaise\s+ho|kya\s+haal|how\s+are\s+you|hru)\b/i.test(userQuery);
 
       if (isChitchatFriendly) {
@@ -3926,6 +3944,38 @@ To establish a **Plastic Manufacturing Unit** compliant with BIS statutory regul
 3. Pay statutory application fees (**50% fee concession applicable for MSME & Women Entrepreneurs**).
 4. Undergo factory verification audit by BIS inspecting officers and independent lab sample testing.
 5. Grant of 7-digit **CM/L License** authorizing use of the Standard Mark (ISI mark).`;
+      }
+    } else if (/\b(balti|baltiya|baltiyo|bucket)\b/i.test(userQuery)) {
+      if (queryHinglish || queryDevanagari) {
+        accumulatedText = `### 🇮🇳 BIS Guidance: Plastic Buckets (Plastic ki Baltiyan)
+
+Plastic ki baltiyon (household plastic buckets) ke standard aur testing ke baare mein zaroori statutory jaankari:
+
+1. **Mandatory QCO Status:**
+   - General household plastic buckets par abhi Bureau of Indian Standards (BIS) ka **koi mandatory Quality Control Order (QCO) laagu nahi hai**. Yani inko bechne ke liye compulsory ISI mark kanoonan zaroori nahi hai.
+
+2. **Applicable Quality & Testing Standards:**
+   - **\`IS 2798:2020\` (Methods of Test for Plastics Containers and Receptacles):** Plastic buckets aur containers ki durability ke liye test methods prescribe karta hai — jaise 1.2m drop impact test, handle pull strength test, aur stacking load test.
+   - **\`IS 10146:1982\` / \`IS 10910:1984\`:** Agar bucket potable drinking water ya food-grade use ke liye hai, toh non-toxic raw material aur migration limits (≤ 60 mg/kg) follow hona chahiye.
+
+3. **Voluntary BIS Certification (Scheme-I):**
+   - Agar manufacturer apne brand par **ISI Mark** print karna chahta hai, toh wo BIS **Scheme-I** ke tehat [manakonline.in](https://www.manakonline.in) par voluntary license ke liye apply kar sakta hai.
+
+> 💡 **Official Verification:** [standardsbis.bsbedge.com](https://standardsbis.bsbedge.com) | National Standards Enquiry: **ird@bis.gov.in**`;
+      } else {
+        accumulatedText = `### 🇮🇳 BIS Guidance: Plastic Buckets & Containers
+
+Key statutory and quality standards regarding plastic buckets in India:
+
+1. **Mandatory QCO Status:**
+   - General household plastic buckets currently **do not have a mandatory standalone Quality Control Order (QCO)**. Compulsory ISI certification is not legally enforced for standard retail sale.
+
+2. **Applicable Testing & Quality Standards:**
+   - **\`IS 2798:2020\` (Methods of Test for Plastics Containers):** Prescribes testing methods including 1.2m drop impact test, handle pull strength, and stacking load tests.
+   - **\`IS 10146:1982\` / \`IS 10910:1984\`:** For potable water or food contact, migration limits (≤ 60 mg/kg) and non-toxic polymer resins apply.
+
+3. **Voluntary ISI Certification (Scheme-I):**
+   - Manufacturers can obtain a voluntary **Scheme-I (ISI mark)** license via [manakonline.in](https://www.manakonline.in) with an in-house testing lab.`;
       }
     } else if (primaryDoc || (ragChunks && ragChunks.length > 0)) {
       const topChunk = (ragChunks && ragChunks.length > 0) ? ragChunks[0] : null;
