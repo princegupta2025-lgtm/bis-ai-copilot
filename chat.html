@@ -460,6 +460,57 @@
               </div>
             </div>
           </div>
+
+          <!-- Try these example queries (Compact 3-Card Row) -->
+          <div class="hero-examples-section" id="heroExamplesSection">
+            <div class="hero-examples-header">
+              <i class="fas fa-sparkles hero-sparkle-icon"></i>
+              <span>Try these example queries</span>
+            </div>
+            <div class="hero-examples-grid">
+              <!-- Card 1 -->
+              <div class="hero-example-card" onclick="window.sendExampleQuery ? window.sendExampleQuery('Which BIS standard applies to steel bars?') : (typeof sendExampleQuery==='function' && sendExampleQuery('Which BIS standard applies to steel bars?'))" role="button" tabindex="0" title="Which BIS standard applies to steel bars?">
+                <div class="example-card-icon">
+                  <i class="fas fa-file-lines"></i>
+                </div>
+                <div class="example-card-content">
+                  <span class="example-card-title">Which BIS standard applies to steel bars?</span>
+                  <span class="example-card-sub">Find the relevant IS code and clause</span>
+                </div>
+                <div class="example-card-arrow">
+                  <i class="fas fa-chevron-right"></i>
+                </div>
+              </div>
+
+              <!-- Card 2 -->
+              <div class="hero-example-card" onclick="window.sendExampleQuery ? window.sendExampleQuery('Check this CM/L number') : (typeof sendExampleQuery==='function' && sendExampleQuery('Check this CM/L number'))" role="button" tabindex="0" title="Check this CM/L number">
+                <div class="example-card-icon">
+                  <i class="fas fa-shield-halved"></i>
+                </div>
+                <div class="example-card-content">
+                  <span class="example-card-title">Check this CM/L number</span>
+                  <span class="example-card-sub">Verify ISI licence details</span>
+                </div>
+                <div class="example-card-arrow">
+                  <i class="fas fa-chevron-right"></i>
+                </div>
+              </div>
+
+              <!-- Card 3 -->
+              <div class="hero-example-card" onclick="window.sendExampleQuery ? window.sendExampleQuery('What are the requirements for helmets?') : (typeof sendExampleQuery==='function' && sendExampleQuery('What are the requirements for helmets?'))" role="button" tabindex="0" title="What are the requirements for helmets?">
+                <div class="example-card-icon">
+                  <i class="fas fa-hard-hat"></i>
+                </div>
+                <div class="example-card-content">
+                  <span class="example-card-title">What are the requirements for helmets?</span>
+                  <span class="example-card-sub">Find applicable standards and tests</span>
+                </div>
+                <div class="example-card-arrow">
+                  <i class="fas fa-chevron-right"></i>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
 
       </div>
@@ -1142,6 +1193,21 @@
         const input = document.getElementById('userInput');
         if (input) input.value = lastFailedQueryText;
         if (typeof submitUserQuery === 'function') {
+          submitUserQuery();
+        }
+      }
+    };
+
+    window.sendExampleQuery = function(text) {
+      if (!text) return;
+      const input = document.getElementById('userInput');
+      if (input) {
+        input.value = text;
+        input.style.height = 'auto';
+        input.dispatchEvent(new Event('input', { bubbles: true }));
+        if (typeof window.submitUserQuery === 'function') {
+          window.submitUserQuery();
+        } else if (typeof submitUserQuery === 'function') {
           submitUserQuery();
         }
       }
