@@ -4192,10 +4192,7 @@ html, body {
   }
 }
 
-/* ================= CHAT RESPONSE EVIDENCE / GROUNDING / CITATION UI REMOVAL ================= */
-.msg-actions-toolbar .grounding-badge-high,
-.msg-actions-toolbar .grounding-badge-med,
-.msg-actions-toolbar .grounding-badge-low,
+/* ================= CHAT RESPONSE EVIDENCE / CITATION CLEAN UI ================= */
 .msg-text-bubble .citation-chip-badge,
 .msg-text-bubble .sources-accordion,
 .msg-text-bubble .citation-card-row,

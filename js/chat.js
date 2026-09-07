@@ -2806,18 +2806,24 @@ async function submitUserQuery() {
       if (toolbar) {
         let tierText = 'LOW';
         let badgeClass = 'grounding-badge-low';
-        let badgeColor = 'var(--status-red, #EF4444)';
+        let badgeIcon = 'fa-triangle-exclamation';
         if (score >= 85) {
           tierText = 'HIGH';
           badgeClass = 'grounding-badge-high';
-          badgeColor = 'var(--status-green, #10B981)';
+          badgeIcon = 'fa-shield-check';
         } else if (score >= 60) {
           tierText = 'MEDIUM';
           badgeClass = 'grounding-badge-med';
-          badgeColor = 'var(--status-amber, #F59E0B)';
+          badgeIcon = 'fa-shield-halved';
         }
 
-        // Statutory grounding score calculated for audit/telemetry (visual badge suppressed from chat UI)
+        const existingBadge = document.getElementById(`groundingBadge-${aiMsgId}`);
+        const badgeHtml = `<span class="grounding-badge ${badgeClass}" id="groundingBadge-${aiMsgId}" style="display:inline-flex;align-items:center;gap:5px;padding:3px 8px;border-radius:4px;font-size:0.72rem;font-weight:700;margin-right:8px;vertical-align:middle;" title="Statutory Evidence Grounding: ${score}%"><i class="fas ${badgeIcon}"></i> Grounding: ${score}% (${tierText})</span>`;
+        if (existingBadge) {
+          existingBadge.outerHTML = badgeHtml;
+        } else {
+          toolbar.insertAdjacentHTML('afterbegin', badgeHtml);
+        }
       }
     }
 
@@ -3169,13 +3175,19 @@ class ManakRAGEngine {
     if (!userQuery || this.chunks.length === 0) return [];
     this._ensureIndexed();
 
-    // 1. Dense Semantic Candidates (Top-20)
-    const queryVector = (typeof generateHeuristicSubwordFallbackEmbedding === 'function')
-      ? generateHeuristicSubwordFallbackEmbedding(userQuery)
-      : this._generateFallbackEmbedding(userQuery);
+    // 1. Dense Semantic Candidates (Fast pre-filtered subset if IS standard number detected)
+    const isCodeMatch = userQuery.match(/\b(?:IS\s*)?(\d{3,5})\b/i);
+    const targetIS = isCodeMatch ? isCodeMatch[1] : null;
+    let candidatePool = this.chunks;
+    if (targetIS && this.chunks.length > 50) {
+      const isFiltered = this.chunks.filter(c => (c.standardCode || '').replace(/\D/g, '').includes(targetIS));
+      if (isFiltered.length >= 4) {
+        candidatePool = isFiltered;
+      }
+    }
 
     const scoredDense = [];
-    this.chunks.forEach((chunk, idx) => {
+    candidatePool.forEach((chunk, idx) => {
       const sim = this._cosineSimilarity(queryVector, chunk._embedding);
       if (sim > 0.18) {
         scoredDense.push({ index: idx, cosineScore: sim, chunk: chunk });
@@ -3570,7 +3582,7 @@ async function callLiveLLMStreaming(userQuery, ragChunks, primaryDoc, aiBubbleId
     }, 10);
   });
 
-  const models = ['gemini-3.5-flash-lite', 'gemini-3.6-flash', 'gemini-3.5-flash'];
+  const models = ['gemini-3.5-flash-lite', 'gemini-3.5-flash', 'gemini-3.6-flash'];
   
   // Resilient multi-endpoint candidate list (same-origin /api/chat in production; localhost fallback ONLY for local dev or file://)
   const candidateEndpoints = [];
@@ -3604,7 +3616,7 @@ async function callLiveLLMStreaming(userQuery, ragChunks, primaryDoc, aiBubbleId
             model: mod,
             messages: messages,
             temperature: 0.12,
-            max_tokens: 1500,
+            max_tokens: 1200,
             stream: true,
             ragChunks: ragChunks,
             role: APP_STATE.userRole,
@@ -3771,7 +3783,12 @@ function finalizeBubble(aiBubbleId, fullText, matchedDoc, originalQuery, ragChun
   // Chat Response evidence accordion removed per clean UI mandate (data retained in session)
 
   if (toolbarEl) {
-    toolbarEl.innerHTML = renderActionStripHTML(aiBubbleId, 'ai');
+    const score = (validationResult && typeof validationResult.groundingScore === 'number') ? validationResult.groundingScore : 85;
+    let tierText = score >= 85 ? 'HIGH' : (score >= 60 ? 'MEDIUM' : 'LOW');
+    let badgeClass = score >= 85 ? 'grounding-badge-high' : (score >= 60 ? 'grounding-badge-med' : 'grounding-badge-low');
+    let badgeIcon = score >= 85 ? 'fa-shield-check' : (score >= 60 ? 'fa-shield-halved' : 'fa-triangle-exclamation');
+    const badgeHtml = `<span class="grounding-badge ${badgeClass}" id="groundingBadge-${aiBubbleId}" style="display:inline-flex;align-items:center;gap:5px;padding:3px 8px;border-radius:4px;font-size:0.72rem;font-weight:700;margin-right:8px;vertical-align:middle;" title="Statutory Evidence Grounding: ${score}%"><i class="fas ${badgeIcon}"></i> Grounding: ${score}% (${tierText})</span>`;
+    toolbarEl.innerHTML = badgeHtml + renderActionStripHTML(aiBubbleId, 'ai');
   }
 }
 
