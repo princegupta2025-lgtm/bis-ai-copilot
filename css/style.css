@@ -4208,3 +4208,10 @@ html, body {
 .bis-chat-link:hover i {
   transform: translate(1px, -1px);
 }
+
+/* ================= CLEAN MINIMAL HERO UI ================= */
+.hero-primary-actions-row,
+.hero-secondary-chips-row {
+  display: none !important;
+}
+

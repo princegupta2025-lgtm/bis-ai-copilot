@@ -4414,39 +4414,6 @@ function startNewConversation() {
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="19" x2="12" y2="5"></line><polyline points="5 12 12 5 19 12"></polyline></svg>
         </button>
       </form>
-
-      <!-- 3 Primary Action Pills -->
-      <div class="hero-primary-actions-row">
-        <button class="hero-action-pill primary" onclick="focusComposerInput()">
-          <i class="fas fa-comment-dots"></i>
-          <span>Ask MANAK-AI</span>
-        </button>
-        <button class="hero-action-pill" onclick="openToolsModal('verify')">
-          <i class="fas fa-qrcode"></i>
-          <span>Verify a Product</span>
-        </button>
-        <button class="hero-action-pill" onclick="triggerDocumentAnalysis()">
-          <i class="fas fa-file-invoice"></i>
-          <span>Analyze a Document</span>
-        </button>
-      </div>
-
-      <!-- Secondary Quick Topic Chips Row -->
-      <div class="hero-secondary-chips-row">
-        <span class="chips-label">Popular:</span>
-        <button class="hero-chip" onclick="sendPredefinedQuery('What are the mandatory testing requirements for IS 4151 helmets?')">
-          <i class="fas fa-hard-hat"></i> Standards (IS 4151)
-        </button>
-        <button class="hero-chip" onclick="sendPredefinedQuery('List mandatory Quality Control Orders (QCOs) enforcement timelines for 2026.')">
-          <i class="fas fa-gavel"></i> QCOs
-        </button>
-        <button class="hero-chip" onclick="openToolsModal('hallmarking')">
-          <i class="fas fa-ring"></i> Hallmarking
-        </button>
-        <button class="hero-chip" onclick="openToolsModal('compliance')">
-          <i class="fas fa-clipboard-check"></i> Compliance
-        </button>
-      </div>
     </div>
   `;
 
