@@ -3898,32 +3898,66 @@ window.renderMathFormulas = renderMathFormulas;
 
 // ==========================================================================
 // Workable Markdown & URL Hyperlink Renderer (Manak-AI)
-// Converts [label](url) and bare URLs into secure, clickable target="_blank" links
+// Converts [label](url), split [label]\n(url), [domains], bare URLs, and portal links
+// into secure, interactive clickable target="_blank" links without double-wrapping.
 // ==========================================================================
 function renderMarkdownLinks(text) {
   if (!text) return '';
   let res = text;
 
-  // 1. Standard Markdown links: [label](url)
-  res = res.replace(/\[([^\]]+)\]\((https?:\/\/[^\s\)]+)\)/g, (match, label, url) => {
-    let cleanUrl = url;
+  // Stored links to prevent double wrapping / nesting
+  const links = [];
+  const storeLink = (anchorHtml) => {
+    const placeholder = `%%%BISLINK${links.length}%%%`;
+    links.push(anchorHtml);
+    return placeholder;
+  };
+
+  // 1. Standard or multiline/whitespace Markdown links: [label](url), [label] (url), [label]\n(url)
+  res = res.replace(/\[([^\]]+)\]\s*\(\s*(https?:\/\/[^\s\)]+)\s*\)/g, (match, label, url) => {
+    let cleanUrl = url.trim();
     let trailing = '';
     if (/[.,;:]$/.test(cleanUrl)) {
       trailing = cleanUrl.slice(-1);
       cleanUrl = cleanUrl.slice(0, -1);
     }
-    return `<a href="${cleanUrl}" target="_blank" rel="noopener noreferrer" class="bis-chat-link" style="color:var(--primary-blue,#38BDF8);text-decoration:underline;font-weight:600;display:inline-flex;align-items:center;gap:3px;">${label} <i class="fas fa-arrow-up-right-from-square" style="font-size:0.72em;opacity:0.85;"></i></a>${trailing}`;
+    return storeLink(`<a href="${cleanUrl}" target="_blank" rel="noopener noreferrer" class="bis-chat-link" style="color:var(--primary-blue,#38BDF8);text-decoration:underline;font-weight:600;display:inline-flex;align-items:center;gap:3px;">${label} <i class="fas fa-arrow-up-right-from-square" style="font-size:0.72em;opacity:0.85;"></i></a>`) + trailing;
   });
 
-  // 2. Standalone bare URLs (e.g. https://standardsbis.bsbedge.com) not already inside an <a> tag
-  res = res.replace(/(^|[\s(])(https?:\/\/[^\s<>)"]+)([\s)]|$)/g, (match, before, url, after) => {
-    let cleanUrl = url;
+  // 2. Bracketed URLs or domain names not followed by parens: [https://...] or [standardsbis.bsbedge.com]
+  res = res.replace(/\[((?:https?:\/\/|[a-zA-Z0-9-]+\.)[^\s\]]+)\]/g, (match, target) => {
+    let clean = target.trim();
+    let href = clean.startsWith('http') ? clean : 'https://' + clean;
+    return storeLink(`<a href="${href}" target="_blank" rel="noopener noreferrer" class="bis-chat-link" style="color:var(--primary-blue,#38BDF8);text-decoration:underline;font-weight:600;display:inline-flex;align-items:center;gap:3px;">${clean} <i class="fas fa-arrow-up-right-from-square" style="font-size:0.72em;opacity:0.85;"></i></a>`);
+  });
+
+  // 3. Standalone bare URLs (https://... or http://...)
+  res = res.replace(/(^|[\s(])(https?:\/\/[^\s<>)"]+)/g, (match, before, url) => {
+    let cleanUrl = url.trim();
     let trailing = '';
-    if (/[.,;:]$/.test(cleanUrl)) {
-      trailing = cleanUrl.slice(-1);
+    while (/[.,;:)]$/.test(cleanUrl)) {
+      trailing = cleanUrl.slice(-1) + trailing;
       cleanUrl = cleanUrl.slice(0, -1);
     }
-    return `${before}<a href="${cleanUrl}" target="_blank" rel="noopener noreferrer" class="bis-chat-link" style="color:var(--primary-blue,#38BDF8);text-decoration:underline;font-weight:600;display:inline-flex;align-items:center;gap:3px;">${cleanUrl} <i class="fas fa-arrow-up-right-from-square" style="font-size:0.72em;opacity:0.85;"></i></a>${trailing}${after}`;
+    return before + storeLink(`<a href="${cleanUrl}" target="_blank" rel="noopener noreferrer" class="bis-chat-link" style="color:var(--primary-blue,#38BDF8);text-decoration:underline;font-weight:600;display:inline-flex;align-items:center;gap:3px;">${cleanUrl} <i class="fas fa-arrow-up-right-from-square" style="font-size:0.72em;opacity:0.85;"></i></a>`) + trailing;
+  });
+
+  // 4. Standalone well-known BIS portals without protocol: (standardsbis.bsbedge.com, bis.gov.in, manakonline.in)
+  const knownBisDomains = /(^|[\s(])((?:[a-zA-Z0-9-]+\.)*(?:bis\.gov\.in|bsbedge\.com|manakonline\.in)[^\s<>)"]*)/gi;
+  res = res.replace(knownBisDomains, (match, before, domain) => {
+    let cleanUrl = domain.trim();
+    let trailing = '';
+    while (/[.,;:)]$/.test(cleanUrl)) {
+      trailing = cleanUrl.slice(-1) + trailing;
+      cleanUrl = cleanUrl.slice(0, -1);
+    }
+    const href = 'https://' + cleanUrl;
+    return before + storeLink(`<a href="${href}" target="_blank" rel="noopener noreferrer" class="bis-chat-link" style="color:var(--primary-blue,#38BDF8);text-decoration:underline;font-weight:600;display:inline-flex;align-items:center;gap:3px;">${cleanUrl} <i class="fas fa-arrow-up-right-from-square" style="font-size:0.72em;opacity:0.85;"></i></a>`) + trailing;
+  });
+
+  // 5. Restore all stored links
+  links.forEach((linkHtml, idx) => {
+    res = res.replace(`%%%BISLINK${idx}%%%`, linkHtml);
   });
 
   return res;
