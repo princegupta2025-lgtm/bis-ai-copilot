@@ -2721,7 +2721,8 @@ async function submitUserQuery() {
         const ragRes = await fetch('/api/rag', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ query: query, topK: 4, role: APP_STATE.userRole })
+          body: JSON.stringify({ query: query, topK: 4, role: APP_STATE.userRole }),
+          signal: AbortSignal.timeout(3000)
         });
         if (ragRes.ok) {
           const ragData = await ragRes.json();
@@ -2744,7 +2745,8 @@ async function submitUserQuery() {
         const fetchRes = await fetch('/api/standards/fetch', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ canonicalId: cat.canonicalId })
+          body: JSON.stringify({ canonicalId: cat.canonicalId }),
+          signal: AbortSignal.timeout(1500)
         });
         if (fetchRes.ok) {
           const fetchData = await fetchRes.json();
@@ -3586,25 +3588,20 @@ async function callLiveLLMStreaming(userQuery, ragChunks, primaryDoc, aiBubbleId
     }, 10);
   });
 
-  const models = ['gemini-3.5-flash-lite', 'gemini-3.5-flash', 'gemini-3.6-flash'];
+  const models = ['gemini-3.5-flash-lite', 'gemini-3.6-flash'];
   
-  // Resilient multi-endpoint candidate list (same-origin /api/chat in production; localhost fallback ONLY for local dev or file://)
+  // Resilient multi-endpoint candidate list (clean prioritized endpoints without redundant loops)
   const candidateEndpoints = [];
   if (window.location.protocol.startsWith('http')) {
     candidateEndpoints.push('/api/chat');
-  }
-  const isLocalDev = !window.location.hostname || 
-    window.location.hostname === 'localhost' || 
-    window.location.hostname === '127.0.0.1' || 
-    window.location.hostname === '0.0.0.0' || 
-    window.location.protocol === 'file:';
-  if (isLocalDev) {
+  } else {
+    // file:// or local webview context
     candidateEndpoints.push('http://localhost:3000/api/chat');
     candidateEndpoints.push('http://127.0.0.1:3000/api/chat');
-    candidateEndpoints.push('https://bis-ai-copilot.onrender.com/api/chat');
   }
+  const uniqueEndpoints = [...new Set(candidateEndpoints)];
 
-  for (const endpoint of candidateEndpoints) {
+  for (const endpoint of uniqueEndpoints) {
     if (streamSuccess) break;
     for (const mod of models) {
       try {
@@ -3627,7 +3624,7 @@ async function callLiveLLMStreaming(userQuery, ragChunks, primaryDoc, aiBubbleId
             role: APP_STATE.userRole,
             responseLanguage: resolvedLang
           }),
-          signal: AbortSignal.timeout(28000)
+          signal: AbortSignal.timeout(10000)
         });
 
         if (response.ok && response.body) {
