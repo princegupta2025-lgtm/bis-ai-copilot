@@ -3609,10 +3609,22 @@ async function callLiveLLMStreaming(userQuery, ragChunks, primaryDoc, aiBubbleId
   }
 
   const systemPrompt = buildMasterSystemPrompt(ragChunks, primaryDoc, userIntent);
+
+  const isCasualTalk = /^(hi|hello|hey|namaste|pranam|greetings|hola|good\s+(morning|afternoon|evening)|mera\s+naam|mera\s+name|my\s+name|who\s+are\s+you|what\s+can\s+you\s+do|kaise\s+ho|how\s+are\s+you|kya\s+haal|help|shukriya|dhanyawad|thanks|thank\s+you|ok|okay|theek\s+hai|acha|accha|haan|yes|or\s+btao|aur\s+btao|aur\s+batao|or\s+batao|kya\s+kr\s+rhe\s+ho|kya\s+kar\s+rahe\s+ho|what\s+are\s+you\s+doing|wassup|whats\s+up|sab\s+badhiya|bore\s+ho|chai\s+piyo|suno\b)/i.test((userQuery || '').trim());
+
+  let formattedUserContent = userQuery;
+  if (isCasualTalk) {
+    formattedUserContent = `[Casual conversational message from user]: "${userQuery}".
+(Directive: Chat back warmly, casually, and like a friendly Indian companion in natural Hinglish/Hindi/English. Directly answer what the user said with personality, humor, and friendliness, while smoothly anchoring your identity as MANAK-AI (India's BIS Trust & Quality Copilot). Never output a cold or robotic template).`;
+  } else {
+    formattedUserContent = `User Inquiry: "${userQuery}".
+(Directive: Provide an authoritative, 100% correct, detailed, yet crystal clear and easy-to-understand response in natural matching language. Include: 1) Quick 1-2 line direct answer, 2) Official Indian Standard (IS Code) & QCO mandate status, 3) Key Technical/Testing limits with numbers & clauses if available, 4) Practical checklist of what to verify (e.g. ISI mark, CM/L, HUID, lab setup), 5) Official verification link. Keep it engaging, clear, and well-structured with bullet points).`;
+  }
+
   const messages = [
     { role: 'system', content: systemPrompt },
     ...APP_STATE.conversationHistory.map(m => ({ role: m.role, content: m.content })),
-    { role: 'user', content: userQuery }
+    { role: 'user', content: formattedUserContent }
   ];
 
   let accumulatedText = '';
