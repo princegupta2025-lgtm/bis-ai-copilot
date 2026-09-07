@@ -333,13 +333,15 @@
 
       <!-- 5. Bottom User & Settings Area -->
       <div class="sidebar-bottom-area">
-        <div class="sidebar-user-card" id="sidebarUserCard" onclick="toggleUserMenu(event)" role="button" aria-haspopup="true" aria-expanded="false" title="User Profile & Settings">
-          <div class="user-avatar-circle" id="sidebarUserAvatar">M</div>
-          <div class="user-info-text">
-            <span class="user-display-name" id="sidebarUserName">Madhav Gupta</span>
-            <span class="user-display-role" id="sidebarUserRole">Consumer Mode</span>
+        <div class="sidebar-user-card" id="sidebarUserCard" onclick="openSettingsModal()" role="button" aria-haspopup="true" aria-expanded="false" title="Settings & Preferences">
+          <div class="user-avatar-circle" id="sidebarUserAvatar" style="background: rgba(14, 165, 233, 0.14); border: 1px solid rgba(56, 189, 248, 0.35); color: #38BDF8;">
+            <i class="fas fa-gear"></i>
           </div>
-          <button class="btn-user-more" aria-label="User Options" onclick="event.stopPropagation(); toggleUserMenu(event);">
+          <div class="user-info-text">
+            <span class="user-display-name" id="sidebarUserName">Settings</span>
+            <span class="user-display-role" id="sidebarUserRole">Preferences & Modes</span>
+          </div>
+          <button class="btn-user-more" aria-label="User Options" onclick="event.stopPropagation(); toggleUserMenu(event);" title="More Options">
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="1.5"></circle><circle cx="12" cy="5" r="1.5"></circle><circle cx="12" cy="19" r="1.5"></circle></svg>
           </button>
         </div>
