@@ -3756,17 +3756,6 @@ async function callLiveLLMStreaming(userQuery, ragChunks, primaryDoc, aiBubbleId
     await typewriterFallback(bubbleEl, accumulatedText);
   }
 
-  // Attach live/offline response source badge to the toolbar area
-  const sourcePill = document.createElement('div');
-  sourcePill.className = streamSuccess ? 'response-source-pill live' : 'response-source-pill offline';
-  sourcePill.innerHTML = streamSuccess
-    ? '<i class="fas fa-circle-check"></i> Live Gemini Response'
-    : '<i class="fas fa-triangle-exclamation"></i> Offline Grounded Fallback';
-  const bubbleWrap = document.getElementById(`bubble-${aiBubbleId}`);
-  if (bubbleWrap && bubbleWrap.parentElement) {
-    bubbleWrap.parentElement.insertBefore(sourcePill, bubbleWrap.nextSibling);
-  }
-
   finalizeBubble(aiBubbleId, accumulatedText, primaryDoc, originalQuery, ragChunks);
   return accumulatedText;
 }
