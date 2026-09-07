@@ -2639,7 +2639,11 @@ async function submitUserQuery() {
   if (!query) return;
 
   const welcome = document.getElementById('chatWelcomeBox');
-  if (welcome) welcome.style.display = 'none';
+  if (welcome) {
+    welcome.style.setProperty('display', 'none', 'important');
+    welcome.classList.add('hidden');
+    welcome.style.display = 'none';
+  }
 
   // Set session title from first user message if not set
   if (!APP_STATE.currentSessionTitle) {
@@ -4168,6 +4172,13 @@ function appendMessage(text, role, docCitation = null, rowId = null, originalQue
 function appendMessageDirect(text, role, docCitation = null, rowId = null, originalQuery = '', isHTML = false) {
   const container = document.getElementById('chatMessages');
   if (!container) return;
+
+  const welcome = document.getElementById('chatWelcomeBox');
+  if (welcome) {
+    welcome.style.setProperty('display', 'none', 'important');
+    welcome.classList.add('hidden');
+    welcome.style.display = 'none';
+  }
 
   const id = rowId || `msg-${Date.now()}`;
   MESSAGE_REGISTRY[id] = text;

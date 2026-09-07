@@ -4222,9 +4222,16 @@ html, body {
   margin: 0 auto !important;
   text-align: center !important;
   padding: 3.5rem 1.5rem 2rem 1.5rem !important;
-  display: flex !important;
+  display: flex;
   flex-direction: column !important;
   align-items: center !important;
+}
+
+.workspace-empty-hero.hidden,
+#chatWelcomeBox.hidden,
+#chatWelcomeBox[style*="display: none"],
+.workspace-empty-hero[style*="display: none"] {
+  display: none !important;
 }
 
 .brand-icon-shield.large {
