@@ -3542,8 +3542,24 @@ const VerificationEngine = {
 };
 
 // ==========================================================================
-// Smooth Queue-Based Natural Speed Streaming via Server-Side Proxy /api/chat
+// Ultra-Fast Zero-Latency Direct-Streaming Engine with Smart Memory Cache
+const SYSTEM_FAST_CACHE = new Map();
+
 async function callLiveLLMStreaming(userQuery, ragChunks, primaryDoc, aiBubbleId, originalQuery, userIntent) {
+  const bubbleEl = document.getElementById(`bubble-${aiBubbleId}`);
+  const container = document.getElementById('chatMessages');
+
+  // 1. Instant Cache Hit Check (Sub-50ms Response)
+  const cleanCacheKey = (userQuery || '').toLowerCase().trim().replace(/[^a-z0-9]/g, '');
+  if (cleanCacheKey && SYSTEM_FAST_CACHE.has(cleanCacheKey)) {
+    const cachedText = SYSTEM_FAST_CACHE.get(cleanCacheKey);
+    if (bubbleEl) {
+      bubbleEl.innerHTML = renderMarkdown(cachedText);
+      if (container) container.scrollTop = container.scrollHeight;
+    }
+    return cachedText;
+  }
+
   const systemPrompt = buildMasterSystemPrompt(ragChunks, primaryDoc, userIntent);
   const messages = [
     { role: 'system', content: systemPrompt },
@@ -3553,40 +3569,25 @@ async function callLiveLLMStreaming(userQuery, ragChunks, primaryDoc, aiBubbleId
 
   let accumulatedText = '';
   let streamSuccess = false;
-  const bubbleEl = document.getElementById(`bubble-${aiBubbleId}`);
-  const container = document.getElementById('chatMessages');
+  let renderPending = false;
+  let isStreamActive = true;
 
-  // High-throughput smooth streaming buffer (adaptive cadence)
-  const tokenQueue = [];
-  let isReceivingStream = true;
+  function renderBuffer(isFinal = false) {
+    if (bubbleEl) {
+      bubbleEl.innerHTML = renderMarkdown(accumulatedText) + (isFinal ? '' : '<span class="streaming-cursor"></span>');
+      if (container) container.scrollTop = container.scrollHeight;
+    }
+  }
 
-  let renderedText = '';
-  const renderTickerPromise = new Promise((resolve) => {
-    const ticker = setInterval(() => {
-      if (tokenQueue.length > 0) {
-        const qLen = tokenQueue.length;
-        const batch = qLen > 50 ? 12 : (qLen > 25 ? 6 : (qLen > 10 ? 3 : (qLen > 4 ? 2 : 1)));
-        for (let b = 0; b < batch && tokenQueue.length > 0; b++) {
-          renderedText += tokenQueue.shift();
-        }
-        if (bubbleEl) {
-          bubbleEl.innerHTML = renderMarkdown(renderedText) + '<span class="streaming-cursor"></span>';
-          if (container) container.scrollTop = container.scrollHeight;
-        }
-      } else if (!isReceivingStream) {
-        // Stream completed from server: flush all remaining queued tokens immediately
-        while (tokenQueue.length > 0) {
-          renderedText += tokenQueue.shift();
-        }
-        if (bubbleEl) {
-          bubbleEl.innerHTML = renderMarkdown(renderedText);
-          if (container) container.scrollTop = container.scrollHeight;
-        }
-        clearInterval(ticker);
-        resolve();
-      }
-    }, 10);
-  });
+  function scheduleRender() {
+    if (!renderPending && isStreamActive) {
+      renderPending = true;
+      requestAnimationFrame(() => {
+        renderPending = false;
+        if (isStreamActive) renderBuffer(false);
+      });
+    }
+  }
 
   const models = ['gemini-3.5-flash-lite', 'gemini-3.6-flash'];
   
@@ -3649,10 +3650,7 @@ async function callLiveLLMStreaming(userQuery, ragChunks, primaryDoc, aiBubbleId
                     const token = parsed.choices[0]?.delta?.content || '';
                     if (token) {
                       accumulatedText += token;
-                      const words = token.split(/(\s+)/);
-                      for (const w of words) {
-                        if (w) tokenQueue.push(w);
-                      }
+                      scheduleRender();
                     }
                   } catch (e) {}
                 }
@@ -3671,8 +3669,13 @@ async function callLiveLLMStreaming(userQuery, ragChunks, primaryDoc, aiBubbleId
     }
   }
 
-  isReceivingStream = false;
-  await renderTickerPromise;
+  isStreamActive = false;
+  renderBuffer(true);
+
+  // Store in ultra-fast in-memory cache for repeat inquiries
+  if (streamSuccess && cleanCacheKey && accumulatedText.trim().length > 20) {
+    SYSTEM_FAST_CACHE.set(cleanCacheKey, accumulatedText);
+  }
 
   // Secondary non-streaming fallback: if SSE streaming was blocked or interrupted, attempt fast standard JSON POST
   if (!streamSuccess && candidateEndpoints.length > 0) {
