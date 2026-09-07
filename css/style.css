@@ -4179,3 +4179,32 @@ html, body {
 #isCodeDisplayCard {
   display: none !important;
 }
+
+/* ================= WORKABLE CHAT LINKS & EXTERNAL PORTALS ================= */
+.bis-chat-link {
+  color: var(--primary-blue, #38BDF8) !important;
+  text-decoration: underline !important;
+  text-underline-offset: 3px !important;
+  font-weight: 600 !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  gap: 4px !important;
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1) !important;
+  word-break: break-all;
+  cursor: pointer !important;
+}
+
+.bis-chat-link:hover {
+  color: #7DD3FC !important;
+  text-decoration: underline !important;
+  filter: drop-shadow(0 0 6px rgba(56, 189, 248, 0.45));
+  transform: translateY(-0.5px);
+}
+
+.bis-chat-link i {
+  transition: transform 0.2s ease;
+}
+
+.bis-chat-link:hover i {
+  transform: translate(1px, -1px);
+}

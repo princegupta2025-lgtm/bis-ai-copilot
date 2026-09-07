@@ -3823,15 +3823,123 @@ function docCitationFormat(doc) {
 // ==========================================================================
 // Robust Markdown Renderer (Code Copy, Tables, Citations, Escaping)
 // ==========================================================================
+// LaTeX Math / Scientific Typography Cleaner (Manak-AI)
+// Converts raw LaTeX syntax (\frac, \text, \pm, ^\circ, delimiters) to clean Unicode
+// ==========================================================================
+function renderMathFormulas(text) {
+  if (!text) return '';
+  let res = text;
+
+  // 1. Clean up \text{...}, \mathrm{...}, \mathbf{...}, \mathit{...} so inner braces don't block fraction parsing
+  res = res
+    .replace(/\\(?:text|mathrm|mathbf|mathit)\{([^{}]+)\}/g, '$1')
+    .replace(/\\(?:text|mathrm|mathbf|mathit)\{([^{}]+)\}/g, '$1');
+
+  // 2. Common LaTeX math symbols to clean Unicode
+  res = res
+    .replace(/\\pm/g, '±')
+    .replace(/\\approx/g, '≈')
+    .replace(/\\neq/g, '≠')
+    .replace(/\\(?:geq|ge)/g, '≥')
+    .replace(/\\(?:leq|le)/g, '≤')
+    .replace(/\\times/g, '×')
+    .replace(/\\div/g, '÷')
+    .replace(/\\cdot/g, '·')
+    .replace(/\\(?:circ|degree)/g, '°')
+    .replace(/\\(?:Omega|ohm)/g, 'Ω')
+    .replace(/\\mu\s*(?:m|g|l|s)?/g, (m) => m.includes('m') ? 'µm' : (m.includes('g') ? 'µg' : 'µ'))
+    .replace(/\\alpha/g, 'α')
+    .replace(/\\beta/g, 'β')
+    .replace(/\\gamma/g, 'γ')
+    .replace(/\\delta/g, 'δ')
+    .replace(/\\lambda/g, 'λ')
+    .replace(/\\sigma/g, 'σ')
+    .replace(/\\pi/g, 'π')
+    .replace(/\\theta/g, 'θ')
+    .replace(/\\rho/g, 'ρ')
+    .replace(/\\Delta/g, 'Δ')
+    .replace(/\\infty/g, '∞');
+
+  // 3. Temperature formats: ^\circ C, ^\circ\text{C}, ^\circ, ^{\circ}C, etc.
+  res = res
+    .replace(/\^\{?°\}?\s*([CFKcfk])/g, '°$1')
+    .replace(/\^\{?°\}?/g, '°')
+    .replace(/°\s*([CFKcfk])\b/g, '°$1');
+
+  // 4. Fractions: \frac{A}{B} -> (A / B)
+  for (let iter = 0; iter < 5; iter++) {
+    if (!res.includes('\\frac')) break;
+    res = res.replace(/\\frac\s*\{([^{}]+)\}\s*\{([^{}]+)\}/g, '($1 / $2)');
+  }
+
+  // 5. Superscripts and subscripts
+  res = res
+    .replace(/\^2\b/g, '²')
+    .replace(/\^3\b/g, '³')
+    .replace(/\^1\b/g, '¹')
+    .replace(/\^0\b/g, '⁰')
+    .replace(/\^\{2\}/g, '²')
+    .replace(/\^\{3\}/g, '³')
+    .replace(/([a-zA-Z0-9\)])_\{?([0-9a-zA-Z])\}?/g, '$1<sub>$2</sub>');
+
+  // 6. Clean up math delimiters: $$...$$ and $...$
+  res = res
+    .replace(/\$\$([\s\S]*?)\$\$/g, '$1')
+    .replace(/\$([^$]+)\$/g, '$1');
+
+  // 7. Remove any trailing or stray math $ that wasn't paired
+  res = res
+    .replace(/([0-9a-zA-Z\)\}\]°±≥≤≈≠%])\s*\$/g, '$1')
+    .replace(/\$\s*([0-9a-zA-Z\(\{\[°±≥≤≈≠%])/g, '$1');
+
+  return res;
+}
+window.renderMathFormulas = renderMathFormulas;
+
+// ==========================================================================
+// Workable Markdown & URL Hyperlink Renderer (Manak-AI)
+// Converts [label](url) and bare URLs into secure, clickable target="_blank" links
+// ==========================================================================
+function renderMarkdownLinks(text) {
+  if (!text) return '';
+  let res = text;
+
+  // 1. Standard Markdown links: [label](url)
+  res = res.replace(/\[([^\]]+)\]\((https?:\/\/[^\s\)]+)\)/g, (match, label, url) => {
+    let cleanUrl = url;
+    let trailing = '';
+    if (/[.,;:]$/.test(cleanUrl)) {
+      trailing = cleanUrl.slice(-1);
+      cleanUrl = cleanUrl.slice(0, -1);
+    }
+    return `<a href="${cleanUrl}" target="_blank" rel="noopener noreferrer" class="bis-chat-link" style="color:var(--primary-blue,#38BDF8);text-decoration:underline;font-weight:600;display:inline-flex;align-items:center;gap:3px;">${label} <i class="fas fa-arrow-up-right-from-square" style="font-size:0.72em;opacity:0.85;"></i></a>${trailing}`;
+  });
+
+  // 2. Standalone bare URLs (e.g. https://standardsbis.bsbedge.com) not already inside an <a> tag
+  res = res.replace(/(^|[\s(])(https?:\/\/[^\s<>)"]+)([\s)]|$)/g, (match, before, url, after) => {
+    let cleanUrl = url;
+    let trailing = '';
+    if (/[.,;:]$/.test(cleanUrl)) {
+      trailing = cleanUrl.slice(-1);
+      cleanUrl = cleanUrl.slice(0, -1);
+    }
+    return `${before}<a href="${cleanUrl}" target="_blank" rel="noopener noreferrer" class="bis-chat-link" style="color:var(--primary-blue,#38BDF8);text-decoration:underline;font-weight:600;display:inline-flex;align-items:center;gap:3px;">${cleanUrl} <i class="fas fa-arrow-up-right-from-square" style="font-size:0.72em;opacity:0.85;"></i></a>${trailing}${after}`;
+  });
+
+  return res;
+}
+window.renderMarkdownLinks = renderMarkdownLinks;
+
+// ==========================================================================
 function renderMarkdown(content) {
   if (!content) return '';
 
   let html = String(content);
 
-  // 1. Extract and preserve code blocks
+  // 1. Extract and preserve code blocks (use underscore-free token to prevent subscript collision)
   const codeBlocks = [];
   html = html.replace(/```([a-zA-Z0-9_-]*)\n([\s\S]*?)```/g, (match, lang, code) => {
-    const placeholder = `__CODE_BLOCK_${codeBlocks.length}__`;
+    const placeholder = `%%%BISCODEBLOCK${codeBlocks.length}%%%`;
     const safeCode = escapeHtml(code.trim());
     const codeId = `code-${Date.now()}-${codeBlocks.length}`;
     
@@ -3885,7 +3993,13 @@ function renderMarkdown(content) {
     return tableHtml;
   });
 
-  // 3. Typography & Formats (Adaptive Dark/Light Contrast)
+  // 3. Mathematical & Scientific Typography (convert LaTeX \frac, \pm, ^\circ, etc. to clean readable Unicode)
+  html = renderMathFormulas(html);
+
+  // 4. Workable Markdown Links & URLs (convert [text](url) and bare URLs to interactive <a> tags)
+  html = renderMarkdownLinks(html);
+
+  // 5. Typography & Formats (Adaptive Dark/Light Contrast)
   html = html
     .replace(/### (.*?)\n/g, '<h4 style="color:var(--text-main);margin:18px 0 8px;font-size:1.12rem;font-weight:800;line-height:1.4;">$1</h4>\n')
     .replace(/#### (.*?)\n/g, '<h5 style="color:var(--primary-blue);margin:14px 0 6px;font-size:0.96rem;font-weight:700;line-height:1.4;">$1</h5>\n')
@@ -3899,9 +4013,9 @@ function renderMarkdown(content) {
     .replace(/\n\n/g, '<div style="height:14px;"></div>')
     .replace(/\n/g, '<br/>');
 
-  // 4. Restore Code Blocks
+  // 6. Restore Code Blocks
   codeBlocks.forEach((block, idx) => {
-    html = html.replace(`__CODE_BLOCK_${idx}__`, block);
+    html = html.replace(`%%%BISCODEBLOCK${idx}%%%`, block);
   });
 
   return safeSanitizeHtml(html);
