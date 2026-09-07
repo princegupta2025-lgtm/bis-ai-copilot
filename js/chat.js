@@ -2607,25 +2607,49 @@ function recalcCompensation(uid) {
   }
 }
 
-// Robust Conversational & Chitchat Classifier (handles typos, Hinglish slang, informal English & friendly openers)
+// Universal Conversational, Chitchat & Banter Classifier
 function isCasualUserMessage(query) {
   if (!query || typeof query !== 'string') return false;
   const t = query.toLowerCase().trim().replace(/[^\w\s]/g, ' ');
-  return (
-    /\b(hi|hello|hey|heyy|heya|namaste|pranam|namaskar|greetings|hola|yo)\b/i.test(t) ||
+
+  // 1. If query contains an explicit Indian Standard number (e.g. IS 2347, IS 4151, IS1786) or 7-digit CM/L, it's NOT casual
+  if (/\b(is\s*\d{3,5}|cml\s*\d{7}|huid)\b/i.test(query)) return false;
+
+  // 2. Specific Conversational & Chit-Chat Patterns (Greetings, well-being, feelings, humor, bot identity)
+  const isDirectChitchat = (
+    /\b(hi|hello|hey|heyy|heya|namaste|pranam|namaskar|greetings|hola|yo|salaam|adaab)\b/i.test(t) ||
     /\b(wyd|wya|wru|hru|wbu|hbu|sup|waddup|wassup|whatsup)\b/i.test(t) ||
     /\b(wat|what|wht|wot)\s*(r|are)?\s*(u|you)?\s*(doin|doing|up\s*to)\b/i.test(t) ||
     /\b(how|hw)\s*(r|are)?\s*(u|you)\s*(doin|doing)?\b/i.test(t) ||
-    /\b(how\s*s|whats|wats)\s+(it\s+going|everything|life|good|up|new)\b/i.test(t) ||
-    /\b(who|hu)\s+(are\s+you|r\s+u|u)\b/i.test(t) ||
+    /\b(how\s*s|whats|wats)\s+(it\s+going|everything|life|good|up|new|your\s+day)\b/i.test(t) ||
+    /\b(who|hu)\s+(are\s+you|r\s+u|u|made\s+you|created\s+you)\b/i.test(t) ||
+    /\b(tum|aap)\s+(kaun|kon|kisko|kaha|kidhar|kiske)\b/i.test(t) ||
+    /\b(kisne\s+banaya|who\s+made|who\s+built)\b/i.test(t) ||
     /\b(what|wat|wht)\s+can\s+(u|you)\s+do\b/i.test(t) ||
     /\b(kaise|kese|kaisa|kaisi|kaso)\s+(ho|hai|h|hain|hn)\b/i.test(t) ||
     /\b(kya|kay|kyaa|kye|kya\s*h)\s+(kr|kar|chal|chll|hora|ho\s*raha|kr\s*rhe|kar\s*rhe)\s*(rha|raha|rhe|rahe|re)?\s*(hai|h|ho|hn)?\b/i.test(t) ||
     /\b(or|aur|aar)\s+(btao|batao|bata|bta|bol|bolo)\b/i.test(t) ||
     /\b(kya\s+haal|haal\s+chaal|sab\s+badhiya|sab\s+theek|sab\s+mast|sab\s+shanti)\b/i.test(t) ||
-    /\b(bore\s+ho|chai|coffee|nashta|khana|suno\s+na|suno\b|bhai\s+sun|bro\s+sun|bhaiya|dost)\b/i.test(t) ||
-    /\b(mera\s+naam|my\s+name|shukriya|dhanyawad|thanks|thank\s+you|ok|okay|theek\s+hai|accha|acha|haan|yes|bye|alvida|good\s*(morning|afternoon|evening|night))\b/i.test(t)
+    /\b(bore|boring|joke|chutkula|mazedaar|funny|comedy|kuch\s+sunao|kuch\s+batao|sing|song)\b/i.test(t) ||
+    /\b(chai|coffee|nashta|khana|suno\s+na|suno\b|bhai\s+sun|bro\s+sun|bhaiya|dost|yaar)\b/i.test(t) ||
+    /\b(robot|human|ai\s+ho|insaan|real\s+or|girl\s+or\s+boy|ladka|ladki)\b/i.test(t) ||
+    /\b(love\s+you|like\s+you|hate\s+you|miss\s+you|pyaar)\b/i.test(t) ||
+    /\b(mera\s+naam|my\s+name|shukriya|dhanyawad|thanks|thank\s+you|welcome|ok|okay|theek\s+hai|accha|acha|haan|yes|bye|alvida|good\s*(morning|afternoon|evening|night))\b/i.test(t)
   );
+  if (isDirectChitchat) return true;
+
+  // 3. Structural Conversational Test:
+  // If query does NOT contain any standards/statutory keywords and does NOT contain any physical catalog commodity names,
+  // and is short (< 8 words), it's natural conversation!
+  const hasStatutoryKeywords = /\b(standard|specification|clause|qco|isi|mark|cml|huid|hallmark|sti|nabl|test|testing|scheme|license|licence|certif|factory|audit|msme|penalty|fine|fir|complaint|seizure|court|daakhil|consumer\s+rights|purity|carat|karat)\b/i.test(t);
+  const hasProductKeywords = /\b(helmet|cooker|geyser|heater|steel|rebar|tmt|cement|wire|cable|pipe|water|bottle|toy|battery|solar|cylinder|gold|silver|jewel|plastic|polymer|polyethylene|polypropylene|footwear|shoe|iron|gas\s*stove|chulha|sariya)\b/i.test(t);
+
+  const wordCount = t.split(/\s+/).filter(Boolean).length;
+  if (!hasStatutoryKeywords && !hasProductKeywords && wordCount <= 7) {
+    return true;
+  }
+
+  return false;
 }
 
 // Intent Classification Router (Multi-Stage Intent Pipeline)
