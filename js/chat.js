@@ -5489,18 +5489,37 @@ window.calculateMSMEScore = function() {
   }
 };
 
-// ==========================================================================
-// 4. DESI & COLLOQUIAL RESOLVER & CARD RENDERER
-// ==========================================================================
+const EXTENDED_DESI_MAP = {
+  "tullu": { standardCode: "IS 8472 / IS 9079:2018", product: "Monobloc Agricultural & Domestic Pumps", desiName: "टुल्लू पंप", mandatoryQCO: true, category: "Pumps & Motors" },
+  "balti": { standardCode: "IS 2798:2020", product: "Plastic Containers & Buckets", desiName: "प्लास्टिक की बाल्टी", mandatoryQCO: false, category: "Plastics & Polymers" },
+  "baltiya": { standardCode: "IS 2798:2020", product: "Plastic Containers & Buckets", desiName: "प्लास्टिक की बाल्टियां", mandatoryQCO: false, category: "Plastics & Polymers" },
+  "baltiyo": { standardCode: "IS 2798:2020", product: "Plastic Containers & Buckets", desiName: "प्लास्टिक की बाल्टियों", mandatoryQCO: false, category: "Plastics & Polymers" },
+  "bucket": { standardCode: "IS 2798:2020", product: "Plastic Containers & Buckets", desiName: "प्लास्टिक बाल्टी / Receptacle", mandatoryQCO: false, category: "Plastics & Polymers" },
+  "rebar": { standardCode: "IS 1786:2008", product: "High Strength Deformed Steel Bars (TMT Rebars)", desiName: "TMT सरिया / Rebar", mandatoryQCO: true, category: "Civil & Construction" },
+  "switchboard": { standardCode: "IS 3854:1997", product: "Switches for Domestic and Similar Purposes", desiName: "स्विचबोर्ड", mandatoryQCO: true, category: "Electrical Accessories" },
+  "solar panel": { standardCode: "IS 14286:2010", product: "Crystalline Silicon Terrestrial Photovoltaic (PV) Modules", desiName: "सोलर पैनल", mandatoryQCO: true, category: "Renewable Energy" },
+  "inverter": { standardCode: "IS 16221:2015", product: "Power Inverters for use in photovoltaic power systems", desiName: "इन्वर्टर", mandatoryQCO: true, category: "Electronics" }
+};
+
 function resolveDesiTerm(query) {
   if (!query || typeof query !== 'string') return null;
   const qClean = query.toLowerCase().trim();
-  if (typeof BIS_DESI_COLLOQUIAL_MAP === 'undefined') return null;
-
-  for (const [key, val] of Object.entries(BIS_DESI_COLLOQUIAL_MAP)) {
+  
+  // 1. Check extended colloquial dictionary first
+  for (const [key, val] of Object.entries(EXTENDED_DESI_MAP)) {
     const regex = new RegExp(`\\b${key}\\b`, 'i');
     if (regex.test(qClean) || qClean === key) {
       return { term: key, ...val };
+    }
+  }
+
+  // 2. Check core database colloquial map
+  if (typeof BIS_DESI_COLLOQUIAL_MAP !== 'undefined') {
+    for (const [key, val] of Object.entries(BIS_DESI_COLLOQUIAL_MAP)) {
+      const regex = new RegExp(`\\b${key}\\b`, 'i');
+      if (regex.test(qClean) || qClean === key) {
+        return { term: key, ...val };
+      }
     }
   }
   return null;
@@ -5511,6 +5530,7 @@ function renderDesiStandardCard(match) {
   const product = match.product;
   const desiName = match.desiName;
   const category = match.category;
+  const isMandatory = match.mandatoryQCO !== false;
   
   const baseCode = isCode.split(':')[0].trim();
   const healthRisk = (typeof BIS_HEALTH_TOXICITY_RISK_DB !== 'undefined') ? BIS_HEALTH_TOXICITY_RISK_DB[baseCode] : null;
@@ -5522,7 +5542,7 @@ function renderDesiStandardCard(match) {
           <strong style="font-size:1.05rem;color:var(--text-main);"><i class="fas fa-language" style="color:var(--gold-accent);"></i> Desi Vernacular Match: ${escapeHtml(desiName)}</strong>
           <div style="font-size:0.75rem;color:var(--text-subtle);">Everyday Consumer Product · Indian Standard & QCO Compliance Mapping</div>
         </div>
-        <span class="trust-status-pill verified">🟢 MANDATORY BIS QCO</span>
+        <span class="trust-status-pill ${isMandatory ? 'verified' : 'amber'}">${isMandatory ? '🟢 MANDATORY BIS QCO' : '🟡 VOLUNTARY SCHEME-I'}</span>
       </div>
 
       <table class="trust-matrix-table">
@@ -5539,12 +5559,12 @@ function renderDesiStandardCard(match) {
           <td>${escapeHtml(category)}</td>
         </tr>
         <tr>
-          <td><i class="fas fa-shield-halved" style="color:var(--status-green);"></i> Mandatory Certification</td>
-          <td><span style="color:var(--status-green);font-weight:700;">✅ Scheme-I ISI Mark is Statutorily Mandatory under Govt QCO</span></td>
+          <td><i class="fas fa-shield-halved" style="color:var(--status-green);"></i> Certification Status</td>
+          <td><span style="color:${isMandatory ? 'var(--status-green)' : 'var(--status-amber)'};font-weight:700;">${isMandatory ? '✅ Scheme-I ISI Mark is Statutorily Mandatory under Govt QCO' : 'ℹ️ Voluntary BIS Scheme-I Certification (Retail sale not under standalone QCO)'}</span></td>
         </tr>
         <tr>
           <td><i class="fas fa-scale-balanced" style="color:var(--status-amber);"></i> Legal Status</td>
-          <td>Selling ${escapeHtml(desiName)} without genuine ISI Mark is a cognizable offense under <strong>Section 29 BIS Act, 2016</strong>.</td>
+          <td>${isMandatory ? `Selling ${escapeHtml(desiName)} without genuine ISI Mark is a cognizable offense under <strong>Section 29 BIS Act, 2016</strong>.` : `Voluntary ISI mark certification available under Scheme-I for brand quality assurance.`}</td>
         </tr>
       </table>
 
