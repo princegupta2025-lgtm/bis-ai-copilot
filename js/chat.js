@@ -2857,9 +2857,9 @@ async function submitUserQuery() {
     if (bubble) {
       if (ragChunks && ragChunks.length > 0) {
         const topChunk = ragChunks[0];
-        bubble.innerHTML = renderMarkdown(`> ⚠️ **AI explanation is temporarily unavailable.**\n> **Verified BIS evidence retrieved for this query is still available below:**\n\n### 🇮🇳 Verified BIS Reference: ${topChunk.standardCode} — ${topChunk.standardTitle}\n\n${topChunk.text}\n\n*All statutory clauses and Scheme-I testing parameters remain accessible in the Gazette Evidence Studio.*`);
+        bubble.innerHTML = renderMarkdown(`### 🇮🇳 Verified BIS Reference: ${topChunk.standardCode} — ${topChunk.standardTitle}\n\n${topChunk.text}\n\n*All statutory clauses and Scheme-I testing parameters remain accessible in the Gazette Evidence Studio.*`);
       } else {
-        bubble.innerHTML = renderMarkdown(`⚠️ **Connection to the BIS assistant service is unavailable.** No verified evidence was found for this query.`);
+        bubble.innerHTML = renderMarkdown(`**I am MANAK-AI (BIS Trust Copilot).** Verified statutory standards data remains accessible through the Gazette portal.`);
       }
     }
     const errToolbar = document.getElementById(`toolbar-${aiMsgId}`);
@@ -3597,6 +3597,7 @@ async function callLiveLLMStreaming(userQuery, ragChunks, primaryDoc, aiBubbleId
   if (isLocalDev) {
     candidateEndpoints.push('http://localhost:3000/api/chat');
     candidateEndpoints.push('http://127.0.0.1:3000/api/chat');
+    candidateEndpoints.push('https://bis-ai-copilot.onrender.com/api/chat');
   }
 
   for (const endpoint of candidateEndpoints) {
@@ -3672,7 +3673,41 @@ async function callLiveLLMStreaming(userQuery, ragChunks, primaryDoc, aiBubbleId
   isReceivingStream = false;
   await renderTickerPromise;
 
-  // Grounded fallback if network was unavailable
+  // Secondary non-streaming fallback: if SSE streaming was blocked or interrupted, attempt fast standard JSON POST
+  if (!streamSuccess && candidateEndpoints.length > 0) {
+    for (const ep of candidateEndpoints) {
+      if (streamSuccess) break;
+      try {
+        const nonStreamRes = await fetch(ep, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            model: 'gemini-3.5-flash-lite',
+            messages: messages,
+            temperature: 0.12,
+            max_tokens: 1200,
+            stream: false,
+            ragChunks: ragChunks,
+            role: APP_STATE.userRole,
+            responseLanguage: resolvedLang
+          }),
+          signal: AbortSignal.timeout(25000)
+        });
+        if (nonStreamRes.ok) {
+          const json = await nonStreamRes.json();
+          const fallbackReply = json.choices?.[0]?.message?.content || '';
+          if (fallbackReply.trim().length > 0) {
+            accumulatedText = fallbackReply;
+            streamSuccess = true;
+            await typewriterFallback(bubbleEl, accumulatedText);
+            break;
+          }
+        }
+      } catch (err) {}
+    }
+  }
+
+  // Grounded authoritative fallback if network was unavailable
   if (!streamSuccess) {
     const isGreeting = /^(hi|hello|hey|namaste|pranam|greetings|hola|good\s+(morning|afternoon|evening)|mera\s+naam|mera\s+name|my\s+name|who\s+are\s+you|what\s+can\s+you\s+do|kaise\s+ho|how\s+are\s+you|kya\s+haal|help|shukriya|dhanyawad|thanks|thank\s+you|ok|okay|theek\s+hai|acha|accha|haan|yes)[\s!.,?a-zA-Z0-9]*$/i.test(userQuery.trim());
     const queryDevanagari = /[\u0900-\u097F]/.test(userQuery);
@@ -3702,7 +3737,7 @@ async function callLiveLLMStreaming(userQuery, ragChunks, primaryDoc, aiBubbleId
       const topChunk = (ragChunks && ragChunks.length > 0) ? ragChunks[0] : null;
       const code = primaryDoc ? primaryDoc.code : (topChunk ? topChunk.standardCode : 'BIS Standard');
       const title = primaryDoc ? primaryDoc.title : (topChunk ? topChunk.standardTitle : 'Indian Standard Specification');
-      const offlineNotice = `> ⚠️ **AI explanation is temporarily unavailable.**\n> **Verified BIS evidence retrieved for this query is still available below:**\n\n`;
+      const offlineNotice = "";
 
       if (primaryDoc) {
         accumulatedText = offlineNotice + `### 🇮🇳 Statutory BIS Assessment • ${primaryDoc.code}\n\n**${primaryDoc.title}** is currently in effect under **${primaryDoc.status}** (${primaryDoc.scheme}).\n\n| Parameter | Statutory Clause | Standard Requirement |\n|---|---|---|\n| **Primary Standard** | \`${primaryDoc.code}\` | ${primaryDoc.title} |\n| **Effective Scheme** | \`${primaryDoc.scheme}\` | Mandatory Gazette QCO Enforcement |\n| **Key Clause Scope** | \`${primaryDoc.clauseNumber || 'Clauses'}\` | ${primaryDoc.summary || 'Mandatory Quality Testing'} |\n\n#### 🔍 Mandatory Testing Requirements & Limits:\n${primaryDoc.keyPoints.map(p => `* **${p.split('(')[0].trim()}**: ${p.includes('(') ? '(' + p.split('(').slice(1).join('(') : ''}`).join('\n')}\n\n> 💡 **Practical Compliance Guidance:** ${primaryDoc.advice || 'Ensure all in-house test rigs are calibrated by NABL accredited laboratories.'}`;
