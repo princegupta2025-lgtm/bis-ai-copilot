@@ -3622,7 +3622,7 @@ async function callLiveLLMStreaming(userQuery, ragChunks, primaryDoc, aiBubbleId
             role: APP_STATE.userRole,
             responseLanguage: resolvedLang
           }),
-          signal: AbortSignal.timeout(12000)
+          signal: AbortSignal.timeout(28000)
         });
 
         if (response.ok && response.body) {
